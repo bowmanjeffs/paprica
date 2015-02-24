@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #### these are the critical steps for using genome finder ####
+#### you may need to update the version numbers for these scripts ####
 
 ## 1. download genomes, combine elements, extract 16S
 python genome_finder_make_ref.py
