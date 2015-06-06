@@ -167,10 +167,13 @@ with open(wd + name_out + '.edge_tally.txt', 'w') as tally_out:
             sample_score.append(float(edge_tally[key]) * (float(edge_stats[0]) / float(edge_stats[1])) * (1 - float(edge_stats[3])))
             
         ## terminal nodes will not have an entry in stat_dict
-        except KeyError:            
-            edge_uid = ref_edges[key]
-            edge_divg = divg_dict[edge_uid]
-            edge_stats = 'NA', 'NA', 'NA', edge_divg
+        except KeyError:
+            try:            
+                edge_uid = ref_edges[key]
+                edge_divg = divg_dict[edge_uid]
+                edge_stats = 'NA', 'NA', 'NA', edge_divg
+            except KeyError:
+                edge_stats = 'NA', 'NA', 'NA', 0
         
             ## in this case sample score is just nplacements * (1 - divg)
             sample_score.append(float(edge_tally[key]) * (1 - float(edge_stats[3])))
@@ -208,7 +211,7 @@ with open('generate_pgdbs.sh', 'w') as run_pgdb:
                     print >> genetic_elements, 'ANNOT-FILE' + '\t' + key + '_core_genome.gbk'
                     print >> genetic_elements, '//'
                     
-                print >> run_pgdb, 'pathway-tools -lisp -patho ' + ref_dir + ref_package + '.core_genomes/' + key + '/ -disable-metadata-saving &> pathos_' + key + '.log'   
+                print >> run_pgdb, 'pathway-tools -lisp -no-cel-overview -patho ' + ref_dir + ref_package + '.core_genomes/' + key + '/ -disable-metadata-saving &> pathos_' + key + '.log'   
                     
             else:
                 uid = ref_edges[key]
@@ -235,6 +238,6 @@ with open('generate_pgdbs.sh', 'w') as run_pgdb:
                             print >> genetic_elements, 'ANNOT-FILE' + '\t' + gbk
                             print >> genetic_elements, '//'
                     
-                print >> run_pgdb, 'pathway-tools -lisp -patho ' + strain_dir + strain + '/ -disable-metadata-saving &> pathos_' + key + '.log'   
+                print >> run_pgdb, 'pathway-tools -lisp -no-cel-overview -patho ' + strain_dir + strain + '/ -disable-metadata-saving &> pathos_' + key + '.log'   
                 
   
