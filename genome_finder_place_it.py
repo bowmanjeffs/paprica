@@ -60,21 +60,21 @@ elif len(sys.argv) == 3:
     ref = sys.argv[2]
     query = sys.argv[1]
             
-    combine = subprocess.Popen('cat ' + ref_dir + ref + '.clean.fasta ' + query + '.fasta > ' + query + '_' + ref + '.fasta', shell = True, executable = executable)
+    combine = subprocess.Popen('cat ' + ref_dir + ref + '.clean.fasta ' + query + '.fasta > ' + query + '.' + ref + '.fasta', shell = True, executable = executable)
     combine.communicate()
     
-    clean_name(query + '_' + ref)
+    clean_name(query + '.' + ref)
     
-    mothur_commands = 'mothur "#align.seqs(candidate=' + query + '_' + ref + '.clean.fasta, flip=t, processors=' + cpus + ', template=' + align_ref + ');' \
+    mothur_commands = 'mothur "#align.seqs(candidate=' + query + '.' + ref + '.clean.fasta, flip=t, processors=' + cpus + ', template=' + align_ref + ');' \
     'filter.seqs(hard=' + ref_dir + ref + '.filter);' \
     'screen.seqs(minlength=50)"'
     mothur = subprocess.Popen(mothur_commands, shell = True, executable = '/bin/bash')
     mothur.communicate()
     
-    final_clean = subprocess.Popen('tr "." "-" < ' + query + '_' + ref + '.clean.filter.good.fasta > ' + query + '_' + ref + '.pplacer.filter.fasta', shell = True, executable = executable)
+    final_clean = subprocess.Popen('tr "." "-" < ' + query + '.' + ref + '.clean.filter.good.fasta > ' + query + '.' + ref + '.pplacer.filter.fasta', shell = True, executable = executable)
     final_clean.communicate()
     
-    pplacer = subprocess.Popen('pplacer -p --keep-at-most 1 -c ' + ref_dir + ref + '.refpkg ' + query + '_' + ref + '.pplacer.filter.fasta', shell = True, executable = executable)
+    pplacer = subprocess.Popen('pplacer -p --keep-at-most 1 -c ' + ref_dir + ref + '.refpkg ' + query + '.' + ref + '.pplacer.filter.fasta', shell = True, executable = executable)
     pplacer.communicate()
     
 else:
