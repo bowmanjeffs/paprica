@@ -31,20 +31,21 @@ with open(name + '.edge_tally.txt', 'r') as edge_tally_file, open(name + '.pathw
                     for line in report:
                         if line.startswith('#') == False:
                             if line.startswith('Pathway Name') == False:
-                                line = line.rstrip()
-                                if line != '':
-                                    line = line.split('|')                                
-                                    if len(line) > 0:
-                                        path = line[0]
-        
-                                        try:
-                                            temp = all_pathways[path]
-                                            temp = temp + int(nedge)
-                                            all_pathways[path] = temp
-                                        except KeyError:
-                                            all_pathways[path] = int(nedge)
-                                        
-                                        print >> detail_out, path + '\t',
+                                if 'PWY-WAS-NOT-DELETED' not in line:
+                                    line = line.rstrip()
+                                    if line != '':
+                                        line = line.split('|')                                
+                                        if len(line) > 0:
+                                            path = line[0]
+            
+                                            try:
+                                                temp = all_pathways[path]
+                                                temp = temp + int(nedge)
+                                                all_pathways[path] = temp
+                                            except KeyError:
+                                                all_pathways[path] = int(nedge)
+                                            
+                                            print >> detail_out, path + '\t',
                     print >> detail_out, '\n',
 
             except IOError:
