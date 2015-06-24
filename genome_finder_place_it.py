@@ -37,7 +37,7 @@ def clean_name(file_name):
 if len(sys.argv) == 2:    
     
     ref = sys.argv[1]
-    clean_name(ref)
+    clean_name(ref_dir + ref)
 
     mothur_commands = 'mothur "#align.seqs(candidate=' + ref_dir + ref + '.clean.fasta, flip=t, processors=' + cpus + ', template=' + align_ref + ');' \
     'screen.seqs(minlength=1200);' \
