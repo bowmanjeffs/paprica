@@ -38,3 +38,4 @@ python tally_pathways.py
 ## steps 1, 2, and 6 only need to be run the first time, or when it is desirable to update the database
 ## databases are NOT backwards compatible, i.e. node numbering will be different in each rebuild
 ## step 6 takes a long time, depending on how many cpus are available.  expect 24 hours for 24 cpus.
+## if you have gnu parallel installed (recommended) run step 8 as parallel < generate_pgdbs.sh
