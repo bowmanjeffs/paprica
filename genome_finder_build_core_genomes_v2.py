@@ -7,7 +7,7 @@ Created on Tue Jan 06 09:50:07 2015
 
 ### user setable variables ###
 
-ref_dir = '/volumes/hd1/ref_genome_database/' # location of the database directory
+ref_dir = '/volumes/hd1/ref_genome_database_v2/' # location of the database directory
 
 ### end user setable variables ###
 
@@ -54,27 +54,25 @@ print 'getting uids from reference genome names'
 dirs = {}
     
 for d in os.listdir(ref_dir + 'ftp.ncbi.nlm.nih.gov/genbank/genomes/Bacteria'):
-    uid = re.split('uid', d)
-    uid = uid[1]
-    uid = 'uid' + uid
+    uid = d[d.find('uid'):]
     dirs[uid] = d
     
 ## make a directory to hold the clade directories, then a directory for each clade
     
 print 'building reference directory structure'
     
-rm = subprocess.Popen('rm -r ' + ref + '.core_genomes', shell = True, executable = executable)
+rm = subprocess.Popen('rm -r ' + ref_dir + ref + '.core_genomes', shell = True, executable = executable)
 rm.communicate()
     
-mkdir = subprocess.Popen('mkdir ' + ref + '.core_genomes', shell = True, executable = executable)
+mkdir = subprocess.Popen('mkdir ' + ref_dir + ref + '.core_genomes', shell = True, executable = executable)
 mkdir.communicate()
         
 ## for each clade, blast one genome against all others.  genes appearing in all are
 ## defined as core genes
         
-def blast(clade, nodes, dirs):
+def blast(ref_dir, ref, clade, nodes, dirs):
                 
-    d = ref_dir + 'combined_16S.core_genomes/' + str(clade) + '/'
+    d = ref_dir + ref + '.core_genomes/' + str(clade) + '/'
     name_dic = {}
     blast_dic = {}
     
@@ -229,9 +227,10 @@ def blast(clade, nodes, dirs):
     
 if __name__ == '__main__':  
     Parallel(n_jobs = -1, verbose = 5)(delayed(blast)
-    (clade, nodes, dirs) for clade in nodes.keys())
-    
-#blast(511, nodes, dirs)
+    (ref_dir, ref, clade, nodes, dirs) for clade in nodes.keys())
+
+## for testing    
+#blast(ref_dir, ref, 511, nodes, dirs)
     
 
 
