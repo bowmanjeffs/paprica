@@ -4,7 +4,12 @@ Created on Thu Jan 29 18:26:20 2015
 
 @author: jeff
 """
+### user setable variables ###
+
 pgdb_dir = '/home/jeff/ptools-local/pgdbs/user/' # location of pathway-tools pgdbs
+version = '1.' # version of your database you're using
+
+### end user setable variables ###
 
 import sys
 
@@ -25,7 +30,7 @@ with open(name + '.edge_tally.txt', 'r') as edge_tally_file, open(name + '.pathw
             nedge = line[1]
             
             try:
-                with open(pgdb_dir + edge + 'cyc/1.0/reports/pathways-report.txt', 'r') as report:
+                with open(pgdb_dir + version + edge + 'cyc/1.0/reports/pathways-report.txt', 'r') as report:
                     print >> detail_out, edge + '\t' + nedge + '\t',
                     
                     for line in report:
