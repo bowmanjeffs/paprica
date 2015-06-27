@@ -16,10 +16,10 @@ python genome_finder_place_it.py combined_16S
 python genome_finder_place_it.py $query combined_16S
 
 ## 4. get csv of placements
-guppy_to_csv --pp -o [query].csv $query.combined_16S.pplacer.filter.jplace
+guppy_to_csv --point-mass --pp -o [query].csv $query.combined_16S.pplacer.filter.jplace
 
 ## 5. get a fat tree with node numbers
-guppy fat --pp --node-numbers -o $query.fat $query.combined_16S.pplacer.filter.jplace
+guppy fat --point-mass --pp --node-numbers -o $query.fat $query.combined_16S.pplacer.filter.jplace
 
 ## 6. build the reference database - you need the node numbers from the previous step for this
 python genome_finder_build_core_genomes.py $query.fat
