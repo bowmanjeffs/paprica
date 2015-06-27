@@ -26,4 +26,5 @@ Each script has, near the top, a set of variables that should be modified by the
 *genome_finder_build_core_genomes.py* (necessary to construct database)
 1.  Uses the reference tree and blastn to build a consensus genome for each node on the reference tree.
 2. Generates statistics for each consensus genome, including size, expected degree of genomic plasticity, and expected 16S rRNA gene copy number
+
 ### IN PROGRESS
