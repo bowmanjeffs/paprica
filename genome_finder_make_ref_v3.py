@@ -116,9 +116,10 @@ with open(ref_dir + 'combined_16S.fasta', 'w') as fasta_out, open(ref_dir + 'gen
         ## write out info on genome
         
         t = 0    
-        with open('temp_hits.txt', 'r') as tally_in:
+        with open('temp.txt', 'r') as tally_in:
             for line in tally_in:
                 t = t + 1
+        print 'total 16S =', t - 1
         
         print >> tally_out, uid + '\t' + name + '\t' + str(phi) + '\t' + str(t - 1) + '\t' + str(len(gs)) + '\t' + str(n_elements)
             

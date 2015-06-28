@@ -29,12 +29,12 @@ with open(sys.argv[1],'rb') as xml, open(base+'.fasta', 'w') as seq_out, open(ba
             line = re.sub('<Iteration_query-def>', '', line)
             line = re.sub('</Iteration_query-def>', '', line)
             query_def = line
-        if re.search('No hits found', line) != None:
-            line = line.strip()
-            line = line.rstrip()
-            line = re.sub('<Iteration_message>', '', line)
-            line = re.sub('</Iteration_message>', '', line)
-            print >> output, query_def+'\t'+line
+#        if re.search('No hits found', line) != None:
+#            line = line.strip()
+#            line = line.rstrip()
+#            line = re.sub('<Iteration_message>', '', line)
+#            line = re.sub('</Iteration_message>', '', line)
+#            print >> output, query_def+'\t'+line
         if re.search('<Hit_def>', line) != None:
             line = line.strip()
             line = line.rstrip()
@@ -65,6 +65,6 @@ with open(sys.argv[1],'rb') as xml, open(base+'.fasta', 'w') as seq_out, open(ba
             if n <= keep:
                 print >> seq_out, '>'+query_def+'\n'+seq
 				
-subprocess.call('fgrep -v \'No hits found\' '+base+'.txt > '+base+'_hits.txt', shell = True)
+#subprocess.call('fgrep -v \'No hits found\' '+base+'.txt > '+base+'_hits.txt', shell = True)
                 
                 
