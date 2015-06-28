@@ -8,9 +8,13 @@ Created on Sun Jan 04 17:06:39 2015
 ### user setable variables ###
 
 cpus = str(24) # number of cpus available
-ref_dir = '/volumes/hd1/ref_genome_database_v2/' # location of the database directory
+ref_dir = '/volumes/hd1/ref_genome_database_v1/' # location of the database directory
 tax_dir = '/volumes/deming/databases/' # location of the ncbi 16SMicrobial database
-download = False # set to true to initiate fresh download of genomes
+download = True # set to true to initiate fresh download of genomes
+bad = ['Bdellovibrio_bacteriovorus_Tiberius_uid70801', \
+'Bdellovibrio_bacteriovorus_uid9637', \
+'Bdellovibrio_exovorus_JSS_uid163339'] # we've found these genomes to be problematic to phylogenetic placement.  make your own judgement call.
+
 
 ### end user setable variables ###
 
@@ -29,6 +33,12 @@ if download == True:
     wget2 = subprocess.Popen('cd ' + ref_dir + ';wget -r -A *.fna -nc ftp://ftp.ncbi.nlm.nih.gov/genbank/genomes/Bacteria/', executable = executable, shell = True)
     wget2.communicate()
     
+    ## eliminate bad genomes
+    if len(bad) > 0:    
+        for b in bad:        
+            rm = subprocess.Popen('rm -r ' + ref_dir + 'ftp.ncbi.nlm.nih.gov/genbank/genomes/Bacteria/' + b, executable = executable, shell = True)
+            subprocess.communicate()
+    
 ## read phi values
     
 phi_dict = {}
@@ -43,7 +53,7 @@ with open('mean_phi_values.txt', 'r') as phi_file:
         
 ## generate genome data and combined 16S file
 
-with open('combined_16S.fasta', 'w') as fasta_out, open('genome_data.txt', 'w') as tally_out:
+with open(ref_dir + 'combined_16S.fasta', 'w') as fasta_out, open(ref_dir + 'genome_data.txt', 'w') as tally_out:
     for d in os.listdir(ref_dir + 'ftp.ncbi.nlm.nih.gov/genbank/genomes/Bacteria'):
         cat = subprocess.Popen('cat ' + ref_dir + 'ftp.ncbi.nlm.nih.gov/genbank/genomes/Bacteria/' + d + '/*.fna > temp.fna', shell = True, executable = executable)
         cat.communicate()
@@ -109,7 +119,7 @@ with open('combined_16S.fasta', 'w') as fasta_out, open('genome_data.txt', 'w') 
             for line in tally_in:
                 t = t + 1
         
-        print >> tally_out, uid + '\t' + name + '\t' + str(t - 1) + '\t' + str(len(gs)) + '\t' + str(n_elements)
+        print >> tally_out, uid + '\t' + name + '\t' + str(phi) + '\t' + str(t - 1) + '\t' + str(len(gs)) + '\t' + str(n_elements)
             
         rm = subprocess.Popen('rm temp.*', shell = True, executable = executable)
         rm.communicate()                   

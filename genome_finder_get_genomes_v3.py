@@ -9,10 +9,10 @@ NOW REQUIRES mean_phi_values.txt
 
 ### user setable variables ###
 
-ref_dir = '/volumes/hd1/ref_genome_database_v2/' # location of genome database created with genome_finder_build_core_genomes.py
+ref_dir = '/volumes/hd1/ref_genome_database_v1/' # location of genome database created with genome_finder_build_core_genomes.py
 ref_package = 'combined_16S' # name of reference package
 pgdb_dir = '/home/jeff/ptools-local/pgdbs/user/' # location of pathway-tools pgdbs
-strain_dir = '/volumes/hd1/ref_genome_database_v2/ftp.ncbi.nlm.nih.gov/genbank/genomes/Bacteria/' # location of strain genomes 
+strain_dir = '/volumes/hd1/ref_genome_database_v1/ftp.ncbi.nlm.nih.gov/genbank/genomes/Bacteria/' # location of strain genomes 
 version = '1.' # change version number if you are rebuilding the database
 
 ### end user setable variables ###
@@ -24,12 +24,12 @@ from Bio import SeqIO, Phylo
 import re
 import numpy as np
 
-#name = sys.argv[1]
-#name_out = sys.argv[2]
+name = sys.argv[1]
+name_out = sys.argv[2]
 
 ## diagnostic only !
-name = 'test.csv'
-name_out = 'test'
+#name = 'test.csv'
+#name_out = 'test'
 
 wd = os.getcwd() + '/'
 query_dir = wd + '/' + name_out + '.query_genomes/'
