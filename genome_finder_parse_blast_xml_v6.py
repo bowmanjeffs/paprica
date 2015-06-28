@@ -13,6 +13,7 @@ keep = 1 ## number of queries with hit to write out
 
 import re
 import sys
+import subprocess
 
 base = sys.argv[1]
 base = base.rstrip('.xml')
@@ -63,5 +64,7 @@ with open(sys.argv[1],'rb') as xml, open(base+'.fasta', 'w') as seq_out, open(ba
             seq = line
             if n <= keep:
                 print >> seq_out, '>'+query_def+'\n'+seq
+				
+subprocess.call('fgrep -v \'No hits found\' '+base+'.txt > '+base+'_hits.txt', shell = True)
                 
                 

@@ -27,7 +27,7 @@ with open(name + '.edge_tally.txt', 'r') as edge_tally_file, open(name + '.pathw
             sscore = line[1]
         else:
             edge = line[0]
-            nedge = line[1]
+            nedge = line[2] # number of edges, corrected for 16S rRNA gene copy number
             
             try:
                 with open(pgdb_dir + version + edge + 'cyc/1.0/reports/pathways-report.txt', 'r') as report:

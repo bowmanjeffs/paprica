@@ -13,7 +13,8 @@ tax_dir = '/volumes/deming/databases/' # location of the ncbi 16SMicrobial datab
 download = True # set to true to initiate fresh download of genomes
 bad = ['Bdellovibrio_bacteriovorus_Tiberius_uid70801', \
 'Bdellovibrio_bacteriovorus_uid9637', \
-'Bdellovibrio_exovorus_JSS_uid163339'] # we've found these genomes to be problematic to phylogenetic placement.  make your own judgement call.
+'Bdellovibrio_exovorus_JSS_uid163339', \
+'Salmonella_enterica_serovar_Weltevreden_2007_60_3289_1_uid61197'] # problematic to phylogenetic placement or has other issues
 
 
 ### end user setable variables ###
@@ -115,7 +116,7 @@ with open(ref_dir + 'combined_16S.fasta', 'w') as fasta_out, open(ref_dir + 'gen
         ## write out info on genome
         
         t = 0    
-        with open('temp.txt', 'r') as tally_in:
+        with open('temp_hits.txt', 'r') as tally_in:
             for line in tally_in:
                 t = t + 1
         
