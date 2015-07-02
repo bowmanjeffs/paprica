@@ -7,13 +7,13 @@
 query=file-without-extension
 
 ## 1. download genomes, combine elements, extract 16S
-python genome_finder_make_ref.py
+python paprica_make_ref.py
 
 ## 2. make a reference package from 16S
-python genome_finder_place_it.py combined_16S
+python paprica_place_it.py combined_16S
 
 ## 3. run first analysis 
-python genome_finder_place_it.py $query combined_16S
+python paprica_place_it.py $query combined_16S
 
 ## 4. get csv of placements
 guppy_to_csv --point-mass --pp -o [query].csv $query.combined_16S.pplacer.filter.jplace
@@ -22,10 +22,10 @@ guppy_to_csv --point-mass --pp -o [query].csv $query.combined_16S.pplacer.filter
 guppy fat --point-mass --pp --node-numbers -o $query.fat $query.combined_16S.pplacer.filter.jplace
 
 ## 6. build the reference database - you need the node numbers from the previous step for this
-python genome_finder_build_core_genomes.py $query.fat
+python paprica_build_core_genomes.py $query.fat
 
 ## 7. find genomes represented in query
-python genome_finder_get_genomes.py $query.csv $query
+python paprica_get_genomes.py $query.csv $query
 
 ## 8. build PGDB
 chmod a+x generate_pgdbs.sh

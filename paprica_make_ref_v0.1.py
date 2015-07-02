@@ -10,7 +10,7 @@ Created on Sun Jan 04 17:06:39 2015
 cpus = str(24) # number of cpus available
 ref_dir = '/volumes/hd1/ref_genome_database_v1/' # location of the database directory
 tax_dir = '/volumes/deming/databases/' # location of the ncbi 16SMicrobial database
-download = True # set to true to initiate fresh download of genomes
+download = False # set to true to initiate fresh download of genomes
 bad = ['Bdellovibrio_bacteriovorus_Tiberius_uid70801', \
 'Bdellovibrio_bacteriovorus_uid9637', \
 'Bdellovibrio_exovorus_JSS_uid163339', \
@@ -99,7 +99,7 @@ with open(ref_dir + 'combined_16S.fasta', 'w') as fasta_out, open(ref_dir + 'gen
         '-outfmt 5 ' \
         '-out temp.xml ' \
         '-query temp.fna;' \
-        'python genome_finder_parse_blast_xml_v6.py temp.xml', shell = True, executable = executable)
+        'python paprica_parse_blast_xml_v0.1.py temp.xml', shell = True, executable = executable)
         blast.communicate()
         
         ## write 16S rRNA gene to combined 16S rRNA gene file

@@ -7,8 +7,8 @@ Created on Sat Jan 03 08:59:11 2015
 Dependencies, these should all be in your path and callable as listed:
     mothur, FastTreeMP, taxtastic, seqmagick, pplacer
 
-call as python genome_finder_place_it.py [query] [ref] for analysis or
-python genome_finder_place_it.py [ref] to generate a reference package.  
+call as python paprica_place_it.py [query] [ref] for analysis or
+python paprica_place_it.py [ref] to generate a reference package.  
 [ref] or [query] includes the entire file name except .fasta.
 
 """
@@ -16,7 +16,7 @@ python genome_finder_place_it.py [ref] to generate a reference package.
 
 cpus = str(24)                                                                   # number of cpus for mothur to use
 ref_dir = '/volumes/hd1/ref_genome_database_v1/'                                   # location of/for reference package
-align_ref = '/volumes/deming/databases/silva.combined/silva.combined.fasta'     # pathway and name of reference alignment
+align_ref = '/volumes/deming/databases/silva.nr_v119.align'     # pathway and name of reference alignment
 executable = '/bin/bash'                                                        # shell for executing commands, change for windows
 
 ##### end set user variables #####
