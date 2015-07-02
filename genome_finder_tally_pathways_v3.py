@@ -45,10 +45,10 @@ with open(name + '.edge_tally.txt', 'r') as edge_tally_file, open(name + '.pathw
             
                                             try:
                                                 temp = all_pathways[path]
-                                                temp = temp + int(nedge)
+                                                temp = temp + float(nedge)
                                                 all_pathways[path] = temp
                                             except KeyError:
-                                                all_pathways[path] = int(nedge)
+                                                all_pathways[path] = float(nedge)
                                             
                                             print >> detail_out, path + '\t',
                     print >> detail_out, '\n',
