@@ -11,11 +11,11 @@ cpus = str(24) # number of cpus available
 ref_dir = '/volumes/hd1/ref_genome_database_v1/' # location of the database directory
 tax_dir = '/volumes/deming/databases/' # location of the ncbi 16SMicrobial database
 download = False # set to true to initiate fresh download of genomes
-bad = ['Bdellovibrio_bacteriovorus_Tiberius_uid70801', \
-'Bdellovibrio_bacteriovorus_uid9637', \
-'Bdellovibrio_exovorus_JSS_uid163339', \
-'Salmonella_enterica_serovar_Weltevreden_2007_60_3289_1_uid61197'] # problematic to phylogenetic placement or has other issues
 
+## if there are genomes that you would like to exclude from analysis
+## put them in a list here.  Salmonella uid61197, for example, is not
+## actually in finished state.  It throws of some stats if included.
+bad = ['Salmonella_enterica_serovar_Weltevreden_2007_60_3289_1_uid61197']
 
 ### end user setable variables ###
 
