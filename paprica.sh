@@ -8,8 +8,12 @@
 ## the extension
 query=test
 
-## you may need to update the version number in this script
+## you may need to update the paprica version number in this script
 version=0.1
+
+## make a reference directory, make sure it is the same as called
+## for in the header of each script
+mkdir ref_genome_database_v1
 
 ## 1. download genomes, combine elements, extract 16S
 python paprica_make_ref_v${version}.py
@@ -17,7 +21,7 @@ python paprica_make_ref_v${version}.py
 ## 2. make a reference package from 16S
 python paprica_place_it_v${version}.py combined_16S
 
-## 3. run first analysis 
+## 3. run mock analysis 
 python paprica_place_it_v${version}.py $query combined_16S
 
 ## 4. get csv of placements
