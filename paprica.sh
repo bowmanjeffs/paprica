@@ -25,7 +25,7 @@ python paprica_place_it_v${version}.py combined_16S
 python paprica_place_it_v${version}.py $query combined_16S
 
 ## 4. get csv of placements
-guppy_to_csv --point-mass --pp -o [query].csv $query.combined_16S.pplacer.filter.jplace
+guppy to_csv --point-mass --pp -o $query.csv $query.combined_16S.pplacer.filter.jplace
 
 ## 5. get a fat tree with node numbers
 guppy fat --point-mass --pp --node-numbers -o $query.fat $query.combined_16S.pplacer.filter.jplace
