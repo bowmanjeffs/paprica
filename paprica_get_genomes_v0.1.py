@@ -9,11 +9,11 @@ NOW REQUIRES mean_phi_values.txt
 
 ### user setable variables ###
 
-ref_dir = '/volumes/hd1/ref_genome_database_v1/' # location of genome database created with paprika_build_core_genomes.py
+ref_dir = '/volumes/hd1/ref_genome_database_v2/' # location of genome database created with paprika_build_core_genomes.py
 ref_package = 'combined_16S' # name of reference package
 pgdb_dir = '/home/jeff/ptools-local/pgdbs/user/' # location of pathway-tools pgdbs
-strain_dir = '/volumes/hd1/ref_genome_database_v1/ftp.ncbi.nlm.nih.gov/genbank/genomes/Bacteria/' # location of strain genomes 
-version = '1.' # change version number if you are rebuilding the database
+strain_dir = '/volumes/hd1/ref_genome_database_v2/ftp.ncbi.nlm.nih.gov/genbank/genomes/Bacteria/' # location of strain genomes 
+version = '2.' # change version number if you are rebuilding the database
 
 ### end user setable variables ###
 
@@ -24,12 +24,12 @@ from Bio import SeqIO, Phylo
 import re
 import numpy as np
 
-name = sys.argv[1]
-name_out = sys.argv[2]
+#name = sys.argv[1]
+#name_out = sys.argv[2]
 
 ## diagnostic only !
-#name = 'test.csv'
-#name_out = 'test'
+name = 'PAL_219_20131207_F02.combined_16S.pplacer.filter.jplace.csv'
+name_out = 'PAL_219_20131207_F02'
 
 wd = os.getcwd() + '/'
 query_dir = wd + '/' + name_out + '.query_genomes/'
@@ -212,7 +212,11 @@ with open(wd + name_out + '.edge_tally.txt', 'w') as tally_out:
            
         print >> tally_out, str(key) + '\t' + str(nplace) + '\t' + str(ncplace) + '\t' + str(edge_stats[0]) + '\t' + str(edge_stats[1]) + '\t' + str(edge_stats[2]) + '\t' + str(1 - float(edge_stats[3])) + '\t' + str(edge_stats[4])
 
-    sample_score = sum(sample_score) / sum(opt_sample_score)
+    try:
+        sample_score = sum(sample_score) / sum(opt_sample_score)
+    except ZeroDivisionError:
+        sample_score = 'NA'
+        
     print >> tally_out, 'sample.score' + '\t' + str(sample_score)
     
 pgdbs = set(os.listdir(pgdb_dir))

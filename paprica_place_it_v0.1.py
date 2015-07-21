@@ -15,7 +15,7 @@ python paprica_place_it.py [ref] to generate a reference package.
 ##### set user variables #####
 
 cpus = str(1)                                                                   # number of cpus for mothur to use
-ref_dir = '/volumes/hd1/ref_genome_database_v1/'                                   # location of/for reference package
+ref_dir = '/volumes/hd1/ref_genome_database_v2/'                                   # location of/for reference package
 align_ref = '/volumes/deming/databases/silva.seed_v119.align'     # pathway and name of reference alignment
 executable = '/bin/bash'                                                        # shell for executing commands, change for windows
 
@@ -41,7 +41,7 @@ if len(sys.argv) == 2:
 
     mothur_commands = 'mothur "#align.seqs(candidate=' + ref_dir + ref + '.clean.fasta, flip=t, processors=' + cpus + ', template=' + align_ref + ');' \
     'screen.seqs(minlength=1200);' \
-    'filter.seqs(trump=.,vertical=T,soft=40)"'
+    'filter.seqs(trump=.,vertical=T,soft=50)"'
       
     mothur = subprocess.Popen(mothur_commands, shell = True, executable = executable)
     mothur.communicate()
@@ -67,7 +67,7 @@ elif len(sys.argv) == 3:
     
     mothur_commands = 'mothur "#align.seqs(candidate=' + query + '.' + ref + '.clean.fasta, flip=t, processors=' + cpus + ', template=' + align_ref + ');' \
     'filter.seqs(hard=' + ref_dir + ref + '.filter);' \
-    'screen.seqs(minlength=50)"'
+    'screen.seqs(minlength=30)"'
     mothur = subprocess.Popen(mothur_commands, shell = True, executable = '/bin/bash')
     mothur.communicate()
     
