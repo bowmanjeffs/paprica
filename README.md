@@ -5,6 +5,10 @@ Pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.
 
 Check out PAPRICA_manual.pdf and paprica.sh to get started.
 
+###Download instructions
+
+If you don't want to build the database from scratch you can download a tgz of the current version from ftp.ldeo.columbia.edu/archive/bowmanjs/paprica_database (see paprica_ligh.sh).  This will allow you to execute the paprica with the paprica_light.sh script.  See the manual for further instructions.
+
 ###Overview
 
 PAPRICA conducts metabolic inference on (preferably, but not exclusively, NGS) 16S rRNA gene libraries.  Instead of using an OTU based approach, however, it uses a phylogenetic placement approach.  This provides a more intuitive connection between its “hidden state prediction” and library analysis components, and allows resolution at the strain and species level for some spots on the prokaryotic phylogenetic tree.
