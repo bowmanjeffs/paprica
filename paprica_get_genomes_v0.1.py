@@ -19,21 +19,17 @@ version = '2.' # change version number if you are rebuilding the database
 
 import sys
 import os
-import subprocess
-from Bio import SeqIO, Phylo
-import re
+from Bio import Phylo
 import numpy as np
 
-#name = sys.argv[1]
-#name_out = sys.argv[2]
+name = sys.argv[1]
+name_out = sys.argv[2]
 
 ## diagnostic only !
-name = 'PAL_219_20131207_F02.combined_16S.pplacer.filter.jplace.csv'
-name_out = 'PAL_219_20131207_F02'
+#name = 'PAL_219_20131207_F02.combined_16S.pplacer.filter.jplace.csv'
+#name_out = 'PAL_219_20131207_F02'
 
 wd = os.getcwd() + '/'
-query_dir = wd + '/' + name_out + '.query_genomes/'
-
 internal_nodes = set(os.listdir(ref_dir + ref_package + '.core_genomes'))
 
 ## find all terminal node uids

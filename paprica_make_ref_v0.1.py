@@ -8,7 +8,7 @@ Created on Sun Jan 04 17:06:39 2015
 ### user setable variables ###
 
 cpus = str(24) # number of cpus available
-ref_dir = '/volumes/hd1/ref_genome_database_v1/' # location of the database directory
+ref_dir = '/volumes/hd1/ref_genome_database_v2/' # location of the database directory
 tax_dir = '/volumes/deming/databases/' # location of the ncbi 16SMicrobial database
 download = False # set to true to initiate fresh download of genomes
 
