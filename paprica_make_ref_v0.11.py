@@ -43,7 +43,7 @@ if download == True:
     if len(bad) > 0:    
         for b in bad:        
             rm = subprocess.Popen('rm -r ' + ref_dir + 'ftp.ncbi.nlm.nih.gov/genbank/genomes/Bacteria/' + b, executable = executable, shell = True)
-            subprocess.communicate()
+            rm.communicate()
     
 ## read phi values
     
