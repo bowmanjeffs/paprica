@@ -7,15 +7,15 @@ Created on Sat Jan 03 08:59:11 2015
 Dependencies, these should all be in your path and callable as listed:
     mothur, FastTreeMP, taxtastic, seqmagick, pplacer
 
-call as python paprica_place_it.py [query] [ref] for analysis or
-python paprica_place_it.py [ref] to generate a reference package.  
+call as python genome_finder_place_it.py [query] [ref] for analysis or
+python genome_finder_place_it.py [ref] to generate a reference package.  
 [ref] or [query] includes the entire file name except .fasta.
 
 """
 ##### set user variables #####
 
-cpus = str(1)                                                                   # number of cpus for mothur to use
-ref_dir = '/volumes/hd1/ref_genome_database_v2/'                                   # location of/for reference package
+cpus = str(24)                                                                   # number of cpus for mothur to use
+ref_dir = '/volumes/hd1/ref_genome_database_a/'                                   # location of/for reference package
 align_ref = '/volumes/deming/databases/silva.seed_v119.align'     # pathway and name of reference alignment
 executable = '/bin/bash'                                                        # shell for executing commands, change for windows
 
@@ -38,6 +38,9 @@ if len(sys.argv) == 2:
     
     ref = sys.argv[1]
     clean_name(ref_dir + ref)
+    
+    ## first build a tree with appropriate filtering to generate a good tree
+    ## this is the tree that taxit will use to build the reference pacakage
 
     mothur_commands = 'mothur "#align.seqs(candidate=' + ref_dir + ref + '.clean.fasta, flip=t, processors=' + cpus + ', template=' + align_ref + ');' \
     'screen.seqs(minlength=1200);' \
@@ -49,8 +52,35 @@ if len(sys.argv) == 2:
     deunique = subprocess.Popen('seqmagick mogrify --deduplicate-sequences ' + ref_dir + ref + '.clean.good.filter.fasta', shell = True, executable = executable)
     deunique.communicate()    
     
-    fasttree = subprocess.Popen('FastTreeMP -nt -gtr -log ' + ref_dir + ref + '.log ' + ref_dir + ref + '.clean.good.filter.fasta > ' + ref_dir + ref + '.clean.good.filter.tre', shell = True, executable = executable)
+    fasttree = subprocess.Popen('FastTreeMP -nt -gtr ' + ref_dir + ref + '.clean.good.filter.fasta > ' + ref_dir + ref + '.clean.good.filter.tre', shell = True, executable = executable)
     fasttree.communicate()
+    
+    ## then build a tree without filtering to obtain rate categories
+    ## the log from this tree will be used by taxit to build the reference package
+    ## this is also the alignment that will be used to build the reference package
+    ## the actual tree is labeled "bad" and should not be used
+    
+    ## first we need to get a list of seq ids from the alignment used to build the tree
+    ## so that we can make sure other seqs are not included, as the different filtering
+    ## will have made them differentially unique
+    
+    get_ids = subprocess.Popen('seqmagick extract-ids ' + ref_dir + ref + '.clean.good.filter.fasta > deunique.ids', shell = True, executable = executable)
+    get_ids.communicate()
+    
+    mothur_commands = 'mothur "#align.seqs(candidate=' + ref_dir + ref + '.clean.fasta, flip=T, processors=' + cpus + ', template=' + align_ref + ');' \
+    'screen.seqs(minlength=1200);' \
+    'filter.seqs(trump=.,vertical=T)"'
+      
+    mothur = subprocess.Popen(mothur_commands, shell = True, executable = executable)
+    mothur.communicate()
+    
+    deunique = subprocess.Popen('seqmagick mogrify --include-from-file deunique.ids ' + ref_dir + ref + '.clean.good.filter.fasta', shell = True, executable = executable)
+    deunique.communicate()    
+    
+    fasttree = subprocess.Popen('FastTreeMP -nt -gtr -log ' + ref_dir + ref + '.log ' + ref_dir + ref + '.clean.good.filter.fasta > ' + ref_dir + ref + '.bad.tre', shell = True, executable = executable)
+    fasttree.communicate()
+    
+    ## generate the reference package using the good tree and good log file
     
     taxit = subprocess.Popen('taxit create -l 16S_rRNA -P ' + ref_dir + ref + '.refpkg --aln-fasta ' + ref_dir + ref + '.clean.good.filter.fasta --tree-stats ' + ref_dir + ref + '.log --tree-file ' + ref_dir + ref + '.clean.good.filter.tre', shell = True, executable = executable)
     taxit.communicate()
@@ -65,16 +95,16 @@ elif len(sys.argv) == 3:
     
     clean_name(query + '.' + ref)
     
-    mothur_commands = 'mothur "#align.seqs(candidate=' + query + '.' + ref + '.clean.fasta, flip=t, processors=' + cpus + ', template=' + align_ref + ');' \
-    'filter.seqs(hard=' + ref_dir + ref + '.filter);' \
-    'screen.seqs(minlength=30)"'
+    mothur_commands = 'mothur "#align.seqs(candidate=' + query + '.' + ref + '.clean.fasta, flip=T, processors=' + cpus + ', template=' + align_ref + ');' \
+    'filter.seqs(vertical=T);' \
+    'screen.seqs(minlength=50)"'
     mothur = subprocess.Popen(mothur_commands, shell = True, executable = '/bin/bash')
     mothur.communicate()
     
     final_clean = subprocess.Popen('tr "." "-" < ' + query + '.' + ref + '.clean.filter.good.fasta > ' + query + '.' + ref + '.pplacer.filter.fasta', shell = True, executable = executable)
     final_clean.communicate()
     
-    pplacer = subprocess.Popen('pplacer -p --keep-at-most 10 -c ' + ref_dir + ref + '.refpkg ' + query + '.' + ref + '.pplacer.filter.fasta', shell = True, executable = executable)
+    pplacer = subprocess.Popen('pplacer -p --keep-at-most 20 -c ' + ref_dir + ref + '.refpkg ' + query + '.' + ref + '.pplacer.filter.fasta', shell = True, executable = executable)
     pplacer.communicate()
     
 else:

@@ -4,6 +4,8 @@
 #### be sure to check the beginning of each script for user editable variables, particularly the location of the reference directory ####
 #### this script requires that you have Pathway-Tools, Gnu parallel, pplacer (and Guppy), mothur (and the silva.seed alignment) ####
 
+version=0.11
+
 ##-1. if you haven't alread done so, download the database with your preferred method, here using wget
 wget ftp://ftp.ldeo.columbia.edu/archive/bowmanjs/paprica_database/*tgz
 

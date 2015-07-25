@@ -8,14 +8,19 @@ Created on Sun Jan 04 17:06:39 2015
 ### user setable variables ###
 
 cpus = str(24) # number of cpus available
-ref_dir = '/volumes/hd1/ref_genome_database_v2/' # location of the database directory
+ref_dir = '/volumes/hd1/ref_genome_database_a/' # location of the database directory
 tax_dir = '/volumes/deming/databases/' # location of the ncbi 16SMicrobial database
 download = False # set to true to initiate fresh download of genomes
 
 ## if there are genomes that you would like to exclude from analysis
 ## put them in a list here.  Salmonella uid61197, for example, is not
-## actually in finished state.  It throws of some stats if included.
-bad = ['Salmonella_enterica_serovar_Weltevreden_2007_60_3289_1_uid61197']
+## actually in finished state.  It throws of some stats if included.  Bdellevibrio
+## for reasons that are not yet clear produces erroneous results during
+## phylogenetic placement
+bad = ['Salmonella_enterica_serovar_Weltevreden_2007_60_3289_1_uid61197', \
+'Bdellovibrio_bacteriovorus_Tiberius_uid70801', \
+'Bdellovibrio_bacteriovorus_uid9637', \
+'Bdellovibrio_exovorus_JSS_uid163339']
 
 ### end user setable variables ###
 
@@ -99,7 +104,7 @@ with open(ref_dir + 'combined_16S.fasta', 'w') as fasta_out, open(ref_dir + 'gen
         '-outfmt 5 ' \
         '-out temp.xml ' \
         '-query temp.fna;' \
-        'python paprica_parse_blast_xml_v0.1.py temp.xml', shell = True, executable = executable)
+        'python paprica_parse_blast_xml_v0.11.py temp.xml', shell = True, executable = executable)
         blast.communicate()
         
         ## write 16S rRNA gene to combined 16S rRNA gene file

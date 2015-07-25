@@ -9,7 +9,7 @@
 query=test
 
 ## you may need to update the paprica version number in this script
-version=0.1
+version=0.11
 
 ## make a reference directory, make sure it is the same as called
 ## for in the header of each script
