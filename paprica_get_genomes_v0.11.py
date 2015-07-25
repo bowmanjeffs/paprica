@@ -9,7 +9,7 @@ NOW REQUIRES mean_phi_values.txt
 
 ### user setable variables ###
 
-ref_dir = '/volumes/hd1/ref_genome_database_v2/' # location of genome database created with paprika_build_core_genomes.py
+ref_dir = '/volumes/hd1/genome_finder/ref_genome_database_a/' # location of genome database created with paprika_build_core_genomes.py
 ref_package = 'combined_16S' # name of reference package
 pgdb_dir = '/home/jeff/ptools-local/pgdbs/user/' # location of pathway-tools pgdbs
 strain_dir = '/volumes/hd1/ref_genome_database_v2/ftp.ncbi.nlm.nih.gov/genbank/genomes/Bacteria/' # location of strain genomes 
