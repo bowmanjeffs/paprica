@@ -6,6 +6,8 @@
 
 version=0.11
 
+query=test
+
 ##-1. if you haven't alread done so, download the database with your preferred method, here using wget
 wget ftp://ftp.ldeo.columbia.edu/archive/bowmanjs/paprica_database/*tgz
 
