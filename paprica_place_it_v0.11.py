@@ -14,9 +14,9 @@ python genome_finder_place_it.py [ref] to generate a reference package.
 """
 ##### set user variables #####
 
-cpus = str(1)                                                                   # number of cpus for mothur to use
-ref_dir = '~/genome_finder/ref_genome_database_a/'                                   # location of/for reference package
-align_ref = '~/genome_finder/silva.seed_v119.align'     # pathway and name of reference alignment
+cpus = str(24)                                                                   # number of cpus for mothur to use
+ref_dir = '/volumes/hd1/genome_finder/ref_genome_database_a/'                                   # location of/for reference package
+align_ref = '/volumes/deming/databases/silva.seed_v119.align'     # pathway and name of reference alignment
 executable = '/bin/bash'                                                        # shell for executing commands, change for windows
 
 ##### end set user variables #####
