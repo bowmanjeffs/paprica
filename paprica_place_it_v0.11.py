@@ -33,6 +33,51 @@ def clean_name(file_name):
             record.name = re.sub(bad_character, '_', str(record.name))
             print >> fasta_out, '>' + record.name
             print >> fasta_out, record.seq
+            
+def check_overlap(query, ref, ref_dir):
+    with open('bad_queries.txt', 'w') as exclude:
+        ref_names = set()
+        position_dict = {}
+        
+        for record in SeqIO.parse(ref_dir + ref + '.fasta', 'fasta'):
+            ref_names.add(record.name)
+        
+        ## determine the number of reference bases in each position of the alignment
+        
+        for record in SeqIO.parse(query + '.' + ref + '.pplacer.filter.fasta', 'fasta'):
+            if record.name in ref_names:
+                for i,j in enumerate(record.seq):
+                    if j == '-':
+                        continue
+                    else:
+                        try:
+                            position_dict[i] = position_dict[i] + 1
+                        except KeyError:
+                            position_dict[i] = 1
+                            
+        ## determine which query seqs don't share any positions with reference alignment
+                            
+        for record in SeqIO.parse(query + '.' + ref + '.pplacer.filter.fasta', 'fasta'):
+            if record.name not in ref_names:            
+                shared = []
+                
+                for i,j in enumerate(record.seq):
+                    if j == '-':
+                        continue
+                    else:
+                        try:
+                            temp = position_dict[i]
+                        except KeyError:
+                            temp = 0
+                        shared.append(temp)
+                        
+                if sum(shared) == 0:
+                    print >> exclude, record.name
+                    
+        ## eliminate any queries that share 0 positions with alignment
+                    
+    make_exclusion = subprocess.Popen('seqmagick mogrify --exclude-from-file bad_queries.txt ' + query + '.' + ref + '.pplacer.filter.fasta', shell = True, executable = executable)
+    make_exclusion.communicate()
     
 if len(sys.argv) == 2:    
     
@@ -103,6 +148,8 @@ elif len(sys.argv) == 3:
     
     final_clean = subprocess.Popen('tr "." "-" < ' + query + '.' + ref + '.clean.filter.good.fasta > ' + query + '.' + ref + '.pplacer.filter.fasta', shell = True, executable = executable)
     final_clean.communicate()
+    
+    check_overlap(query, ref, ref_dir)
     
     pplacer = subprocess.Popen('pplacer -p --keep-at-most 20 -c ' + ref_dir + ref + '.refpkg ' + query + '.' + ref + '.pplacer.filter.fasta', shell = True, executable = executable)
     pplacer.communicate()
