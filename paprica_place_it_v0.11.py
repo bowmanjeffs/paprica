@@ -14,7 +14,7 @@ python genome_finder_place_it.py [ref] to generate a reference package.
 """
 ##### set user variables #####
 
-cpus = str(24)                                                                   # number of cpus for mothur to use
+cpus = str(1)                                                                   # number of cpus for mothur to use
 ref_dir = '/home/user/genome_finder/ref_genome_database_a/'                                   # location of/for reference package
 align_ref = '/home/user/genome_finder/silva.seed_v119.align'     # pathway and name of reference alignment
 executable = '/bin/bash'                                                        # shell for executing commands, change for windows
@@ -39,7 +39,7 @@ def check_overlap(query, ref, ref_dir):
         ref_names = set()
         position_dict = {}
         
-        for record in SeqIO.parse(ref_dir + ref + '.fasta', 'fasta'):
+        for record in SeqIO.parse(ref_dir + ref + '.clean.fasta', 'fasta'):
             ref_names.add(record.name)
         
         ## determine the number of reference bases in each position of the alignment
