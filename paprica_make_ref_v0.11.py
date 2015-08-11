@@ -8,8 +8,8 @@ Created on Sun Jan 04 17:06:39 2015
 ### user setable variables ###
 
 cpus = str(24) # number of cpus available
-ref_dir = '/volumes/hd1/genome_finder/ref_genome_database_a/' # location of the database directory
-tax_dir = '/volumes/deming/databases/' # location of the ncbi 16SMicrobial database
+ref_dir = '/home/user/genome_finder/ref_genome_database_a/' # location of the database directory
+tax_dir = '/home/user/' # location of the ncbi 16SMicrobial database
 download = False # set to true to initiate fresh download of genomes
 
 ## if there are genomes that you would like to exclude from analysis

@@ -7,7 +7,7 @@ Created on Tue Jan 06 09:50:07 2015
 
 ### user setable variables ###
 
-ref_dir = '/volumes/hd1/genome_finder/ref_genome_database_a/' # location of the database directory
+ref_dir = '/home/user/genome_finder/ref_genome_database_a/' # location of the database directory
 
 ### end user setable variables ###
 

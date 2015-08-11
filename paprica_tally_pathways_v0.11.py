@@ -6,7 +6,7 @@ Created on Thu Jan 29 18:26:20 2015
 """
 ### user setable variables ###
 
-pgdb_dir = '/home/jeff/ptools-local/pgdbs/user/' # location of pathway-tools pgdbs
+pgdb_dir = '/home/user/ptools-local/pgdbs/user/' # location of pathway-tools pgdbs
 version = 'a' # version of your database you're using
 
 ### end user setable variables ###
