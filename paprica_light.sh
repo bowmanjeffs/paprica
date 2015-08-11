@@ -13,7 +13,8 @@ wget ftp://ftp.ldeo.columbia.edu/archive/bowmanjs/paprica_database/*tgz
 
 ## 0. untar.  it will be fairly large (~30 Gb)
 
-tar -xzvf *tgz
+tar -xzvf ref_genome_database_a.tgz
+tar -xzvf silva.seed_v119.tgz
 
 ### now the analysis starts ###
 
