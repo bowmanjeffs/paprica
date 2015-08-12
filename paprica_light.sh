@@ -35,4 +35,4 @@ chmod a+x generate_pgdbs.sh
 parallel < generate_pgdbs.sh
 
 ## 6. tally pathways
-python paprica_tally_pathways.py $query
+python paprica_tally_pathways_v${version}.py $query

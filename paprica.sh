@@ -41,7 +41,7 @@ chmod a+x generate_pgdbs.sh
 ./generate_pgdbs.sh
 
 ## 9. tally pathways
-python paprica_tally_pathways.py $query
+python paprica_tally_pathways_v${version}.py $query
 
 #### Other Notes ####
 ## steps 1, 2, and 6 only need to be run the first time, or when it is desirable to update the database
