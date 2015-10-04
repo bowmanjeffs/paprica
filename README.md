@@ -1,9 +1,16 @@
 #PAPRICA
 ###PAthway PRediction by phylogenetIC plAcement
 
-Pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.
+A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out PAPRICA_manual.pdf and paprica_light.sh to get started.
 
-Check out PAPRICA_manual.pdf and paprica.sh to get started.
+###Notice - I anticipate releasing PAPRICA v0.20 by October 18.  This release will have a number of major improvements over
+### v0.11 and include ~ 1300 more genomes.
+
+###Citation
+
+Please cite PAPRICA as:
+
+Bowman, Jeff S., and Hugh W. Ducklow. "Microbial Communities Can Be Described by Metabolic Structure: A General Framework and Application to a Seasonally Variable, Depth-Stratified Microbial Community from the Coastal West Antarctic Peninsula." PloS one 10.8 (2015): e0135868.
 
 ###Download instructions
 
