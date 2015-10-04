@@ -1,10 +1,9 @@
+###Notice - I anticipate releasing PAPRICA v0.20 by October 18, 2015.  This release will have a number of major improvements over v0.11 and include ~ 1300 more genomes.
+
 #PAPRICA
 ###PAthway PRediction by phylogenetIC plAcement
 
 A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out PAPRICA_manual.pdf and paprica_light.sh to get started.
-
-###Notice - I anticipate releasing PAPRICA v0.20 by October 18.  This release will have a number of major improvements over
-### v0.11 and include ~ 1300 more genomes.
 
 ###Citation
 
