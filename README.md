@@ -1,4 +1,4 @@
-###Notice - I anticipate releasing PAPRICA v0.20 by October 18, 2015.  This release will have a number of major improvements over v0.11 and include ~ 1300 more genomes.
+###Notice - In preparation for the imminent release of v0.20 I've removed the old paprica files from the main directory.  They can be found in the old_versions directory.  The new version should be released by October 18.
 
 #PAPRICA
 ###PAthway PRediction by phylogenetIC plAcement
