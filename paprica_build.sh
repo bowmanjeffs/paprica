@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #### These are the critical steps for building the PAPRICA database.  This is not necessary
 #### to use PAPRICA, but will provide you with some added flexibility and the ability
 #### to work directly with the PGDBs.  Be sure to check the beginning of each Python script
@@ -7,6 +5,8 @@
 #### amount of time to run and the PGDBs will take a substantial amount of space.  On my system
 #### (24 cores) it takes roughly 18 hours to get all the genomes downloaded and the database
 #### built.  The PGDBs take up about 97 Gb of space.
+
+#!/bin/bash
 
 ## 1. download genomes, combine elements, extract 16S
 

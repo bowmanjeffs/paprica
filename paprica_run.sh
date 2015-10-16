@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #### These are the critical steps for using paprica if you are use the provided database (a.k.a. ref_genome_database) or
 #### have already built it using paprica_build.sh.  Used in this way paprica is nice and lightweight, but you won't have 
 #### access to the PGDBs if you want to do something more sophisticated than just tally up the number of metabolic pathways
@@ -10,7 +8,9 @@
 #### it in a loop, probably using ls *fasta to pass arguments to the loop.  Because the bottleneck is alignment, and infernal
 #### is parallelized, it probably makes more sense to use a loop.
 
-query=test
+#!/bin/bash
+
+query=$1
 
 ## 1. phylogenetic placement of query reads
 python paprica_place_it_v0.20.py $query combined_16S.tax
