@@ -7,7 +7,7 @@ A pipeline to conduct a metabolic inference from 16S rRNA gene sequence librarie
 
 chmod a+x paprica_run.sh
 
-paprica_run.sh test
+./paprica_run.sh test
 
 Should get you going and execute a run on the file test.fasta.
 
