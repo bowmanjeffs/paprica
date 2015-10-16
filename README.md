@@ -5,7 +5,7 @@
 
 A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out paprica_manual.pdf and paprica_run.sh to get started.  Once you've downloaded the genome_finder directory the commands:
 
-chmod a+x paprica_run.sh
+chmod a+x paprica_run.sh\n
 paprica_run.sh test
 
 Should get you going and execute a run on the file test.fasta.
