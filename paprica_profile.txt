@@ -1,5 +1,8 @@
-#### Please make sure that the pathways end with /.  Complete pathways are necessary
-#### due to RAxML requirements.  Complete pathways follow the form /home/user/genome_finder/.
+#### Please make sure that the pathways end with /.  Complete pathways are recommended for
+#### all users and are necessary (due to RAxML requirements) for paprica_build.sh users.
+#### Complete pathways follow the form /home/user/genome_finder/ and there should be no
+#### space before or after the equal sign.
+####
 #### The default pathways are not in this form to facilitate a quick start for the
 #### inpatient (such as myself), but if you are reading this please change to full paths
 #### to insure full functionality.
