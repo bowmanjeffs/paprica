@@ -31,4 +31,4 @@ pgdb_dir=~/ptools-local/pgdbs/user/
 # The fraction of terminal daughters that need to have a pathway for it
 # to be included in an internal node.
 
-cutoff=0.9
+cutoff=0.5
