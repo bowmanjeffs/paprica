@@ -1,4 +1,4 @@
-###Notice - A bug was identified in paprica_build_ref_v0.20.py.  We've fixed the bug, and are currently testing the fix with the rest of the pipeline.  In the meantime the paprica_run.sh script should work fine with the provided database, but if you are trying to build your own database with paprica_build.sh you will run into trouble.  The fix will be available soon.
+###Notice - v0.21 fixes a bug in paprica_make_ref.py that was preventing the completion of paprica_build.sh
 
 #PAPRICA
 ###PAthway PRediction by phylogenetIC plAcement

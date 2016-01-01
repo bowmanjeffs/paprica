@@ -13,7 +13,7 @@
 query=$1
 
 ## 1. phylogenetic placement of query reads
-python paprica_place_it_v0.20.py $query combined_16S.tax
+python paprica_place_it_v0.21.py $query combined_16S.tax
 
 ## 2. find pathways and other information associated with edges
-python paprica_tally_pathways_v0.20.py $query.combined_16S.tax.clean.align.csv
+python paprica_tally_pathways_v0.21.py $query.combined_16S.tax.clean.align.csv
