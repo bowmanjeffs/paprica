@@ -1,4 +1,4 @@
-###Notice - We are now v0.20!  This is a major overhaul of the paprica code and database.  Check out the v0.20 manual for details and quick start instructions. v0.11 can be found in the old_versions directory.
+###Notice - A bug was identified in paprica_build_ref_v0.20.py.  We've fixed the bug, and are currently testing the fix with the rest of the pipeline.  In the meantime the paprica_run.sh script should work fine with the provided database, but if you are trying to build your own database with paprica_build.sh you will run into trouble.  The fix will be available soon.
 
 #PAPRICA
 ###PAthway PRediction by phylogenetIC plAcement
