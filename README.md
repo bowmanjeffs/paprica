@@ -1,4 +1,4 @@
-###Notice - v0.21 fixes a bug in paprica_make_ref.py that was preventing the completion of paprica_build.sh
+###Notice - If you've been redirected here from genome_finder you're in the right place!
 
 #PAPRICA
 ###PAthway PRediction by phylogenetIC plAcement
