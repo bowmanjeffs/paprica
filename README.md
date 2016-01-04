@@ -1,4 +1,4 @@
-###Notice - If you've been redirected here from genome_finder you're in the right place!
+###Notice - If you've been redirected here from genome_finder you're in the right place!  We are currently working through a bug in paprica_build that results in empty dataframes.  The current version of paprica_build is not operational, paprica_run should execute just fine.
 
 #PAPRICA
 ###PAthway PRediction by phylogenetIC plAcement
