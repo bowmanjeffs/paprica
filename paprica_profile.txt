@@ -10,10 +10,10 @@
 ## Variables necessary for the scripts associated with paprica_run.sh and paprica_build.sh.
 
 # This is the location of the reference directory.
-ref_dir=~/paprica/ref_genome_database/
+ref_dir=~/genome_finder/ref_genome_database/
 
 # This is the location of the covariance model used by Infernal.
-cm=~/paprica/bacterial_ssu.cm
+cm=~/genome_finder/bacterial_ssu.cm
 
 ## Variables associated with paprica_build.sh only.
 

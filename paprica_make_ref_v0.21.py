@@ -97,9 +97,9 @@ def download_assembly(ref_dir, executable, assembly_accession):
         strain_ftp = summary_complete.loc[assembly_accession, 'ftp_path']
         
         subprocess.call('mkdir ' + variables['ref_dir'] + 'refseq/' + assembly_accession + ';cd ' + variables['ref_dir'] + 'refseq/' + assembly_accession + ';wget -A genomic.fna.gz ' + strain_ftp + '/*', shell = True, executable = executable)
-        wget1 = subprocess.Popen('cd ' + variables['ref_dir'] + 'refseq/' + assembly_accession + ';wget --tries=3 -T30 -A genomic.gbff.gz ' + strain_ftp + '/*', shell = True, executable = executable)
+        wget1 = subprocess.Popen('cd ' + variables['ref_dir'] + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -A genomic.gbff.gz ' + strain_ftp + '/*', shell = True, executable = executable)
         wget1.communicate()
-        wget2 = subprocess.Popen('cd ' + variables['ref_dir'] + 'refseq/' + assembly_accession + ';wget --tries=3 -T30 -A protein.faa.gz ' + strain_ftp + '/*', shell = True, executable = executable)
+        wget2 = subprocess.Popen('cd ' + variables['ref_dir'] + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -A protein.faa.gz ' + strain_ftp + '/*', shell = True, executable = executable)
         wget2.communicate()
         gunzip = subprocess.Popen('gunzip ' + variables['ref_dir'] + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
         gunzip.communicate()
@@ -178,15 +178,18 @@ def search_16S(ref_dir, d):
                         
             convert = subprocess.Popen('seqmagick convert ' + ref_dir + 'refseq/' + d + '/' + d + '.16S.sto ' + ref_dir + 'refseq/' + d + '/' + d + '.16S.fasta', shell = True, executable = executable)
             convert.communicate()   
+
+## Execute the function.
             
 if __name__ == '__main__':  
     Parallel(n_jobs = -1, verbose = 5)(delayed(search_16S)
-    (variables['ref_dir'], d) for d in os.listdir(variables['ref_dir'] + 'refseq'))
-        
-faa_paths = [] # This is used during compositional vector calculation.
+    (variables['ref_dir'], d) for d in summary_complete.index)
+
+## Iterating by summary_complete.index should eliminate issues with adding 16S
+## rRNA sequences for genomes that don't have an faa file.
 
 with open(variables['ref_dir'] + 'combined_16S.fasta', 'w') as fasta_out:
-    for d in os.listdir(variables['ref_dir'] + 'refseq'):
+    for d in summary_complete.index:
         for f in os.listdir(variables['ref_dir'] + 'refseq/' + d):
             if f.endswith('fna'):
                 
@@ -232,7 +235,7 @@ with open(variables['ref_dir'] + 'combined_16S.fasta', 'w') as fasta_out:
                 summary_complete.loc[d, 'nge'] = nge
                 summary_complete.loc[d, 'genome_size'] = genome_size
                 
-                ## Get GC content
+                ## Get GC content.
                 
                 temp_gc = []
                 for record in SeqIO.parse(variables['ref_dir'] + 'refseq/' + d + '/' + f, 'fasta'):
@@ -277,7 +280,7 @@ convert.communicate()
 remove_dist = subprocess.Popen('rm ' + variables['ref_dir'] + '*dist', shell = True, executable = executable)
 remove_dist.communicate()
 
-dist = subprocess.Popen('cd ' + variables['ref_dir'] + ';raxmlHPC-PTHREADS-AVX2 -T 2 -f x -p 12345 -s ' + variables['ref_dir'] + 'combined_16S.align.fasta -m GTRGAMMA -n dist', shell = True, executable = executable)
+dist = subprocess.Popen('cd ' + variables['ref_dir'] + ';raxmlHPC-PTHREADS-AVX2 -T ' + variables['cpus'] + ' -f x -p 12345 -s ' + variables['ref_dir'] + 'combined_16S.align.fasta -m GTRGAMMA -n dist', shell = True, executable = executable)
 dist.communicate()
 
 #%% Calculate the compositional vectors.
