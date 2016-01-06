@@ -1,5 +1,7 @@
 ###Notice - If you've been redirected here from genome_finder you're in the right place!
 
+Please go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
+
 #PAPRICA
 ###PAthway PRediction by phylogenetIC plAcement
 
