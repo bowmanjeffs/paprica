@@ -3,7 +3,9 @@
 #PAPRICA
 ###PAthway PRediction by phylogenetIC plAcement
 
-A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out paprica_manual.pdf and paprica_run.sh to get started.  Once you've downloaded the genome_finder directory the commands:
+A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out paprica_manual.pdf and paprica_run.sh to get started.  Once you've downloaded the paprica directory the commands:
+
+cd paprica
 
 chmod a+x paprica_run.sh
 
@@ -19,7 +21,7 @@ Bowman, Jeff S., and Hugh W. Ducklow. "Microbial Communities Can Be Described by
 
 ###Overview
 
-Paprica conducts metabolic inference on (preferably, but not exclusively, NGS) 16S rRNA gene libraries.  Instead of using an OTU based approach, however, it uses a phylogenetic placement approach.  This provides a more intuitive connection between its “hidden state prediction” and library analysis components, and allows resolution at the strain and species level for some spots on the prokaryotic phylogenetic tree.
+Paprica conducts metabolic inference on (preferably, but not exclusively, NGS) 16S rRNA gene libraries.  Instead of using an OTU based approach however, it uses a phylogenetic placement approach.  This provides a more intuitive connection between its “hidden state prediction” and library analysis components, and allows resolution at the strain and species level for some spots on the prokaryotic phylogenetic tree.
 
 Paprica uses pathways shared between the members of all clades on a reference tree to determine what pathways are likely to be associated with a phylogenetically placed read.
 
