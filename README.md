@@ -2,13 +2,14 @@
 
 ###Please go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
-#PAPRICA
+#paprica
 ###PAthway PRediction by phylogenetIC plAcement
 
 A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out paprica_manual.pdf and paprica_run.sh to get started.  The commands:
 
 ```
 wget https://github.com/bowmanjeffs/paprica/archive/paprica_v0.XX.tar.gz
+tar -xzvf paprica_v0.XX.tar.gz
 mv paprica-paprica_v0.XX paprica
 cd paprica
 chmod a+x paprica_run.sh
@@ -19,7 +20,7 @@ chmod a+x paprica_run.sh
 
 ###Citation
 
-Please cite PAPRICA as:
+Please cite paprica as:
 
 Bowman, Jeff S., and Hugh W. Ducklow. "Microbial Communities Can Be Described by Metabolic Structure: A General Framework and Application to a Seasonally Variable, Depth-Stratified Microbial Community from the Coastal West Antarctic Peninsula." PloS one 10.8 (2015): e0135868.
 
