@@ -32,6 +32,7 @@ import re
 import subprocess
 import sys
 import os
+from joblib import Parallel, delayed
 
 ## Read in profile.  Required variables are ref_dir and cutoff. ###
 
@@ -59,7 +60,7 @@ with open('paprica_profile.txt', 'r') as profile:
                 
 command_args = {}
 
-for i,arg in enumerate(sys.argv()):
+for i,arg in enumerate(sys.argv):
     if arg.startswith('-'):
         arg = arg.strip('-')
         command_args[arg] = sys.argv[i + 1]
@@ -69,6 +70,7 @@ for i,arg in enumerate(sys.argv()):
 from Bio import SeqIO
 
 def clean_name(file_name):
+    
     bad_character = re.compile('[=-@!%,;\(\):\'\"\s]') # probably need to add \.
     with open(file_name + '.clean.fasta', 'w') as fasta_out:
         for record in SeqIO.parse(file_name + '.fasta', 'fasta'): 
@@ -84,65 +86,95 @@ def clean_name(file_name):
 def split_fasta(file_in, nsplits):
     
     splits = []            
-    tseqs = len(re.findall('>', open(file_in, 'r').read()))
+    tseqs = len(re.findall('>', open(file_in + '.fasta', 'r').read()))
     
     nseqs = tseqs / nsplits
     
     seq_i = 0
     file_n = 1
     
-    for split in nsplits:
-        file_out = open(file_in + '.temp' + str(file_n) + '.fasta', 'w')
+    file_out = open(file_in + '.temp' + str(file_n) + '.fasta', 'w')
+    
+    for record in SeqIO.parse(file_in + '.fasta', 'fasta'):
+        seq_i = seq_i + 1
         
-        for record in SeqIO.parse(file_in, 'fasta'):
-            seq_i = seq_i + 1
-            if seq_i <= nseqs:
-                SeqIO.write(record, file_out, 'fasta')
-            elif seq_i > nseqs:
-                splits.append(file_in + '.' + str(file_n) + '.fasta')
-                file_out.close()
-                file_n = file_n + 1
-                file_out = open(file_in + '.' + str(file_n) + 'fasta', 'w')
-                SeqIO.write(record, file_out, 'fasta')
-                seq_i = 0
+        if seq_i <= nseqs:
+            SeqIO.write(record, file_out, 'fasta')
+        elif seq_i > nseqs:
+            splits.append(file_in + '.temp' + str(file_n))
+            file_out.close()
+            file_n = file_n + 1
+            file_out = open(file_in + '.temp' + str(file_n) + '.fasta', 'w')
+            SeqIO.write(record, file_out, 'fasta')
+            seq_i = 0
         
-        splits.append(file_in + '.' + str(file_n) + '.fasta')
-        file_out.close()
+    splits.append(file_in + '.temp' + str(file_n))
+    file_out.close()
     
     return(splits)
-                
-## Execute main program.
 
-if 'query' not in command_args.keys():
+## Define function to execute phylogenetic placement on a query fasta, or split query fasta
     
-    ## Add a dummy name for diagnostic testing if necessary.  This assumes
-    ## that no command line arguments are provided, as if run with execfile().
+def place(query, ref, variables):
     
-    if len(sys.argv) == 1:   
-        ref = 'combined_16S.tax'
-    
-    elif len(sys.argv) == 2:
-        ref = command_args['ref']
-        
-    clean_name(variables['ref_dir'] + ref)
+    clean_name(query)
+    degap = subprocess.Popen('seqmagick mogrify --ungap ' + query + '.clean.fasta', shell = True, executable = executable)
+    degap.communicate()
     
     ## Conduct alignment with Infernal (cmalign) against the bacteria profile
     ## obtained from the Rfam website at http://rfam.xfam.org/family/RF00177/cm.
     
-    ## Degap first, just in case.
+    align = subprocess.Popen('cmalign --dna -o ' + query + '.clean.align.sto --outformat Pfam ' + variables['cm'] + ' ' + query + '.clean.fasta', shell = True, executable = executable)
+    align.communicate()    
+    
+    combine = subprocess.Popen('esl-alimerge --outformat pfam --dna -o ' + query + '.' + ref + '.clean.align.sto ' + query + '.clean.align.sto ' + variables['ref_dir'] + ref + '.refpkg/' + ref + '.clean.align.sto', shell = True, executable = executable)
+    combine.communicate()
+      
+    convert = subprocess.Popen('seqmagick convert ' + query + '.' + ref + '.clean.align.sto ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
+    convert.communicate()
+    
+    pplacer = subprocess.Popen('pplacer --out-dir ' + os.getcwd() + ' -p --keep-at-most 20 -c ' + variables['ref_dir'] + ref + '.refpkg ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
+    pplacer.communicate()
+    
+## Define function to generate csv file of placements and fat tree    
+    
+def guppy(query, ref):
+    
+    guppy1 = subprocess.Popen('guppy to_csv --point-mass --pp -o ' + query + '.' + ref + '.clean.align.csv ' + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
+    guppy1.communicate()
+    
+    guppy2 = subprocess.Popen('guppy fat --node-numbers --point-mass --pp -o ' + query + '.' + ref + '.clean.align.phyloxml ' + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
+    guppy2.communicate()   
+                
+## Execute main program.
+                
+## First option is for testing purposes, allows for testing from with Python.
+                
+if len(sys.argv) == 1:
+        
+    query = 'test'
+    ref = 'combined_16S.tax'
+    
+    clear_wspace = subprocess.call('rm ' + query + '.' + ref + '*', shell = True, executable = executable)        
+
+    place(query, ref, variables)
+
+elif 'query' not in command_args.keys():
+    
+    ## Build reference package
+    
+    ref = command_args['ref']        
+    clean_name(variables['ref_dir'] + ref)
     
     degap = subprocess.Popen('seqmagick mogrify --ungap ' + variables['ref_dir'] + ref + '.clean.fasta', shell = True, executable = executable)
     degap.communicate()
 
-    infernal_commands = 'cmalign -o ' + variables['ref_dir'] + ref + '.clean.align.sto --outformat Pfam ' + variables['cm'] + ' ' + variables['ref_dir'] + ref + '.clean.fasta'      
+    infernal_commands = 'cmalign --dna -o ' + variables['ref_dir'] + ref + '.clean.align.sto --outformat Pfam ' + variables['cm'] + ' ' + variables['ref_dir'] + ref + '.clean.fasta'      
     infernal = subprocess.Popen(infernal_commands, shell = True, executable = executable)
     infernal.communicate()
     
     convert = subprocess.Popen('seqmagick convert ' + variables['ref_dir'] + ref + '.clean.align.sto ' + variables['ref_dir'] + ref + '.clean.align.fasta', shell = True, executable = executable)
-    convert.communicate()
-
-    transcribe = subprocess.Popen('seqmagick mogrify --transcribe rna2dna ' + variables['ref_dir'] + ref + '.clean.align.fasta', shell = True, executable = executable)
-    transcribe.communicate()       
+    convert.communicate()     
     
     rm = subprocess.call('rm ' + variables['ref_dir'] + '*ref.tre', shell = True, executable = executable)
     raxml1 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T ' + variables['cpus'] + ' -m GTRGAMMA -s ' + variables['ref_dir'] + ref + '.clean.align.fasta -n ref.tre -f d -p 12345 -w ' + variables['ref_dir'], shell = True, executable = executable)
@@ -164,47 +196,36 @@ if 'query' not in command_args.keys():
     taxit = subprocess.Popen('taxit create -l 16S_rRNA -P ' + variables['ref_dir'] + ref + '.refpkg --aln-fasta ' + variables['ref_dir'] + ref + '.clean.align.fasta --tree-stats ' + variables['ref_dir'] + 'RAxML_info.ref.tre --tree-file ' + variables['ref_dir'] + 'RAxML_fastTreeSH_Support.conf.root.ref.tre', shell = True, executable = executable)
     taxit.communicate()
     
-else:
+    ## Copy sto of the reference alignment to ref package.
     
-!!! functionalize this to make it easier to loop, and to make it easier to write in a third ts option (no args = place test.fasta)
+    cp = subprocess.Popen('cp ' + variables['ref_dir'] + ref + '.clean.align.sto ' + variables['ref_dir'] + ref + '.refpkg/' + ref + '.clean.align.sto', shell = True, executable = executable)
+            
+else:
     
     query = command_args['query']
     ref = command_args['ref']
     splits = int(command_args['splits'])
     
-    if splits > 1:
-        split_list = split_fasta(query, splits)
-    
     clear_wspace = subprocess.call('rm ' + query + '.' + ref + '*', shell = True, executable = executable)
-    clear_wspace.communicate()
+    
+    if splits > 1:        
+        split_list = split_fasta(query, splits)
             
-    combine = subprocess.Popen('cat ' + variables['ref_dir'] + ref + '.refpkg/' + ref + '.clean.align.fasta ' + query + '.fasta > ' + query + '.' + ref + '.fasta', shell = True, executable = executable)
-    combine.communicate()
+        if __name__ == '__main__':  
+            Parallel(n_jobs = splits, verbose = 5)(delayed(place)
+            (split_query, ref, variables) for split_query in split_list)
+            
+        guppy_merge = subprocess.Popen('guppy merge ' + query + '*' + '.jplace -o ' + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
+        guppy_merge.communicate()
+        guppy(query, ref)
+        
+        cleanup = subprocess.Popen('rm ' + query + '.temp*', shell = True, executable = executable)
+        cleanup.communicate()
+        
+    else:
+        place(query, ref, variables)
+        guppy(query, ref)
     
-    clean_name(query + '.' + ref)
-    
-    degap = subprocess.Popen('seqmagick mogrify --ungap ' + query + '.' + ref + '.clean.fasta', shell = True, executable = executable)
-    degap.communicate()
-    
-    infernal_commands = 'cmalign -o ' + query + '.' + ref + '.clean.align.sto --outformat Pfam ' + variables['cm'] + ' ' + query + '.' + ref + '.clean.fasta'      
-    infernal = subprocess.Popen(infernal_commands, shell = True, executable = executable)
-    infernal.communicate()      
-  
-    convert = subprocess.Popen('seqmagick convert ' + query + '.' + ref + '.clean.align.sto ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
-    convert.communicate()
-    
-    transcribe = subprocess.Popen('seqmagick mogrify --transcribe rna2dna ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
-    transcribe.communicate() 
-    
-    pplacer = subprocess.Popen('pplacer --out-dir ' + os.getcwd() + ' -p --keep-at-most 20 -c ' + variables['ref_dir'] + ref + '.refpkg ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
-    pplacer.communicate()
-    
-    guppy1 = subprocess.Popen('guppy to_csv --point-mass --pp -o ' + query + '.' + ref + '.clean.align.csv ' + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
-    guppy1.communicate()
-    
-    guppy2 = subprocess.Popen('guppy fat --node-numbers --point-mass --pp -o ' + query + '.' + ref + '.clean.align.phyloxml ' + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
-    guppy2.communicate()    
-
-    
-    
-    
+"""    
+placement working with flags, test ref package build
+"""
