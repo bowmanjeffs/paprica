@@ -3,8 +3,8 @@
 #### to work directly with the PGDBs.  Be sure to check the beginning of each Python script
 #### for user setable variables.  Depending on your system this script will take a substantial
 #### amount of time to run and the PGDBs will take a substantial amount of space.  On my system
-#### (24 cores) it takes roughly 18 hours to get all the genomes downloaded and the database
-#### built.  The PGDBs take up about 97 Gb of space.
+#### (24 cores) it takes roughly 8 hours to get all the genomes downloaded and the database
+#### built.  The PGDBs take up about 100 Gb of space.
 
 #!/bin/bash
 
@@ -14,11 +14,11 @@ python paprica_make_ref.py &&
 
 ## 2. make a reference package from 16S
 
-python paprica_place_it.py combined_16S.tax &&
+python paprica_place_it.py -ref combined_16S.tax &&
 
 ## 3. run test.fasta 
 
-python paprica_place_it.py test combined_16S.tax &&
+python paprica_place_it.py -query test -ref combined_16S.tax -splits 1 &&
 
 ## 4. build the reference database.  the rm step isn't strictly necessary but cleans up the workspace
 ## substantially.  the logs are only helpful if pathway-tools isn't firing for some reason.
