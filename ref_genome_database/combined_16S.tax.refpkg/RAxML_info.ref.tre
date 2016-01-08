@@ -16,9 +16,9 @@ Nick Pattengale   (Sandia)
 Wayne Pfeiffer    (SDSC)
 Akifumi S. Tanabe (NRIFS)
 
-Alignment has 1918 distinct alignment patterns
+Alignment has 1915 distinct alignment patterns
 
-Proportion of gaps and completely undetermined characters in this alignment: 39.16%
+Proportion of gaps and completely undetermined characters in this alignment: 39.13%
 
 RAxML rapid hill-climbing mode
 
@@ -33,7 +33,7 @@ GAMMA model of rate heteorgeneity, ML estimate of alpha-parameter
 GAMMA Model parameters will be estimated up to an accuracy of 0.1000000000 Log Likelihood units
 
 Partition: 0
-Alignment Patterns: 1918
+Alignment Patterns: 1915
 Name: No Name Provided
 DataType: DNA
 Substitution Matrix: GTR
@@ -49,21 +49,21 @@ raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -s /volumes/hd1/paprica_test/paprica/ref
 Partition: 0 with name: No Name Provided
 Base frequencies: 0.252 0.227 0.313 0.208 
 
-Inference[0]: Time 7359.090080 GAMMA-based likelihood -509521.772422, best rearrangement setting 20
-alpha[0]: 0.432819 rates[0] ac ag at cg ct gt: 0.758412 2.120109 1.360171 0.680328 3.580681 1.000000 
+Inference[0]: Time 3668.644174 GAMMA-based likelihood -504753.837889, best rearrangement setting 25
+alpha[0]: 0.428408 rates[0] ac ag at cg ct gt: 0.746536 2.100217 1.340033 0.676015 3.552097 1.000000 
 
 
 Conducting final model optimizations on all 1 trees under GAMMA-based models ....
 
-Inference[0] final GAMMA-based Likelihood: -509520.263179 tree written to file /volumes/hd1/paprica_test/paprica/ref_genome_database/RAxML_result.ref.tre
+Inference[0] final GAMMA-based Likelihood: -504751.053138 tree written to file /volumes/hd1/paprica_test/paprica/ref_genome_database/RAxML_result.ref.tre
 
 
-Starting final GAMMA-based thorough Optimization on tree 0 likelihood -509520.263179 .... 
+Starting final GAMMA-based thorough Optimization on tree 0 likelihood -504751.053138 .... 
 
-Final GAMMA-based Score of best tree -509520.263113
+Final GAMMA-based Score of best tree -504745.632954
 
 Program execution info written to /volumes/hd1/paprica_test/paprica/ref_genome_database/RAxML_info.ref.tre
 Best-scoring ML tree written to: /volumes/hd1/paprica_test/paprica/ref_genome_database/RAxML_bestTree.ref.tre
 
-Overall execution time: 8233.060241 secs or 2.286961 hours or 0.095290 days
+Overall execution time: 4251.605410 secs or 1.181002 hours or 0.049208 days
 
