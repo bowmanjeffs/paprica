@@ -16,4 +16,4 @@ query=$1
 python paprica_place_it.py -query $query -ref combined_16S.tax -splits 1
 
 ## 2. find pathways and other information associated with edges
-python paprica_tally_pathways.py $query.combined_16S.tax.clean.align.csv
+python paprica_tally_pathways.py -i $query.combined_16S.tax.clean.align.csv -o $query
