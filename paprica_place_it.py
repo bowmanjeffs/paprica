@@ -19,7 +19,7 @@ REQUIRES:
         Bio
 
 CALL AS:
-    python genome_finder_place_it.py -query [query] -ref [ref] -splits [splits] for analysis or
+    python genome_finder_place_it.py -query [query] -ref [ref] -splits [splits] -n [nseqs] for analysis or
     python genome_finder_place_it.py -ref [ref] to generate a reference package.  
 
     Note that [ref] or [query] includes the entire file name without extension
@@ -33,6 +33,8 @@ import subprocess
 import sys
 import os
 from joblib import Parallel, delayed
+import datetime
+import random
 
 ## Read in profile.  Required variables are ref_dir and cutoff. ###
 
@@ -199,6 +201,15 @@ elif 'query' not in command_args.keys():
     ## Copy sto of the reference alignment to ref package.
     
     cp = subprocess.Popen('cp ' + variables['ref_dir'] + ref + '.clean.align.sto ' + variables['ref_dir'] + ref + '.refpkg/' + ref + '.clean.align.sto', shell = True, executable = executable)
+
+    ## Create a file with the date/time of database creation.
+
+    current_time = datetime.datetime.now().isoformat()
+    n_aseqs = len(re.findall('>', open(variables['ref_dir'] + '/' + ref + '.fasta', 'r').read()))
+    
+    with open(variables['ref_dir'] + '/' + ref + '.database_info.txt', 'w') as database_info:
+        print >> database_info, 'ref tree built at:', current_time
+        print >> database_info, 'nseqs in reference alignment:', n_aseqs 
             
 else:
     
@@ -207,6 +218,30 @@ else:
     splits = int(command_args['splits'])
     
     clear_wspace = subprocess.call('rm ' + query + '.' + ref + '*', shell = True, executable = executable)
+    
+    ## Select a random subset of reads, if this option is specified.  This is useful for
+    ## normalizing the number of sampled reads across different samples.    
+    
+    if 'n' in command_args.keys():
+        
+        nseqs = command_args['n']
+        tseqs = len(re.findall('>', open(query + '.fasta', 'r').read()))
+        nseqs_get = random.sample(range(1, tseqs), int(nseqs))
+        
+        seq_i = 0
+
+        with open(query + '.sub.fasta', 'w') as fasta_sub:
+            for record in SeqIO.parse(query + '.fasta', 'fasta'):
+                seq_i = seq_i + 1
+                if seq_i in nseqs_get:
+                    SeqIO.write(record, fasta_sub, 'fasta')
+        
+        ## All downstream operations now need to take place on the subsamled
+        ## query, easiest way to do this is to just change the query variable
+            
+        query = query + '.sub'
+                
+    ## Create splits, if splits > 1
     
     if splits > 1:        
         split_list = split_fasta(query, splits)
@@ -225,7 +260,3 @@ else:
     else:
         place(query, ref, variables)
         guppy(query, ref)
-    
-"""    
-placement working with flags, test ref package build
-"""

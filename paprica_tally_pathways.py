@@ -10,12 +10,13 @@ REQUIRES:
         numpy
         
 CALL AS:
-    python paprica_tally_pathways_v0.20.py -i [csv] -o [name]
+    python paprica_tally_pathways.py -i [csv] -o [name]
 """
 
 import pandas as pd
 import numpy as np
 import sys
+import os
 
 ## Read in profile.  Required variables are ref_dir and cutoff. ###
 
@@ -174,6 +175,18 @@ sample_pathways_sum.to_csv(name + '.sum_pathways.csv')
 sample_pathways = sample_pathways.fillna(0)
 sample_pathways.to_csv(name + '.pathways.csv')
 
+## Get the database creation time, this serves as a version.
+
+for f in os.listdir(variables['ref_dir']):
+    if f.endswith('.database_info.txt'):
+        with open(variables['ref_dir'] + '/' + f, 'r') as database_info:
+            for line in database_info:
+                if 'ref tree built at:' in line:
+                    line = line.rstrip()
+                    line = line.split(': ')
+                    database_time = line[1]
+                    database_time = database_time.strip()
+
 ## And a simple tab-delim for the sample data.
 
 with open(name + '.sample_data.txt', 'w') as sample_data:
@@ -182,3 +195,4 @@ with open(name + '.sample_data.txt', 'w') as sample_data:
     print >> sample_data, 'npathways' + '\t' + str(npathways)
     print >> sample_data, 'ppathways' + '\t' + str(ppathways)
     print >> sample_data, 'nreads' + '\t' + str(nreads)
+    print >> sample_data, 'database_created_at' + '\t' + database_time
