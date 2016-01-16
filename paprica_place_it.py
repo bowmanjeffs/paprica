@@ -118,7 +118,7 @@ def split_fasta(file_in, nsplits):
 ## Define function to execute phylogenetic placement on a query fasta, or split query fasta
     
 def place(query, ref, variables):
-    
+            
     clean_name(query)
     degap = subprocess.Popen('seqmagick mogrify --ungap ' + query + '.clean.fasta', shell = True, executable = executable)
     degap.communicate()
@@ -135,7 +135,7 @@ def place(query, ref, variables):
     convert = subprocess.Popen('seqmagick convert ' + query + '.' + ref + '.clean.align.sto ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
     convert.communicate()
     
-    pplacer = subprocess.Popen('pplacer --out-dir ' + os.getcwd() + ' -p --keep-at-most 20 -c ' + variables['ref_dir'] + ref + '.refpkg ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
+    pplacer = subprocess.Popen('pplacer -o ' + query + '.' + ref + '.clean.align.jplace --out-dir ' + os.getcwd() + ' -p --keep-at-most 20 -c ' + variables['ref_dir'] + ref + '.refpkg ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
     pplacer.communicate()
     
 ## Define function to generate csv file of placements and fat tree    
@@ -240,7 +240,7 @@ else:
         ## query, easiest way to do this is to just change the query variable
             
         query = query + '.sub'
-                
+                        
     ## Create splits, if splits > 1
     
     if splits > 1:        
