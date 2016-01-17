@@ -16,7 +16,7 @@ Nick Pattengale   (Sandia)
 Wayne Pfeiffer    (SDSC)
 Akifumi S. Tanabe (NRIFS)
 
-Alignment has 1915 distinct alignment patterns
+Alignment has 1917 distinct alignment patterns
 
 Proportion of gaps and completely undetermined characters in this alignment: 39.13%
 
@@ -33,7 +33,7 @@ GAMMA model of rate heteorgeneity, ML estimate of alpha-parameter
 GAMMA Model parameters will be estimated up to an accuracy of 0.1000000000 Log Likelihood units
 
 Partition: 0
-Alignment Patterns: 1915
+Alignment Patterns: 1917
 Name: No Name Provided
 DataType: DNA
 Substitution Matrix: GTR
@@ -43,27 +43,27 @@ Substitution Matrix: GTR
 
 RAxML was called as follows:
 
-raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -s /volumes/hd1/paprica_test/paprica/ref_genome_database/combined_16S.tax.clean.align.fasta -n ref.tre -f d -p 12345 -w /volumes/hd1/paprica_test/paprica/ref_genome_database/ 
+raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -s /volumes/hd1/paprica_development/paprica/ref_genome_database/combined_16S.tax.clean.align.fasta -n ref.tre -f d -p 12345 -w /volumes/hd1/paprica_development/paprica/ref_genome_database/ 
 
 
 Partition: 0 with name: No Name Provided
 Base frequencies: 0.252 0.227 0.313 0.208 
 
-Inference[0]: Time 3668.644174 GAMMA-based likelihood -504753.837889, best rearrangement setting 25
-alpha[0]: 0.428408 rates[0] ac ag at cg ct gt: 0.746536 2.100217 1.340033 0.676015 3.552097 1.000000 
+Inference[0]: Time 2501.962082 GAMMA-based likelihood -505166.688196, best rearrangement setting 20
+alpha[0]: 0.428935 rates[0] ac ag at cg ct gt: 0.751158 2.116270 1.355824 0.685341 3.568711 1.000000 
 
 
 Conducting final model optimizations on all 1 trees under GAMMA-based models ....
 
-Inference[0] final GAMMA-based Likelihood: -504751.053138 tree written to file /volumes/hd1/paprica_test/paprica/ref_genome_database/RAxML_result.ref.tre
+Inference[0] final GAMMA-based Likelihood: -505164.073487 tree written to file /volumes/hd1/paprica_development/paprica/ref_genome_database/RAxML_result.ref.tre
 
 
-Starting final GAMMA-based thorough Optimization on tree 0 likelihood -504751.053138 .... 
+Starting final GAMMA-based thorough Optimization on tree 0 likelihood -505164.073487 .... 
 
-Final GAMMA-based Score of best tree -504745.632954
+Final GAMMA-based Score of best tree -505164.069262
 
-Program execution info written to /volumes/hd1/paprica_test/paprica/ref_genome_database/RAxML_info.ref.tre
-Best-scoring ML tree written to: /volumes/hd1/paprica_test/paprica/ref_genome_database/RAxML_bestTree.ref.tre
+Program execution info written to /volumes/hd1/paprica_development/paprica/ref_genome_database/RAxML_info.ref.tre
+Best-scoring ML tree written to: /volumes/hd1/paprica_development/paprica/ref_genome_database/RAxML_bestTree.ref.tre
 
-Overall execution time: 4251.605410 secs or 1.181002 hours or 0.049208 days
+Overall execution time: 3068.824014 secs or 0.852451 hours or 0.035519 days
 
