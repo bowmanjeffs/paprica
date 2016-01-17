@@ -177,7 +177,7 @@ sample_pathways.to_csv(name + '.pathways.csv')
 
 ## Get the database creation time, this serves as a version.
 
-for f in os.listdir(variables['ref_dir']):
+for f in os.listdir(os.path.expanduser(variables['ref_dir'])):
     if f.endswith('.database_info.txt'):
         with open(variables['ref_dir'] + '/' + f, 'r') as database_info:
             for line in database_info:
