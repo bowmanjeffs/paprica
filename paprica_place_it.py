@@ -218,6 +218,7 @@ else:
     splits = int(command_args['splits'])
     
     clear_wspace = subprocess.call('rm ' + query + '.' + ref + '*', shell = True, executable = executable)
+    clear_wspace = subprocess.call('rm ' + query + '.sub*', shell = True, executable = executable)
     
     ## Select a random subset of reads, if this option is specified.  This is useful for
     ## normalizing the number of sampled reads across different samples.    
