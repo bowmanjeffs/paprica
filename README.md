@@ -18,6 +18,10 @@ chmod a+x paprica_run.sh
 
 ...where XX is the paprica version should get you going and execute a run on the file test.fasta.
 
+###Mac OSX installation tutorial
+
+Installing paprica and all its dependencies on OSX is a little more complicated than on Linux.  You can find a tutorial with detailed instructions at http://www.polarmicrobes.org/?p=1477.
+
 ###Citation
 
 Please cite paprica as:
