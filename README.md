@@ -20,7 +20,7 @@ chmod a+x paprica_run.sh
 
 ###Mac OSX installation tutorial
 
-Installing paprica and all its dependencies on OSX is a little more complicated than on Linux.  You can find a tutorial with detailed instructions at http://www.polarmicrobes.org/?p=1477.
+Installing paprica and all its dependencies on OSX is a little more complicated than on Linux.  You can find a tutorial with detailed instructions here [http://www.polarmicrobes.org/?p=1477].
 
 ###Citation
 
