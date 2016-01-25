@@ -24,6 +24,10 @@ chmod a+x paprica_run.sh
 
 Installing paprica and all its dependencies on OSX is a little more complicated than on Linux.  You can find a tutorial with detailed instructions [here](http://www.polarmicrobes.org/?p=1477).
 
+###Basic analysis tutorial
+
+You can find a tutorial walking through a basic multi-sample analysis [here](http://www.polarmicrobes.org/?p=1473)
+
 ###Citation
 
 Please cite paprica as:
