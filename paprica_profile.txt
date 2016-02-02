@@ -4,31 +4,24 @@
 #### space before or after the equal sign.
 ####
 #### The default pathways are not in this form to facilitate a quick start for the
-#### inpatient (such as myself), but if you are reading this please change to full paths
+#### impatient (such as myself), but if you are reading this please change to full paths
 #### to insure full functionality.
 
 ## Variables necessary for the scripts associated with paprica_run.sh and paprica_build.sh.
 
-# This is the location of the reference directory.
+# This is the location of the reference directories.
+
 ref_dir=~/paprica/ref_genome_database/
 
-# This is the location of the covariance model used by Infernal.
-cm=~/paprica/bacterial_ssu.cm
+# This is the location of the covariance models used by Infernal.
+
+cm.bacteria=~/paprica/bacterial_ssu.cm
+cm.archaea=~/paprica/archaeal_ssu.cm
 
 ## Variables associated with paprica_build.sh only.
-
-# This is the number of cpus RAxML will use.  See RAxML manual for guidance.
-cpus=8
 
 # This is the location where you want your pgdbs placed.  This should match
 # what you told pathway-tools, or set to pathway-tools default location if
 # you didn't specify anything.
 
 pgdb_dir=~/ptools-local/pgdbs/user/
-
-## Variables associated with paprica_run.sh only.
-
-# The fraction of terminal daughters that need to have a pathway for it
-# to be included in an internal node.
-
-cutoff=0.5

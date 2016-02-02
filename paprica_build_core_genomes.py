@@ -14,7 +14,7 @@ REQUIRES:
         Numpy
         
 RUN AS:
-    python paprica_build_core_genomes_v0.20.py
+    python paprica_build_core_genomes_v0.20.py -domain [bacteria|archaea]
 
 CAN ALSO RUN AS:
     python paprica_build_core_genomes_v0.20.py [phyloxml]
@@ -30,7 +30,6 @@ import pandas as pd
 import numpy as np
 
 executable = '/bin/bash'
-ref = 'combined_16S'
 
 ## Read in profile.  Required variables are ref_dir and cutoff. ###
 
@@ -51,15 +50,30 @@ with open('paprica_profile.txt', 'r') as profile:
         if line.startswith('#') == False:
             if line != '\n':
                 get_variable(line, variables)
+                
+## Read in command line arguments.
 
+command_args = {}
+
+for i,arg in enumerate(sys.argv):
+    if arg.startswith('-'):
+        arg = arg.strip('-')
+        command_args[arg] = sys.argv[i + 1]
+        
+## Define some variables based on these arguments.
+        
+domain = command_args['domain']
+ref_dir_domain = variables['ref_dir'] + domain + '/'
 
 ## If no phyloxml file provided use the default.  This will be fine for
 ## any imaginable application.
 
-if len(sys.argv) > 1:
-    query = sys.argv[1]
+if domain == 'bacteria':
+    query = 'test.combined_16S.bacteria.tax.clean.align.phyloxml'
+elif domain == 'archaea':
+    query = 'test.combined_16S.archaea.tax.clean.align.phyloxml'
 else:
-    query = 'test.combined_16S.tax.clean.align.phyloxml'
+    print 'Error, you must specify either -domain bacteria or -domain archaea!'
     
 ## Define a stop function for diagnostic use only.
 
@@ -70,7 +84,7 @@ def stop_here():
 
 ## Read in the genome_data file.
 
-genome_data = pd.DataFrame.from_csv(variables['ref_dir'] + 'genome_data.csv', header = 0, index_col = 0)
+genome_data = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
 genome_data['clade'] = np.nan
 genome_data['tip_name'] = np.nan
 genome_data['npaths_actual'] = np.nan
@@ -107,11 +121,11 @@ for clade in tree.get_terminals():
 
 pgdbs = set(os.listdir(variables['pgdb_dir']))
 
-with open(variables['ref_dir'] + 'generate_pgdbs.sh', 'w') as run_pgdb:
+with open(ref_dir_domain + 'generate_pgdbs.sh', 'w') as run_pgdb:
     for d in assemblies:
         if d.lower() + 'cyc' not in pgdbs:
             clade = genome_data.loc[d, 'clade']                
-            with open(variables['ref_dir'] + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(variables['ref_dir'] + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
+            with open(ref_dir_domain + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(variables['ref_dir'] + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
     
                 print >> organism_params, 'ID' + '\t' + d
                 print >> organism_params, 'Storage' + '\t' + 'File'
@@ -121,17 +135,17 @@ with open(variables['ref_dir'] + 'generate_pgdbs.sh', 'w') as run_pgdb:
                 print >> organism_params, 'Create?' + '\t' + 't'
                 
                 g = 0
-                for gbk in os.listdir(variables['ref_dir'] + 'refseq/' + d):
+                for gbk in os.listdir(ref_dir_domain + 'refseq/' + d):
                     if gbk.endswith('gbff'):
                         g = g + 1
                         
                         basename = re.split('gbff', gbk)[0]
-                        subprocess.call('cd ' + variables['ref_dir'] + 'refseq/' + d + ';cp ' + gbk + ' ' + basename + 'gbk', shell = True, executable = executable)
+                        subprocess.call('cd ' + ref_dir_domain + 'refseq/' + d + ';cp ' + gbk + ' ' + basename + 'gbk', shell = True, executable = executable)
                         
                         print >> genetic_elements, 'ID' + '\t' + d + '.' + str(g)
                         print >> genetic_elements, 'NAME' + '\t' + d + '.' + str(g)
                         print >> genetic_elements, 'TYPE' + '\t' + ':CHRSM'
-                        print >> genetic_elements, 'CIRCULAR?' + '\t' + 'N'
+                        print >> genetic_elements, 'CIRCULAR?' + '\t' + 'Y'
                         print >> genetic_elements, 'ANNOT-FILE' + '\t' + basename + 'gbk'
                         print >> genetic_elements, '//'
                         
@@ -168,6 +182,7 @@ for d in assemblies:
                                     print 'collecting paths for terminal node', d, path
                                     np = np + 1
         genome_data.loc[d, 'npaths_actual'] = np
+        
     except IOError:
         print d, 'has no pathway report'
 
@@ -249,7 +264,7 @@ for clade in tree.get_nonterminals():
     
 ## Write out ya database files.
         
-genome_data.to_csv(variables['ref_dir'] + 'genome_data.final.csv')
-terminal_paths.to_csv(variables['ref_dir'] + 'terminal_paths.csv')
-internal_probs.to_csv(variables['ref_dir'] + 'internal_probs.csv')
-internal_data.to_csv(variables['ref_dir'] + 'internal_data.csv')
+genome_data.to_csv(ref_dir_domain + 'genome_data.final.csv')
+terminal_paths.to_csv(ref_dir_domain + 'terminal_paths.csv')
+internal_probs.to_csv(ref_dir_domain + 'internal_probs.csv')
+internal_data.to_csv(ref_dir_domain + 'internal_data.csv')

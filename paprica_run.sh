@@ -14,9 +14,9 @@ query=$1
 
 ## 1. phylogenetic placement of query reads
 
-python paprica_place_it.py -query $query -ref combined_16S.tax -splits 1
+python paprica_place_it.py -query $query -ref combined_16S.bacteria.tax -splits 1
 
 ## 2. find pathways and other information associated with edges.  if you subsampled in the previous step (i.e. with -n) your input
 ##    file is $query.sub.combined_16S.tax.clean.align.csv
 
-python paprica_tally_pathways.py -i $query.combined_16S.tax.clean.align.csv -o $query
+python paprica_tally_pathways.py -i $query.combined_16S.bacteria.tax.clean.align.csv -o $query.bacteria -cutoff 0.5 -domain bacteria
