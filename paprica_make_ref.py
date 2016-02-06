@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
+help_string = """
 Created on Sun Jan 04 17:06:39 2015
 
 @author: jeff
@@ -20,10 +20,16 @@ REQUIRES:
         joblib
         
 RUN AS:
-    python paprica_make_ref.py -download [T|F] -domain [bacteria|archaea] -cpus [ncpus]
+    python paprica_make_ref.py [options]
     
-Use the additional -download flag to initiate a fresh download of genomes for
-the domain you are building for.
+OPTIONS:
+-download: Initiate a fresh download from Genbank?  Either T or F.
+-domain: Which domain are you analyzing?  Either bacteria or archaea.
+-cpus: The number of cpus for RAxML to use.
+-ref_dir: The name for the database you are building.
+
+This script must be located in the 'paprica' directory as it makes use of relative
+paths.
     
 """
 
@@ -34,10 +40,12 @@ the domain you are building for.
 ## errors for the placement of some reads.  Put genomes from both domains
 ## here.
 
-bad = ['GCF_000691605.1', \
+bad_bacteria = ['GCF_000691605.1', \
 'GCF_000348725.1', \
 'GCF_000525675.1', \
 'GCF_000317895.1']
+
+bad_archaea = []
 
 ### End user setable variables. Mucking with anything below this point might ###
 ### break the script.  Of course it might also improve it :) ###
@@ -59,26 +67,6 @@ from scipy import spatial
 import math
 
 executable = '/bin/bash'
-
-## Read in profile.  Required variables are ref_dir and cutoff. ###
-
-variables = {}
-
-def get_variable(line, variables):
-    
-    line = line.rstrip()
-    line = line.split('=')
-    variable = line[0]
-    value = line[1]
-    
-    variables[variable] = value
-    return variables
-
-with open('paprica_profile.txt', 'r') as profile:
-    for line in profile:
-        if line.startswith('#') == False:
-            if line != '\n':
-                get_variable(line, variables)
                 
 ## Read in command line arguments.
 
@@ -87,19 +75,36 @@ command_args = {}
 for i,arg in enumerate(sys.argv):
     if arg.startswith('-'):
         arg = arg.strip('-')
-        command_args[arg] = sys.argv[i + 1]
+        try:
+            command_args[arg] = sys.argv[i + 1]
+        except IndexError:
+            command_args[arg] = ''
+            
+if 'h' in command_args.keys():
+    print help_string
+    quit()
         
-## Define some variables based on these arguments.
+## Define some variables based on these arguments.  If any one these arguments
+## are missing the defaults will be used, which is diagnostic mode.
         
-domain = command_args['domain']
-ref_dir_domain = variables['ref_dir'] + domain + '/'
-cpus = str(command_args['cpus'])
-download = command_args['download']
-
+try:        
+    domain = command_args['domain']
+    cpus = str(command_args['cpus'])
+    download = command_args['download']
+    ref_dir = command_args['ref_dir']
+    
+except KeyError:
+    domain = 'bacteria'
+    cpus = '8'
+    download = 'F'
+    ref_dir = 'ref_genome_database'
+    
+ref_dir_domain = ref_dir + '/' + domain + '/'
+    
 if domain == 'bacteria':
-    cm = variables['cm.bacteria']
+    cm = 'bacterial_ssu.cm'
 elif domain == 'archaea':
-    cm = variables['cm.archaea']
+    cm = 'archaea_ssu.cm'
 else:
     print 'Error, you must specify either -domain bacteria or -domain archaea!'
     quit()
@@ -122,23 +127,32 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
     try:
         strain_ftp = summary_complete.loc[assembly_accession, 'ftp_path']
         
-        subprocess.call('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession + ';cd ' + variables['ref_dir'] + 'refseq/' + assembly_accession + ';wget -A genomic.fna.gz ' + strain_ftp + '/*', shell = True, executable = executable)
-        wget1 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -A genomic.gbff.gz ' + strain_ftp + '/*', shell = True, executable = executable)
+        mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
+        mkdir.communicate()
+        
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A genomic.fna.gz ' + strain_ftp + '/*', shell = True, executable = executable)
+        wget0.communicate() 
+        
+        wget1 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A genomic.gbff.gz ' + strain_ftp + '/*', shell = True, executable = executable)
         wget1.communicate()
-        wget2 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -A protein.faa.gz ' + strain_ftp + '/*', shell = True, executable = executable)
+        
+        wget2 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A protein.faa.gz ' + strain_ftp + '/*', shell = True, executable = executable)
         wget2.communicate()
+        
         gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
         gunzip.communicate()
+        
+        print assembly_accession + ':' + strain_ftp
         
     except KeyError:
         print 'no', assembly_accession, 'path'
 
-if 'download' == 'T':
+if download == 'T':
     
     try:
-        os.listdir(variables['ref_dir'])
+        os.listdir(ref_dir)
     except OSError:
-        os.mkdir(variables['ref_dir'])
+        os.mkdir(ref_dir)
     
     ## Remove old reference directory
     
@@ -150,11 +164,19 @@ if 'download' == 'T':
     
     summary = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', header = 0, index_col = 0)
     summary_complete = summary[summary.assembly_level == 'Complete Genome']
-    summary_complete = summary_complete.drop(bad)
+    
+    ## Drop the bad genomes.
+    
+    if domain == 'bacteria':
+        summary_complete = summary_complete.drop(bad_bacteria)
+    elif domain == 'archaea':
+        summary_complete = summary_complete.drop(bad_archaea)
+        
+    ## Download the good genomes.
     
     if __name__ == '__main__':  
         Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
-        (variables['ref_dir'], executable, assembly_accession) for assembly_accession in summary_complete.index)
+        (ref_dir_domain, executable, assembly_accession) for assembly_accession in summary_complete.index)
         
     ## Sometime wget will fail to download a valid file.  This causes problems
     ## downstream.  Check that each directory has an faa and fna file, and remove

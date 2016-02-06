@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
+help_string = """
 Created on Sat Jan 03 08:59:11 2015
 
 @author: jeff
@@ -17,6 +17,7 @@ REQUIRES:
         
     Python modules:
         Bio
+        joblib
 
 CALL AS:
     python genome_finder_place_it.py -query [query] -ref [ref] -splits [splits] -n [nseqs] for analysis or
@@ -28,7 +29,13 @@ CALL AS:
     It is not recommended to use more than 8 cpus for tree building (i.e. -cpus 8).
     See the RAXML manual for guidance on this.
     
-This script does not need to be run from the current working directory.
+OPTIONS:
+-query: The prefix of the query fasta (entire name without extension)
+-ref: The name of the reference package for pplacer
+-splits: The number of files to split the query fasta into to facilitate
+parallel analysis with pplacer.
+-n:  The number of reads to subsample your input query to.
+-cpus:  The number of cpus for RAxML to use.
 
 """
 executable = '/bin/bash' # shell for executing commands
@@ -41,25 +48,8 @@ from joblib import Parallel, delayed
 import datetime
 import random
 
-## Read in profile.  Required variables are ref_dir and cutoff. ###
-
-variables = {}
-
-def get_variable(line, variables):
-    
-    line = line.rstrip()
-    line = line.split('=')
-    variable = line[0]
-    value = line[1]
-    
-    variables[variable] = value
-    return variables
-
-with open('paprica_profile.txt', 'r') as profile:
-    for line in profile:
-        if line.startswith('#') == False:
-            if line != '\n':
-                get_variable(line, variables)
+paprica_path = '/'.join(os.path.realpath(__file__).split('/')[:-1]) + '/' # The location of the actual paprica scripts.
+cwd = os.getcwd() + '/' # The current working directory.
                 
 ## Parse command line arguments.  Arguments that are unique to a run,
 ## such as the number of splits, should be specified in the command line and
@@ -70,13 +60,48 @@ command_args = {}
 for i,arg in enumerate(sys.argv):
     if arg.startswith('-'):
         arg = arg.strip('-')
-        command_args[arg] = sys.argv[i + 1]
+        try:
+            command_args[arg] = sys.argv[i + 1]
+        except IndexError:
+            command_args[arg] = ''
         
-domain = command_args['domain']
-ref_dir_domain = variables['ref_dir'] + domain + '/'
-cpus = str(command_args['cpus'])
-cwd = os.getcwd() + '/'
-cm = variables['cm.' + domain]
+if 'h' in command_args.keys():
+    print help_string
+    quit()
+
+## Parse command line for mandatory variables, providing defaults if they are
+## not present.  Defaults are generally for testing.
+
+try:
+    ref_dir = paprica_path + command_args['ref_dir']  # The complete path to the reference directory being used for analysis.        
+    domain = command_args['domain']  # The domain being used for analysis.
+    ref = command_args['ref']  # The name of the reference package being used.
+    
+except KeyError:
+    ref_dir = paprica_path + 'ref_genome_database'
+    domain = 'bacteria'
+    ref = 'combined_16S.bacteria.tax'
+        
+## Parse command line for optional variables, providing defaults if they are not
+## present.
+    
+try:
+    cpus = str(command_args['cpus']) # The number of cpus for RAxML to use.
+except KeyError:
+    cpus = '1'
+    
+try:    
+    splits = int(command_args['splits']) # The number of splits to make for pplacer parallel operation.
+except KeyError:
+    splits = 1
+    
+try:
+    query = command_args['query'] # The prefix of the query file.
+except KeyError:
+    query = 'test.bacteria'
+    
+ref_dir_domain = ref_dir + domain + '/' # Complete path to the domain subdirectory within the reference directory.
+cm = ref_dir + domain + '_ssu.cm' # Domain specific covariance model used by infernal.
     
 ## Define function to clean record names.
 
@@ -164,9 +189,6 @@ def guppy(query, ref):
 ## First option is for testing purposes, allows for testing from with Python.
                 
 if len(sys.argv) == 1:
-        
-    query = 'test.bacteria'
-    ref = 'combined_16S.bacteria.tax'
     
     clear_wspace = subprocess.call('rm ' + cwd + query + '.' + ref + '*', shell = True, executable = executable)        
     place(cwd + query, ref, ref_dir_domain, cm)
@@ -175,13 +197,12 @@ elif 'query' not in command_args.keys():
     
     ## Build reference package
     
-    ref = command_args['ref']        
     clean_name(ref_dir_domain + ref)
     
     degap = subprocess.Popen('seqmagick mogrify --ungap ' + ref_dir_domain + ref + '.clean.fasta', shell = True, executable = executable)
     degap.communicate()
 
-    infernal_commands = 'cmalign --dna -o ' + ref_dir_domain + ref + '.clean.align.sto --outformat Pfam ' + variables['cm.' + domain] + ' ' + ref_dir_domain + ref + '.clean.fasta'      
+    infernal_commands = 'cmalign --dna -o ' + ref_dir_domain + ref + '.clean.align.sto --outformat Pfam ' + cm + ' ' + ref_dir_domain + ref + '.clean.fasta'      
     infernal = subprocess.Popen(infernal_commands, shell = True, executable = executable)
     infernal.communicate()
     
@@ -223,8 +244,6 @@ elif 'query' not in command_args.keys():
             
 else:
     
-    query = command_args['query']
-    ref = command_args['ref']
     splits = int(command_args['splits'])
     
     clear_wspace = subprocess.call('rm ' + cwd + query + '.' + ref + '*', shell = True, executable = executable)
@@ -259,7 +278,7 @@ else:
             
         if __name__ == '__main__':  
             Parallel(n_jobs = splits, verbose = 5)(delayed(place)
-            (cwd + split_query, ref, ref_dir_domain, cm) for split_query in split_list)
+            (split_query, ref, ref_dir_domain, cm) for split_query in split_list)
             
         guppy_merge = subprocess.Popen('guppy merge ' + cwd + query + '*' + '.jplace -o ' + cwd + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
         guppy_merge.communicate()

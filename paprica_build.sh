@@ -10,19 +10,16 @@
 
 ## 1. download genomes, combine elements, extract 16S
 
-python paprica_make_ref.py -download T -domain bacteria &&
+python paprica_make_ref.py -download T -domain bacteria -cpus 2 &&
 
 ## 2. make a reference package from 16S
 
-python paprica_place_it.py -ref combined_16S.bacteria.tax -domain bacteria &&
+python paprica_place_it.py -ref combined_16S.bacteria.tax -domain bacteria -cpus 2 &&
 
 ## 3. run test.bacteria.fasta 
 
-python paprica_place_it.py -query test.bacteria -ref combined_16S.bacteria.tax -splits 1 &&
+python paprica_place_it.py -query test.bacteria -ref combined_16S.bacteria.tax -domain bacteria -splits 1 &&
 
-## 4. build the reference database.  the rm step isn't strictly necessary but cleans up the workspace
-## substantially.  the logs are only helpful if pathway-tools isn't firing for some reason.
+## 4. build the reference database.
 
-python paprica_build_core_genomes.py test.combined_16S.tax.clean.align.phyloxml &&
-
-rm pathos*log
+python paprica_build_core_genomes.py -tree test.bacteria.combined_16S.bacteria.tax.clean.align.phyloxml -domain bacteria &&

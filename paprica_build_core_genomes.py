@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
+help_string = """
 Created on Tue Jan 06 09:50:07 2015
 
 @author: jeff
@@ -14,10 +14,17 @@ REQUIRES:
         Numpy
         
 RUN AS:
-    python paprica_build_core_genomes_v0.20.py -domain [bacteria|archaea]
+    python paprica_build_core_genomes_v0.20.py -tree [tree.phyloxml] -domain [bacteria|archaea]
+    
+OPTIONS:
+-pgdb_dir: The location where pathway-tools stores PGDBs
+-ref_dir: The directory containing the paprica database
+-tree: The phyloxml format tree that contains the clade numbers
+-domain: The domain being analyzed (either bacteria or archaea)
 
-CAN ALSO RUN AS:
-    python paprica_build_core_genomes_v0.20.py [phyloxml]
+This script must be located in the 'paprica' directory as it makes use of relative
+paths.
+
 """
 from Bio import Phylo
 
@@ -25,32 +32,21 @@ import subprocess
 import os
 import re
 import sys
+import shutil
+from joblib import Parallel, delayed
 
 import pandas as pd
 import numpy as np
 
 executable = '/bin/bash'
 
-## Read in profile.  Required variables are ref_dir and cutoff. ###
+## Define a stop function for diagnostic use only.
 
-variables = {}
-
-def get_variable(line, variables):
-    
-    line = line.rstrip()
-    line = line.split('=')
-    variable = line[0]
-    value = line[1]
-    
-    variables[variable] = value
-    return variables
-
-with open('paprica_profile.txt', 'r') as profile:
-    for line in profile:
-        if line.startswith('#') == False:
-            if line != '\n':
-                get_variable(line, variables)
-                
+def stop_here():
+    stop = []
+    print 'Manually stopped!'
+    print stop[1]
+               
 ## Read in command line arguments.
 
 command_args = {}
@@ -58,29 +54,30 @@ command_args = {}
 for i,arg in enumerate(sys.argv):
     if arg.startswith('-'):
         arg = arg.strip('-')
-        command_args[arg] = sys.argv[i + 1]
+        try:
+            command_args[arg] = sys.argv[i + 1]
+        except IndexError:
+            command_args[arg] = ''
+        
+if 'h' in command_args.keys():
+    print help_string
+    quit()
         
 ## Define some variables based on these arguments.
         
-domain = command_args['domain']
-ref_dir_domain = variables['ref_dir'] + domain + '/'
-
-## If no phyloxml file provided use the default.  This will be fine for
-## any imaginable application.
-
-if domain == 'bacteria':
-    query = 'test.combined_16S.bacteria.tax.clean.align.phyloxml'
-elif domain == 'archaea':
-    query = 'test.combined_16S.archaea.tax.clean.align.phyloxml'
-else:
-    print 'Error, you must specify either -domain bacteria or -domain archaea!'
+if len(sys.argv) == 1:
+    domain = 'archaea'
+    tree = 'test.archaea.combined_16S.archaea.tax.clean.align.phyloxml'
+    ref_dir = 'ref_genome_database'
+    pgdb_dir = '/volumes/hd1/ptools-local/pgdbs/user'
     
-## Define a stop function for diagnostic use only.
+else:        
+    domain = command_args['domain']
+    tree = command_args['tree']
+    ref_dir = command_args['ref_dir']
+    pgdb_dir = command_args['pgdb_dir']
 
-def stop_here():
-    stop = []
-    print 'Manually stopped!'
-    print stop[1]
+ref_dir_domain = ref_dir + '/' + domain + '/'
 
 ## Read in the genome_data file.
 
@@ -93,7 +90,7 @@ genome_data['branch_length'] = np.nan
 ## Get the clade number of each assembly and add this information to 
 ## genome_data.
     
-tree = Phylo.read(query, 'phyloxml')
+tree = Phylo.read(tree, 'phyloxml')
     
 assemblies = []
     
@@ -119,14 +116,28 @@ for clade in tree.get_terminals():
 ## from Genbank.  The PGDBs are now named by assembly so that they can be re-used
 ## for each new version of the database.
 
-pgdbs = set(os.listdir(variables['pgdb_dir']))
-
-with open(ref_dir_domain + 'generate_pgdbs.sh', 'w') as run_pgdb:
-    for d in assemblies:
-        if d.lower() + 'cyc' not in pgdbs:
-            clade = genome_data.loc[d, 'clade']                
-            with open(ref_dir_domain + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(variables['ref_dir'] + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
+def make_pgdb(d, ref_dir_domain):
     
+    print d, 'start prediction'
+    predict_pathways = subprocess.Popen('pathway-tools -lisp -no-cel-overview -patho ' + ref_dir_domain + 'refseq/' + d + '/ -disable-metadata-saving &> ' + ref_dir_domain + 'pathos_' + d + '.log', shell = True, executable = executable)
+    predict_pathways.communicate()   
+    print d, 'prediction complete'
+    
+pgdbs = set(os.listdir(pgdb_dir))
+new_pgdbs = []
+
+for d in assemblies:
+    
+    ## If a previous build effort was unsuccessful, try again in case the files
+    ## have been updatated in Genbank and this fixes the problem.    
+    
+    try:
+        if 'pathways-report.txt' not in os.listdir(pgdb_dir + d.lower() + 'cyc/1.0/reports'):
+            
+            clade = genome_data.loc[d, 'clade']
+                
+            with open(ref_dir_domain + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(ref_dir_domain + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
+        
                 print >> organism_params, 'ID' + '\t' + d
                 print >> organism_params, 'Storage' + '\t' + 'File'
                 print >> organism_params, 'Name' + '\t' + d
@@ -135,6 +146,7 @@ with open(ref_dir_domain + 'generate_pgdbs.sh', 'w') as run_pgdb:
                 print >> organism_params, 'Create?' + '\t' + 't'
                 
                 g = 0
+                
                 for gbk in os.listdir(ref_dir_domain + 'refseq/' + d):
                     if gbk.endswith('gbff'):
                         g = g + 1
@@ -149,12 +161,64 @@ with open(ref_dir_domain + 'generate_pgdbs.sh', 'w') as run_pgdb:
                         print >> genetic_elements, 'ANNOT-FILE' + '\t' + basename + 'gbk'
                         print >> genetic_elements, '//'
                         
-            if g > 0:                
-                print >> run_pgdb, 'pathway-tools -lisp -no-cel-overview -patho ' + variables['ref_dir'] + 'refseq/' + d + '/ -disable-metadata-saving &> pathos_' + d + '.log'   
-                print d
+            if g > 0:
+                new_pgdbs.append(d)
+                
+    ## If there was no previous build attempt the directory will not exist and
+    ## os wil throw an error.
+            
+    except OSError:
+        
+        clade = genome_data.loc[d, 'clade']
+            
+        with open(ref_dir_domain + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(ref_dir_domain + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
+    
+            print >> organism_params, 'ID' + '\t' + d
+            print >> organism_params, 'Storage' + '\t' + 'File'
+            print >> organism_params, 'Name' + '\t' + d
+            print >> organism_params, 'Rank' + '\t' + 'Strain'
+            print >> organism_params, 'Domain' + '\t' + 'TAX-2'
+            print >> organism_params, 'Create?' + '\t' + 't'
+            
+            g = 0
+            
+            for gbk in os.listdir(ref_dir_domain + 'refseq/' + d):
+                if gbk.endswith('gbff'):
+                    g = g + 1
+                    
+                    basename = re.split('gbff', gbk)[0]
+                    subprocess.call('cd ' + ref_dir_domain + 'refseq/' + d + ';cp ' + gbk + ' ' + basename + 'gbk', shell = True, executable = executable)
+                    
+                    print >> genetic_elements, 'ID' + '\t' + d + '.' + str(g)
+                    print >> genetic_elements, 'NAME' + '\t' + d + '.' + str(g)
+                    print >> genetic_elements, 'TYPE' + '\t' + ':CHRSM'
+                    print >> genetic_elements, 'CIRCULAR?' + '\t' + 'Y'
+                    print >> genetic_elements, 'ANNOT-FILE' + '\t' + basename + 'gbk'
+                    print >> genetic_elements, '//'
+                    
+            if g > 0:
+                new_pgdbs.append(d)
+                
+## Previous failed builds confuse pathway-tools.  Remove the directory.
 
-predict_pathways = subprocess.Popen('parallel < ' + variables['ref_dir'] + 'generate_pgdbs.sh', shell = True, executable = executable)
-predict_pathways.communicate()
+#### !!!!! remove when metadata saving disable is fixed
+try:
+    os.remove(pgdb_dir + 'PGDB-METADATA.ocelot')
+    os.remove(pgdb_dir + 'PGDB-METADATA.ocelot~')
+except OSError:
+    pass
+                
+for d in new_pgdbs:
+    shutil.rmtree(pgdb_dir + d.lower() + 'cyc', ignore_errors = True)
+
+## Switched to using Parallel to reduce the number of dependencies.
+##### !!!!!! change back to -1 when metadata issue is fixed
+
+print len(new_pgdbs), 'new pgdbs will be created'
+
+if __name__ == '__main__':  
+    Parallel(n_jobs = 1, verbose = 5)(delayed(make_pgdb)
+    (d, ref_dir_domain) for d in new_pgdbs)
 
 #%% For each PGDB add the pathways to a new data_frame.
 
@@ -163,7 +227,7 @@ terminal_paths = pd.DataFrame(index = assemblies)
 for d in assemblies:
     np = 0 # Number of pathways predicted.
     try:
-        with open(variables['pgdb_dir'] + d.lower() + 'cyc/1.0/reports/pathways-report.txt', 'r') as report:            
+        with open(pgdb_dir + d.lower() + 'cyc/1.0/reports/pathways-report.txt', 'r') as report:            
             for line in report:
                 if line.startswith('#') == False:
                     if line.startswith('Pathway Name') == False:
@@ -181,6 +245,7 @@ for d in assemblies:
                                         terminal_paths.loc[d, path] = 1
                                     print 'collecting paths for terminal node', d, path
                                     np = np + 1
+                                    
         genome_data.loc[d, 'npaths_actual'] = np
         
     except IOError:
