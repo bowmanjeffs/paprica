@@ -1,8 +1,22 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 help_string = """
 Created on Sun Jan 31 13:13:09 2016
 
-@author: jeff
+@author: Jeff Bowman, bowmanjs@ldeo.columbia.edu
+
+paprica is licensed under a Creative Commons Attribution-NonCommercial
+4.0 International License.  IF you use any portion of paprica in your
+work please cite:
+
+Bowman, Jeff S., and Hugh W. Ducklow. "Microbial Communities Can Be Described
+by Metabolic Structure: A General Framework and Application to a Seasonally
+Variable, Depth-Stratified Microbial Community from the Coastal West Antarctic
+Peninsula." PloS one 10.8 (2015): e0135868.
+
+If your analysis makes specific use of pplacer, Infernal, or pathway-tools
+please make sure that you also cite the relevant publications.
 
 This script identifies all the features in the Genbank files of completed
 genomes that have an EC number and are thus useful for pathway prediction.  It
@@ -41,8 +55,6 @@ def stop_here():
 
 ## Read in profile.  Required variables are ref_dir. ###
 
-paprica_path = '/'.join(os.path.realpath(__file__).split('/')[:-1]) + '/'
-
 ## Read in command line arguments.
 
 command_args = {}
@@ -59,7 +71,16 @@ if 'h' in command_args.keys():
     print help_string
     quit()
 
-ref_dir = command_args['ref_dir']
+try:
+    ref_dir = command_args['ref_dir']
+except KeyError:
+    ref_dir = 'ref_genome_database'
+    
+if ref_dir.endswith('/') == False:
+    ref_dir = ref_dir + '/'
+
+paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.  
+ref_dir = paprica_path + ref_dir
 
 ## Read in genome_data so that you can iterate by genomes that are actually
 ## used by paprica.
@@ -93,8 +114,10 @@ for d in genome_data.index:
                 for feature in record.features:
                     if feature.type == 'CDS':
                         if 'EC_number' in feature.qualifiers.keys():
-                            eci = eci + 1
-                            print 'counting features...', eci
+                            ec = feature.qualifiers['EC_number']
+                            for ec_number in ec:                                
+                                eci = eci + 1
+                                print 'counting features...', eci
                             
 ## Create numpy array for data and a 1D array that will become dataframe index.
                             
@@ -123,17 +146,19 @@ for d in genome_data.index:
                             start = int(feature.location.start)
                             end = int(feature.location.end)
                             
-                            prot_array_index[i] = protein_id
-                            prot_array[i,0] = d
-                            prot_array[i,1] = domain
-                            prot_array[i,2] = '|'.join(ec)
-                            prot_array[i,3] = trans
-                            prot_array[i,4] = prod
-                            prot_array[i,5] = start
-                            prot_array[i,6] = end
+                            for ec_number in ec:
                             
-                            i = i + 1
-                            print d, i, 'out of', eci, protein_id
+                                prot_array_index[i] = protein_id
+                                prot_array[i,0] = d
+                                prot_array[i,1] = domain
+                                prot_array[i,2] = ec_number
+                                prot_array[i,3] = trans
+                                prot_array[i,4] = prod
+                                prot_array[i,5] = start
+                                prot_array[i,6] = end
+                                
+                                i = i + 1
+                                print d, i, 'out of', eci, protein_id
 
 ## Convert array to pandas dataframe
 
@@ -144,8 +169,8 @@ prot_df = pd.DataFrame(prot_array, index = prot_array_index, columns = columns)
 ## that is not unique should not be used for taxonomic profiling.  Currently
 ## not using taxonomic profiling anyway.
 
-prot_counts = prot_df['translation'].value_counts()
-prot_counts = pd.DataFrame(prot_counts)
+prot_counts = pd.DataFrame(prot_df['translation'].value_counts())
+prot_counts.columns = ['n_occurrences'] # The number of times that the sequence appears across all genomes.
 
 ## Add this information to prot_df.
 
@@ -155,7 +180,7 @@ prot_df = pd.merge(prot_df, prot_counts, left_on = 'translation', right_index = 
 ## csv.
 
 prot_unique_df = prot_df.drop_duplicates(subset = ['translation'])
-prot_unique_df.to_csv(ref_dir + 'paprica-mg.prot.csv')
+prot_unique_df.to_csv(ref_dir + 'paprica-mg.ec.csv')
 
 ## Make a nonredundant fasta.
 
