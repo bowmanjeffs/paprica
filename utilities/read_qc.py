@@ -21,6 +21,7 @@ from Bio import SeqIO
 
 import gzip
 import sys
+import re
 
 import pandas as pd
 import numpy as np
@@ -30,8 +31,9 @@ command_args = {}
 ## default values for testing
 
 command_args['phred'] = 35
-command_args['n'] = 0.1
-command_args['in'] = 'ERR164409.fastq.gz'
+command_args['n'] = 0.05
+command_args['in'] = 'test.fastq'
+command_args['l'] = 75 # minimum allowed length
 
 ## override defaults
 
@@ -42,6 +44,7 @@ for i,arg in enumerate(sys.argv):
         
 phred = int(command_args['phred'])
 n = float(command_args['n'])
+l = int(command_args['l'])
 
 ## Create containers for useful statistics on the QC.
 
@@ -66,51 +69,60 @@ def qc(record, fasta_out, kept, discarded):
     seq[pd.notnull(scores_series) == False] = 'n'                            
     new_seq = ''.join(seq)
     
-    if float(len(scores_series[scores_series > 0])) / len(seq) >= 1 - n:
-    
-        print >> fasta_out, '>' + record.id + '\n' + new_seq
-        #print record.id, len(seq), len(scores_series[scores_series > 0]), scores_series.mean()
-        kept = kept + 1
-        all_scores.append(scores_series.mean())
+    if len(scores_series[scores_series > 0]) > l:
+        if float(len(scores_series[scores_series > 0])) / len(seq) >= 1 - n:
         
+            mean_scores = scores_series[scores_series > 0].mean()
+            print >> fasta_out, '>' + record.id + '\n' + new_seq
+            #print record.id, len(seq), len(scores_series[scores_series > 0]), mean_scores
+            kept = kept + 1
+            all_scores.append(mean_scores)
+        else:
+            discarded = discarded + 1
     else:
         discarded = discarded + 1
         
-    return kept, discarded, scores
+    return kept, discarded, all_scores
     
 ## Execute the function if the file ends with fastq.gz.
     
 if command_args['in'].endswith('.fastq.gz'):
     
     fastq_gz = command_args['in']
-    name = fastq_gz.rstrip('.fastq.gz')
+    name = re.sub('.fastq.gz', '', fastq_gz)
     
     with gzip.open(fastq_gz, 'rb') as fastq_in, gzip.open(name + '.fasta.gz', 'wb') as fasta_out, open(name + '.qc.txt', 'w') as summary:
         for record in SeqIO.parse(fastq_in, 'fastq'):
-            kept, discarded, all_scores = qc(record, fasta_out, kept, discarded)
+            if len(record.seq) > l:
+                kept, discarded, all_scores = qc(record, fasta_out, kept, discarded)
+            else:
+                discarded += 1
             
-    print name, 'kept=' + str(kept), 'discarded=' + str(discarded), 'mean.score=' + str(pd.Series(all_scores).mean())
+        print name, 'kept=' + str(kept), 'discarded=' + str(discarded), 'mean.score=' + str(pd.Series(all_scores).mean())
     
-    print >> summary, 'kept=' + str(kept)
-    print >> summary, 'discarded=' + str(discarded)
-    print >> summary, 'mean.score=' + str(pd.Series(all_scores).mean())
+        print >> summary, 'kept=' + str(kept)
+        print >> summary, 'discarded=' + str(discarded)
+        print >> summary, 'mean.score=' + str(pd.Series(all_scores).mean())
     
 ## Execute the function if the file ends with fastq.
             
 elif command_args['in'].endswith('.fastq'):
     
     fastq = command_args['in']
-    name = fastq.rstrip('.fastq')
+    name = re.sub('.fastq', '', fastq)
     
     with open(fastq, 'rb') as fastq_in, open(name + '.fasta', 'w') as fasta_out, open(name + '.qc.txt', 'w') as summary:
         for record in SeqIO.parse(fastq_in, 'fastq'):
-            kept, discarded, all_scores = qc(record, fasta_out, kept, discarded)
+            if len(record.seq) > l:
+                kept, discarded, all_scores = qc(record, fasta_out, kept, discarded)
+            else:
+                discarded += 1
             
-    print name, 'kept=' + str(kept), 'discarded=' + str(discarded), 'mean.score=' + str(pd.Series(all_scores).mean())
+        print name, 'kept=' + str(kept), 'discarded=' + str(discarded), 'mean.score=' + str(pd.Series(all_scores).mean())
     
-    print >> summary, 'kept=' + str(kept)
-    print >> summary, 'discarded=' + str(discarded)
-    print >> summary, 'mean.score=' + str(pd.Series(all_scores).mean())
+        print >> summary, 'kept=' + str(kept)
+        print >> summary, 'discarded=' + str(discarded)
+        print >> summary, 'mean.score=' + str(pd.Series(all_scores).mean())
     
 ## Return an error if the file does not end with fastq or fastq.gz.
             
