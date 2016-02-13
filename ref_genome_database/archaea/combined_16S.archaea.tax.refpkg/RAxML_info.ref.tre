@@ -1,0 +1,69 @@
+
+
+Using BFGS method to optimize GTR rate parameters, to disable this specify "--no-bfgs" 
+
+
+
+This is RAxML version 8.1.15 released by Alexandros Stamatakis on December 25 2014.
+
+With greatly appreciated code contributions by:
+Andre Aberer      (HITS)
+Simon Berger      (HITS)
+Alexey Kozlov     (HITS)
+Kassian Kobert    (HITS)
+David Dao         (KIT and HITS)
+Nick Pattengale   (Sandia)
+Wayne Pfeiffer    (SDSC)
+Akifumi S. Tanabe (NRIFS)
+
+Alignment has 1096 distinct alignment patterns
+
+Proportion of gaps and completely undetermined characters in this alignment: 22.51%
+
+RAxML rapid hill-climbing mode
+
+Using 1 distinct models/data partitions with joint branch length optimization
+
+
+Executing 1 inferences on the original alignment using 1 distinct randomized MP trees
+
+All free model parameters will be estimated by RAxML
+GAMMA model of rate heteorgeneity, ML estimate of alpha-parameter
+
+GAMMA Model parameters will be estimated up to an accuracy of 0.1000000000 Log Likelihood units
+
+Partition: 0
+Alignment Patterns: 1096
+Name: No Name Provided
+DataType: DNA
+Substitution Matrix: GTR
+
+
+
+
+RAxML was called as follows:
+
+raxmlHPC-PTHREADS-AVX2 -T 2 -m GTRGAMMA -s /volumes/hd1/paprica_development_v0.30/paprica/ref_genome_database/archaea/combined_16S.archaea.tax.clean.align.fasta -n ref.tre -f d -p 12345 -w /volumes/hd1/paprica_development_v0.30/paprica/ref_genome_database/archaea/ 
+
+
+Partition: 0 with name: No Name Provided
+Base frequencies: 0.222 0.264 0.337 0.177 
+
+Inference[0]: Time 67.345186 GAMMA-based likelihood -46235.678200, best rearrangement setting 5
+alpha[0]: 0.436223 rates[0] ac ag at cg ct gt: 0.930893 3.073036 1.919437 0.747217 5.643768 1.000000 
+
+
+Conducting final model optimizations on all 1 trees under GAMMA-based models ....
+
+Inference[0] final GAMMA-based Likelihood: -46235.218172 tree written to file /volumes/hd1/paprica_development_v0.30/paprica/ref_genome_database/archaea/RAxML_result.ref.tre
+
+
+Starting final GAMMA-based thorough Optimization on tree 0 likelihood -46235.218172 .... 
+
+Final GAMMA-based Score of best tree -46235.218172
+
+Program execution info written to /volumes/hd1/paprica_development_v0.30/paprica/ref_genome_database/archaea/RAxML_info.ref.tre
+Best-scoring ML tree written to: /volumes/hd1/paprica_development_v0.30/paprica/ref_genome_database/archaea/RAxML_bestTree.ref.tre
+
+Overall execution time: 123.106502 secs or 0.034196 hours or 0.001425 days
+

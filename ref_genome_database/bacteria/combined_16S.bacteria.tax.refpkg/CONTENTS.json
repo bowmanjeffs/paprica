@@ -1,0 +1,25 @@
+{
+    "files": {
+        "aln_fasta": "combined_16S.bacteria.tax.clean.align.fasta", 
+        "phylo_model": "phylo_modelf8RD8_.json", 
+        "tree": "RAxML_fastTreeSH_Support.conf.root.ref.tre", 
+        "tree_stats": "RAxML_info.ref.tre"
+    }, 
+    "rollback": null, 
+    "log": [
+        "Stripped refpkg (removed 0 files)", 
+        "Loaded initial files into empty refpkg"
+    ], 
+    "metadata": {
+        "create_date": "2016-02-10 04:03:04", 
+        "format_version": "1.1", 
+        "locus": "16S_rRNA"
+    }, 
+    "rollforward": null, 
+    "md5": {
+        "aln_fasta": "b885b5b4d8738ec3dc6e4a19d757d3fb", 
+        "phylo_model": "e34b7acb3373e744f2db7e11726a25f3", 
+        "tree": "a0edd69afff08de45bcd0c2d79c754bd", 
+        "tree_stats": "89db33b4b4b0b1a71d616b33b3a94acc"
+    }
+}
