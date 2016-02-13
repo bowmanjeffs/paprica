@@ -1,0 +1,69 @@
+
+
+Using BFGS method to optimize GTR rate parameters, to disable this specify "--no-bfgs" 
+
+
+
+This is RAxML version 8.1.15 released by Alexandros Stamatakis on December 25 2014.
+
+With greatly appreciated code contributions by:
+Andre Aberer      (HITS)
+Simon Berger      (HITS)
+Alexey Kozlov     (HITS)
+Kassian Kobert    (HITS)
+David Dao         (KIT and HITS)
+Nick Pattengale   (Sandia)
+Wayne Pfeiffer    (SDSC)
+Akifumi S. Tanabe (NRIFS)
+
+Alignment has 1904 distinct alignment patterns
+
+Proportion of gaps and completely undetermined characters in this alignment: 41.61%
+
+RAxML rapid hill-climbing mode
+
+Using 1 distinct models/data partitions with joint branch length optimization
+
+
+Executing 1 inferences on the original alignment using 1 distinct randomized MP trees
+
+All free model parameters will be estimated by RAxML
+GAMMA model of rate heteorgeneity, ML estimate of alpha-parameter
+
+GAMMA Model parameters will be estimated up to an accuracy of 0.1000000000 Log Likelihood units
+
+Partition: 0
+Alignment Patterns: 1904
+Name: No Name Provided
+DataType: DNA
+Substitution Matrix: GTR
+
+
+
+
+RAxML was called as follows:
+
+raxmlHPC-PTHREADS-AVX2 -T 2 -m GTRGAMMA -s /volumes/hd1/paprica_development_v0.30/paprica/ref_genome_database/bacteria/combined_16S.bacteria.tax.clean.align.fasta -n ref.tre -f d -p 12345 -w /volumes/hd1/paprica_development_v0.30/paprica/ref_genome_database/bacteria/ 
+
+
+Partition: 0 with name: No Name Provided
+Base frequencies: 0.252 0.227 0.313 0.208 
+
+Inference[0]: Time 8616.945795 GAMMA-based likelihood -506709.549619, best rearrangement setting 20
+alpha[0]: 0.432059 rates[0] ac ag at cg ct gt: 0.771623 2.174043 1.363350 0.697500 3.556313 1.000000 
+
+
+Conducting final model optimizations on all 1 trees under GAMMA-based models ....
+
+Inference[0] final GAMMA-based Likelihood: -506707.976343 tree written to file /volumes/hd1/paprica_development_v0.30/paprica/ref_genome_database/bacteria/RAxML_result.ref.tre
+
+
+Starting final GAMMA-based thorough Optimization on tree 0 likelihood -506707.976343 .... 
+
+Final GAMMA-based Score of best tree -506707.910111
+
+Program execution info written to /volumes/hd1/paprica_development_v0.30/paprica/ref_genome_database/bacteria/RAxML_info.ref.tre
+Best-scoring ML tree written to: /volumes/hd1/paprica_development_v0.30/paprica/ref_genome_database/bacteria/RAxML_bestTree.ref.tre
+
+Overall execution time: 10428.037849 secs or 2.896677 hours or 0.120695 days
+
