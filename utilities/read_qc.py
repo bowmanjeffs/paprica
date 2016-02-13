@@ -89,11 +89,11 @@ if command_args['in'].endswith('.fastq.gz'):
         for record in SeqIO.parse(fastq_in, 'fastq'):
             kept, discarded, all_scores = qc(record, fasta_out, kept, discarded)
             
-    print name, 'kept=' + str(kept), 'discarded=' + str(discarded), 'mean.score=' + pd.Series(all_scores).mean()
+    print name, 'kept=' + str(kept), 'discarded=' + str(discarded), 'mean.score=' + str(pd.Series(all_scores).mean())
     
     print >> summary, 'kept=' + str(kept)
     print >> summary, 'discarded=' + str(discarded)
-    print >> summary, 'mean.score=' + pd.Series(all_scores).mean()
+    print >> summary, 'mean.score=' + str(pd.Series(all_scores).mean())
     
 ## Execute the function if the file ends with fastq.
             
@@ -106,11 +106,11 @@ elif command_args['in'].endswith('.fastq'):
         for record in SeqIO.parse(fastq_in, 'fastq'):
             kept, discarded, all_scores = qc(record, fasta_out, kept, discarded)
             
-    print name, 'kept=' + str(kept), 'discarded=' + str(discarded), 'mean.score=' + pd.Series(all_scores).mean()
+    print name, 'kept=' + str(kept), 'discarded=' + str(discarded), 'mean.score=' + str(pd.Series(all_scores).mean())
     
     print >> summary, 'kept=' + str(kept)
     print >> summary, 'discarded=' + str(discarded)
-    print >> summary, 'mean.score=' + pd.Series(all_scores).mean()
+    print >> summary, 'mean.score=' + str(pd.Series(all_scores).mean())
     
 ## Return an error if the file does not end with fastq or fastq.gz.
             
