@@ -68,7 +68,7 @@ def qc(record, fasta_out, kept, discarded):
     
     if float(len(scores_series[scores_series > 0])) / len(seq) >= 1 - n:
     
-        print >> fasta_out, record.id + '\n' + new_seq
+        print >> fasta_out, '>' + record.id + '\n' + new_seq
         #print record.id, len(seq), len(scores_series[scores_series > 0]), scores_series.mean()
         kept = kept + 1
         all_scores.append(scores_series.mean())

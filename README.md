@@ -1,4 +1,4 @@
-###Notice - If you've been redirected here from genome_finder you're in the right place!  The development version of paprica is now v0.3.0.  This version has a number of new features and improvements.  Please take a look at the manual for details.
+###Notice - If you've been redirected here from genome_finder you're in the right place!  The development version of paprica is now v0.3.0.  This version has a number of new features and improvements.  Please take a look at the manual for details.  There is an issue with the latest version of pathway-tools which prevents it from being run in parallel.  As a result paprica can only make PGDBs serially at this time.  For this reason I do not recommend using paprica-build.sh until this problem is fixed.  Please email me if you have any questions about this.
 
 ###Please go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
