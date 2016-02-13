@@ -2,7 +2,7 @@
 
 ###Please go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
-###If you'd like to try paprica without needing to download the dependencies we've created a Virtualbox appliance [here](https://dl.dropboxusercontent.com/u/7847544/paprica-demo.ova).  You will need to download the (free) Oracle Virtualbox software and then import the appliance.
+###If you'd like to try paprica without needing to download the dependencies we've created a Virtualbox appliance [here](https://dl.dropboxusercontent.com/u/7847544/paprica-demo.ova).  You will need to download the (free) Oracle Virtualbox software and then import the appliance.  Note that the VB appliance is still V0.24.
 
 #paprica
 ###PAthway PRediction by phylogenetIC plAcement
@@ -10,9 +10,9 @@
 A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out paprica_manual.pdf and paprica_run.sh to get started.  The commands:
 
 ```
-wget https://github.com/bowmanjeffs/paprica/archive/paprica_v0.XX.tar.gz
-tar -xzvf paprica_v0.XX.tar.gz
-mv paprica-paprica_v0.XX paprica
+wget https://github.com/bowmanjeffs/paprica/archive/paprica_v0.X.X.tar.gz
+tar -xzvf paprica_v0.X.X.tar.gz
+mv paprica-paprica_v0.X.X paprica
 cd paprica
 chmod a+x paprica_run.sh
 ./paprica_run.sh test
