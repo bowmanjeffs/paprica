@@ -39,7 +39,7 @@ with open(csv, 'r') as csv_in:
             name = line[1]
             to_get.add(name)
             
-with open(sample + '_' + str(start) + ':' + str(stop) + '.fasta', 'w') as fasta_out:
+with open(sample + '_' + str(start) + '_' + str(stop) + '.fasta', 'w') as fasta_out:
     for record in SeqIO.parse(fasta, 'fasta'):
         if record.id in to_get:
             print 'found', record.id
