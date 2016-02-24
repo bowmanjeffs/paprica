@@ -235,12 +235,11 @@ for d in new_pgdbs:
     shutil.rmtree(pgdb_dir + d.lower() + 'cyc', ignore_errors = True)
 
 ## Switched to using Parallel to reduce the number of dependencies.
-##### !!!!!! change back to -1 when metadata issue is fixed
 
 print len(new_pgdbs), 'new pgdbs will be created'
 
 if __name__ == '__main__':  
-    Parallel(n_jobs = 1, verbose = 5)(delayed(make_pgdb)
+    Parallel(n_jobs = -1, verbose = 5)(delayed(make_pgdb)
     (d, ref_dir_domain) for d in new_pgdbs)
 
 #%% For each PGDB add the pathways to a new data_frame.
