@@ -214,7 +214,7 @@ def guppy(query, ref):
                 
 if len(sys.argv) == 1:
     
-    clear_wspace = subprocess.call('rm ' + cwd + query + '.' + ref + '*', shell = True, executable = executable)        
+    clear_wspace = subprocess.call('rm -f ' + cwd + query + '.' + ref + '*', shell = True, executable = executable)        
     place(cwd + query, ref, ref_dir_domain, cm)
 
 elif 'query' not in command_args.keys():

@@ -115,15 +115,18 @@ terminal_ec = terminal_ec.fillna(0)
 
 query_csv = pd.DataFrame.from_csv(cwd + query, header = 0)
 
-## Tally the number of occurences of each edge in the sample.
+## Tally the number of occurences of each edge in the sample and
+## get the mean posterior probability for each edge.
 
 edge_tally = query_csv.groupby('edge_num').size()
+edge_pp = edge_pp = query_csv.groupby('edge_num').post_prob.mean()
 
-## Add the edge tally to a new data frame that will hold other sample information.
-## Note that it isn't actually necessary to declare the column names in advance.
+## Add the edge tally and mean pp to a new data frame that will hold other
+##sample information.  Not necessary to define column names in advance.
 
 edge_data = pd.DataFrame(index = edge_tally.index, columns = ['taxon', 'nedge', 'n16S', 'nedge_corrected', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'clade_size', 'branch_length', 'npaths_terminal', 'npaths_actual', 'confidence'])
 edge_data['nedge'] = edge_tally
+edge_data['post_prob'] = edge_pp
 
 ## Dataframe to hold the number of occurences of pathway in sample, by edge.
 

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-"""
+help_string = """
 Created on Thu Jun 25 16:58:12 2015
 
 @author: jeff
 
 CALL AS:
-    python extract_pplacer_seqs.py [something.csv] [something.fasta] [start-inclusive] [stop-not inclusive]
+    python extract_pplacer_seqs.py -csv [something.csv] -fasta [something.fasta] -start [start-inclusive] -stop [stop-not inclusive]
     
 This script makes a fasta file of the reads associated with a given range of edges.  If you
 would like the reads associated within only one edge (such as 1234), you would use edge edge+1
@@ -22,12 +22,26 @@ yoursample.combined_16S.tax.clean.fasta is a good bet.
 from Bio import SeqIO
 import sys
 
-csv = sys.argv[1]
-fasta = sys.argv[2]
-start = int(sys.argv[3])
-stop = int(sys.argv[4])
+command_args = {}
 
-sample = fasta.rstrip('.fasta')
+for i,arg in enumerate(sys.argv):
+    if arg.startswith('-'):
+        arg = arg.strip('-')
+        try:
+            command_args[arg] = sys.argv[i + 1]
+        except IndexError:
+            command_args[arg] = ''
+        
+if 'h' in command_args.keys():
+    print help_string
+    quit()
+
+csv = command_args['csv']
+fasta = command_args['fasta']
+start = int(command_args['start'])
+stop = int(command_args['stop'])
+
+name = fasta.rstrip('.fasta')
 
 get = set(map(str, range(start, stop))) # not inclusive of last number
 to_get = set()
@@ -39,7 +53,7 @@ with open(csv, 'r') as csv_in:
             name = line[1]
             to_get.add(name)
             
-with open(sample + '_' + str(start) + '_' + str(stop) + '.fasta', 'w') as fasta_out:
+with open(name + '_' + str(start) + '_' + str(stop) + '.fasta', 'w') as fasta_out:
     for record in SeqIO.parse(fasta, 'fasta'):
         if record.id in to_get:
             print 'found', record.id
