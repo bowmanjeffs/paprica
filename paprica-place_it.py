@@ -233,7 +233,7 @@ elif 'query' not in command_args.keys():
     convert = subprocess.Popen('seqmagick convert ' + ref_dir_domain + ref + '.clean.align.sto ' + ref_dir_domain + ref + '.clean.align.fasta', shell = True, executable = executable)
     convert.communicate()     
     
-    rm = subprocess.call('rm ' + ref_dir_domain + '*ref.tre', shell = True, executable = executable)
+    rm = subprocess.call('rm -f ' + ref_dir_domain + '*ref.tre', shell = True, executable = executable)
     raxml1 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T ' + cpus + ' -m GTRGAMMA -s ' + ref_dir_domain + ref + '.clean.align.fasta -n ref.tre -f d -p 12345 -w ' + ref_dir_domain, shell = True, executable = executable)
     raxml1.communicate()
     
@@ -270,8 +270,8 @@ else:
     
     splits = int(command_args['splits'])
     
-    clear_wspace = subprocess.call('rm ' + cwd + query + '.' + ref + '*', shell = True, executable = executable)
-    clear_wspace = subprocess.call('rm ' + cwd + query + '.sub*', shell = True, executable = executable)
+    clear_wspace = subprocess.call('rm -f ' + cwd + query + '.' + ref + '*', shell = True, executable = executable)
+    clear_wspace = subprocess.call('rm -f ' + cwd + query + '.sub*', shell = True, executable = executable)
     
     ## Select a random subset of reads, if this option is specified.  This is useful for
     ## normalizing the number of sampled reads across different samples.    
