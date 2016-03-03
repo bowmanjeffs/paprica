@@ -249,7 +249,7 @@ elif 'query' not in command_args.keys():
      
     ## Generate the reference package using the tree with SH support values and a log file.
     
-    rm = subprocess.call('rm -r ' + ref_dir_domain + ref + '.refpkg', shell = True, executable = executable)
+    rm = subprocess.call('rm -rf ' + ref_dir_domain + ref + '.refpkg', shell = True, executable = executable)
     taxit = subprocess.Popen('taxit create -l 16S_rRNA -P ' + ref_dir_domain + ref + '.refpkg --aln-fasta ' + ref_dir_domain + ref + '.clean.align.fasta --tree-stats ' + ref_dir_domain + 'RAxML_info.ref.tre --tree-file ' + ref_dir_domain + 'RAxML_fastTreeSH_Support.conf.root.ref.tre', shell = True, executable = executable)
     taxit.communicate()
     
@@ -308,7 +308,7 @@ else:
         guppy_merge.communicate()
         guppy(cwd + query, ref)
         
-        cleanup = subprocess.Popen('rm ' + cwd + query + '.temp*', shell = True, executable = executable)
+        cleanup = subprocess.Popen('rm -f ' + cwd + query + '.temp*', shell = True, executable = executable)
         cleanup.communicate()
         
     else:
