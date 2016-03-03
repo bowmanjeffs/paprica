@@ -222,13 +222,6 @@ for d in assemblies:
             if g > 0:
                 new_pgdbs.append(d)
 
-#### !!!!! remove when metadata saving disable is fixed
-try:
-    os.remove(pgdb_dir + 'PGDB-METADATA.ocelot')
-    os.remove(pgdb_dir + 'PGDB-METADATA.ocelot~')
-except OSError:
-    pass
-
 ## Previous failed builds confuse pathway-tools.  Remove the directory.
                 
 for d in new_pgdbs:
