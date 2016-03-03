@@ -2,7 +2,7 @@
 
 ###Please go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
-###If you'd like to try paprica without needing to download the dependencies we've created a Virtualbox appliance [here](https://dl.dropboxusercontent.com/u/7847544/paprica-demo.ova).  You will need to download the (free) Oracle Virtualbox software and then import the appliance.
+###If you'd like to try paprica without needing to download the dependencies we've created a Virtualbox appliance [here](http://www.polarmicrobes.org/extras/paprica-demo.ova).  You will need to download the (free) Oracle Virtualbox software and then import the appliance.
 
 #paprica
 ###PAthway PRediction by phylogenetIC plAcement
