@@ -1,4 +1,4 @@
-###Notice - If you've been redirected here from genome_finder you're in the right place!  The development version of paprica is now v0.3.0.  This version has a number of new features and improvements.  Please take a look at the manual and [tutorial](http://www.polarmicrobes.org/?p=1473) for details.
+###Notice - If you've been redirected here from genome_finder you're in the right place!  Verion 0.3.0 has a number of new features and improvements.  Please take a look at the manual and [tutorial](http://www.polarmicrobes.org/?p=1473) for details.
 
 ###Please go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
