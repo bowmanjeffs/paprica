@@ -41,7 +41,7 @@ fasta = command_args['fasta']
 start = int(command_args['start'])
 stop = int(command_args['stop'])
 
-name = fasta.rstrip('.fasta')
+fasta_name = fasta.rstrip('.fasta')
 
 get = set(map(str, range(start, stop))) # not inclusive of last number
 to_get = set()
@@ -53,7 +53,7 @@ with open(csv, 'r') as csv_in:
             name = line[1]
             to_get.add(name)
             
-with open(name + '_' + str(start) + '_' + str(stop) + '.fasta', 'w') as fasta_out:
+with open(fasta_name + '_' + str(start) + '_' + str(stop) + '.fasta', 'w') as fasta_out:
     for record in SeqIO.parse(fasta, 'fasta'):
         if record.id in to_get:
             print 'found', record.id
