@@ -168,9 +168,9 @@ for edge in list(edge_tally.index):
         ## same order.
         
         edge_ec_n = internal_ec_n.loc[edge, internal_ec_probs.loc[edge, :] >= cutoff]
+        edge_data.loc[edge, 'nec_actual'] = edge_ec_n.sum()
         edge_ec_n = edge_ec_n.mul(edge_data.loc[edge, 'nedge_corrected'])
         sample_ec.loc[:, edge] = edge_ec_n
-        edge_data.loc[edge, 'nec_actual'] = edge_ec_n.sum()
 
         ## Calculate the confidence score.  This differs from PAPRICA_v0.11 in that the number
         ## of pathways in the edge relative to the terminal clade members is used in place of
@@ -213,11 +213,10 @@ for edge in list(edge_tally.index):
         ## Get the EC numbers associated with the edge.
         
         edge_ec_n = terminal_ec.loc[assembly, terminal_ec.loc[assembly, :] >= 1]
-        edge_ec_n = edge_ec_n.mul(edge_data.loc[edge, 'nedge_corrected'])
-        sample_ec.loc[:, edge] = edge_ec_n
-        
-        edge_data.loc[edge, 'nec_terminal'] = np.nan
         edge_data.loc[edge, 'nec_actual'] = edge_ec_n.sum()
+        edge_ec_n = edge_ec_n.mul(edge_data.loc[edge, 'nedge_corrected'])
+        sample_ec.loc[:, edge] = edge_ec_n        
+        edge_data.loc[edge, 'nec_terminal'] = np.nan
 
 ## Calculate the confidence score for the sample.
 
