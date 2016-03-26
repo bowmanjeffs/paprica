@@ -76,6 +76,7 @@ import sys
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
 from Bio import SeqUtils
+from Bio.Seq import Seq
 
 import pandas as pd
 import numpy as np
@@ -312,15 +313,13 @@ with open(ref_dir_domain + 'combined_16S.fasta', 'w') as fasta_out:
                 
                 ## Get GC content.
                 
-                temp_gc = []
+                temp_seq_str = ''
                 for record in SeqIO.parse(ref_dir_domain + 'refseq/' + d + '/' + f, 'fasta'):
-                    temp_gc.append(SeqUtils.GC(record.seq))
-                if len(temp_gc) > 1:
-                    GC = float(sum(temp_gc) / len(temp_gc))
-                    summary_complete.loc[d, 'GC'] = GC
-                else:
-                    summary_complete.loc[d, 'GC'] = temp_gc[0]
-                                    
+                    temp_seq_str = temp_seq_str + str(record.seq)
+                
+                temp_seq = Seq(temp_seq_str)                            
+                summary_complete.loc[d, 'GC'] = SeqUtils.GC(temp_seq)
+                                   
             elif f.endswith('faa'):
                 
                 ## Count the number of CDS in the genome.
@@ -606,6 +605,24 @@ with open(ref_dir + 'user/' + domain + '/' + 'draft.combined_16S.fasta', 'w') as
                 
                 summary_complete.loc[d, 'organism_name'] = d + '_' + 'DRAFT' + '_' + good_drafts[d]
                 summary_complete.loc[d, 'assembly_level'] = 'Draft'
+                summary_complete.loc[d, 'tax_name'] = d + '_' + 'DRAFT' + '_' + good_drafts[d]
+                
+                ## Current behavior is to assign just 1 16S gene copy to draft genomes.  In
+                ## the future it will be desirable to estimate from LCA with a completed genome.
+                
+                summary_complete.loc[d, 'n16S'] = 1
+                
+                ## Get GC content.
+                
+                temp_seq_str = ''
+                
+                for f in os.listdir(ref_dir + 'user/' + domain + '/' + d):
+                    if f.endswith('.fna'):
+                        for record in SeqIO.parse(ref_dir + 'user/' + domain + '/' + d + '/' + f, 'fasta'):
+                            temp_seq_str = temp_seq_str + str(record.seq)
+                            
+                temp_seq = Seq(temp_seq_str)                            
+                summary_complete.loc[d, 'GC'] = SeqUtils.GC(temp_seq)
                 
                 ## Copy the directory to refseq so that pathway-tools can find it.
                 

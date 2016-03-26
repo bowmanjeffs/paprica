@@ -28,7 +28,15 @@ edge_data = pd.DataFrame()
 def fill_edge_data(param, name, df_in):
     temp = []
     for index in df_in.index:
-        n = range(int(math.ceil(df_in.loc[index, 'nedge_corrected'])))
+        
+        ## Exception is necessary for old version of build_core_genomes which
+        ## did not provide a n16S value for draft genomes.
+        
+        try:
+            n = range(int(math.ceil(df_in.loc[index, 'nedge_corrected'])))
+        except ValueError:
+            n = range(int(df_in.loc[index, 'nedge']))
+            
         for i in n:
             temp.append(df_in.loc[index, param])
             
@@ -36,16 +44,19 @@ def fill_edge_data(param, name, df_in):
             
     mean = temp.mean()
     sd = temp.std()
+    
     print name, param, mean, sd
     return mean, sd
         
 for f in os.listdir('.'):
     if f.endswith('edge_data.csv'):
+        
         temp_edge = pd.DataFrame.from_csv(f, index_col = 0)
         name = re.sub('.edge_data.csv', '', f)
         
         for param in ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'confidence']:
             edge_data.loc[name, param + '.mean'], edge_data.loc[name, param + '.sd'] = fill_edge_data(param, name, temp_edge)
+        
         for index in temp_edge.index:
             edge_tally.loc[name, index] = temp_edge.loc[index, 'nedge_corrected']
             
