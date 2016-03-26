@@ -545,7 +545,7 @@ summary_complete.loc[:, 'phi'] = phi
 ## refseq, add entry to summary_complete, and find 16S genes.  If no 16S gene
 ## found report this and don't include.
 
-## Make sure that each draft genome directory has at a minimum a gbk and fna
+## Make sure that each draft genome directory has at a minimum a gbff and fna
 ## file.
 
 good_drafts = {}
@@ -559,11 +559,11 @@ if len(os.listdir(ref_dir + 'user/' + domain)) > 0:
     for assembly_accession in os.listdir(ref_dir + 'user/' + domain):
 
         dir_contents = os.listdir(ref_dir + 'user/' + domain + '/' + assembly_accession)
-        gbk = False
+        gbff = False
         fna = False
         
         for item in dir_contents:
-            if item.endswith('gbk'):
+            if item.endswith('gbff'):
                 gbk = True
                 
                 ## Get a name while you're at it.
@@ -574,8 +574,8 @@ if len(os.listdir(ref_dir + 'user/' + domain)) > 0:
             if item.endswith('fna'):
                 fna = True
                 
-        if gbk == False or fna == False:
-            print 'draft', assembly_accession, 'is missing either fna or gbk'
+        if gbff == False or fna == False:
+            print 'draft', assembly_accession, 'is missing either fna or gbff'
         else:
             good_drafts[assembly_accession] = re.sub('\s', '_', name)
             

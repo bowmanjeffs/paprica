@@ -97,7 +97,7 @@ else:
 if ref_dir.endswith('/') == False:
     ref_dir = ref_dir + '/'
 
-paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.   
+paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/' # The location of the actual paprica scripts.   
 ref_dir_domain = paprica_path + ref_dir + domain + '/'
 
 ## Read in the genome_data file.
@@ -186,7 +186,7 @@ for d in assemblies:
                 new_pgdbs.append(d)
                 
     ## If there was no previous build attempt the directory will not exist and
-    ## os wil throw an error.
+    ## os will throw an error.
             
     except OSError:
         
