@@ -558,27 +558,35 @@ except OSError:
 
 if len(os.listdir(ref_dir + 'user/' + domain)) > 0:
     for assembly_accession in os.listdir(ref_dir + 'user/' + domain):
-
-        dir_contents = os.listdir(ref_dir + 'user/' + domain + '/' + assembly_accession)
-        gbff = False
-        fna = False
         
-        for item in dir_contents:
-            if item.endswith('gbff'):
-                gbff = True
-                
-                ## Get a name while you're at it.
+        ## Exception clause is necessary because of .gitignore file, and
+        ## possible other old files that might lurk here.        
+        
+        try:
 
-                for record in SeqIO.parse(ref_dir + 'user/' + domain + '/' + assembly_accession + '/' + item, 'genbank'):
-                    name = record.annotations['organism']
+            dir_contents = os.listdir(ref_dir + 'user/' + domain + '/' + assembly_accession)
+            gbff = False
+            fna = False
+            
+            for item in dir_contents:
+                if item.endswith('gbff'):
+                    gbff = True
                     
-            if item.endswith('fna'):
-                fna = True
-                
-        if gbff == False or fna == False:
-            print 'draft', assembly_accession, 'is missing either fna or gbff'
-        else:
-            good_drafts[assembly_accession] = re.sub('\s', '_', name)
+                    ## Get a name while you're at it.
+    
+                    for record in SeqIO.parse(ref_dir + 'user/' + domain + '/' + assembly_accession + '/' + item, 'genbank'):
+                        name = record.annotations['organism']
+                        
+                if item.endswith('fna'):
+                    fna = True
+                    
+            if gbff == False or fna == False:
+                print 'draft', assembly_accession, 'is missing either fna or gbff'
+            else:
+                good_drafts[assembly_accession] = re.sub('\s', '_', name)
+
+        except OSError:
+            continue
             
 ## Find the 16S rRNA genes in each good draft, and add an entry to
 ## summary_complete.  All the entries should be nan because we don't want
