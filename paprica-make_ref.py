@@ -233,6 +233,7 @@ if download == 'T':
     
 else:
     summary_complete = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
+    summary_complete = summary_complete[summary_complete.assembly_level != 'Draft']
 
 #%% Get the 16S rRNA genes for each assembly and genome parameters.
        
