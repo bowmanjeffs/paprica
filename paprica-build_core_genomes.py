@@ -257,7 +257,7 @@ for i,d in enumerate(assemblies):
                                         terminal_paths[path] = np.nan
                                         terminal_paths.loc[d, path] = 1
                                         
-                                    print 'collecting paths for terminal node', d, i, 'of', len(assemblies), path
+                                    print 'collecting paths for terminal node', d, i + 1, 'of', len(assemblies), path
                                     np = np + 1
                                     
         genome_data.loc[d, 'npaths_actual'] = np
@@ -287,7 +287,7 @@ for i,d in enumerate(assemblies):
                             ## in a genome this information needs to be tallied.
                             
                             for each in ec:
-                                print 'collecting EC numbers for terminal node', d, i, 'of', len(assemblies), each
+                                print 'collecting EC numbers for terminal node', d, i + 1, 'of', len(assemblies), each
                                 
                                 try:
                                     temp = terminal_ec.loc[d, each]
