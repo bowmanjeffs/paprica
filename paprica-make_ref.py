@@ -565,7 +565,7 @@ if len(os.listdir(ref_dir + 'user/' + domain)) > 0:
         
         for item in dir_contents:
             if item.endswith('gbff'):
-                gbk = True
+                gbff = True
                 
                 ## Get a name while you're at it.
 
