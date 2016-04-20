@@ -1,7 +1,7 @@
 {
     "files": {
         "aln_fasta": "combined_16S.archaea.tax.clean.align.fasta", 
-        "phylo_model": "phylo_modeleSi5_T.json", 
+        "phylo_model": "phylo_modelCaX6bR.json", 
         "tree": "RAxML_fastTreeSH_Support.conf.root.ref.tre", 
         "tree_stats": "RAxML_info.ref.tre"
     }, 
@@ -11,15 +11,15 @@
         "Loaded initial files into empty refpkg"
     ], 
     "metadata": {
-        "create_date": "2016-03-03 10:47:14", 
+        "create_date": "2016-04-20 06:02:20", 
         "format_version": "1.1", 
         "locus": "16S_rRNA"
     }, 
     "rollforward": null, 
     "md5": {
-        "aln_fasta": "31915a22a9ac7bf80e808e7525faf607", 
-        "phylo_model": "9e19ed5ce5125b99231c5ccda212d016", 
-        "tree": "b469ed314480740add2f11a2bc3377dd", 
-        "tree_stats": "164c7491e64c1b7c3f6ff4ba94d45045"
+        "aln_fasta": "09297e5f2375128959e7b996020a4d2f", 
+        "phylo_model": "d714dd91ccf0fc2a5fb641741a5c8a4d", 
+        "tree": "326d2ed0a5da123e1f7a5114a87b45d6", 
+        "tree_stats": "8bd5fd5fdf2511e05619d7af3e79ad87"
     }
 }
