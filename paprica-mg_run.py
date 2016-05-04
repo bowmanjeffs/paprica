@@ -75,15 +75,6 @@ if 'h' in command_args.keys():
     print help_string
     quit()
 
-## Read in command line arguments.
-
-command_args = {}
-
-for i,arg in enumerate(sys.argv):
-    if arg.startswith('-'):
-        arg = arg.strip('-')
-        command_args[arg] = sys.argv[i + 1]
-
 ## Provide input switches for testing.
 
 if 'i' not in command_args.keys():

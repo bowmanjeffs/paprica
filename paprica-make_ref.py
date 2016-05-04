@@ -72,6 +72,7 @@ from joblib import Parallel, delayed
 import gzip
 import re
 import sys
+import shutil
 
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
@@ -120,7 +121,7 @@ except KeyError:
 if ref_dir.endswith('/') == False:
     ref_dir = ref_dir + '/'
 
-paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.    
+paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/' # The location of the actual paprica scripts.    
 ref_dir_domain = paprica_path + ref_dir + domain + '/'
     
 if domain == 'bacteria':
@@ -137,6 +138,12 @@ def stop_here():
     stop = []
     print 'Manually stopped!'
     print stop[1]
+    
+## This list stays empty unless download = T. Would be much more appropriate
+## to move all functions that require this list as input within the if/then
+## statement for downloads==T.
+    
+new_genomes = []
 
 #%% Download fna, gbff, faa files for each completed bacterial genome.
 
@@ -175,12 +182,35 @@ if download == 'T':
         os.listdir(ref_dir)
     except OSError:
         os.mkdir(ref_dir)
+        
+    ## Identify which genomes are already contained in the database.  Confirm that these
+    ## genome directories have the necessary files and eliminate if they do not.
+            
+    for genome in os.listdir(ref_dir_domain + 'refseq/'):
+        file_count = 0
+        
+        for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
+            if f.endswith('protein.faa'):
+                file_count = file_count + 1
+            elif f.endswith('genomic.fna'):
+                file_count = file_count + 1
+            elif f.endswith('genomic.gbff'):
+                file_count = file_count + 1
+            elif f.endswith('16S.fasta'):
+                file_count = file_count + 1
+            elif f.endswith('bins.txt.gz'):
+                file_count = file_count + 1
+                
+        if file_count != 5:
+            shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
+            
+    old_genomes = pd.Series(os.listdir(ref_dir_domain + 'refseq/'))
     
-    ## Remove old reference directory
+    ## Remove old reference directory - this seems unnecessary
     
-    subprocess.call('rm -r ' + ref_dir_domain, shell = True, executable = executable)
-    subprocess.call('mkdir ' + ref_dir_domain, shell = True, executable = executable)
-    subprocess.call('mkdir ' + ref_dir_domain + '/refseq', shell = True, executable = executable)
+#    subprocess.call('rm -r ' + ref_dir_domain, shell = True, executable = executable)
+#    subprocess.call('mkdir ' + ref_dir_domain, shell = True, executable = executable)
+#    subprocess.call('mkdir ' + ref_dir_domain + '/refseq', shell = True, executable = executable)
     
     ## Download all the completed genomes, starting with the Genbank assembly_summary.txt file.
     
@@ -194,30 +224,41 @@ if download == 'T':
     elif domain == 'archaea':
         summary_complete = summary_complete.drop(bad_archaea)
         
+    ## Determine which genomes need to be downloaded.
+        
+    new_genomes = summary_complete.index[summary_complete.index.isin(old_genomes) == False]
+        
     ## Download the good genomes.
     
     if __name__ == '__main__':  
         Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
-        (ref_dir_domain, executable, assembly_accession) for assembly_accession in summary_complete.index)
+        (ref_dir_domain, executable, assembly_accession) for assembly_accession in new_genomes)
         
     ## Sometime wget will fail to download a valid file.  This causes problems
     ## downstream.  Check that each directory has an faa and fna file, and remove
     ## from summary_complete if it does not.
         
-    for assembly_accession in summary_complete.index:
-        dir_contents = os.listdir(ref_dir_domain + 'refseq/' + assembly_accession)
-        faa = False
-        fna = False
+    new_genome_faa = [] # This will be used for compositional vector creation, and will only hold new genomes with valid faa
         
-        for item in dir_contents:
-            if item.endswith('faa'):
-                faa = True
-            if item.endswith('fna'):
-                fna = True
-                
-        if faa == False or fna == False:
+    for assembly_accession in new_genomes:
+
+        ng_file_count = 0
+        temp_faa = ''
+        
+        for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
+            if f.endswith('protein.faa'):
+                temp_faa = f
+                ng_file_count = ng_file_count + 1
+            elif f.endswith('genomic.fna'):
+                ng_file_count = ng_file_count + 1
+            elif f.endswith('genomic.gbff'):
+                ng_file_count = ng_file_count + 1
+                        
+        if ng_file_count != 3:
             summary_complete = summary_complete.drop([assembly_accession])
-            print assembly_accession, 'is missing either fna or faa'
+            print assembly_accession, 'is missing a Genbank file'
+        else:
+            new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
     
     ## Add columns to dataframe that will be used later.
     
@@ -260,7 +301,7 @@ def search_16S(directory, d):
             
 if __name__ == '__main__':  
     Parallel(n_jobs = -1, verbose = 5)(delayed(search_16S)
-    (ref_dir_domain + 'refseq', d) for d in summary_complete.index)
+    (ref_dir_domain + 'refseq', d) for d in new_genomes)
 
 ## Iterating by summary_complete.index should eliminate issues with adding 16S
 ## rRNA sequences for genomes that don't have an faa file.
@@ -338,6 +379,8 @@ with open(ref_dir_domain + 'combined_16S.fasta', 'w') as fasta_out:
 
 degap = subprocess.Popen('seqmagick mogrify --ungap ' + ref_dir_domain + 'combined_16S.fasta', shell = True, executable = executable)
 degap.communicate()
+
+## Duplicate sequences are removed before alignment, may make more sense to remove after.
 
 unique = subprocess.Popen('seqmagick convert --deduplicate-sequences ' + ref_dir_domain + 'combined_16S.fasta ' + ref_dir_domain + 'combined_16S.unique.fasta', shell = True, executable = executable)
 unique.communicate()
@@ -439,26 +482,12 @@ def calc_vector(path, bins):
                 print >> bins_out, each + '\t' + str(norm_bins[each])
             except KeyError:
                 print >> bins_out, each + '\t' + str(0)
-                
-## Get a list of the genomes corresponding to the unique 16S rRNA genes.
-                
-unique_genomes = []
-unique_assembly = []
-
-for record in SeqIO.parse(ref_dir_domain + 'combined_16S.unique.fasta', 'fasta'):
-    for f in os.listdir(ref_dir_domain + 'refseq/' + record.id):
-        if f.endswith('faa'):
-            unique_genomes.append(ref_dir_domain + 'refseq/' + record.id + '/' + f)
-            unique_assembly.append(record.id)
     
 ## Run the composition vector function in parallel.
-    
-unique_genomes = sorted(unique_genomes)
-unique_assembly = sorted(unique_assembly)
-  
+      
 if __name__ == '__main__':  
     Parallel(n_jobs = -1, verbose = 5)(delayed(calc_vector)
-    (genome, bins) for genome in unique_genomes)
+    (genome_path, bins) for genome_path in new_genome_faa)
 
 #%% Generate symmetrical 16S and cv matrices.
 ## All the output was saved as a seperate file to facilitate parallel computation.
@@ -468,16 +497,31 @@ if __name__ == '__main__':
 ## array, although they should be.  This is done for reasons of speed as a pandas
 ## dataframe takes orders of magnitude too long to complete these task.
 
+## Get a list of the genomes corresponding to the unique 16S rRNA genes.
+                
+unique_assembly = []
+
+for record in SeqIO.parse(ref_dir_domain + 'combined_16S.unique.fasta', 'fasta'):
+    for f in os.listdir(ref_dir_domain + 'refseq/' + record.id):
+        if f.endswith('faa'):
+            unique_assembly.append(record.id)
+            
+unique_assembly = sorted(unique_assembly)
+
+## Read in the compositional vectors belonging to unique assemblies.
+
 table_out = np.zeros(shape = (len(bins), len(unique_assembly)))
 
 i = 0
 l = len(unique_assembly)
 
 for d in sorted(unique_assembly):
-    print 'writing vector matrix', i + 1, 'of', l
+    print 'reading vector matrix', i + 1, 'of', l
     temp_bins = np.loadtxt(ref_dir_domain + 'refseq/' + d + '/' + d + '_5mer_bins.txt.gz', usecols = [1])
     table_out[:,i] = temp_bins
     i = i + 1
+    
+## Currently this matrix is being written out but is not being used anywhere.
 
 table_out_df = pd.DataFrame(table_out, index = sorted(bins), columns = unique_assembly)
 table_out_df.to_csv(ref_dir_domain + '5mer_compositional_vectors.csv.gz')

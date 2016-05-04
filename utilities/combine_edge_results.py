@@ -8,7 +8,7 @@ This script aggregates information from multiple '.edge_data.csv' files
 produces by running paprica on multiple samples.  It produces a matrix of edges
 by sample, and a matrix of mean edge parameters, by sample.
 
-Run as: python combine_edge_results.py [prefix for output]
+Run as: python combine_edge_results.py -i [suffix pattern for input] -o [prefix for output]
 
 It will automatically loop through all .edge_data.csv files in the directory.
 
@@ -20,7 +20,25 @@ import re
 import math
 import sys
 
-prefix = sys.argv[1]
+## Read in command line arguments.
+
+command_args = {}
+
+for i,arg in enumerate(sys.argv):
+    if arg.startswith('-'):
+        arg = arg.strip('-')
+        try:
+            command_args[arg] = sys.argv[i + 1]
+        except IndexError:
+            command_args[arg] = ''
+        
+if 'h' in command_args.keys():
+    pass
+    #print help_string ## no help sting
+    quit()
+
+prefix = command_args['o']
+suffix = command_args['i']
 
 edge_tally = pd.DataFrame()
 edge_data = pd.DataFrame()
@@ -49,10 +67,10 @@ def fill_edge_data(param, name, df_in):
     return mean, sd
         
 for f in os.listdir('.'):
-    if f.endswith('edge_data.csv'):
+    if f.endswith(suffix):
         
         temp_edge = pd.DataFrame.from_csv(f, index_col = 0)
-        name = re.sub('.edge_data.csv', '', f)
+        name = re.sub(suffix, '', f)
         
         for param in ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'confidence']:
             edge_data.loc[name, param + '.mean'], edge_data.loc[name, param + '.sd'] = fill_edge_data(param, name, temp_edge)

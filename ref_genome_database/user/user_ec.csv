@@ -1,0 +1,12 @@
+##	This file can be used to indicate enzymes by EC number that you
+##	believe should be in a genome, but do not appear in the genome.
+##	These EC numbers will propagate to internal nodes, but will not
+##	be used in pathway prediction.  The first row of this file is a
+##	header and should not be modified.  Rows should be numbered
+##	sequentially.
+##
+##	Example rows:
+##	1,GCF12345,1.1.1.1,happy enzyme
+##	2,GCF54321,2.3.4.5,sad enzyme
+##
+,GI_number,EC_number,product

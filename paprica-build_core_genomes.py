@@ -81,8 +81,8 @@ if 'h' in command_args.keys():
 ## Define some variables based on these arguments.
         
 if len(sys.argv) == 1:
-    domain = 'archaea'
-    tree = 'test.archaea.combined_16S.archaea.tax.clean.align.phyloxml'
+    domain = 'bacteria'
+    tree = 'test.bacteria.combined_16S.bacteria.tax.clean.align.phyloxml'
     ref_dir = 'ref_genome_database'
     pgdb_dir = '/volumes/hd1/ptools-local/pgdbs/user/'
     
@@ -232,7 +232,7 @@ print len(new_pgdbs), 'new pgdbs will be created'
 if __name__ == '__main__':  
     Parallel(n_jobs = -1, verbose = 5)(delayed(make_pgdb)
     (d, ref_dir_domain) for d in new_pgdbs)
-
+    
 #%% For each PGDB add the pathways to a new data_frame.
 
 terminal_paths = pd.DataFrame(index = assemblies)
@@ -266,6 +266,10 @@ for i,d in enumerate(assemblies):
         print d, 'has no pathway report'
         
 #%% Collect EC_numbers for each terminal node
+
+## Read in user specified EC numbers.
+        
+user_ec = pd.read_csv(ref_dir + 'user/' + 'user_ec.csv', header = 0, index_col = 0, comment = '#')
         
 terminal_ec = pd.DataFrame(index = assemblies)
 ec_names = pd.DataFrame()
@@ -299,7 +303,35 @@ for i,d in enumerate(assemblies):
                                     terminal_ec.loc[d, each] = 1
                                     
                                 ec_names.loc[each, 'name'] = prod
+        
+    ## For assembly d, add in any user specified EC numbers.
+    
+    if d in set(user_ec['GI_number']):
+        temp_user_ec = user_ec[user_ec['GI_number'] == d]
+        
+        for entry in temp_user_ec.index:
+            np = np + 1
+            each = temp_user_ec.loc[entry, 'EC_number']
+            print 'collecting EC numbers for terminal node', d, i + 1, 'of', len(assemblies), each
                                 
+            try:
+                if pd.isnull(terminal_ec.loc[d, each]) == True:
+                    terminal_ec.loc[d, each] = 1
+                else:
+                    print 'There is already an entry for', d, each
+            except KeyError:
+                terminal_ec.loc[d, each] = 1
+                
+            ## Check to make sure that the enzyme number has a name, add if it does not
+                
+            try:
+                if pd.isnull(ec_names.loc[each, 'name']):
+                    ec_names.loc[each, 'name'] = temp_user_ec.loc[entry, 'product']
+            except KeyError:
+                ec_names.loc[each, 'name'] = temp_user_ec.loc[entry, 'product']
+
+    ## Add the total number of enzymes for that assembly to genome_data.
+
     genome_data.loc[d, 'nec_actual'] = np
 
 #%% Collect pathway and other data for internal nodes.
