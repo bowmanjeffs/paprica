@@ -111,7 +111,7 @@ try:
     ref_dir = command_args['ref_dir']
     
 except KeyError:
-    domain = 'archaea'
+    domain = 'bacteria'
     cpus = '8'
     download = 'T'
     ref_dir = 'ref_genome_database'
@@ -214,7 +214,7 @@ if download == 'T':
     
     ## Download all the completed genomes, starting with the Genbank assembly_summary.txt file.
     
-    summary = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', header = 0, index_col = 0)
+    summary = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', header = 1, index_col = 0)
     summary_complete = summary[summary.assembly_level == 'Complete Genome']
     
     ## Drop the bad genomes.
@@ -239,11 +239,21 @@ if download == 'T':
     ## from summary_complete if it does not.
         
     new_genome_faa = [] # This will be used for compositional vector creation, and will only hold new genomes with valid faa
+    incomplete_genome = []
         
     for assembly_accession in new_genomes:
 
         ng_file_count = 0
         temp_faa = ''
+        
+        ## Genbank now puts some useless fna files in the directory, remove
+        ## or they complicate things.
+        
+        for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
+            if f.endswith('from_genomic.fna'):
+                os.remove(ref_dir_domain + 'refseq/' + assembly_accession + '/' + f)
+                
+        ## Now check to make sure that the files you want are in place.
         
         for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
             if f.endswith('protein.faa'):
@@ -255,10 +265,13 @@ if download == 'T':
                 ng_file_count = ng_file_count + 1
                         
         if ng_file_count != 3:
-            summary_complete = summary_complete.drop([assembly_accession])
             print assembly_accession, 'is missing a Genbank file'
+            incomplete_genome.append(assembly_accession)
         else:
             new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
+               
+    summary_complete = summary_complete.drop(incomplete_genome)
+    new_genomes = new_genomes.drop(incomplete_genome)   
     
     ## Add columns to dataframe that will be used later.
     

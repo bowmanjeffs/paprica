@@ -8,9 +8,9 @@ This script aggregates information from multiple '.edge_data.csv' files
 produces by running paprica on multiple samples.  It produces a matrix of edges
 by sample, and a matrix of mean edge parameters, by sample.
 
-Run as: python combine_edge_results.py -i [suffix pattern for input] -o [prefix for output]
+Run as: python combine_edge_results.py -edge_in [suffix pattern for edges] -path_in [suffix pattern for paths] -ec_in [suffix pattern for ec numbers] -o [prefix for output]
 
-It will automatically loop through all .edge_data.csv files in the directory.
+It will automatically loop through all files in the directory with the specified suffixes.
 
 """
 
@@ -37,11 +37,30 @@ if 'h' in command_args.keys():
     #print help_string ## no help sting
     quit()
 
-prefix = command_args['o']
-suffix = command_args['i']
+try:
+    prefix = command_args['o']
+except KeyError:
+    prefix = 'pal_mcm_2'
+
+try:
+    edge_suffix = command_args['edge_in']
+except KeyError:
+    edge_suffix = '.bacteria.edge_data.csv'
+    
+try:
+    path_suffix = command_args['path_in']
+except KeyError:
+    path_suffix = '.bacteria.sum_pathways.csv'
+    
+try:
+    ec_suffix = command_args['ec_in']
+except KeyError:
+    ec_suffix = '.bacteria.sum_ec.csv'
 
 edge_tally = pd.DataFrame()
 edge_data = pd.DataFrame()
+ec_tally = pd.DataFrame()
+path_tally = pd.DataFrame()
 
 def fill_edge_data(param, name, df_in):
     temp = []
@@ -67,16 +86,29 @@ def fill_edge_data(param, name, df_in):
     return mean, sd
         
 for f in os.listdir('.'):
-    if f.endswith(suffix):
+    if f.endswith(edge_suffix):
         
-        temp_edge = pd.DataFrame.from_csv(f, index_col = 0)
-        name = re.sub(suffix, '', f)
+        temp_edge = pd.read_csv(f, index_col = 0)
+        name = re.sub(edge_suffix, '', f)
         
         for param in ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'confidence']:
             edge_data.loc[name, param + '.mean'], edge_data.loc[name, param + '.sd'] = fill_edge_data(param, name, temp_edge)
         
-        for index in temp_edge.index:
-            edge_tally.loc[name, index] = temp_edge.loc[index, 'nedge_corrected']
+        temp_edge_abund = pd.DataFrame(temp_edge['nedge_corrected'])
+        temp_edge_abund.columns = [name]        
+        edge_tally = pd.concat([edge_tally, temp_edge_abund], axis = 1)
+            
+    elif f.endswith(path_suffix):
+        name = re.sub(path_suffix, '', f)
+        temp_path = pd.read_csv(f, index_col = 0, names = [name])
+        path_tally = pd.concat([path_tally, temp_path], axis = 1)
+        
+    elif f.endswith(ec_suffix):
+        name = re.sub(ec_suffix, '', f)
+        temp_ec = pd.read_csv(f, index_col = 0, names = [name])
+        ec_tally = pd.concat([ec_tally, temp_ec], axis = 1)
             
 pd.DataFrame.to_csv(edge_tally, prefix + '.edge_tally.csv')
-pd.DataFrame.to_csv(edge_data, prefix + '.edge_data.csv')        
+pd.DataFrame.to_csv(edge_data, prefix + '.edge_data.csv') 
+pd.DataFrame.to_csv(path_tally, prefix + '.path_tally.csv') 
+pd.DataFrame.to_csv(ec_tally, prefix + '.ec_tally.csv')        

@@ -5,7 +5,7 @@ Created on Thu Jun 25 16:58:12 2015
 @author: jeff
 
 CALL AS:
-    python extract_pplacer_seqs.py -csv [something.csv] -fasta [something.fasta] -start [start-inclusive] -stop [stop-not inclusive]
+    python make_edge_fasta.py -csv [something.csv] -fasta [something.fasta] -start [start-inclusive] -stop [stop-not inclusive]
     
 This script makes a fasta file of the reads associated with a given range of edges.  If you
 would like the reads associated within only one edge (such as 1234), you would use edge edge+1
