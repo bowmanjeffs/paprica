@@ -40,22 +40,22 @@ if 'h' in command_args.keys():
 try:
     prefix = command_args['o']
 except KeyError:
-    prefix = 'pal_mcm_2'
+    prefix = 'tara_archaea'
 
 try:
     edge_suffix = command_args['edge_in']
 except KeyError:
-    edge_suffix = '.bacteria.edge_data.csv'
+    edge_suffix = 'archaea.edge_data.csv'
     
 try:
     path_suffix = command_args['path_in']
 except KeyError:
-    path_suffix = '.bacteria.sum_pathways.csv'
+    path_suffix = 'archaea.sum_pathways.csv'
     
 try:
     ec_suffix = command_args['ec_in']
 except KeyError:
-    ec_suffix = '.bacteria.sum_ec.csv'
+    ec_suffix = 'archaea.sum_ec.csv'
 
 edge_tally = pd.DataFrame()
 edge_data = pd.DataFrame()
@@ -108,7 +108,7 @@ for f in os.listdir('.'):
         temp_ec = pd.read_csv(f, index_col = 0, names = [name])
         ec_tally = pd.concat([ec_tally, temp_ec], axis = 1)
             
-pd.DataFrame.to_csv(edge_tally, prefix + '.edge_tally.csv')
-pd.DataFrame.to_csv(edge_data, prefix + '.edge_data.csv') 
-pd.DataFrame.to_csv(path_tally, prefix + '.path_tally.csv') 
-pd.DataFrame.to_csv(ec_tally, prefix + '.ec_tally.csv')        
+pd.DataFrame.to_csv(edge_tally.transpose(), prefix + '.edge_tally.csv')
+pd.DataFrame.to_csv(edge_data.transpose(), prefix + '.edge_data.csv') 
+pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.path_tally.csv') 
+pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.ec_tally.csv')        
