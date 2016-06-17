@@ -33,6 +33,10 @@ OPTIONS:
     -i: input csv
     -o: prefix for output files
     -ref_dir: name of reference directory
+    -override: any known incorrect/correct edge pair replacements to be made in the form:
+        old|new,old|new
+    -omit: a range of edges (e.g. cyanobacteria) that should be omitted in the form:
+        start:stop
 
 This script must be located in the 'paprica' directory as it makes use of relative
 paths.
@@ -72,14 +76,21 @@ if len(sys.argv) > 2:
     ref_dir = paprica_path + command_args['ref_dir']  # The complete path to the reference directory being used for analysis.        
     query = command_args['i']
     name = command_args['o']
+    try:
+        overrides = command_args['override']
+        omit = command_args['omit']
+    except KeyError:
+        pass
     
 else:
-    query = 'test.archaea.combined_16S.archaea.tax.clean.align.csv'
-    name = 'test.archaea'
+    query = 'PAL_267_20140318_F02.combined_16S.bacteria.tax.clean.align.csv'
+    name = 'PAL_267_20140318_F02.bacteria'
     cutoff = 0.5  # The cutoff value used to determine pathways to include for internal nodes.
-    domain = 'archaea'  # The domain (bacteria or archaea) for analysis.
+    domain = 'bacteria'  # The domain (bacteria or archaea) for analysis.
     ref_dir = paprica_path + 'ref_genome_database'  # The complete path to the reference directory being used for analysis.        
-
+    omit = '674:818'
+    overrides = '5804|93'
+    
 ## Make sure that ref_dir ends with /.
     
 if ref_dir.endswith('/') == False:
@@ -120,6 +131,27 @@ query_csv = pd.DataFrame.from_csv(cwd + query, header = 0)
 
 edge_tally = query_csv.groupby('edge_num').size()
 edge_pp = edge_pp = query_csv.groupby('edge_num').post_prob.mean()
+
+## Create a dictionary of any edges that need replacement.
+
+override_dic = {}
+
+if len(overrides) > 0:
+    overrides = overrides.split(',')
+    for pair in overrides:
+        pair = pair.split('|')
+        override_dic[pair[0]] = pair[1]
+
+## Make omissions, and replacements if needed.
+
+omit = omit.split(':')
+drop_edges = range(int(omit[0]), int(omit[1]) + 1)
+edge_tally = edge_tally.drop(drop_edges, errors = 'ignore')
+
+for edge in override_dic.keys():
+    temp_index = pd.Series(edge_tally.index)
+    temp_index[temp_index == int(edge)] = int(override_dic[edge])
+    edge_tally.index = temp_index
 
 ## Add the edge tally and mean pp to a new data frame that will hold other
 ##sample information.  Not necessary to define column names in advance.

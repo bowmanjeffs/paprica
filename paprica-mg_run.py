@@ -307,4 +307,5 @@ if pathways == 'T':
 ## No need to include the translation column, which takes up excessive space.
         
 annotation_df.drop('translation', 1).to_csv(cwd + name + '.annotation.csv')
+ec_tally.to_csv(cwd + name + '.mg.sum_ec.csv')
     
