@@ -2,7 +2,7 @@
 
 ###Please go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
-###If you'd like to try paprica without needing to download the dependencies we've created a Virtualbox appliance [here](http://www.polarmicrobes.org/extras/paprica-demo.ova).  You will need to download the (free) Oracle Virtualbox software and then import the appliance.
+###If you'd like to try paprica without needing to download the dependencies we've created a Virtualbox appliance [here](http://www.polarmicrobes.org/extras/paprica-demo.ova).  You will need to download the (free) Oracle Virtualbox software and then import the appliance. The appliance isn't updated every time we make an improvement to paprica, so you'll probably want to re-clone the Github repository once you've got the VB up and running.
 
 #paprica
 ###PAthway PRediction by phylogenetIC plAcement
@@ -10,14 +10,22 @@
 A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out paprica_manual.pdf and paprica_run.sh to get started.  The commands:
 
 ```
+get clone https://github.com/bowmanjeffs/paprica.git
+cd paprica
+chmod a+x *py
+chmod a+x *sh
+./paprica-run.sh test bacteria
+```
+or
+```
 wget https://github.com/bowmanjeffs/paprica/archive/paprica_v0.XX.tar.gz
 tar -xzvf paprica_v0.XX.tar.gz
 mv paprica-paprica_v0.XX paprica
 cd paprica
-chmod a+x paprica_run.sh
-./paprica_run.sh test
+chmod a+x *py
+chmod a+x *sh
+./paprica-run.sh test bacteria
 ```
-
 ...where XX is the paprica version should get you going and execute a run on the file test.fasta.
 
 ###Mac OSX installation tutorial
@@ -40,4 +48,4 @@ Paprica conducts metabolic inference on (preferably, but not exclusively, NGS) 1
 
 Paprica uses pathways shared between the members of all clades on a reference tree to determine what pathways are likely to be associated with a phylogenetically placed read.
 
-Paprica was designed to use a significant amount of resources up front to construct a database and draft metabolic models for all available completed genomes (allow for 8 hours on a 12 core machine with hyperthreading enabled).  You can avoid this by using the provided database and the paprica_run.sh script. 
+Paprica was designed to use a significant amount of resources up front to construct a database and draft metabolic models for all available completed genomes (allow for 8 hours on a 12 core machine).  You can avoid this by using the provided database. 
