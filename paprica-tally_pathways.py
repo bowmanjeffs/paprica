@@ -72,7 +72,8 @@ if 'h' in command_args.keys():
     print help_string
     quit()
         
-## If any command line options are specified all need to be specified.
+## If any command line options are specified all need to be specified except
+## overrides and omit.
 
 if len(sys.argv) > 2:               
     cutoff = float(command_args['cutoff'])  # The cutoff value used to determine pathways to include for internal nodes.
@@ -82,9 +83,12 @@ if len(sys.argv) > 2:
     name = command_args['o']
     try:
         overrides = command_args['override']
+    except KeyError:
+        overrides = ''
+    try:
         omit = command_args['omit']
     except KeyError:
-        pass
+        omit = ''
     
 else:
     query = 'PAL_003_20091109_FST.combined_16S.bacteria.tax.clean.align.csv'
