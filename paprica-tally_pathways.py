@@ -158,9 +158,10 @@ edge_pp = query_csv.groupby('edge_num').post_prob.mean()
 
 ## Omit undesired edges.
 
-omit = omit.split(':')
-drop_edges = range(int(omit[0]), int(omit[1]) + 1)
-edge_tally = edge_tally.drop(drop_edges, errors = 'ignore')
+if len(omit) > 0:
+    omit = omit.split(':')
+    drop_edges = range(int(omit[0]), int(omit[1]) + 1)
+    edge_tally = edge_tally.drop(drop_edges, errors = 'ignore')
 
 ## Add the edge tally and mean pp to a new data frame that will hold other
 ##sample information.  Not necessary to define column names in advance.
