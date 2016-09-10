@@ -239,7 +239,7 @@ elif 'query' not in command_args.keys():
     
     ## Root the tree.
     
-    raxml2 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T 2 -m GTRGAMMA -f I -t ' + ref_dir_domain + 'RAxML_bestTree.ref.tre -n root.ref.tre', shell = True, executable = executable)  
+    raxml2 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T 2 -m GTRGAMMA -f I -t ' + ref_dir_domain + 'RAxML_bestTree.ref.tre -n root.ref.tre -w ' + ref_dir_domain, shell = True, executable = executable)  
     raxml2.communicate()
     
     ## Generate SH-like support values for the tree.
