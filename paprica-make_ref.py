@@ -176,63 +176,64 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
     except KeyError:
         print 'no', assembly_accession, 'path'
 
-if download == 'T':
+if download in ['T', 'test']:  ## added 'test' option to allow use of test dataset   
+    if download == 'T':
     
-    try:
-        os.listdir(ref_dir)
-    except OSError:
-        os.mkdir(ref_dir)
-        
-    ## Identify which genomes are already contained in the database.  Confirm that these
-    ## genome directories have the necessary files and eliminate if they do not.
+        try:
+            os.listdir(ref_dir)
+        except OSError:
+            os.mkdir(ref_dir)
             
-    for genome in os.listdir(ref_dir_domain + 'refseq/'):
-        file_count = 0
-        
-        for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
-            if f.endswith('protein.faa'):
-                file_count = file_count + 1
-            elif f.endswith('genomic.fna'):
-                file_count = file_count + 1
-            elif f.endswith('genomic.gbff'):
-                file_count = file_count + 1
-            elif f.endswith('16S.fasta'):
-                file_count = file_count + 1
-            elif f.endswith('bins.txt.gz'):
-                file_count = file_count + 1
+        ## Identify which genomes are already contained in the database.  Confirm that these
+        ## genome directories have the necessary files and eliminate if they do not.
                 
-        if file_count != 5:
-            shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
+        for genome in os.listdir(ref_dir_domain + 'refseq/'):
+            file_count = 0
             
-    old_genomes = pd.Series(os.listdir(ref_dir_domain + 'refseq/'))
-    
-    ## Remove old reference directory - this seems unnecessary
-    
-#    subprocess.call('rm -r ' + ref_dir_domain, shell = True, executable = executable)
-#    subprocess.call('mkdir ' + ref_dir_domain, shell = True, executable = executable)
-#    subprocess.call('mkdir ' + ref_dir_domain + '/refseq', shell = True, executable = executable)
-    
-    ## Download all the completed genomes, starting with the Genbank assembly_summary.txt file.
-    
-    summary = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', header = 1, index_col = 0)
-    summary_complete = summary[summary.assembly_level == 'Complete Genome']
-    
-    ## Drop the bad genomes.
-    
-    if domain == 'bacteria':
-        summary_complete = summary_complete.drop(bad_bacteria)
-    elif domain == 'archaea':
-        summary_complete = summary_complete.drop(bad_archaea)
+            for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
+                if f.endswith('protein.faa'):
+                    file_count = file_count + 1
+                elif f.endswith('genomic.fna'):
+                    file_count = file_count + 1
+                elif f.endswith('genomic.gbff'):
+                    file_count = file_count + 1
+                elif f.endswith('16S.fasta'):
+                    file_count = file_count + 1
+                elif f.endswith('bins.txt.gz'):
+                    file_count = file_count + 1
+                    
+            if file_count != 5:
+                shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
+                
+        old_genomes = pd.Series(os.listdir(ref_dir_domain + 'refseq/'))
         
-    ## Determine which genomes need to be downloaded.
+        ## Download all the completed genomes, starting with the Genbank assembly_summary.txt file.
         
-    new_genomes = summary_complete.index[summary_complete.index.isin(old_genomes) == False]
+        summary = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', header = 1, index_col = 0)
+        summary_complete = summary[summary.assembly_level == 'Complete Genome']
         
-    ## Download the good genomes.
+        ## Drop the bad genomes.
+        
+        if domain == 'bacteria':
+            summary_complete = summary_complete.drop(bad_bacteria)
+        elif domain == 'archaea':
+            summary_complete = summary_complete.drop(bad_archaea)
+            
+        ## Determine which genomes need to be downloaded.
+            
+        new_genomes = summary_complete.index[summary_complete.index.isin(old_genomes) == False]
+            
+        ## Download the good genomes.
+        
+        if __name__ == '__main__':  
+            Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
+            (ref_dir_domain, executable, assembly_accession) for assembly_accession in new_genomes)
+            
+    ## If just building with the test set add all genomes in the set to new_genomes.
     
-    if __name__ == '__main__':  
-        Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
-        (ref_dir_domain, executable, assembly_accession) for assembly_accession in new_genomes)
+    if download == 'test':
+        summary = pd.read_table(ref_dir_domain + 'genome_data.csv', header = 0, index.col = 0)
+        new_genomes = summary_complete.index
         
     ## Sometime wget will fail to download a valid file.  This causes problems
     ## downstream.  Check that each directory has an faa and fna file, and remove
