@@ -41,7 +41,8 @@ RUN AS:
 OPTIONS:
     -cpus: The number of cpus for RAxML to use.
     -domain: Which domain are you analyzing?  Either bacteria or archaea.
-    -download: Initiate a fresh download from Genbank?  Either T or F.
+    -download: Initiate a fresh download from Genbank?  Either T, F, or test.  Test
+    allows you to use the small test set of genomes provided here: http://www.polarmicrobes.org/extras/ref_genome_database.tgz.
     -ref_dir: The name for the database you are building.
 
 This script must be located in the 'paprica' directory as it makes use of relative
@@ -421,7 +422,7 @@ dist.communicate()
 
 bins = set()
 
-with open('models/kmer_top_1e5.txt', 'r') as top_kmers:
+with open(paprica_path + 'models/kmer_top_1e5.txt', 'r') as top_kmers:
     for line in top_kmers:
         line = line.rstrip()
         bins.add(line)
