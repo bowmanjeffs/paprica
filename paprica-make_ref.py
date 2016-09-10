@@ -113,8 +113,8 @@ try:
     
 except KeyError:
     domain = 'bacteria'
-    cpus = '8'
-    download = 'T'
+    cpus = '2'
+    download = 'test'
     ref_dir = 'ref_genome_database'
         
 ## Make sure that ref_dir ends with /.
@@ -233,7 +233,7 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
     ## If just building with the test set add all genomes in the set to new_genomes.
     
     if download == 'test':
-        summary = pd.read_table(ref_dir_domain + 'genome_data.csv', header = 0, index.col = 0)
+        summary_complete = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
         new_genomes = summary_complete.index
         
     ## Sometime wget will fail to download a valid file.  This causes problems
