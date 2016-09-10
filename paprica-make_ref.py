@@ -126,9 +126,9 @@ paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/' # The location
 ref_dir_domain = paprica_path + ref_dir + domain + '/'
     
 if domain == 'bacteria':
-    cm = 'models/bacteria_ssu.cm'
+    cm = paprica_path + 'models/bacteria_ssu.cm'
 elif domain == 'archaea':
-    cm = 'models/archaea_ssu.cm'
+    cm = paprica_path + 'models/archaea_ssu.cm'
 else:
     print 'Error, you must specify either -domain bacteria or -domain archaea!'
     quit()
