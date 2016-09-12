@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #### These are the critical steps for using paprica if you are use the provided database (a.k.a. ref_genome_database) or
 #### have already built it using paprica_build.sh.  Used in this way paprica is nice and lightweight, but you won't have 
 #### access to the PGDBs if you want to do something more sophisticated than just tally up the number of metabolic pathways
@@ -7,8 +9,6 @@
 #### and infernal is parallelized, it is best not to run samples in parallel.
 
 #### Execute this script as ./paprica_run.sh [query] [domain].
-
-#!/bin/bash
 
 query=$1
 domain=$2
