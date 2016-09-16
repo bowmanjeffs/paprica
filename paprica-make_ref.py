@@ -202,6 +202,13 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
                     file_count = file_count + 1
                 elif f.endswith('bins.txt.gz'):
                     file_count = file_count + 1
+                
+                    ## Sometime empty compositional vectors break the script downstream.  Not sure why this is happening,
+                    ## test to see if vectors are valid and add to new_genome_faa if not so that they can be recalculated.
+            
+                    test_bins = np.loadtxt(ref_dir_domain + 'refseq/' + genome + '/' + f, usecols = [1])
+                    if len(test_bins) != 1e5:
+                        file_count = file_count - 1
                     
             if file_count != 5:
                 shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
@@ -271,7 +278,7 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
             incomplete_genome.append(assembly_accession)
         else:
             new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
-               
+                           
     summary_complete = summary_complete.drop(incomplete_genome)
     new_genomes = new_genomes.drop(incomplete_genome)   
     
