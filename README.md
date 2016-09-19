@@ -7,14 +7,14 @@
 #paprica
 ###PAthway PRediction by phylogenetIC plAcement
 
-A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out paprica_manual.pdf and paprica_run.sh to get started.  The commands:
+A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out the manual and paprica-run.sh script to get started.  The commands:
 
 ```
 get clone https://github.com/bowmanjeffs/paprica.git
 cd paprica
 chmod a+x *py
 chmod a+x *sh
-./paprica-run.sh test bacteria
+./paprica-run.sh test.bacteria bacteria
 ```
 or
 ```
@@ -24,9 +24,9 @@ mv paprica-paprica_v0.XX paprica
 cd paprica
 chmod a+x *py
 chmod a+x *sh
-./paprica-run.sh test bacteria
+./paprica-run.sh test.bacteria bacteria
 ```
-...where XX is the paprica version should get you going and execute a run on the file test.fasta.
+...where XX is the paprica version should get you going and execute a run on the file test.bacteria.fasta.
 
 ###Mac OSX installation tutorial
 

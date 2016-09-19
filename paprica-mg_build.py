@@ -85,10 +85,8 @@ ref_dir = paprica_path + ref_dir
 ## Read in genome_data so that you can iterate by genomes that are actually
 ## used by paprica.
 
-#### !!! This isn't what you actually want to do.  You want this database to
-#### be as rich and complete as possible, and to include bacteria and archaea.
-#### you should iterate across all downloaded genomes in both the bacteria and
-#### archaea subdirectories.
+## Currently draft genomes in user/[domain] are not being included.  Need to fix
+## this.
 
 genome_data_bacteria = pd.read_csv(ref_dir + 'bacteria/genome_data.final.csv', index_col = 0, header = 0)
 genome_data_bacteria = genome_data_bacteria.dropna(subset = ['clade'])
