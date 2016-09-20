@@ -308,6 +308,9 @@ else:
         guppy_merge.communicate()
         guppy(cwd + query, ref)
         
+        merge = subprocess.Popen('cat ' + cwd + query + '.temp*.clean.fasta > ' + cwd + query + '.clean.fasta', shell = True, executable = executable)
+        merge.communicate()
+        
         cleanup = subprocess.Popen('rm -f ' + cwd + query + '.temp*', shell = True, executable = executable)
         cleanup.communicate()
         
