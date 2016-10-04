@@ -29,7 +29,7 @@ REQUIRES:
         Joblib
         
 RUN AS:
-    python paprica_build_core_genomes_v0.20.py -tree [tree.phyloxml] -domain [bacteria|archaea]
+    python paprica-build_core_genomes.py -tree [tree.phyloxml] -domain [bacteria|archaea]
     
 OPTIONS:
     -domain: The domain being analyzed (either bacteria or archaea)
@@ -285,7 +285,13 @@ for i,d in enumerate(assemblies):
                             
                             np = np + 1
                             ec = feature.qualifiers['EC_number']
-                            prod = feature.qualifiers['product'][0]
+                            
+                            ## Some draft genomes will not have a product qualifier.
+                            
+                            try:
+                                prod = feature.qualifiers['product'][0]
+                            except KeyError:
+                                prod = 'product not specified'
                             
                             ## Because each EC number can appear multiple times
                             ## in a genome this information needs to be tallied.
