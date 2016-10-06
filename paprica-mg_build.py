@@ -135,26 +135,32 @@ for d in genome_data.index:
                     if feature.type == 'CDS':
                         if 'EC_number' in feature.qualifiers.keys():
                             
-                            protein_id = feature.qualifiers['protein_id'][0]
-                            trans = feature.qualifiers['translation'][0]
-                            ec = feature.qualifiers['EC_number']
-                            prod = feature.qualifiers['product'][0]
-                            start = int(feature.location.start)
-                            end = int(feature.location.end)
-                            
-                            for ec_number in ec:
-                            
-                                prot_array_index[i] = protein_id
-                                prot_array[i,0] = d
-                                prot_array[i,1] = domain
-                                prot_array[i,2] = ec_number
-                                prot_array[i,3] = trans
-                                prot_array[i,4] = prod
-                                prot_array[i,5] = start
-                                prot_array[i,6] = end
+                            ## Try clause is necessary because some draft genomes
+                            ## don't have protein_id qualifier, silly as that is.
+                        
+                            try:
+                                protein_id = feature.qualifiers['protein_id'][0]
+                                trans = feature.qualifiers['translation'][0]
+                                ec = feature.qualifiers['EC_number']
+                                prod = feature.qualifiers['product'][0]
+                                start = int(feature.location.start)
+                                end = int(feature.location.end)
                                 
-                                i = i + 1
-                                print d, i, 'out of', eci, protein_id
+                                for ec_number in ec:
+                                
+                                    prot_array_index[i] = protein_id
+                                    prot_array[i,0] = d
+                                    prot_array[i,1] = domain
+                                    prot_array[i,2] = ec_number
+                                    prot_array[i,3] = trans
+                                    prot_array[i,4] = prod
+                                    prot_array[i,5] = start
+                                    prot_array[i,6] = end
+                                    
+                                    i = i + 1
+                                    print d, i, 'out of', eci, protein_id
+                            except KeyError:
+                                continue
 
 ## Convert array to pandas dataframe
 
