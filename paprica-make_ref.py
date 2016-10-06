@@ -179,11 +179,26 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
 
 if download in ['T', 'test']:  ## added 'test' option to allow use of test dataset   
     if download == 'T':
+        
+        ## It the necessary directory structure isn't present, add it.
     
         try:
             os.listdir(ref_dir)
         except OSError:
             os.mkdir(ref_dir)
+            os.mkdir(ref_dir + '/user')
+            os.mkdir(ref_dir + '/user/bacteria')
+            os.mkdir(ref_dir + '/user/archaea')
+            
+        try:
+            os.listdir(ref_dir + domain)
+        except OSError:
+            os.mkdir(ref_dir + domain)
+            
+        try:
+            os.listdir(ref_dir + domain + '/refseq')
+        except OSError:
+            os.mkdir(ref_dir + domain + '/refseq')
             
         ## Identify which genomes are already contained in the database.  Confirm that these
         ## genome directories have the necessary files and eliminate if they do not.

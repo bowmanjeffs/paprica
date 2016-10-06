@@ -15,7 +15,7 @@ by Metabolic Structure: A General Framework and Application to a Seasonally
 Variable, Depth-Stratified Microbial Community from the Coastal West Antarctic
 Peninsula." PloS one 10.8 (2015): e0135868.
 
-If your analysis makes specific use of pplacer, Infernal, or pathway-tools
+If your analysis makes specific use of pplacer, Infernal, DIAMOND, or pathway-tools
 please make sure that you also cite the relevant publications.
 
 This script identifies all the features in the Genbank files of completed
@@ -31,7 +31,8 @@ CALL AS:
     python paprica-mg_build.py [options]
     
 OPTIONS:
--ref_dir: The name of the directory containing the paprica database.
+-ref_dir: The name of the directory containing the paprica database.  Not necessary
+if your database is named ref_genome_database (the default).
 
 """
 
@@ -84,9 +85,6 @@ ref_dir = paprica_path + ref_dir
 
 ## Read in genome_data so that you can iterate by genomes that are actually
 ## used by paprica.
-
-## Currently draft genomes in user/[domain] are not being included.  Need to fix
-## this.
 
 genome_data_bacteria = pd.read_csv(ref_dir + 'bacteria/genome_data.final.csv', index_col = 0, header = 0)
 genome_data_bacteria = genome_data_bacteria.dropna(subset = ['clade'])
