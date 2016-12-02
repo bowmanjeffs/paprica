@@ -78,7 +78,7 @@ if 'h' in command_args.keys():
 ## Provide input switches for testing.
 
 if 'i' not in command_args.keys():
-    query = 'test_mg.fasta.gz'
+    query = 'ERR318619_1.qc.fasta.gz'
 else:
     query = command_args['i']
     

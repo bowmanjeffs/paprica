@@ -28,7 +28,7 @@ This script uses DIAMOND to create a database of the nonredundant fasta against
 which query shotgun MG sequences reads can be searched.
 
 CALL AS:
-    python paprica-mg_build.py [options]
+    paprica-mg_build.py [options]
     
 OPTIONS:
 -ref_dir: The name of the directory containing the paprica database.  Not necessary

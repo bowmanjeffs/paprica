@@ -40,22 +40,22 @@ if 'h' in command_args.keys():
 try:
     prefix = command_args['o']
 except KeyError:
-    prefix = 'tara_archaea'
+    prefix = 'combined_results'
 
 try:
     edge_suffix = command_args['edge_in']
 except KeyError:
-    edge_suffix = 'archaea.edge_data.csv'
+    edge_suffix = 'bacteria.edge_data.csv'
     
 try:
     path_suffix = command_args['path_in']
 except KeyError:
-    path_suffix = 'archaea.sum_pathways.csv'
+    path_suffix = 'bacteria.sum_pathways.csv'
     
 try:
     ec_suffix = command_args['ec_in']
 except KeyError:
-    ec_suffix = 'archaea.sum_ec.csv'
+    ec_suffix = 'bacteria.sum_ec.csv'
 
 edge_tally = pd.DataFrame()
 edge_data = pd.DataFrame()
