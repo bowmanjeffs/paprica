@@ -49,10 +49,7 @@ import numpy as np
 import sys
 import os
 
-try:
-    paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.
-except NameError:
-    paprica_path = '/volumes/hd1/paprica/'
+paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/' # The location of the actual paprica scripts.
     
 cwd = os.getcwd() + '/'  # The current working directory
     
@@ -91,13 +88,15 @@ if len(sys.argv) > 2:
         omit = ''
     
 else:
-    query = 'PAL_003_20091109_FST.combined_16S.bacteria.tax.clean.align.csv'
-    name = 'PAL_003_20091109_FST.bacteria'
+    query = 'test.eukarya.combined_18S.eukarya.tax.clean.align.csv'
+    name = 'test.eukarya'
     cutoff = 0.5  # The cutoff value used to determine pathways to include for internal nodes.
-    domain = 'bacteria'  # The domain (bacteria or archaea) for analysis.
+    domain = 'eukarya'  # The domain (bacteria or archaea) for analysis.
     ref_dir = paprica_path + 'ref_genome_database'  # The complete path to the reference directory being used for analysis.        
-    omit = '674:818'
-    overrides = '5804|93,4619|4571'
+    #omit = '674:818'
+    #overrides = '5804|93,4619|4571'
+    overrides = ''
+    omit = ''
     
 ## Make sure that ref_dir ends with /.
     
@@ -220,9 +219,11 @@ for edge in list(edge_tally.index):
 
         npaths_actual = edge_data.loc[edge, 'npaths_actual']
         npaths_terminal = edge_data.loc[edge, 'npaths_terminal']
-        phi = edge_data.loc[edge, 'phi']
-        confidence = (npaths_actual / npaths_terminal) * (1 - phi)
-        edge_data.loc[edge, 'confidence'] = confidence 
+        
+        if domain != 'eukarya':
+            phi = edge_data.loc[edge, 'phi']
+            confidence = (npaths_actual / npaths_terminal) * (1 - phi)
+            edge_data.loc[edge, 'confidence'] = confidence 
 
     ## If edge is a terminal node...
         
@@ -262,7 +263,8 @@ for edge in list(edge_tally.index):
 
 ## Calculate the confidence score for the sample.
 
-sample_confidence = sum((edge_data['confidence'] * edge_data['nedge_corrected'])) / edge_data['nedge_corrected'].sum() 
+if domain != 'eukarya':
+    sample_confidence = sum((edge_data['confidence'] * edge_data['nedge_corrected'])) / edge_data['nedge_corrected'].sum() 
 
 ## Generate a single column table of the total (corrected) abundance for each
 ## pathway.  Absent pathways are included as 0, to make it easier to compare
@@ -310,7 +312,10 @@ for f in os.listdir(os.path.expanduser(ref_dir_domain)):
 
 with open(cwd + name + '.sample_data.txt', 'w') as sample_data:
     print >> sample_data, 'name' + '\t' + name
-    print >> sample_data, 'sample_confidence' + '\t' + str(sample_confidence)
+    
+    if domain != 'eukarya':
+        print >> sample_data, 'sample_confidence' + '\t' + str(sample_confidence)
+
     print >> sample_data, 'npathways' + '\t' + str(npathways)
     print >> sample_data, 'ppathways' + '\t' + str(ppathways)
     print >> sample_data, 'nreads' + '\t' + str(nreads)

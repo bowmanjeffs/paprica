@@ -34,8 +34,8 @@ REQUIRES:
         joblib
 
 CALL AS:
-    python genome_finder_place_it.py -query [query] -ref [ref] -splits [splits] -n [nseqs] for analysis or
-    python genome_finder_place_it.py -ref [ref] -cpus [ncpus] to generate a reference package.  
+    python genome_finder_place_it.py -domain [domain] -query [query] -ref [ref] -splits [splits] -n [nseqs] for analysis or
+    python genome_finder_place_it.py -domain [domain] -ref [ref] -cpus [ncpus] to generate a reference package.  
 
     Note that [ref] or [query] includes the entire file name without extension
     (which must be .fasta).
@@ -67,7 +67,7 @@ from joblib import Parallel, delayed
 import datetime
 import random
 
-paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.
+paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/' # The location of the actual paprica scripts.
 cwd = os.getcwd() + '/' # The current working directory.
                 
 ## Parse command line arguments.  Arguments that are unique to a run,
@@ -98,8 +98,8 @@ try:
     
 except KeyError:
     ref_dir = paprica_path + 'ref_genome_database/'
-    domain = 'bacteria'
-    ref = 'combined_16S.bacteria.tax'
+    domain = 'eukarya'
+    ref = 'combined_18S.eukarya.tax'
         
 ## Parse command line for optional variables, providing defaults if they are not
 ## present.
@@ -133,7 +133,7 @@ from Bio import SeqIO
 
 def clean_name(file_name):
     
-    bad_character = re.compile('[=-@!%,;\(\):\'\"\s]') # probably need to add \.
+    bad_character = re.compile('[\|\\=-@!%,;\(\):\'\"\s]')
     with open(file_name + '.clean.fasta', 'w') as fasta_out:
         for record in SeqIO.parse(file_name + '.fasta', 'fasta'): 
             record.name = re.sub(bad_character, '_', str(record.description))
@@ -219,19 +219,29 @@ if len(sys.argv) == 1:
 
 elif 'query' not in command_args.keys():
     
-    ## Build reference package
+    ## If the query flag is not given this is taken as instruction to build
+    ## the reference package.  
     
     clean_name(ref_dir_domain + ref)
     
     degap = subprocess.Popen('seqmagick mogrify --ungap ' + ref_dir_domain + ref + '.clean.fasta', shell = True, executable = executable)
     degap.communicate()
-
-    infernal_commands = 'cmalign --dna -o ' + ref_dir_domain + ref + '.clean.align.sto --outformat Pfam ' + cm + ' ' + ref_dir_domain + ref + '.clean.fasta'      
+        
+    ## If cmalign returns an error complainign about the size of the DP matrix, there are probably
+    ## reference 16S or 18S sequences that fall outside the bounds of the covariance model.
+    ## These need to be removed (add to the appropriate bad_genomes list in paprica-make_ref.py)
+    ## as they will result in a malformed tree.
+    
+    infernal_commands = 'cmalign --dna -o ' + ref_dir_domain + ref + '.clean.align.sto --outformat Pfam ' + cm + ' ' + ref_dir_domain + ref + '.clean.fasta'    
+    
     infernal = subprocess.Popen(infernal_commands, shell = True, executable = executable)
     infernal.communicate()
     
     convert = subprocess.Popen('seqmagick convert ' + ref_dir_domain + ref + '.clean.align.sto ' + ref_dir_domain + ref + '.clean.align.fasta', shell = True, executable = executable)
-    convert.communicate()     
+    convert.communicate()   
+    
+    ## Construct an initial tree using the GTRGAMMA model and the user provided
+    ## number of cpus.
     
     rm = subprocess.call('rm -f ' + ref_dir_domain + '*ref.tre', shell = True, executable = executable)
     raxml1 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T ' + cpus + ' -m GTRGAMMA -s ' + ref_dir_domain + ref + '.clean.align.fasta -n ref.tre -f d -p 12345 -w ' + ref_dir_domain, shell = True, executable = executable)
@@ -247,7 +257,7 @@ elif 'query' not in command_args.keys():
     raxml3 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T ' + cpus + ' -m GTRGAMMA -f J -p 12345 -t ' + ref_dir_domain + 'RAxML_rootedTree.root.ref.tre -n conf.root.ref.tre -s ' + ref_dir_domain + ref + '.clean.align.fasta -w ' + ref_dir_domain, shell = True, executable = executable)   
     raxml3.communicate()
      
-    ## Generate the reference package using the tree with SH support values and a log file.
+    ## Generate the reference package using the rooted tree with SH-like support values and a log file.
     
     rm = subprocess.call('rm -rf ' + ref_dir_domain + ref + '.refpkg', shell = True, executable = executable)
     taxit = subprocess.Popen('taxit create -l 16S_rRNA -P ' + ref_dir_domain + ref + '.refpkg --aln-fasta ' + ref_dir_domain + ref + '.clean.align.fasta --tree-stats ' + ref_dir_domain + 'RAxML_info.ref.tre --tree-file ' + ref_dir_domain + 'RAxML_fastTreeSH_Support.conf.root.ref.tre', shell = True, executable = executable)
@@ -290,8 +300,8 @@ else:
                 if seq_i in nseqs_get:
                     SeqIO.write(record, fasta_sub, 'fasta')
         
-        ## All downstream operations now need to take place on the subsamled
-        ## query, easiest way to do this is to just change the query variable
+        ## All downstream operations now need to take place on the subsampled
+        ## query, easiest way to do this is to just change the query variable.
             
         query = query + '.sub'
                         
