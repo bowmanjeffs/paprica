@@ -13,11 +13,19 @@
 query=$1
 domain=$2
 
+## Select gene based on domain.
+
+if domain=eukarya;then
+	gene=18S
+else
+	gene=16S
+fi
+
 ## 1. phylogenetic placement of query reads
 
-paprica-place_it.py -ref_dir ref_genome_database -query $query -ref combined_16S.$domain.tax -splits 1 -domain $domain
+paprica-place_it.py -ref_dir ref_genome_database -query $query -ref combined_$gene.$domain.tax -splits 1 -domain $domain
 
 ## 2. find pathways and other information associated with edges.  if you subsampled in the previous step (i.e. with -n) your input
-##    file is $query.sub.combined_16S.tax.clean.align.csv
+##    file is $query.sub.combined_$gene.tax.clean.align.csv
 
-paprica-tally_pathways.py -ref_dir ref_genome_database -i $query.combined_16S.$domain.tax.clean.align.csv -o $query.$domain -cutoff 0.5 -domain $domain
+paprica-tally_pathways.py -ref_dir ref_genome_database -i $query.combined_$gene.$domain.tax.clean.align.csv -o $query.$domain -cutoff 0.5 -domain $domain
