@@ -537,7 +537,7 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
     
     summary_complete = summary_complete.set_index('sample_name')
     summary_complete.to_csv(ref_dir_domain + 'genome_data.csv')
-
+    
 ## If download == F, start here.
     
 else:
@@ -592,7 +592,7 @@ if domain == 'eukarya':
                     print >> good_fasta_18S, line,
                     
     summary_complete = summary_complete[summary_complete.index.isin(kept_genomes)]
-        
+    
     ## Write out summary_complete and exit.
     
     summary_complete.to_csv(ref_dir_domain + 'genome_data.csv') 
