@@ -213,13 +213,19 @@ def place(query, ref, ref_dir_domain, cm):
     align = subprocess.Popen('cmalign --dna -o ' + query + '.clean.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.fasta', shell = True, executable = executable)
     align.communicate()    
     
-    combine = subprocess.Popen('esl-alimerge --outformat pfam --dna -o ' + query + '.' + ref + '.clean.align.sto ' + query + '.clean.align.sto ' + ref_dir_domain + ref + '.refpkg/' + ref + '.clean.align.sto', shell = True, executable = executable)
+    combine = subprocess.Popen('esl-alimerge --outformat pfam --dna \
+    -o ' + query + '.' + ref + '.clean.align.sto \
+    ' + query + '.clean.align.sto \
+    ' + ref_dir_domain + ref + '.refpkg/' + ref + '.clean.align.sto', shell = True, executable = executable)
     combine.communicate()
       
     convert = subprocess.Popen('seqmagick convert ' + query + '.' + ref + '.clean.align.sto ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
     convert.communicate()
     
-    pplacer = subprocess.Popen('pplacer -o ' + query + '.' + ref + '.clean.align.jplace --out-dir ' + os.getcwd() + ' -p --keep-at-most 20 -c ' + ref_dir_domain + ref + '.refpkg ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
+    pplacer = subprocess.Popen('pplacer -o ' + query + '.' + ref + '.clean.align.jplace \
+    --out-dir ' + os.getcwd() + ' \
+    -p --keep-at-most 20 --map-identity\
+    -c ' + ref_dir_domain + ref + '.refpkg ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
     pplacer.communicate()
     
 #%% Define function to generate csv file of placements and fat tree    

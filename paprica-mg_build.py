@@ -80,7 +80,7 @@ except KeyError:
 if ref_dir.endswith('/') == False:
     ref_dir = ref_dir + '/'
 
-paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.  
+paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/' # The location of the actual paprica scripts.  
 ref_dir = paprica_path + ref_dir
 
 ## Read in genome_data so that you can iterate by genomes that are actually
@@ -94,9 +94,13 @@ genome_data_archaea = pd.read_csv(ref_dir + 'archaea/genome_data.final.csv', ind
 genome_data_archaea = genome_data_archaea.dropna(subset = ['clade'])
 genome_data_archaea['domain'] = 'archaea'
 
-genome_data = pd.concat([genome_data_bacteria, genome_data_archaea])
+genome_data_eukarya = pd.read_csv(ref_dir + 'eukarya/genome_data.final.csv', index_col = 0, header = 0)
+genome_data_eukarya = genome_data_archaea.dropna(subset = ['clade'])
+genome_data_eukarya['domain'] = 'eukarya'
 
-## Iterate through all the files in refseq and find the gbk files.  First pass
+genome_data = pd.concat([genome_data_bacteria, genome_data_archaea, genome_data_eukarya])
+
+## Iterate through all the files in refseq and find the gbff files.  First pass
 ## just counts the number of features with EC_number so that we can create a
 ## Numpy array the right size.
 
