@@ -95,7 +95,7 @@ genome_data_archaea = genome_data_archaea.dropna(subset = ['clade'])
 genome_data_archaea['domain'] = 'archaea'
 
 genome_data_eukarya = pd.read_csv(ref_dir + 'eukarya/genome_data.final.csv', index_col = 0, header = 0)
-genome_data_eukarya = genome_data_archaea.dropna(subset = ['clade'])
+genome_data_eukarya = genome_data_eukarya.dropna(subset = ['clade'])
 genome_data_eukarya['domain'] = 'eukarya'
 
 genome_data = pd.concat([genome_data_bacteria, genome_data_archaea, genome_data_eukarya])

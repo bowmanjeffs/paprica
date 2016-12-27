@@ -386,7 +386,7 @@ for d in new_pgdbs:
 print len(new_pgdbs), 'new pgdbs will be created'
 
 if __name__ == '__main__':  
-    Parallel(n_jobs = 6, verbose = 5)(delayed(make_pgdb)
+    Parallel(n_jobs = -1, verbose = 5)(delayed(make_pgdb)
     (d, ref_dir_domain) for d in new_pgdbs)
     
 #%% For each PGDB add the pathways to a new data_frame.
