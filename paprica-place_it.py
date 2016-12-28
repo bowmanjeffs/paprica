@@ -290,7 +290,7 @@ def make_tax(bad_character):
         seq_info['tax_id'] = summary_complete['taxon_id']
 
     else:
-        summary_complete.taxon_id = summary_complete.taxon_id.fillna(value = taxid[domain])
+        summary_complete.taxid = summary_complete.taxid.fillna(value = taxid[domain])
         summary_complete.taxid = summary_complete.taxid.astype(dtype = 'uint64')
         seq_info['tax_id'] = summary_complete['taxid']
         

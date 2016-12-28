@@ -14,7 +14,7 @@ ref_dir=ref_genome_database
 
 ## Select gene based on domain.
 
-if domain=eukarya;then
+if [ $domain = "eukarya" ];then
 	gene=18S
 else
 	gene=16S
@@ -28,7 +28,7 @@ paprica-make_ref.py -ref_dir $ref_dir -download T -domain $domain -cpus 2 &&
 
 paprica-place_it.py -ref_dir $ref_dir -ref combined_$gene.$domain.tax -domain $domain -cpus 2 &&
 
-## 3. run test.bacteria.fasta 
+## 3. run the test fasta file for this domain.
 
 paprica-place_it.py -ref_dir $ref_dir -query test.$domain -ref combined_$gene.$domain.tax -domain $domain -splits 1 &&
 
