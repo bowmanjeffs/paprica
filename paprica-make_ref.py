@@ -531,11 +531,14 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
     summary_complete['phi'] = np.nan
     summary_complete['GC'] = np.nan
     
-    ## Dataframe is currently indexed by online directory number.  Downstream
-    ## scripts need it to be indexed by acccession.  Then write out
-    ##summary_complete and exit script.
+    ## For Eukarya, dataframe is currently indexed by online directory number.
+    ## Downstream scripts need it to be indexed by acccession.  
     
-    summary_complete = summary_complete.set_index('sample_name')
+    if domain == 'eukarya':
+        summary_complete = summary_complete.set_index('sample_name')
+    
+    ## Write out summary_complete and exit script.
+
     summary_complete.to_csv(ref_dir_domain + 'genome_data.csv')
     
 ## If download == F, start here.
