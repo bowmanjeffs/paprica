@@ -385,8 +385,8 @@ if 'query' not in command_args.keys():
     --tree-stats ' + ref_dir_domain + 'RAxML_info.ref.tre \
     --tree-file ' + ref_dir_domain + 'RAxML_fastTreeSH_Support.conf.root.ref.tre \
     --aln-sto ' + ref_dir_domain + ref + '.clean.align.sto \
-#    --seq-info ' + ref_dir_domain + 'seq_info.updated.csv \
-#    --taxonomy ' + ref_dir_domain + 'taxa.csv \
+    --seq-info ' + ref_dir_domain + 'seq_info.updated.csv \
+    --taxonomy ' + ref_dir_domain + 'taxa.csv \
     ', shell = True, executable = executable)
     
     taxit.communicate()
@@ -451,4 +451,4 @@ else:
     else:
         place(cwd + query, ref, ref_dir_domain, cm)
         guppy(cwd + query, ref)
-#        classify()
+        classify()

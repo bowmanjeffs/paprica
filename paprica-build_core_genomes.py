@@ -121,7 +121,14 @@ ref_dir_domain = paprica_path + ref_dir + domain + '/'
 def make_pgdb(d, ref_dir_domain):
     
     print d, 'start prediction'
-    predict_pathways = subprocess.Popen('pathway-tools -lisp -no-cel-overview -patho ' + ref_dir_domain + 'refseq/' + d + '/ -disable-metadata-saving &> ' + ref_dir_domain + 'pathos_' + d + '.log', shell = True, executable = executable)
+    
+    predict_pathways = subprocess.Popen('pathway-tools \
+    -lisp \
+    -no-cel-overview \
+    -patho ' + ref_dir_domain + 'refseq/' + d + '/ \
+    -disable-metadata-saving \
+    &> ' + ref_dir_domain + 'pathos_' + d + '.log', shell = True, executable = executable)
+    
     predict_pathways.communicate()   
     print d, 'prediction complete'
     
