@@ -246,20 +246,32 @@ for edge in list(edge_tally.index):
         
         assembly = genome_data[genome_data['clade'] == edge].index.tolist()[0]
         edge_pathways = terminal_paths.loc[assembly, terminal_paths.loc[assembly, :] == 1]
-        edge_pathways.loc[:] = edge_data.loc[edge, 'nedge_corrected']
-        sample_pathways.loc[:, edge] = edge_pathways        
+        
+        ## For bacteria and archaea, correct for multiple 16S rRNA gene copies.
+        
+        if domain != 'eukarya':
+            edge_pathways.loc[:] = edge_data.loc[edge, 'nedge_corrected']       
                 
         edge_data.loc[edge, 'npaths_terminal'] = np.nan
         edge_data.loc[edge, 'npaths_actual'] = genome_data.loc[genome_data['clade'] == edge, 'npaths_actual'][0]
         edge_data.loc[edge, 'confidence'] = genome_data.loc[genome_data['clade'] == edge, 'phi'][0] # Phi for terminal nodes
+
+        sample_pathways.loc[:, edge] = edge_pathways
         
         ## Get the EC numbers associated with the edge.
         
         edge_ec_n = terminal_ec.loc[assembly, terminal_ec.loc[assembly, :] >= 1]
         edge_data.loc[edge, 'nec_actual'] = edge_ec_n.sum()
-        edge_ec_n = edge_ec_n.mul(edge_data.loc[edge, 'nedge_corrected'])
-        sample_ec.loc[:, edge] = edge_ec_n        
+        
+        ## For bacteria and archaea, correct for multiple 16S rRNA gene copies.
+        
+        if domain != 'eukarya':
+            edge_ec_n = edge_ec_n.mul(edge_data.loc[edge, 'nedge_corrected'])
+
+        edge_data.loc[edge, 'nec_actual'] = edge_ec_n.sum()
         edge_data.loc[edge, 'nec_terminal'] = np.nan
+
+        sample_ec.loc[:, edge] = edge_ec_n        
 
 ## Calculate the confidence score for the sample.
 
