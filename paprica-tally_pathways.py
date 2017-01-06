@@ -88,10 +88,10 @@ if len(sys.argv) > 2:
         omit = ''
     
 else:
-    query = 'test.eukarya.combined_18S.eukarya.tax.clean.align.csv'
-    name = 'test.eukarya'
+    query = 'test.archaea.combined_16S.archaea.tax.clean.align.csv'
+    name = 'test.archaea'
     cutoff = 0.5  # The cutoff value used to determine pathways to include for internal nodes.
-    domain = 'eukarya'  # The domain (bacteria or archaea) for analysis.
+    domain = 'archaea'  # The domain (bacteria or archaea) for analysis.
     ref_dir = paprica_path + 'ref_genome_database'  # The complete path to the reference directory being used for analysis.        
     #omit = '674:818'
     #overrides = '5804|93,4619|4571'
@@ -150,10 +150,12 @@ for edge in override_dic.keys():
     query_csv.loc[query_csv['edge_num'] == edge, 'post_prob'] = np.NaN
 
 ## Tally the number of occurences of each edge in the sample and
-## get the mean posterior probability for each edge.
+## get the mean posterior probability, overlap, and map ratio for each edge.
 
 edge_tally = query_csv.groupby('edge_num').size()
 edge_pp = query_csv.groupby('edge_num').post_prob.mean()
+edge_map_overlap = query_csv.groupby('edge_num').map_overlap.mean()
+edge_map_ratio = query_csv.groupby('edge_num').map_ratio.mean()
 
 ## Omit undesired edges.
 
@@ -163,11 +165,17 @@ if len(omit) > 0:
     edge_tally = edge_tally.drop(drop_edges, errors = 'ignore')
 
 ## Add the edge tally and mean pp to a new data frame that will hold other
-##sample information.  Not necessary to define column names in advance.
+##sample information.
 
-edge_data = pd.DataFrame(index = edge_tally.index, columns = ['taxon', 'nedge', 'n16S', 'nedge_corrected', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'clade_size', 'branch_length', 'npaths_terminal', 'npaths_actual', 'confidence'])
+edge_data = pd.DataFrame(index = edge_tally.index)
 edge_data['nedge'] = edge_tally
 edge_data['post_prob'] = edge_pp
+edge_data['map_ratio'] = edge_map_ratio
+edge_data['map_overlap'] = edge_map_overlap
+
+## Read in taxa.csv, which holds classification information for each node.
+
+node_classification = pd.read_csv(ref_dir_domain + 'taxa.csv', index_col = 0)
 
 ## Dataframe to hold the number of occurences of pathway in sample, by edge.
 
@@ -180,10 +188,12 @@ for edge in list(edge_tally.index):
     ## If edge is an internal node...
     
     if edge in internal_probs.index:
+        
+        edge_taxid = query_csv[query_csv['edge_num'] == edge].classification[0]
                 
         ## Collect other information that you might want later.
         
-        edge_data.loc[edge, 'taxon'] = np.nan # Taxon is indeterminate for internal nodes.
+        edge_data.loc[edge, 'taxon'] = node_classification.loc[edge_taxid, 'tax_name']
         edge_data.loc[edge, 'n16S'] = internal_data.loc[edge, 'n16S']
         edge_data.loc[edge, 'nedge_corrected'] = float(edge_data.loc[edge, 'nedge']) / float(internal_data.loc[edge, 'n16S'])
         edge_data.loc[edge, 'nge'] = internal_data.loc[edge, 'nge']
