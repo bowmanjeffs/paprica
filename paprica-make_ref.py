@@ -353,7 +353,9 @@ def get_eukaryotes():
 if download in ['T', 'test']:  ## added 'test' option to allow use of test dataset   
     if download == 'T':
         
-        ## It the necessary directory structure isn't present, add it.
+        ## If the necessary directory structure isn't present, add it.
+        
+        print 'Checking for reference database directories, will create if necessary...'
     
         try:
             os.listdir(ref_dir)
@@ -425,9 +427,13 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
                 
             ## Identify which genomes are already contained in the database.  Confirm that these
             ## genome directories have the necessary files and eliminate if they do not.
-                    
+            
+            ## !! This is a slow loop and can be functionalized/parallelized            
+            
             for genome in os.listdir(ref_dir_domain + 'refseq/'):
                 file_count = 0
+                
+                print 'Checking files for accession', genome
                 
                 for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
                     if f.endswith('protein.faa'):
@@ -755,7 +761,7 @@ i = 0
 l = len(unique_assembly)
 
 for d in sorted(unique_assembly):
-    print 'reading vector matrix', i + 1, 'of', l
+    print 'reading vector matrix,', i + 1, 'of', l
     temp_bins = np.loadtxt(ref_dir_domain + 'refseq/' + d + '/' + d + '_5mer_bins.txt.gz', usecols = [1])
     table_out[:,i] = temp_bins
     i = i + 1

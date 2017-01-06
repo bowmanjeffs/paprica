@@ -15,7 +15,7 @@ domain=$2
 
 ## Select gene based on domain.
 
-if domain=eukarya;then
+if [ $domain = "eukarya" ];then
 	gene=18S
 else
 	gene=16S

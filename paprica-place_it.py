@@ -99,8 +99,8 @@ try:
     
 except KeyError:
     ref_dir = paprica_path + 'ref_genome_database/'
-    domain = 'eukarya'
-    ref = 'combined_18S.eukarya.tax'
+    domain = 'archaea'
+    ref = 'combined_16S.archaea.tax'
 
 ## If sys.argv == 1, you are probably running inside Python in testing mode.
 ## Provide some default values to make this possibe.  If > 1, parse command
@@ -294,9 +294,11 @@ def make_tax(bad_character):
         summary_complete.taxid = summary_complete.taxid.astype(dtype = 'uint64')
         seq_info['tax_id'] = summary_complete['taxid']
         
-    ## Sequence names must be cleaned exactly as in clean_name.
+    ## Sequence names must be cleaned exactly as in clean_name.  Drop any entries
+    ## that do not have a seqname.
     
     seq_info['seqname'] = summary_complete.tax_name.str.replace(bad_character, '_')
+    seq_info.dropna(subset = ['seqname'], inplace = True)
         
     ## Write out the seq_info.csv file.
         

@@ -22,15 +22,15 @@ fi
 
 ## 1. download genomes, combine elements, extract 16S
 
-paprica-make_ref.py -ref_dir $ref_dir -download T -domain $domain -cpus 2 &&
+paprica-make_ref.py -ref_dir $ref_dir -download T -domain $domain -cpus 8
 
 ## 2. make a reference package from 16S or 18S
 
-paprica-place_it.py -ref_dir $ref_dir -ref combined_$gene.$domain.tax -domain $domain -cpus 2 &&
+paprica-place_it.py -ref_dir $ref_dir -ref combined_$gene.$domain.tax -domain $domain -cpus 2
 
-## 3. run the test fasta file for this domain.
+## 3. run test.bacteria.fasta 
 
-paprica-place_it.py -ref_dir $ref_dir -query test.$domain -ref combined_$gene.$domain.tax -domain $domain -splits 1 &&
+paprica-place_it.py -ref_dir $ref_dir -query test.$domain -ref combined_$gene.$domain.tax -domain $domain -splits 1
 
 ## 4. build the reference database.
 
