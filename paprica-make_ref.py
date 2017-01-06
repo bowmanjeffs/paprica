@@ -39,7 +39,8 @@ RUN AS:
     python paprica-make_ref.py [options]
     
 OPTIONS:
-    -cpus: The number of cpus for RAxML to use.
+    -cpus: The number of cpus for RAxML to use.  Only relevant when domain = 
+    bacteria or archaea.
     -domain: Which domain are you analyzing?  Either bacteria or archaea.
     -download: Initiate a fresh download from Genbank?  Either T, F, or test.  Test
     allows you to use the small test set of genomes provided here: http://www.polarmicrobes.org/extras/ref_genome_database.tgz.
@@ -54,8 +55,10 @@ paths.
 
 ## If there are assemblies that you would like to exclude from analysis
 ## put them in the list 'bad' below.  Bedellvibrio, for example, causes
-## errors for the placement of some reads.  Put genomes from both domains
-## here.
+## errors for the placement of some reads.  For the eukarya, several of the
+## 18S genes fall well outside the scope of the covariance model, presumably
+## due to limitations in the training set.  This all need to be excluded or
+## the tree is useless.
 
 bad_bacteria = ['GCF_000691605.1', \
 'GCF_000348725.1', \
@@ -63,6 +66,30 @@ bad_bacteria = ['GCF_000691605.1', \
 'GCF_000317895.1']
 
 bad_archaea = []
+
+bad_eukarya = ['MMETSP0017', \
+'MMETSP0027', \
+'MMETSP0103', \
+'MMETSP0151', \
+'MMETSP0200', \
+'MMETSP0267', \
+'MMETSP0403', \
+'MMETSP0409', \
+'MMETSP0414', \
+'MMETSP0434', \
+'MMETSP0448', \
+'MMETSP0468', \
+'MMETSP0562', \
+'MMETSP0595', \
+'MMETSP0689', \
+'MMETSP0898', \
+'MMETSP0918', \
+'MMETSP0945', \
+'MMETSP1015', \
+'MMETSP1074', \
+'MMETSP1317', \
+'MMETSP1392', \
+'MMETSP1446']
 
 ### End user setable variables. Mucking with anything below this point might ###
 ### break the script.  Of course it might also improve it :) ###
@@ -102,19 +129,24 @@ if 'h' in command_args.keys():
     print help_string
     quit()
         
-## Define some variables based on these arguments.  If any one these arguments
-## are missing the defaults will be used, which is diagnostic mode.
+## Define some variables based on these arguments.  If any arguments are
+## missing replace with a default value.
         
 try:        
     domain = command_args['domain']
-    cpus = str(command_args['cpus'])
-    download = command_args['download']
-    ref_dir = command_args['ref_dir']
-    
 except KeyError:
-    domain = 'bacteria'
-    cpus = '2'
-    download = 'test'
+    domain = 'eukarya'
+try:
+    cpus = str(command_args['cpus'])
+except KeyError:
+    cpus = 8
+try:
+    download = command_args['download']
+except KeyError:
+    download = 'T'
+try:
+    ref_dir = command_args['ref_dir']
+except KeyError:
     ref_dir = 'ref_genome_database'
         
 ## Make sure that ref_dir ends with /.
@@ -129,9 +161,13 @@ if domain == 'bacteria':
     cm = paprica_path + 'models/bacteria_ssu.cm'
 elif domain == 'archaea':
     cm = paprica_path + 'models/archaea_ssu.cm'
+elif domain == 'eukarya':
+    cm = paprica_path + 'models/eukarya_ssu.cm'
 else:
-    print 'Error, you must specify either -domain bacteria or -domain archaea!'
+    print 'Error, you must specify either -domain bacteria, -domain archaea, or -domain eukarya!'
     quit()
+
+#%% Define functions
 
 ## Define a stop function for diagnostic use only.
 
@@ -139,14 +175,91 @@ def stop_here():
     stop = []
     print 'Manually stopped!'
     print stop[1]
-    
-## This list stays empty unless download = T. Would be much more appropriate
-## to move all functions that require this list as input within the if/then
-## statement for downloads==T.
-    
-new_genomes = []
 
-#%% Download fna, gbff, faa files for each completed bacterial genome.
+## Define a function to tally the 5, 4, and 3mers in each faa (i.e. to construct
+## compositional vectors).
+
+def calc_vector(path, bins):
+    
+    k = 5
+    k1 = k - 1
+    k2 = k - 2
+
+    k1_found_bins = {}
+    #k1_used_bins = set()
+    k2_found_bins = {}
+    #k2_used_bins = set()
+    found_bins = {}
+    
+    print 'working on', path
+    path_split = path.split('/')
+    assembly = path_split[-2]
+    
+    for record in SeqIO.parse(path, 'fasta'):
+        query = str(record.seq)
+        
+        ## k1 and k2
+        
+        for i in range(0,len(query)):
+            kmer = query[i:i + k1]
+            try:
+                k1_found_bins[kmer] = k1_found_bins[kmer] + 1
+            except KeyError:
+                k1_found_bins[kmer] = 1
+            
+        for i in range(0,len(query)):
+            kmer = query[i:i+k2]
+            try:
+                k2_found_bins[kmer] = k2_found_bins[kmer] + 1
+            except KeyError:
+                k2_found_bins[kmer] = 1
+                
+        ## k
+            
+        for i in range(0,len(query)):
+            kmer = query[i:i+k]
+            try:
+                found_bins[kmer] = found_bins[kmer] + 1
+            except KeyError:
+                found_bins[kmer] = 1
+                
+    ## k0 - calculate the normalized kmer abundance
+        
+    norm_bins = {}
+    
+    for kmer in found_bins.keys():
+        if kmer in bins: # if not a kmer of interest, don't bother normalizing
+            kmer_1 = kmer[0:-1]
+            kmer_2 = kmer[1:]
+            kmer_3 = kmer[1:-1]
+            bigL = len(query)
+            
+            kmer_0 = ((k1_found_bins[kmer_1] * k1_found_bins[kmer_2])
+            / float(k2_found_bins[kmer_3])) * (((bigL - k + 1) * (bigL - k + 3))
+            / float((bigL - k + 2) ** 2))
+            
+            kmer_norm = (found_bins[kmer] - kmer_0) / kmer_0
+            norm_bins[kmer] = kmer_norm
+        
+    with gzip.open(ref_dir_domain + 'refseq/' + assembly + '/' + assembly + '_' + str(k) + 'mer_bins.txt.gz', 'wb') as bins_out:
+        for each in sorted(bins):
+            try:
+                print >> bins_out, each + '\t' + str(norm_bins[each])
+            except KeyError:
+                print >> bins_out, each + '\t' + str(0)
+
+## Define a function to find the 16S rRNA gene in a fna genome file.
+
+def search_16S(directory, d):
+    for f in os.listdir(directory + '/' + d):
+        if f.endswith('fna'):
+            print f ## testing
+            
+            find_16S = subprocess.Popen('cmsearch --cpu 1 --tblout ' + directory + '/' + d + '/' + d + '.16S.hits -A ' + directory + '/' + d + '/' + d + '.16S.sto ' + cm + ' ' + directory + '/' + d + '/' + f, shell = True, executable = executable)
+            find_16S.communicate()
+                        
+            convert = subprocess.Popen('seqmagick convert ' + directory + '/' + d + '/' + d + '.16S.sto ' + directory + '/' + d + '/' + d + '.16S.fasta', shell = True, executable = executable)
+            convert.communicate()
 
 ## Define a function so that the download of assemblies, if desired, can be parallelized.
 ## This should reduce a major bottleneck, as I don't think connection speed is the limiting
@@ -176,11 +289,73 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
         
     except KeyError:
         print 'no', assembly_accession, 'path'
+        
+def download_euks(online_directory):
+    try:
+        assembly_accession = summary_complete.loc[online_directory, 'sample_name']
+        strain_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory + '/annot/swissprot.gff3.gz'
+        strain_cds_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory + '/' + assembly_accession + '.pep.fa.gz'
+        
+        mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
+        mkdir.communicate()
+        
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp, shell = True, executable = executable)
+        wget0.communicate()
+        
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_cds_ftp, shell = True, executable = executable)
+        wget0.communicate() 
+    
+        gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
+        gunzip.communicate()
+        
+        print assembly_accession + ':' + strain_ftp
+        
+    except KeyError:
+        print 'no', online_directory, 'online directory' 
+
+#%% Eukaryotic genomes.
+
+## The download and parsing of eukaryotic genomes is very different from bacterial and archaeal
+## genomes and needs to be handled separately.
+
+def get_eukaryotes():
+
+    ## Get eukaryote sample data from MMETSP.
+    
+    if 'sample-attr.tab.gz' not in os.listdir(ref_dir_domain):
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + ';wget --tries=10 -T30 -q ftp://ftp.imicrobe.us/projects/104/sample-attr.tab.gz', shell = True, executable = executable)
+        wget0.communicate()
+    
+    ## Parse this file into a dataframe.
+    
+    summary_complete = pd.DataFrame()
+    l = 0    
+    
+    with gzip.open(ref_dir_domain + 'sample-attr.tab.gz', 'rb') as sample_attr:
+        for line in sample_attr:
+            line = line.rstrip()
+            line = line.split('\t')
+            l = l + 1
+            if l != 1:
+                summary_complete.loc[line[0], 'sample_name'] = line[1]
+                summary_complete.loc[line[0], line[2]] = line[3]   
+                        
+    ## Get the 18S sequences.
+
+    if 'combined_18S.fasta' not in os.listdir(ref_dir_domain):
+        wget_18S = subprocess.Popen('cd ' + ref_dir_domain + ';wget ftp://ftp.imicrobe.us/projects/104/18s/18s.fa.gz;mv 18s.fa.gz combined_18S.fasta.gz', shell = True, executable = executable)
+        wget_18S.communicate()
+    
+    return(summary_complete)    
+    
+#%% Download fna, gbff, faa files for each completed bacterial or archaeal genome, or execute eukaryote function.
 
 if download in ['T', 'test']:  ## added 'test' option to allow use of test dataset   
     if download == 'T':
         
-        ## It the necessary directory structure isn't present, add it.
+        ## If the necessary directory structure isn't present, add it.
+        
+        print 'Checking for reference database directories, will create if necessary...'
     
         try:
             os.listdir(ref_dir)
@@ -195,109 +370,164 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
         except OSError:
             os.mkdir(ref_dir + domain)
             
-        try:
-            os.listdir(ref_dir + domain + '/refseq')
-        except OSError:
+        if domain in ['bacteria', 'archaea']:
+            
+            try:
+                os.listdir(ref_dir + domain + '/refseq')
+            except OSError:
+                os.mkdir(ref_dir + domain + '/refseq')
+            
+        if domain == 'eukarya':
+            
+            ## For eukarya only you need to start with an empty refseq directory every
+            ## time you want to download. There is no option to just update the database
+            
+            shutil.rmtree(ref_dir_domain)
+            os.mkdir(ref_dir + domain)
             os.mkdir(ref_dir + domain + '/refseq')
             
-        ## Identify which genomes are already contained in the database.  Confirm that these
-        ## genome directories have the necessary files and eliminate if they do not.
+            summary_complete = get_eukaryotes()
+            
+            ## Execute the download function.  You can't do this from inside the function
+            ## because parallel requires input variables to be global.
+            
+            if __name__ == '__main__':  
+                Parallel(n_jobs = -1, verbose = 5)(delayed(download_euks)
+                (online_directory) for online_directory in summary_complete.index)
                 
-        for genome in os.listdir(ref_dir_domain + 'refseq/'):
-            file_count = 0
-            
-            for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
-                if f.endswith('protein.faa'):
-                    file_count = file_count + 1
-                elif f.endswith('genomic.fna'):
-                    file_count = file_count + 1
-                elif f.endswith('genomic.gbff'):
-                    file_count = file_count + 1
-                elif f.endswith('16S.fasta'):
-                    file_count = file_count + 1
-                elif f.endswith('bins.txt.gz'):
-                    file_count = file_count + 1
+            ## Check to make sure that each downloaded directory has a .fa and .gff3 file
+            ## extension.  Remove if it does not, and add to bad_eukarya.
                 
-                    ## Sometime empty compositional vectors break the script downstream.  Not sure why this is happening,
-                    ## test to see if vectors are valid and add to new_genome_faa if not so that they can be recalculated.
-            
-                    test_bins = np.loadtxt(ref_dir_domain + 'refseq/' + genome + '/' + f, usecols = [1])
-                    if len(test_bins) != 1e5:
-                        file_count = file_count - 1
-                    
-            if file_count != 5:
-                shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
+            for genome in summary_complete.sample_name:
+                file_count = 0
                 
-        old_genomes = pd.Series(os.listdir(ref_dir_domain + 'refseq/'))
-        
-        ## Download all the completed genomes, starting with the Genbank assembly_summary.txt file.
-        
-        summary = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', header = 1, index_col = 0)
-        summary_complete = summary[summary.assembly_level == 'Complete Genome']
-        
-        ## Drop the bad genomes.
-        
-        if domain == 'bacteria':
-            summary_complete = summary_complete.drop(bad_bacteria)
-        elif domain == 'archaea':
-            summary_complete = summary_complete.drop(bad_archaea)
-            
-        ## Determine which genomes need to be downloaded.
-            
-        new_genomes = summary_complete.index[summary_complete.index.isin(old_genomes) == False]
-            
-        ## Download the good genomes.
-        
-        if __name__ == '__main__':  
-            Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
-            (ref_dir_domain, executable, assembly_accession) for assembly_accession in new_genomes)
-            
-    ## If just building with the test set add all genomes in the set to new_genomes.
-    
-    if download == 'test':
-        summary_complete = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
-        new_genomes = summary_complete.index
-        
-    ## Sometime wget will fail to download a valid file.  This causes problems
-    ## downstream.  Check that each directory has an faa and fna file, and remove
-    ## from summary_complete if it does not.
-        
-    new_genome_faa = [] # This will be used for compositional vector creation, and will only hold new genomes with valid faa
-    incomplete_genome = []
-        
-    for assembly_accession in new_genomes:
-
-        ng_file_count = 0
-        temp_faa = ''
-        
-        ## Genbank now puts some useless fna files in the directory, remove
-        ## or they complicate things.
-        
-        for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
-            if f.endswith('from_genomic.fna'):
-                os.remove(ref_dir_domain + 'refseq/' + assembly_accession + '/' + f)
-                
-        ## Now check to make sure that the files you want are in place.
-        
-        for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
-            if f.endswith('protein.faa'):
-                temp_faa = f
-                ng_file_count = ng_file_count + 1
-            elif f.endswith('genomic.fna'):
-                ng_file_count = ng_file_count + 1
-            elif f.endswith('genomic.gbff'):
-                ng_file_count = ng_file_count + 1
+                try:
+                    for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
+                        if f.endswith('pep.fa'):
+                            file_count = file_count + 1
+                        elif f.endswith('swissprot.gff3'):
+                            file_count = file_count + 1 
+                except OSError:
+                    pass
                         
-        if ng_file_count != 3:
-            print assembly_accession, 'is missing a Genbank file'
-            incomplete_genome.append(assembly_accession)
+                if file_count != 2:
+                    try:
+                        shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
+                    except OSError:
+                        pass
+                    bad_eukarya.append(genome)
+                
+            ## Remove incomplete downloads from summary_complete.
+                
+            summary_complete = summary_complete[~summary_complete.sample_name.isin(bad_eukarya)]
+
+        ## If bacteria or archaea continue here.
+
         else:
-            new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
-                           
-    summary_complete = summary_complete.drop(incomplete_genome)
-    new_genomes = new_genomes.drop(incomplete_genome)   
-    
-    ## Add columns to dataframe that will be used later.
+                
+            ## Identify which genomes are already contained in the database.  Confirm that these
+            ## genome directories have the necessary files and eliminate if they do not.
+            
+            ## !! This is a slow loop and can be functionalized/parallelized            
+            
+            for genome in os.listdir(ref_dir_domain + 'refseq/'):
+                file_count = 0
+                
+                print 'Checking files for accession', genome
+                
+                for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
+                    if f.endswith('protein.faa'):
+                        file_count = file_count + 1
+                    elif f.endswith('genomic.fna'):
+                        file_count = file_count + 1
+                    elif f.endswith('genomic.gbff'):
+                        file_count = file_count + 1
+                    elif f.endswith('16S.fasta'):
+                        file_count = file_count + 1
+                    elif f.endswith('bins.txt.gz'):
+                        file_count = file_count + 1
+                    
+                        ## Sometime empty compositional vectors break the script downstream.  Not sure why this is happening,
+                        ## test to see if vectors are valid and add to new_genome_faa if not so that they can be recalculated.
+                
+                        test_bins = np.loadtxt(ref_dir_domain + 'refseq/' + genome + '/' + f, usecols = [1])
+                        if len(test_bins) != 1e5:
+                            file_count = file_count - 1
+                        
+                if file_count != 5:
+                    shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
+                    
+            old_genomes = pd.Series(os.listdir(ref_dir_domain + 'refseq/'))
+            
+            ## Download all the completed genomes, starting with the Genbank assembly_summary.txt file.
+            
+            summary = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', header = 1, index_col = 0)
+            summary_complete = summary[summary.assembly_level == 'Complete Genome']
+            
+            ## Drop the bad genomes.
+            
+            if domain == 'bacteria':
+                summary_complete = summary_complete.drop(bad_bacteria)
+            elif domain == 'archaea':
+                summary_complete = summary_complete.drop(bad_archaea)
+                
+            ## Determine which genomes need to be downloaded.
+                
+            new_genomes = summary_complete.index[summary_complete.index.isin(old_genomes) == False]
+                
+            ## Download the good genomes.
+            
+            if __name__ == '__main__':  
+                Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
+                (ref_dir_domain, executable, assembly_accession) for assembly_accession in new_genomes)
+                
+            ## If just building with the test set add all genomes in the set to new_genomes.
+        
+            if download == 'test':
+                summary_complete = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
+                new_genomes = summary_complete.index
+                
+            ## Sometime wget will fail to download a valid file.  This causes problems
+            ## downstream.  Check that each directory has an faa and fna file, and remove
+            ## from summary_complete if it does not.
+                
+            new_genome_faa = [] # This will be used for compositional vector creation, and will only hold new genomes with valid faa
+            incomplete_genome = []
+                
+            for assembly_accession in new_genomes:
+        
+                ng_file_count = 0
+                temp_faa = ''
+                
+                ## Genbank now puts some useless fna files in the directory, remove
+                ## or they complicate things.
+                
+                for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
+                    if f.endswith('from_genomic.fna'):
+                        os.remove(ref_dir_domain + 'refseq/' + assembly_accession + '/' + f)
+                        
+                ## Now check to make sure that the files you want are in place.
+                
+                for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
+                    if f.endswith('protein.faa'):
+                        temp_faa = f
+                        ng_file_count = ng_file_count + 1
+                    elif f.endswith('genomic.fna'):
+                        ng_file_count = ng_file_count + 1
+                    elif f.endswith('genomic.gbff'):
+                        ng_file_count = ng_file_count + 1
+                                
+                if ng_file_count != 3:
+                    print assembly_accession, 'is missing a Genbank file'
+                    incomplete_genome.append(assembly_accession)
+                else:
+                    new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
+                                   
+            summary_complete = summary_complete.drop(incomplete_genome)
+            new_genomes = new_genomes.drop(incomplete_genome)   
+            
+    ## Add columns to dataframe that will be used later.  This is done for all domains and for the
+    ## T and test cases.
     
     summary_complete['n16S'] = np.nan
     summary_complete['nge'] = np.nan
@@ -307,34 +537,83 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
     summary_complete['phi'] = np.nan
     summary_complete['GC'] = np.nan
     
+    ## For Eukarya, dataframe is currently indexed by online directory number.
+    ## Downstream scripts need it to be indexed by acccession.  
+    
+    if domain == 'eukarya':
+        summary_complete = summary_complete.set_index('sample_name')
+    
+    ## Write out summary_complete and exit script.
+
     summary_complete.to_csv(ref_dir_domain + 'genome_data.csv')
+    
+## If download == F, start here.
     
 else:
     summary_complete = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
-    summary_complete = summary_complete[summary_complete.assembly_level != 'Draft']
+    
+    if domain != 'eukarya':
+        summary_complete = summary_complete[summary_complete.assembly_level != 'Draft']
 
-#%% Get the 16S rRNA genes for each assembly and genome parameters.
+#%% Get the 16S/18S rRNA genes for each assembly and genome parameters.  Eukarya
+## are a special case and must be handled separate from bacteria and archaea.
+
+## Eliminate duplicate 18S, then remove 18S associated with incomplete downloads.
+
+if domain == 'eukarya':
+
+    ## It's possible that additional genome were added to bad_eukarya since the
+    ## last download.  To avoid needing to download everything just to remove,
+    ## check to make sure that summary_complete doesn't contain any bad genomes.
+
+    summary_complete = summary_complete[~summary_complete.index.isin(bad_eukarya)]
+    
+    ## Duplicate sequences are not allowed as they are incompatible with
+    ## phylogenetic placement, and shouldn't really be used for building trees
+    ## anyway.  Remove these.
+    
+    unique = subprocess.Popen('seqmagick convert --deduplicate-sequences ' + ref_dir_domain + 'combined_18S.fasta.gz ' + ref_dir_domain + 'combined_18S.unique.fasta', shell = True, executable = executable)
+    unique.communicate()
+    
+    kept_genomes = [] # This will hold the names of genomes with unique 18S and correct data files (identified earlier).
+    
+    ## Check to make sure that each sequence in combined_18S.unique.fasta is
+    ## present in summary_complete.  If it is not it is bad and should not
+    ## be used.  Also add a reasonable taxonomic name for each reference sequence
+    ## to summary_complete as tax_id.
+
+    with open(ref_dir_domain + 'combined_18S.unique.fasta', 'r') as fasta_18S, open(ref_dir_domain + 'combined_18S.' + domain + '.tax.fasta', 'w') as good_fasta_18S:
+        for line in fasta_18S:
+            if line.startswith('>'):
+                tax_name = line.strip('>')
+                tax_name = tax_name.rstrip()
+                genome = tax_name.split('|')[0]
+                
+                if genome in summary_complete.index:
+                    summary_complete.loc[genome, 'tax_name'] = tax_name
+                    keep = True
+                    kept_genomes.append(genome)
+                    print >> good_fasta_18S, line,
+                else:
+                    keep = False
+            else:
+                if keep == True:
+                    print >> good_fasta_18S, line,
+                    
+    summary_complete = summary_complete[summary_complete.index.isin(kept_genomes)]
+    
+    ## Write out summary_complete and exit.
+    
+    summary_complete.to_csv(ref_dir_domain + 'genome_data.csv') 
+    quit()
        
-## Find 16S rRNA genes in fna files. Get some paramenters on the genome; number of
+## For bacteria and archaea, find 16S rRNA genes in fna files. Get some paramenters on the genome; number of
 ## 16S genes, number of elements, size of genome, and add these to summary_complete.
 ## Generate two fasta files of the 16S rRNA genes.  One will be used later to build
 ## the reference tree and has sensible taxonomic names.  One is used to calculate
 ## the phi values and is named by assembly.
 
-## Define a function to conduct the 16S rRNA gene search.
-            
-def search_16S(directory, d):
-    for f in os.listdir(directory + '/' + d):
-        if f.endswith('fna'):
-            print f ## testing
-            
-            find_16S = subprocess.Popen('cmsearch --cpu 1 --tblout ' + directory + '/' + d + '/' + d + '.16S.hits -A ' + directory + '/' + d + '/' + d + '.16S.sto ' + cm + ' ' + directory + '/' + d + '/' + f, shell = True, executable = executable)
-            find_16S.communicate()
-                        
-            convert = subprocess.Popen('seqmagick convert ' + directory + '/' + d + '/' + d + '.16S.sto ' + directory + '/' + d + '/' + d + '.16S.fasta', shell = True, executable = executable)
-            convert.communicate()
-
-## Execute the function.
+## Execute the 16S search function.
             
 if __name__ == '__main__':  
     Parallel(n_jobs = -1, verbose = 5)(delayed(search_16S)
@@ -448,77 +727,6 @@ with open(paprica_path + 'models/kmer_top_1e5.txt', 'r') as top_kmers:
     for line in top_kmers:
         line = line.rstrip()
         bins.add(line)
-        
-## Define a function to tally the 5, 4, and 3mers in each faa.
-
-def calc_vector(path, bins):
-    
-    k = 5
-    k1 = k - 1
-    k2 = k - 2
-
-    k1_found_bins = {}
-    #k1_used_bins = set()
-    k2_found_bins = {}
-    #k2_used_bins = set()
-    found_bins = {}
-    
-    print 'working on', path
-    path_split = path.split('/')
-    assembly = path_split[-2]
-    
-    for record in SeqIO.parse(path, 'fasta'):
-        query = str(record.seq)
-        
-        ## k1 and k2
-        
-        for i in range(0,len(query)):
-            kmer = query[i:i + k1]
-            try:
-                k1_found_bins[kmer] = k1_found_bins[kmer] + 1
-            except KeyError:
-                k1_found_bins[kmer] = 1
-            
-        for i in range(0,len(query)):
-            kmer = query[i:i+k2]
-            try:
-                k2_found_bins[kmer] = k2_found_bins[kmer] + 1
-            except KeyError:
-                k2_found_bins[kmer] = 1
-                
-        ## k
-            
-        for i in range(0,len(query)):
-            kmer = query[i:i+k]
-            try:
-                found_bins[kmer] = found_bins[kmer] + 1
-            except KeyError:
-                found_bins[kmer] = 1
-                
-    ## k0 - calculate the normalized kmer abundance
-        
-    norm_bins = {}
-    
-    for kmer in found_bins.keys():
-        if kmer in bins: # if not a kmer of interest, don't bother normalizing
-            kmer_1 = kmer[0:-1]
-            kmer_2 = kmer[1:]
-            kmer_3 = kmer[1:-1]
-            bigL = len(query)
-            
-            kmer_0 = ((k1_found_bins[kmer_1] * k1_found_bins[kmer_2])
-            / float(k2_found_bins[kmer_3])) * (((bigL - k + 1) * (bigL - k + 3))
-            / float((bigL - k + 2) ** 2))
-            
-            kmer_norm = (found_bins[kmer] - kmer_0) / kmer_0
-            norm_bins[kmer] = kmer_norm
-        
-    with gzip.open(ref_dir_domain + 'refseq/' + assembly + '/' + assembly + '_' + str(k) + 'mer_bins.txt.gz', 'wb') as bins_out:
-        for each in sorted(bins):
-            try:
-                print >> bins_out, each + '\t' + str(norm_bins[each])
-            except KeyError:
-                print >> bins_out, each + '\t' + str(0)
     
 ## Run the composition vector function in parallel.
       
@@ -553,7 +761,7 @@ i = 0
 l = len(unique_assembly)
 
 for d in sorted(unique_assembly):
-    print 'reading vector matrix', i + 1, 'of', l
+    print 'reading vector matrix,', i + 1, 'of', l
     temp_bins = np.loadtxt(ref_dir_domain + 'refseq/' + d + '/' + d + '_5mer_bins.txt.gz', usecols = [1])
     table_out[:,i] = temp_bins
     i = i + 1

@@ -1,0 +1,2 @@
+ref tree built at: 2016-12-13T17:52:10.527518
+nseqs in reference alignment: 355

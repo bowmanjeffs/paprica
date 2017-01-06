@@ -49,10 +49,7 @@ import numpy as np
 import sys
 import os
 
-try:
-    paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.
-except NameError:
-    paprica_path = '/volumes/hd1/paprica/'
+paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/' # The location of the actual paprica scripts.
     
 cwd = os.getcwd() + '/'  # The current working directory
     
@@ -91,13 +88,15 @@ if len(sys.argv) > 2:
         omit = ''
     
 else:
-    query = 'PAL_003_20091109_FST.combined_16S.bacteria.tax.clean.align.csv'
-    name = 'PAL_003_20091109_FST.bacteria'
+    query = 'test.eukarya.combined_18S.eukarya.tax.clean.align.csv'
+    name = 'test.eukarya'
     cutoff = 0.5  # The cutoff value used to determine pathways to include for internal nodes.
-    domain = 'bacteria'  # The domain (bacteria or archaea) for analysis.
+    domain = 'eukarya'  # The domain (bacteria or archaea) for analysis.
     ref_dir = paprica_path + 'ref_genome_database'  # The complete path to the reference directory being used for analysis.        
-    omit = '674:818'
-    overrides = '5804|93,4619|4571'
+    #omit = '674:818'
+    #overrides = '5804|93,4619|4571'
+    overrides = ''
+    omit = ''
     
 ## Make sure that ref_dir ends with /.
     
@@ -220,9 +219,11 @@ for edge in list(edge_tally.index):
 
         npaths_actual = edge_data.loc[edge, 'npaths_actual']
         npaths_terminal = edge_data.loc[edge, 'npaths_terminal']
-        phi = edge_data.loc[edge, 'phi']
-        confidence = (npaths_actual / npaths_terminal) * (1 - phi)
-        edge_data.loc[edge, 'confidence'] = confidence 
+        
+        if domain != 'eukarya':
+            phi = edge_data.loc[edge, 'phi']
+            confidence = (npaths_actual / npaths_terminal) * (1 - phi)
+            edge_data.loc[edge, 'confidence'] = confidence 
 
     ## If edge is a terminal node...
         
@@ -245,24 +246,37 @@ for edge in list(edge_tally.index):
         
         assembly = genome_data[genome_data['clade'] == edge].index.tolist()[0]
         edge_pathways = terminal_paths.loc[assembly, terminal_paths.loc[assembly, :] == 1]
-        edge_pathways.loc[:] = edge_data.loc[edge, 'nedge_corrected']
-        sample_pathways.loc[:, edge] = edge_pathways        
+        
+        ## For bacteria and archaea, correct for multiple 16S rRNA gene copies.
+        
+        if domain != 'eukarya':
+            edge_pathways.loc[:] = edge_data.loc[edge, 'nedge_corrected']       
                 
         edge_data.loc[edge, 'npaths_terminal'] = np.nan
         edge_data.loc[edge, 'npaths_actual'] = genome_data.loc[genome_data['clade'] == edge, 'npaths_actual'][0]
         edge_data.loc[edge, 'confidence'] = genome_data.loc[genome_data['clade'] == edge, 'phi'][0] # Phi for terminal nodes
+
+        sample_pathways.loc[:, edge] = edge_pathways
         
         ## Get the EC numbers associated with the edge.
         
         edge_ec_n = terminal_ec.loc[assembly, terminal_ec.loc[assembly, :] >= 1]
         edge_data.loc[edge, 'nec_actual'] = edge_ec_n.sum()
-        edge_ec_n = edge_ec_n.mul(edge_data.loc[edge, 'nedge_corrected'])
-        sample_ec.loc[:, edge] = edge_ec_n        
+        
+        ## For bacteria and archaea, correct for multiple 16S rRNA gene copies.
+        
+        if domain != 'eukarya':
+            edge_ec_n = edge_ec_n.mul(edge_data.loc[edge, 'nedge_corrected'])
+
+        edge_data.loc[edge, 'nec_actual'] = edge_ec_n.sum()
         edge_data.loc[edge, 'nec_terminal'] = np.nan
+
+        sample_ec.loc[:, edge] = edge_ec_n        
 
 ## Calculate the confidence score for the sample.
 
-sample_confidence = sum((edge_data['confidence'] * edge_data['nedge_corrected'])) / edge_data['nedge_corrected'].sum() 
+if domain != 'eukarya':
+    sample_confidence = sum((edge_data['confidence'] * edge_data['nedge_corrected'])) / edge_data['nedge_corrected'].sum() 
 
 ## Generate a single column table of the total (corrected) abundance for each
 ## pathway.  Absent pathways are included as 0, to make it easier to compare
@@ -310,7 +324,10 @@ for f in os.listdir(os.path.expanduser(ref_dir_domain)):
 
 with open(cwd + name + '.sample_data.txt', 'w') as sample_data:
     print >> sample_data, 'name' + '\t' + name
-    print >> sample_data, 'sample_confidence' + '\t' + str(sample_confidence)
+    
+    if domain != 'eukarya':
+        print >> sample_data, 'sample_confidence' + '\t' + str(sample_confidence)
+
     print >> sample_data, 'npathways' + '\t' + str(npathways)
     print >> sample_data, 'ppathways' + '\t' + str(ppathways)
     print >> sample_data, 'nreads' + '\t' + str(nreads)
