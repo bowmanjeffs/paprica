@@ -26,7 +26,7 @@ paprica-make_ref.py -ref_dir $ref_dir -download T -domain $domain -cpus 8
 
 ## 2. make a reference package from 16S or 18S
 
-paprica-place_it.py -ref_dir $ref_dir -ref combined_$gene.$domain.tax -domain $domain -cpus 2
+paprica-place_it.py -ref_dir $ref_dir -ref combined_$gene.$domain.tax -domain $domain -cpus 8
 
 ## 3. run test.bacteria.fasta 
 
