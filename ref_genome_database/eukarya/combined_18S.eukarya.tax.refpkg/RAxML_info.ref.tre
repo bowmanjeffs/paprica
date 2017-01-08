@@ -205,7 +205,7 @@ Found 201 columns that contain only undetermined values which will be treated as
 Normally these columns should be excluded from the analysis.
 
 Just in case you might need it, an alignment file with 
-undetermined columns removed is printed to file /home/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.clean.align.fasta.reduced
+undetermined columns removed is printed to file /volumes/hd1/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.clean.align.fasta.reduced
 
 
 Using BFGS method to optimize GTR rate parameters, to disable this specify "--no-bfgs" 
@@ -257,27 +257,27 @@ Substitution Matrix: GTR
 
 RAxML was called as follows:
 
-raxmlHPC-PTHREADS-AVX2 -T 2 -m GTRGAMMA -s /home/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.clean.align.fasta -n ref.tre -f d -p 12345 -w /home/jeff/paprica/ref_genome_database/eukarya/ 
+raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -s /volumes/hd1/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.clean.align.fasta -n ref.tre -f d -p 12345 -w /volumes/hd1/paprica/ref_genome_database/eukarya/ 
 
 
 Partition: 0 with name: No Name Provided
 Base frequencies: 0.261 0.207 0.261 0.271 
 
-Inference[0]: Time 1036.301079 GAMMA-based likelihood -150221.024372, best rearrangement setting 15
+Inference[0]: Time 314.829973 GAMMA-based likelihood -150221.024372, best rearrangement setting 15
 alpha[0]: 0.471337 rates[0] ac ag at cg ct gt: 0.814046 1.767188 0.985522 0.888498 2.813698 1.000000 
 
 
 Conducting final model optimizations on all 1 trees under GAMMA-based models ....
 
-Inference[0] final GAMMA-based Likelihood: -150220.758578 tree written to file /home/jeff/paprica/ref_genome_database/eukarya/RAxML_result.ref.tre
+Inference[0] final GAMMA-based Likelihood: -150220.758578 tree written to file /volumes/hd1/paprica/ref_genome_database/eukarya/RAxML_result.ref.tre
 
 
 Starting final GAMMA-based thorough Optimization on tree 0 likelihood -150220.758578 .... 
 
 Final GAMMA-based Score of best tree -150220.758578
 
-Program execution info written to /home/jeff/paprica/ref_genome_database/eukarya/RAxML_info.ref.tre
-Best-scoring ML tree written to: /home/jeff/paprica/ref_genome_database/eukarya/RAxML_bestTree.ref.tre
+Program execution info written to /volumes/hd1/paprica/ref_genome_database/eukarya/RAxML_info.ref.tre
+Best-scoring ML tree written to: /volumes/hd1/paprica/ref_genome_database/eukarya/RAxML_bestTree.ref.tre
 
-Overall execution time: 1316.515096 secs or 0.365699 hours or 0.015237 days
+Overall execution time: 399.123378 secs or 0.110868 hours or 0.004619 days
 
