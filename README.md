@@ -46,4 +46,4 @@ Paprica conducts metabolic inference on (preferably, but not exclusively, NGS) 1
 
 Paprica uses pathways shared between the members of all clades on a reference tree to determine what pathways are likely to be associated with a phylogenetically placed read.
 
-Paprica was designed to use a significant amount of resources up front to construct a database and draft metabolic models for all available completed genomes (allow for 8 hours on a 12 core machine).  You can avoid this by using the provided database. 
+Paprica was designed to use a significant amount of resources up front to construct a database and draft metabolic models for all available completed genomes.  You can avoid this by using the provided database. 
