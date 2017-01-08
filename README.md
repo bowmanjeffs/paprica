@@ -1,13 +1,19 @@
-###Notice - If you've been redirected here from genome_finder you're in the right place!  Verion 0.3.0 has a number of new features and improvements.  Please take a look at the manual and [tutorial](http://www.polarmicrobes.org/?p=1473) for details.
+###Notice - If you've been redirected here from genome_finder you're in the right place!  Verion 0.3 has a number of new features and improvements.  Please take a look at the manual for further details.  There are also several tutorials available:
+###[Installing paprica on Mac OSX](http://www.polarmicrobes.org/installing-paprica-on-mac-osx/)
+###[Basic analysis with paprica](http://www.polarmicrobes.org/analysis-with-paprica/)
+###[Annotation metagenomes with paprica-mg](http://www.polarmicrobes.org/tutorial-annotating-metagenomes-with-paprica-mg/)
+###[Building the paprica database](http://www.polarmicrobes.org/building-the-paprica-database/)
 
 ###Please go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
-###If you'd like to try paprica without needing to download the dependencies we've created a Virtualbox appliance [here](http://www.polarmicrobes.org/extras/paprica-demo.ova).  You will need to download the (free) Oracle Virtualbox software and then import the appliance. The appliance isn't updated every time we make an improvement to paprica, so you'll probably want to re-clone the Github repository once you've got the VB up and running.
+###If you'd like to try paprica without downloading the dependencies you have two options.
+###Option 1: We've created a Virtualbox appliance [here](http://www.polarmicrobes.org/extras/paprica-demo.ova).  You will need to download the (free) Oracle Virtualbox software and then import the appliance. The appliance isn't updated every time we make an improvement to paprica, so you'll probably want to re-clone the Github repository once you've got the VB up and running.
+###Option 2: We've also created an Amazon Web Service machine instance.  Please read the tutorial located [here](http://www.polarmicrobes.org/paprica-on-the-cloud/).
 
 #paprica
 ###PAthway PRediction by phylogenetIC plAcement
 
-A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out the manual and paprica-run.sh script to get started.  The commands:
+A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out the manual and paprica-run.sh script to get started.  Once you've installed the depenencies the commands:
 
 ```
 get clone https://github.com/bowmanjeffs/paprica.git
@@ -27,14 +33,6 @@ chmod a+x *sh
 ./paprica-run.sh test.bacteria bacteria
 ```
 ...where XX is the paprica version should get you going and execute a run on the file test.bacteria.fasta.
-
-###Mac OSX installation tutorial
-
-Installing paprica and all its dependencies on OSX is a little more complicated than on Linux.  You can find a tutorial with detailed instructions [here](http://www.polarmicrobes.org/?p=1477).
-
-###Basic analysis tutorial
-
-You can find a tutorial walking through a basic multi-sample analysis [here](http://www.polarmicrobes.org/?p=1473)
 
 ###Citation
 

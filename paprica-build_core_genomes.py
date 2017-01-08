@@ -88,10 +88,10 @@ if 'h' in command_args.keys():
 ## set some default values.  This is useful for testing.
         
 if len(sys.argv) == 1:
-    domain = 'eukarya'
-    tree = 'test.eukarya.combined_18S.eukarya.tax.clean.align.phyloxml'
+    domain = 'bacteria'
+    tree = 'test.bacteria.combined_16S.bacteria.tax.clean.align.phyloxml'
     ref_dir = 'ref_genome_database'
-    pgdb_dir = '~/ptools-local/pgdbs/user/'
+    pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
     
 else:        
     domain = command_args['domain']
@@ -268,12 +268,10 @@ if domain == 'eukarya':
     print 'Reading enzyme_table.dat...'
     sprot_df = pd.read_csv('enzyme_table.dat', header = 0, index_col = 0, sep = ' ')
 
-## For eukarya, generate gbff files from pep.fa.  This takes a long time, so
-## only do this for directories that don't already have this file.  This should
-## only happen if something went wrong on a previous build, or you deleted some
-## or all of the Genbank files.
-
-if domain == 'eukarya':
+    ## For eukarya, generate gbff files from pep.fa.  This takes a long time, so
+    ## only do this for directories that don't already have this file.  This should
+    ## only happen if something went wrong on a previous build, or you deleted some
+    ## or all of the Genbank files.
     
     ## Determine which directories need the gbff file.
     
@@ -313,7 +311,9 @@ for d in assemblies:
             clade = genome_data.loc[d, 'clade']
                 
             with open(ref_dir_domain + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(ref_dir_domain + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
-        
+                
+                print 'recreating pathologic files for', d
+                
                 print >> organism_params, 'ID' + '\t' + d
                 print >> organism_params, 'Storage' + '\t' + 'File'
                 print >> organism_params, 'Name' + '\t' + d
@@ -381,6 +381,8 @@ for d in assemblies:
                 new_pgdbs.append(d)
                 
 ## Previous failed builds confuse pathway-tools.  Remove the directory.
+
+print 'removing previous failed PGDBs...'
                 
 for d in new_pgdbs:
     shutil.rmtree(pgdb_dir + d.lower() + 'cyc', ignore_errors = True)
@@ -442,37 +444,51 @@ for i,d in enumerate(assemblies):
     
     for f in os.listdir(ref_dir_domain + '/refseq/' + d):
         if f.endswith('gbff'):
-            for record in SeqIO.parse(ref_dir_domain + '/refseq/' + d + '/' + f, 'genbank'):
-                for feature in record.features:
-                    if feature.type == 'CDS':
-                        if 'EC_number' in feature.qualifiers.keys():
-                            
-                            np = np + 1
-                            ec = feature.qualifiers['EC_number']
-                            
-                            ## Some draft genomes will not have a product qualifier.
+            try:
+                for record in SeqIO.parse(ref_dir_domain + '/refseq/' + d + '/' + f, 'genbank'):
+                    for feature in record.features:
+                        if feature.type == 'CDS':
                             
                             try:
-                                prod = feature.qualifiers['product'][0]
+                                protein_id = feature.qualifiers['protein_id'][0]
                             except KeyError:
-                                prod = 'product not specified'
+                                protein_id = 'no protein_id'
                             
-                            ## Because each EC number can appear multiple times
-                            ## in a genome this information needs to be tallied.
-                            
-                            for each in ec:
-                                print 'collecting EC numbers for terminal node', d, i + 1, 'of', len(assemblies), each
+                            if 'EC_number' in feature.qualifiers.keys():
+                                
+                                np = np + 1
+                                ec = feature.qualifiers['EC_number']
+                                
+                                ## Some draft genomes will not have a product qualifier.
                                 
                                 try:
-                                    temp = terminal_ec.loc[d, each]
-                                    if pd.isnull(temp) == True:
-                                        terminal_ec.loc[d, each] = 1
-                                    else:
-                                        terminal_ec.loc[d, each] = temp + 1
+                                    prod = feature.qualifiers['product'][0]
                                 except KeyError:
-                                    terminal_ec.loc[d, each] = 1
+                                    prod = 'product not specified'
+                                
+                                ## Because each EC number can appear multiple times
+                                ## in a genome this information needs to be tallied.
+                                
+                                for each in ec:
+                                    print 'collecting EC numbers for terminal node', d, i + 1, 'of', str(len(assemblies)) + ',', protein_id + ':', each
                                     
-                                ec_names.loc[each, 'name'] = prod
+                                    try:
+                                        temp = terminal_ec.loc[d, each]
+                                        if pd.isnull(temp) == True:
+                                            terminal_ec.loc[d, each] = 1
+                                        else:
+                                            terminal_ec.loc[d, each] = temp + 1
+                                    except KeyError:
+                                        terminal_ec.loc[d, each] = 1
+                                        
+                                    ec_names.loc[each, 'name'] = prod
+
+            ## For some assemblies an error is raised on a second(?) record identified
+            ## in the Genbank file.  It isn't clear why this is happening, pass the error
+            ## here.
+            
+            except AttributeError:
+                pass
         
     ## For assembly d, add in any user specified EC numbers.
     
