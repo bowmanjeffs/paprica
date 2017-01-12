@@ -88,8 +88,8 @@ if 'h' in command_args.keys():
 ## set some default values.  This is useful for testing.
         
 if len(sys.argv) == 1:
-    domain = 'bacteria'
-    tree = 'test.bacteria.combined_16S.bacteria.tax.clean.align.phyloxml'
+    domain = 'eukarya'
+    tree = 'test.eukarya.combined_18S.eukarya.tax.clean.align.phyloxml'
     ref_dir = 'ref_genome_database'
     pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
     
@@ -137,7 +137,7 @@ def make_pgdb(d, ref_dir_domain):
 ## swissprot.gff3 files to create a Genbank format file that can be read by
 ## pathologic during pgdb creation.
     
-def create_euk_files(d, ref_dir_domain):
+def create_euk_files(d):
     
     ## First create a df mapping protein id to SwissProt accession number.
     
@@ -158,12 +158,14 @@ def create_euk_files(d, ref_dir_domain):
     
     for record in SeqIO.parse(ref_dir_domain + 'refseq/' + d + '/' + d + '.pep.fa', 'fasta'):
             
-        new_name = str(record.description).split('NCGR_PEP_ID=')[1]
-        new_name = new_name.split(' /')[0]
-        record.id = new_name
+        ## The swissprot annotations are indexed by MMETSP record locator, not
+        ## by the actual record.id.
+        
+        sprot_name = str(record.description).split('NCGR_PEP_ID=')[1]
+        sprot_name = sprot_name.split(' /')[0]
         	
         try:
-            temp_spt = spt.loc[record.id, 'swissprot']
+            temp_spt = spt.loc[sprot_name, 'swissprot']
         except KeyError:
             continue
         		
@@ -175,7 +177,7 @@ def create_euk_files(d, ref_dir_domain):
         ## Embed all information necessary to create the Genbank file as qualifiers, then
         ## append to this list of records for that genome.
         	
-        qualifiers = {'locus_tag':str(record.id), 'EC_number':ecs, 'product':descriptions, 'translation':str(record.seq)}
+        qualifiers = {'protein_id':sprot_name, 'locus_tag':str(record.id), 'EC_number':ecs, 'product':descriptions, 'translation':str(record.seq)}
         new_feature = SeqFeature.SeqFeature(type = 'CDS', qualifiers = qualifiers)
         new_feature.location = SeqFeature.FeatureLocation(combined_length, combined_length + len(str(record.seq)))
         features.append(new_feature)
@@ -290,7 +292,7 @@ if domain == 'eukarya':
         
     if __name__ == '__main__':  
         Parallel(n_jobs = -1, verbose = 5)(delayed(create_euk_files)
-        (d, ref_dir_domain) for d in gbff_needed)
+        (d) for d in gbff_needed)
     
 ## For every existing PGDB directory (which might be none), determing if the
 ## pathways-report.txt file is present.  If it is not this means the previous

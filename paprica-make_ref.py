@@ -295,6 +295,7 @@ def download_euks(online_directory):
         assembly_accession = summary_complete.loc[online_directory, 'sample_name']
         strain_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory + '/annot/swissprot.gff3.gz'
         strain_cds_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory + '/' + assembly_accession + '.pep.fa.gz'
+        strain_nt_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory + '/' + assembly_accession + '.nt.fa.gz'
         
         mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
         mkdir.communicate()
@@ -303,6 +304,9 @@ def download_euks(online_directory):
         wget0.communicate()
         
         wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_cds_ftp, shell = True, executable = executable)
+        wget0.communicate()
+        
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_nt_ftp, shell = True, executable = executable)
         wget0.communicate() 
     
         gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)

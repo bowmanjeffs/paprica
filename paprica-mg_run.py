@@ -93,12 +93,12 @@ else:
     ref_dir = command_args['ref_dir']
     
 if 'pathways' not in command_args.keys():
-    pathways = 'T'
+    pathways = 'F'
 else:
     pathways = command_args['pathways']
     
 if 'pgdb_dir' not in command_args.keys():
-    pgdb_dir = '/volumes/hd1/ptools-local/user/'
+    pgdb_dir = '/volumes/hd2/ptools-local/user/'
 else:
     pgdb_dir = command_args['pgdb_dir']
     
