@@ -39,6 +39,7 @@ executable = '/bin/bash' # shell for executing commands
 import sys
 import subprocess
 import os
+import gzip
 
 import pandas as pd
 
@@ -77,7 +78,7 @@ if 'h' in command_args.keys():
 ## Provide input switches for testing.
 
 if 'i' not in command_args.keys():
-    query = ['test.fastq.gz']
+    query = ['RNA1_ICE_3m_20151104.assembled.fasta.gz']
 else:
     query = command_args['i']
     query = query.split()
@@ -103,7 +104,7 @@ else:
     pgdb_dir = command_args['pgdb_dir']
     
 if 't' not in command_args.keys():
-    threads = 4
+    threads = 72
 else:
     threads = command_args['t']
     
@@ -134,44 +135,40 @@ if len(query) > 1:
     + cwd + query[0] + \
     + ' ' + cwd + query[1] + ' > ' \
     + cwd + name + '.sam', shell = True, executable = executable)
-    bwa_aln.communicate()  
+    bwa_aln.communicate() 
     
-#%% Parse SAM format output
+## gzip the sam file to save space.
     
-## First need to determine the maximum number of fields.  This is variable because
-## of optional field codes.  It may always be 17, though not clear why pandas doesn't
-## recognize this on its own.
+gz = subprocess.Popen('gzip ' + cwd + name + '.sam', shell = True, executable = executable)
+gz.communicate()
     
-line_length = 12
+#%% Iterate across sam file, tallying the number of hits to each reference that appears in the results.
+    
+prot_counts = pd.Series()
+prot_counts.name = 'n_hits'
+    
 i = 0
+f = 0
     
-with open(cwd + name + '.sam') as sam:
+with gzip.open(cwd + name + '.sam.gz', 'rb') as sam:
     for line in sam:
-        i = i + 1
+        
         if line.startswith('@') == False:
+            i = i + 1
             line = line.split('\t')
             
-            if len(line) > line_length:
-                line_length = len(line)
-                
-            print 'determing the number of fields:', i, line_length
+            ## For mapped reads, add to tally for the reference sequence.
             
-## Then generate column names.
-
-sam_columns = ['opt'] * line_length
-sam_columns = [m + str(n) for m,n in zip(sam_columns, range(1, len(sam_columns)))]    
-sam_columns[0:10] = ['qname', 'flag', 'rname', 'pos', 'mapq', 'cigar', 'mrnm', 'mpos', 'isize', 'seq', 'qual']
-
-## Read the SAM file as a pandas df.
-
-print 'reading ' + cwd + name + '.sam...'
-sam = pd.read_csv(cwd + name + '.sam', header = None, comment = '@', sep = '\t', engine = 'python', names = sam_columns)
-
-## Count the number of hits to each reference protein.
-
-print 'tallying mapped reads...'
-prot_counts = sam.rname.value_counts()
-prot_counts.name = 'n_hits'
+            if line[1] != '4':            
+                rname = line[2]
+                f = f + 1
+                
+                try:
+                    prot_counts[rname] = prot_counts[rname] + 1
+                except KeyError:
+                    prot_counts[rname] = 1
+    
+                print 'tallying hits for', name + ':', 'found', f, 'out of', i
 
 ## Add information from paprica-mt.ec.csv.
 
@@ -184,5 +181,14 @@ prot_unique_cds_df.dropna(subset = ['n_hits'], inplace = True)
 print 'writing output csv:', cwd + name + '.tally_ec.csv...'
 columns_out = ['genome', 'domain', 'EC_number', 'product', 'n_hits']
 prot_unique_cds_df.to_csv(cwd + name + '.tally_ec.csv', columns = columns_out)
+
+## Write out report file.
+
+with open(cwd + name + '.paprica-mt_report.txt', 'w') as report:
+    print >> report, 'file', query
+    print >> report, 'n_reads', i
+    print >> report, 'n_hits', f
+    print >> report, 'f_hits', i/float(f)
+    print >> report, 'n_genomes', len(prot_unique_cds_df.genome.value_counts())
 
 print 'done'

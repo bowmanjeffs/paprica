@@ -268,7 +268,12 @@ prot_nr_trans_df.to_csv(ref_dir + 'paprica-mg.ec.csv')
 ## coding sequences that are actually unique.
 
 prot_unique_cds_df = prot_df[prot_df['cds_n_occurrences'] == 1]
-prot_unqiue_cds_df = prot_unique_cds_df[prot_unique_cds_df.sequence != 'no_nucleotide_sequence_found']
+
+## Identical products from genes with silent mutations will still have the same
+## protein ID.  Need to eliminate.
+
+prot_unique_cds_df = prot_unique_cds_df[prot_unique_cds_df.sequence != 'no_nucleotide_sequence_found']
+prot_unique_cds_df.drop_duplicates(subset = ['translation'], inplace = True)
 prot_unique_cds_df.to_csv(ref_dir + 'paprica-mt.ec.csv')
 
 ## Make a nonredundant fasta for the metagenomic analysis database.
