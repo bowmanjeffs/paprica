@@ -68,7 +68,7 @@ import datetime
 import random
 import pandas as pd
 
-paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.
+paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/' # The location of the actual paprica scripts.
 cwd = os.getcwd() + '/' # The current working directory.
                 
 ## Parse command line arguments.  Arguments that are unique to a run,
@@ -99,8 +99,8 @@ try:
     
 except KeyError:
     ref_dir = paprica_path + 'ref_genome_database/'
-    domain = 'archaea'
-    ref = 'combined_16S.archaea.tax'
+    domain = 'bacteria'
+    ref = 'combined_16S.bacteria.tax'
 
 ## If sys.argv == 1, you are probably running inside Python in testing mode.
 ## Provide some default values to make this possibe.  If > 1, parse command
@@ -136,8 +136,6 @@ if ref_dir.endswith('/') == False:
     
 ref_dir_domain = ref_dir + domain + '/' # Complete path to the domain subdirectory within the reference directory.
 cm = paprica_path + 'models/' + domain + '_ssu.cm' # Domain specific covariance model used by infernal.
-
-## Taxon replacements.  Some eukaryotic taxids are deprecated, need to 
 
 #%% Define a stop function for diagnostic use only.
 
@@ -294,6 +292,13 @@ def make_tax(bad_character):
         summary_complete.taxid = summary_complete.taxid.astype(dtype = 'uint64')
         seq_info['tax_id'] = summary_complete['taxid']
         
+    ## Writing out genome_data.csv here allows the placeholder taxids
+    ## for draft genomes, or other genomes without taxid, to be used
+    ## downstream.  A better solution would be to find and add taxids for
+    ## draft genomes.
+        
+    summary_complete.to_csv(ref_dir_domain + 'genome_data.csv')
+        
     ## Sequence names must be cleaned exactly as in clean_name.  Drop any entries
     ## that do not have a seqname.
     
@@ -376,6 +381,7 @@ if 'query' not in command_args.keys():
     ## Generate taxonomy information for the reference package.
     
     make_tax(bad_character)
+    stop_here()
      
     ## Generate the reference package using the rooted tree with SH-like support values and a log file.
     ## Will not overwrite existing reference package, so delete if present.
