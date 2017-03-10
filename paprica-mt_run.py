@@ -175,11 +175,12 @@ with gzip.open(cwd + name + '.sam.gz', 'rb') as sam:
 prot_unique_cds_df = pd.read_csv(paprica_path + ref_dir + '/paprica-mt.ec.csv', header = 0, index_col = 0)
 prot_unique_cds_df = pd.concat([prot_unique_cds_df, prot_counts], axis = 1, join_axes = [prot_unique_cds_df.index])
 prot_unique_cds_df.dropna(subset = ['n_hits'], inplace = True)
+prot_unique_cds_df.length_cds = prot_unique_cds_df.translation.str.len() # CDS length, would be nice if this was precomputed
 
 ## Write out the final csv file.
 
 print 'writing output csv:', cwd + name + '.tally_ec.csv...'
-columns_out = ['genome', 'domain', 'EC_number', 'product', 'n_hits']
+columns_out = ['genome', 'domain', 'EC_number', 'product', 'length_cds', 'n_hits']
 prot_unique_cds_df.to_csv(cwd + name + '.tally_ec.csv', columns = columns_out)
 
 ## Write out report file.
@@ -188,7 +189,7 @@ with open(cwd + name + '.paprica-mt_report.txt', 'w') as report:
     print >> report, 'file', query
     print >> report, 'n_reads', i
     print >> report, 'n_hits', f
-    print >> report, 'f_hits', i/float(f)
+    print >> report, 'f_hits', float(f)/i
     print >> report, 'n_genomes', len(prot_unique_cds_df.genome.value_counts())
 
 print 'done'
