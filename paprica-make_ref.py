@@ -300,13 +300,7 @@ def download_euks(online_directory):
         mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
         mkdir.communicate()
         
-        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp, shell = True, executable = executable)
-        wget0.communicate()
-        
-        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_cds_ftp, shell = True, executable = executable)
-        wget0.communicate()
-        
-        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_nt_ftp, shell = True, executable = executable)
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A "genomic.fna.gz","genomic.gbff.gz","protein.faa.gz" ' + strain_ftp + '/*', shell = True, executable = executable)
         wget0.communicate() 
     
         gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)

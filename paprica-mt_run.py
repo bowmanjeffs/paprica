@@ -139,7 +139,7 @@ if len(query) > 1:
     
 ## gzip the sam file to save space.
     
-gz = subprocess.Popen('gzip ' + cwd + name + '.sam', shell = True, executable = executable)
+gz = subprocess.Popen('gzip -f ' + cwd + name + '.sam', shell = True, executable = executable)
 gz.communicate()
     
 #%% Iterate across sam file, tallying the number of hits to each reference that appears in the results.
@@ -159,7 +159,7 @@ with gzip.open(cwd + name + '.sam.gz', 'rb') as sam:
             
             ## For mapped reads, add to tally for the reference sequence.
             
-            if line[1] != '4':            
+            if line[1] in ['0', '2', '16']:            
                 rname = line[2]
                 f = f + 1
                 

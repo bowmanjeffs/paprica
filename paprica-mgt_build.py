@@ -28,7 +28,7 @@ This script uses DIAMOND to create a database of the nonredundant fasta against
 which query shotgun MG sequences reads can be searched.
 
 CALL AS:
-    paprica-mg_build.py [options]
+    paprica-mgt_build.py [options]
     
 OPTIONS:
 -ref_dir: The name of the directory containing the paprica database.  Not necessary
@@ -39,16 +39,17 @@ if your database is named ref_genome_database (the default).
 executable = '/bin/bash' # shell for executing commands
 
 import os
+import shutil
 import subprocess
 import sys
 from joblib import Parallel, delayed
 
 from Bio import SeqIO
-from Bio.Seq import Seq
-from Bio.SeqFeature import SeqFeature, FeatureLocation
 
 import pandas as pd
 import numpy as np
+
+#%% Function definitions.
 
 ## Define a stop function for troubleshooting.
 
@@ -56,8 +57,28 @@ def stop_here():
     stop = []
     print 'Manually stopped!'
     print stop[1]
+    
+## Define a function to download viral genomes.
+    
+def download_assembly(ref_dir_domain, executable, assembly_accession):
+    try:
+        strain_ftp = genome_data_virus.loc[assembly_accession, 'ftp_path']
+        
+        mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
+        mkdir.communicate()
+        
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A "genomic.fna.gz","genomic.gbff.gz","protein.faa.gz" ' + strain_ftp + '/*', shell = True, executable = executable)
+        wget0.communicate() 
+        
+        gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
+        gunzip.communicate()
+        
+        print assembly_accession + ':' + strain_ftp
+        
+    except KeyError:
+        print 'no', assembly_accession, 'path'
 
-## Read in command line arguments.
+#%% Read in command line arguments.
 
 command_args = {}
 
@@ -84,6 +105,61 @@ if ref_dir.endswith('/') == False:
 paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/' # The location of the actual paprica scripts.  
 ref_dir = paprica_path + ref_dir
 
+#%% Download virus sequences, since they aren't used anywhere else.  Since this
+## isn't a particularly large database, just overwrite existing.
+
+try:
+    shutil.rmtree(ref_dir + 'virus')
+
+except OSError:
+    pass
+
+os.mkdir(ref_dir + 'virus')
+os.mkdir(ref_dir + 'virus' + '/refseq')
+
+genome_data_virus = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/viral/assembly_summary.txt', header = 1, index_col = 0)
+genome_data_virus = genome_data_virus[genome_data_virus.assembly_level == 'Complete Genome']
+
+if __name__ == '__main__':  
+    Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
+    (ref_dir + 'virus/', executable, assembly_accession) for assembly_accession in genome_data_virus.index)
+
+## Check to make sure critical files downloaded.
+
+incomplete_genome = []
+    
+for assembly_accession in genome_data_virus.index:
+
+    ng_file_count = 0
+    temp_faa = ''
+    
+    ## Genbank now puts some useless fna files in the directory, remove
+    ## or they complicate things.
+    
+    for f in os.listdir(ref_dir + 'virus/' + 'refseq/' + assembly_accession):
+        if f.endswith('from_genomic.fna'):
+            os.remove(ref_dir + 'virus/' + 'refseq/' + assembly_accession + '/' + f)
+            
+    ## Now check to make sure that the files you want are in place.
+    
+    for f in os.listdir(ref_dir + 'virus/' + 'refseq/' + assembly_accession):
+        if f.endswith('protein.faa'):
+            temp_faa = f
+            ng_file_count = ng_file_count + 1
+        elif f.endswith('genomic.fna'):
+            ng_file_count = ng_file_count + 1
+        elif f.endswith('genomic.gbff'):
+            ng_file_count = ng_file_count + 1
+                    
+    if ng_file_count != 3:
+        print assembly_accession, 'is missing a Genbank file'
+        incomplete_genome.append(assembly_accession)
+                       
+genome_data_virus = genome_data_virus.drop(incomplete_genome)
+genome_data_virus['domain'] = 'virus'
+
+#%%  Create database.
+
 ## Read in genome_data so that you can iterate by genomes that are actually
 ## used by paprica.
 
@@ -99,7 +175,7 @@ genome_data_eukarya = pd.read_csv(ref_dir + 'eukarya/genome_data.final.csv', ind
 genome_data_eukarya = genome_data_eukarya.dropna(subset = ['clade'])
 genome_data_eukarya['domain'] = 'eukarya'
 
-genome_data = pd.concat([genome_data_bacteria, genome_data_archaea, genome_data_eukarya])
+genome_data = pd.concat([genome_data_bacteria, genome_data_archaea, genome_data_eukarya, genome_data_virus])
 
 ## Iterate through all the files in refseq and find the gbff files.  First pass
 ## just counts the number of features with EC_number so that we can create a
@@ -194,9 +270,13 @@ for d in genome_data.index:
                                 ## Get the nucleotide sequence.
                                 
                                 if domain != 'eukarya':
+                                    
+                                    ## Start and end are captured here, but these aren't
+                                    ## always correct, which is why I'm now using the feature.extract method.                                    
+                                    
                                     start = int(feature.location.start)
                                     end = int(feature.location.end)
-                                    seq = str(record.seq[start:end])
+                                    seq = str(feature.extract(record).seq)
                                 else:
                                     start = 0
                                     end = 0
