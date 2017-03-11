@@ -78,7 +78,7 @@ if 'h' in command_args.keys():
 ## Provide input switches for testing.
 
 if 'i' not in command_args.keys():
-    query = ['RNA1_ICE_3m_20151104.assembled.fasta.gz']
+    query = ['test.fasta.gz']
 else:
     query = command_args['i']
     query = query.split()
@@ -175,7 +175,7 @@ with gzip.open(cwd + name + '.sam.gz', 'rb') as sam:
 prot_unique_cds_df = pd.read_csv(paprica_path + ref_dir + '/paprica-mt.ec.csv', header = 0, index_col = 0)
 prot_unique_cds_df = pd.concat([prot_unique_cds_df, prot_counts], axis = 1, join_axes = [prot_unique_cds_df.index])
 prot_unique_cds_df.dropna(subset = ['n_hits'], inplace = True)
-prot_unique_cds_df.length_cds = prot_unique_cds_df.translation.str.len() # CDS length, would be nice if this was precomputed
+prot_unique_cds_df['length_cds'] = prot_unique_cds_df.translation.str.len() # CDS length, would be nice if this was precomputed
 
 ## Write out the final csv file.
 
