@@ -1,8 +1,8 @@
 ## Notice - If you've been redirected here from genome_finder you're in the right place!  Verion 0.4 has a number of new features and improvements.  Please take a look at the manual for further details.  There are also several tutorials available:
-[Installing paprica on Mac OSX](http://www.polarmicrobes.org/installing-paprica-on-mac-osx/)
-[Basic analysis with paprica](http://www.polarmicrobes.org/analysis-with-paprica/)
-[Annotating metagenomes with paprica-mg](http://www.polarmicrobes.org/tutorial-annotating-metagenomes-with-paprica-mg/)
-[Building the paprica database](http://www.polarmicrobes.org/building-the-paprica-database/)
+[Installing paprica on Mac OSX](http://www.polarmicrobes.org/installing-paprica-on-mac-osx/)  
+[Basic analysis with paprica](http://www.polarmicrobes.org/analysis-with-paprica/)  
+[Annotating metagenomes with paprica-mg](http://www.polarmicrobes.org/tutorial-annotating-metagenomes-with-paprica-mg/)  
+[Building the paprica database](http://www.polarmicrobes.org/building-the-paprica-database/)  
 
 ## Please go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
