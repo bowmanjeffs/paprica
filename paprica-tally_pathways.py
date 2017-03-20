@@ -50,7 +50,6 @@ import sys
 import os
 
 paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.
-#paprica_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)) + '/' 
 cwd = os.getcwd() + '/'  # The current working directory
     
 ## Parse command line arguments.
