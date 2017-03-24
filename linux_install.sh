@@ -5,6 +5,8 @@
 #### OSX.  Refer to the tutorial at:                                        ####
 #### http://www.polarmicrobes.org/installing-paprica-on-mac-osx/.           #### 
 
+cd ~
+
 ## Install pip
 sudo apt-get install python-dev
 wget https://bootstrap.pypa.io/ez_setup.py -O - | python - --user
@@ -51,7 +53,7 @@ echo "PATH=/home/${user}/standard-RAxML:$PATH" >> .bashrc
 echo "PATH=/home/${user}/paprica:$PATH" >> .bashrc
 source .bashrc
 
-## Download paprica
+## Download paprica - redundant cause that's probably how you got this script
 git clone https://github.com/bowmanjeffs/paprica.git
 cd paprica
 chmod a+x *py
