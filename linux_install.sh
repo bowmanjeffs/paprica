@@ -56,6 +56,7 @@ echo "PATH=/home/${TEMPNAME}/infernal/binaries:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/infernal/easel:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/standard-RAxML:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/paprica:"'$PATH' >> .bashrc
+echo 'export PATH' >> .bashrc
 source .bashrc
 
 ## Download paprica - redundant cause that's probably how you got this script
