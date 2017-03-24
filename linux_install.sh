@@ -16,7 +16,6 @@ cd pip*
 sudo python setup.py install
 
 ## Install some packages
-cd ~
 sudo apt-get install build-essential
 sudo apt-get install git
 sudo apt-get install zip
@@ -45,12 +44,13 @@ unzip pplacer-linux-v1.1.alpha18-2-gcb55169.zip
 mv pplacer-Linux-v1.1.alpha18-2-gcb55169 pplacer
 
 ## Modify PATH in .bashrc
+TEMPNAME=`whoami`
 echo "## added by paprica installer" >> .bashrc
-echo "PATH=/home/${user}/pplacer:$PATH" >> .bashrc
-echo "PATH=/home/${user}/infernal/binaries:$PATH" >> .bashrc
-echo "PATH=/home/${user}/infernal/easel:$PATH" >> .bashrc
-echo "PATH=/home/${user}/standard-RAxML:$PATH" >> .bashrc
-echo "PATH=/home/${user}/paprica:$PATH" >> .bashrc
+echo "PATH=/home/${TEMPNAME}/pplacer:"'$PATH' >> .bashrc
+echo "PATH=/home/${TEMPNAME}/infernal/binaries:"'$PATH' >> .bashrc
+echo "PATH=/home/${TEMPNAME}/infernal/easel:"'$PATH' >> .bashrc
+echo "PATH=/home/${TEMPNAME}/standard-RAxML:"'$PATH' >> .bashrc
+echo "PATH=/home/${TEMPNAME}/paprica:"'$PATH' >> .bashrc
 source .bashrc
 
 ## Download paprica - redundant cause that's probably how you got this script
