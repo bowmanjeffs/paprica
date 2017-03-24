@@ -3,19 +3,23 @@
 #### (e.g. one that uses apt-get).  These commands will not work as-is for  ####
 #### OSX, although they will serve as a useful guide for installation on    ####
 #### OSX.  Refer to the tutorial at:                                        ####
-#### http://www.polarmicrobes.org/installing-paprica-on-mac-osx/.           #### 
+#### http://www.polarmicrobes.org/installing-paprica-on-mac-osx/.  It is    ####
+#### recommended that you run "sudo apt-get update" before executing this   ####
+#### script.  This script should be executed as root (e.g. with "sudo").    #### 
 
 cd ~
 
 ## Install pip
-sudo apt-get install python-dev
-wget https://bootstrap.pypa.io/ez_setup.py -O - | python - --user
-wget http://pypi.python.org/packages/source/p/pip/pip-1.1.tar.gz#md5=62a9f08dd5dc69d76734568a6c040508
-tar -xvf pip*.gz
-cd pip*
-sudo python setup.py install
+#sudo apt-get install python-dev
+#wget https://bootstrap.pypa.io/ez_setup.py -O - | python - --user
+#wget http://pypi.python.org/packages/source/p/pip/pip-1.1.tar.gz#md5=62a9f08dd5dc69d76734568a6c040508
+#tar -xvf pip*.gz
+#cd pip*
+#sudo python setup.py install
 
 ## Install some packages
+sudo apt-get install python-pip
+sudo pip install --upgrade pip
 sudo apt-get install build-essential
 sudo apt-get install git
 sudo apt-get install zip
@@ -34,6 +38,7 @@ sudo make -f Makefile.AVX2.PTHREADS.gcc
 rm -f *.o
 
 ## Install infernal
+cd ~
 wget http://eddylab.org/infernal/infernal-1.1.2-linux-intel-gcc.tar.gz
 tar -xzvf infernal-1.1.2-linux-intel-gcc.tar.gz
 mv infernal-1.1.2-linux-intel-gcc infernal
