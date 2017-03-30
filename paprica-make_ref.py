@@ -139,7 +139,7 @@ except KeyError:
 try:
     cpus = str(command_args['cpus'])
 except KeyError:
-    cpus = 8
+    cpus = str(8)
 try:
     download = command_args['download']
 except KeyError:

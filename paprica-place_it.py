@@ -381,7 +381,6 @@ if 'query' not in command_args.keys():
     ## Generate taxonomy information for the reference package.
     
     make_tax(bad_character)
-    stop_here()
      
     ## Generate the reference package using the rooted tree with SH-like support values and a log file.
     ## Will not overwrite existing reference package, so delete if present.
