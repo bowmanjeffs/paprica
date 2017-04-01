@@ -153,9 +153,12 @@ except KeyError:
     
 if ref_dir.endswith('/') == False:
     ref_dir = ref_dir + '/'
-
+    
 paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/' # The location of the actual paprica scripts.    
+
 ref_dir_domain = paprica_path + ref_dir + domain + '/'
+
+## Select model based on domain specified.
     
 if domain == 'bacteria':
     cm = paprica_path + 'models/bacteria_ssu.cm'
@@ -273,16 +276,10 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
         mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
         mkdir.communicate()
         
-        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A genomic.fna.gz ' + strain_ftp + '/*', shell = True, executable = executable)
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A "genomic.fna.gz","genomic.gbff.gz","pep.fa.gz" ' + strain_ftp + '/*', shell = True, executable = executable)
         wget0.communicate() 
         
-        wget1 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A genomic.gbff.gz ' + strain_ftp + '/*', shell = True, executable = executable)
-        wget1.communicate()
-        
-        wget2 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A protein.faa.gz ' + strain_ftp + '/*', shell = True, executable = executable)
-        wget2.communicate()
-        
-        gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
+        gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*', shell = True, executable = executable)
         gunzip.communicate()
         
         print assembly_accession + ':' + strain_ftp
@@ -293,20 +290,21 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
 def download_euks(online_directory):
     try:
         assembly_accession = summary_complete.loc[online_directory, 'sample_name']
-        strain_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory + '/annot/swissprot.gff3.gz'
-        strain_cds_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory + '/' + assembly_accession + '.pep.fa.gz'
-        strain_nt_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory + '/' + assembly_accession + '.nt.fa.gz'
+        strain_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory
         
         mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
         mkdir.communicate()
         
-        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A "genomic.fna.gz","genomic.gbff.gz","protein.faa.gz" ' + strain_ftp + '/*', shell = True, executable = executable)
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/' + assembly_accession + '.pep.fa.gz', shell = True, executable = executable)
         wget0.communicate() 
+        
+        wget1 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/annot/swissprot.gff3.gz', shell = True, executable = executable)
+        wget1.communicate() 
     
-        gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
+        gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*', shell = True, executable = executable)
         gunzip.communicate()
         
-        print assembly_accession + ':' + strain_ftp
+        print assembly_accession + ':' + ref_dir_domain + 'refseq/' + assembly_accession
         
     except KeyError:
         print 'no', online_directory, 'online directory' 
