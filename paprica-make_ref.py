@@ -295,7 +295,7 @@ def download_euks(online_directory):
         mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
         mkdir.communicate()
         
-        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/' + assembly_accession + '.pep.fa.gz', shell = True, executable = executable)
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A "pep.fa.gz","nt.fa.gz" ' + strain_ftp + '/*', shell = True, executable = executable)
         wget0.communicate() 
         
         wget1 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/annot/swissprot.gff3.gz', shell = True, executable = executable)
@@ -372,6 +372,8 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
                 os.listdir(ref_dir + domain + '/refseq')
             except OSError:
                 os.mkdir(ref_dir + domain + '/refseq')
+                
+        ## Execute some tasks specific to the domain Eukarya.
             
         if domain == 'eukarya':
             
@@ -391,8 +393,10 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
                 Parallel(n_jobs = -1, verbose = 5)(delayed(download_euks)
                 (online_directory) for online_directory in summary_complete.index)
                 
-            ## Check to make sure that each downloaded directory has a .fa and .gff3 file
-            ## extension.  Remove if it does not, and add to bad_eukarya.
+            ## Check to make sure that each downloaded directory has a .fa, .nt, and .gff3 file
+            ## extension.  Remove if it does not, and add to bad_eukarya.  The .nt
+            ## file is not required for regular paprica, but this makes the database
+            ## compatible with paprica-mgt.
                 
             for genome in summary_complete.sample_name:
                 file_count = 0
@@ -401,12 +405,14 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
                     for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
                         if f.endswith('pep.fa'):
                             file_count = file_count + 1
+                        if f.endswith('nt.fa'):
+                            file_count = file_count + 1
                         elif f.endswith('swissprot.gff3'):
                             file_count = file_count + 1 
                 except OSError:
                     pass
                         
-                if file_count != 2:
+                if file_count != 3:
                     try:
                         shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
                     except OSError:
