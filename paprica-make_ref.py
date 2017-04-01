@@ -416,6 +416,11 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
             ## Remove incomplete downloads from summary_complete.
                 
             summary_complete = summary_complete[~summary_complete.sample_name.isin(bad_eukarya)]
+            
+            ## For Eukarya, dataframe is currently indexed by online directory number.
+            ## Downstream scripts need it to be indexed by acccession.  
+
+            summary_complete = summary_complete.set_index('sample_name')
 
         ## If bacteria or archaea continue here.
 
@@ -477,50 +482,50 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
                 Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
                 (ref_dir_domain, executable, assembly_accession) for assembly_accession in new_genomes)
                 
-            ## If just building with the test set add all genomes in the set to new_genomes.
+            ## Sometime wget will fail to download a valid file.  This causes problems
+            ## downstream.  Check that each directory has an faa and fna file, and remove
+            ## from summary_complete if it does not.
+        
+            new_genome_faa = [] # This will be used for compositional vector creation, and will only hold new genomes with valid faa
+            incomplete_genomes = []
+                
+            for assembly_accession in new_genomes:
+        
+                ng_file_count = 0
+                temp_faa = ''
+                
+                ## Genbank now puts some useless fna files in the directory, remove
+                ## or they complicate things.
+                
+                for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
+                    if f.endswith('from_genomic.fna'):
+                        os.remove(ref_dir_domain + 'refseq/' + assembly_accession + '/' + f)
+                        
+                ## Now check to make sure that the files you want are in place.
+                
+                for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
+                    if f.endswith('protein.faa'):
+                        temp_faa = f
+                        ng_file_count = ng_file_count + 1
+                    elif f.endswith('genomic.fna'):
+                        ng_file_count = ng_file_count + 1
+                    elif f.endswith('genomic.gbff'):
+                        ng_file_count = ng_file_count + 1
+                                
+                if ng_file_count != 3:
+                    print assembly_accession, 'is missing a Genbank file'
+                    incomplete_genomes.append(assembly_accession)
+                else:
+                    new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
+                                   
+            summary_complete = summary_complete.drop(incomplete_genomes)
+            new_genomes = new_genomes.drop(incomplete_genomes)   
+                
+    ## If just building with the test set add all genomes in the set to new_genomes.
         
     if download == 'test':
         summary_complete = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
         new_genomes = summary_complete.index
-        
-    ## Sometime wget will fail to download a valid file.  This causes problems
-    ## downstream.  Check that each directory has an faa and fna file, and remove
-    ## from summary_complete if it does not.
-        
-    new_genome_faa = [] # This will be used for compositional vector creation, and will only hold new genomes with valid faa
-    incomplete_genome = []
-        
-    for assembly_accession in new_genomes:
-
-        ng_file_count = 0
-        temp_faa = ''
-        
-        ## Genbank now puts some useless fna files in the directory, remove
-        ## or they complicate things.
-        
-        for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
-            if f.endswith('from_genomic.fna'):
-                os.remove(ref_dir_domain + 'refseq/' + assembly_accession + '/' + f)
-                
-        ## Now check to make sure that the files you want are in place.
-        
-        for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
-            if f.endswith('protein.faa'):
-                temp_faa = f
-                ng_file_count = ng_file_count + 1
-            elif f.endswith('genomic.fna'):
-                ng_file_count = ng_file_count + 1
-            elif f.endswith('genomic.gbff'):
-                ng_file_count = ng_file_count + 1
-                        
-        if ng_file_count != 3:
-            print assembly_accession, 'is missing a Genbank file'
-            incomplete_genome.append(assembly_accession)
-        else:
-            new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
-                           
-    summary_complete = summary_complete.drop(incomplete_genome)
-    new_genomes = new_genomes.drop(incomplete_genome)   
             
     ## Add columns to dataframe that will be used later.  This is done for all domains and for the
     ## T and test cases.
@@ -532,12 +537,6 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
     summary_complete['tax_name'] = np.nan
     summary_complete['phi'] = np.nan
     summary_complete['GC'] = np.nan
-    
-    ## For Eukarya, dataframe is currently indexed by online directory number.
-    ## Downstream scripts need it to be indexed by acccession.  
-    
-    if domain == 'eukarya':
-        summary_complete = summary_complete.set_index('sample_name')
     
     ## Write out summary_complete and exit script.
 
