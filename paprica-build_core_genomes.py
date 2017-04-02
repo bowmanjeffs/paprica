@@ -91,7 +91,7 @@ if len(sys.argv) == 1:
     domain = 'eukarya'
     tree = 'test.eukarya.combined_18S.eukarya.tax.clean.align.phyloxml'
     ref_dir = 'ref_genome_database'
-    pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
+    pgdb_dir = '~/ptools-local/pgdbs/user/'
     
 else:        
     domain = command_args['domain']
@@ -156,7 +156,18 @@ def create_euk_files(d):
     
     print 'generating genbank format files for', d + '...'
     
-    for record in SeqIO.parse(ref_dir_domain + 'refseq/' + d + '/' + d + '.pep.fa', 'fasta'):
+    ## Some directory names differ from the accession number.  Rename these
+    ## directories to match the accession number.
+    
+    for f in os.listdir(ref_dir_domain + 'refseq/' + d):
+        if f.endswith('.pep.fa'):
+            a = f.split('.pep.fa')[0]
+            
+    if a != d:
+        os.rename(ref_dir_domain + 'refseq/' + d, ref_dir_domain + 'refseq/' + a)
+        print 'directory', d, 'is now', a
+    
+    for record in SeqIO.parse(ref_dir_domain + 'refseq/' + a + '/' + a + '.pep.fa', 'fasta'):
             
         ## The swissprot annotations are indexed by MMETSP record locator, not
         ## by the actual record.id.
@@ -188,8 +199,8 @@ def create_euk_files(d):
     ## want to use the gbk extension, to match the (silly) Genbank convention
     ## use gbff.
         
-    new_record = SeqRecord(Seq('nnnn', alphabet = IUPAC.ambiguous_dna), id = d, name = d, features = features)   
-    SeqIO.write(new_record, open(ref_dir_domain + 'refseq/' + d + '/' + d + '.gbff', 'w'), 'genbank')
+    new_record = SeqRecord(Seq('nnnn', alphabet = IUPAC.ambiguous_dna), id = a, name = a, features = features)   
+    SeqIO.write(new_record, open(ref_dir_domain + 'refseq/' + a + '/' + a + '.gbff', 'w'), 'genbank')
     
 #%% Preparatory file generation and organization.
 
