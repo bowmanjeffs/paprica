@@ -156,7 +156,8 @@ for assembly_accession in genome_data_virus.index:
         incomplete_genome.append(assembly_accession)
                        
 genome_data_virus = genome_data_virus.drop(incomplete_genome)
-genome_data_virus['domain'] = 'virus'
+genome_data_virus['tax_name'] = genome_data_virus.organism_name.replace(' ', '_')
+genome_data_virus.to_csv(ref_dir + 'virus/' + 'genome_data.final.csv')
 
 #%%  Create database.
 
@@ -174,6 +175,9 @@ genome_data_archaea['domain'] = 'archaea'
 genome_data_eukarya = pd.read_csv(ref_dir + 'eukarya/genome_data.final.csv', index_col = 0, header = 0)
 genome_data_eukarya = genome_data_eukarya.dropna(subset = ['clade'])
 genome_data_eukarya['domain'] = 'eukarya'
+
+genome_data_virus = pd.read_csv(ref_dir + 'virus/genome_data.final.csv', index_col = 0, header = 0)
+genome_data_virus['domain'] = 'virus'
 
 genome_data = pd.concat([genome_data_bacteria, genome_data_archaea, genome_data_eukarya, genome_data_virus])
 
@@ -221,7 +225,7 @@ os.remove('tmp.paprica.mmp')
 ## Create numpy array for data and a 1D array that will become dataframe index.
 ## You can probably parallelize this as above, but going to take some effort.
                             
-prot_array = np.empty((eci,8), dtype = 'object')
+prot_array = np.empty((eci,9), dtype = 'object')
 prot_array_index = np.empty(eci, dtype = 'object')
 
 ## Iterate through all the files in refseq and find the gbk files again.  Store
@@ -231,7 +235,8 @@ prot_array_index = np.empty(eci, dtype = 'object')
 i = 0
 
 for d in genome_data.index:
-    domain = genome_data.loc[d, 'domain']
+    domain = genome_data.loc[d, 'domain']    
+    strain = genome_data.loc[d, 'tax_name']
     
     ## For the domain eukarya, the nuc records are not available as part of the
     ## Genbank format file, they need to be aquired separately and indexed so
@@ -296,12 +301,13 @@ for d in genome_data.index:
                                 prot_array_index[i] = protein_id
                                 prot_array[i,0] = d
                                 prot_array[i,1] = domain
-                                prot_array[i,2] = ec[0]
-                                prot_array[i,3] = seq
-                                prot_array[i,4] = trans
-                                prot_array[i,5] = prod
-                                prot_array[i,6] = start
-                                prot_array[i,7] = end
+                                prot_array[i,2] = strain
+                                prot_array[i,3] = ec[0]
+                                prot_array[i,4] = seq
+                                prot_array[i,5] = trans
+                                prot_array[i,6] = prod
+                                prot_array[i,7] = start
+                                prot_array[i,8] = end
                                 
                                 i = i + 1
                                 print d, i, 'out of around', int(eci/2), protein_id, ec[0]
@@ -315,7 +321,7 @@ for d in genome_data.index:
 
 ## Convert array to pandas dataframe
 
-columns = ['genome', 'domain', 'EC_number', 'sequence', 'translation', 'product', 'start', 'end']                                    
+columns = ['genome', 'domain', 'tax_name', 'EC_number', 'sequence', 'translation', 'product', 'start', 'end']                                    
 prot_df = pd.DataFrame(prot_array, index = prot_array_index, columns = columns)
 
 ## Determine how often each translation appears.  CDS with a translation

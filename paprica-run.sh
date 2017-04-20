@@ -8,7 +8,7 @@
 #### If you have a large number run this script in a loop (see the manual for an example).  Because the bottleneck is alignment,
 #### and infernal is parallelized, it is best not to run samples in parallel.
 
-#### Execute this script as ./paprica_run.sh [query] [domain].
+#### Execute this script as ./paprica-run.sh [query] [domain].
 
 query=$1
 domain=$2

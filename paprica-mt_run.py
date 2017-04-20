@@ -143,7 +143,9 @@ gz = subprocess.Popen('gzip -f ' + cwd + name + '.sam', shell = True, executable
 gz.communicate()
     
 #%% Iterate across sam file, tallying the number of hits to each reference that appears in the results.
-    
+
+## This section should be parallelized
+
 prot_counts = pd.Series()
 prot_counts.name = 'n_hits'
     
@@ -180,7 +182,7 @@ prot_unique_cds_df['length_cds'] = prot_unique_cds_df.translation.str.len() # CD
 ## Write out the final csv file.
 
 print 'writing output csv:', cwd + name + '.tally_ec.csv...'
-columns_out = ['genome', 'domain', 'EC_number', 'product', 'length_cds', 'n_hits']
+columns_out = ['genome', 'domain', 'tax_name', 'EC_number', 'product', 'length_cds', 'n_hits']
 prot_unique_cds_df.to_csv(cwd + name + '.tally_ec.csv', columns = columns_out)
 
 ## Write out report file.
