@@ -135,7 +135,7 @@ if 'h' in command_args.keys():
 try:        
     domain = command_args['domain']
 except KeyError:
-    domain = 'eukarya'
+    domain = 'bacteria'
 try:
     cpus = str(command_args['cpus'])
 except KeyError:
@@ -143,7 +143,7 @@ except KeyError:
 try:
     download = command_args['download']
 except KeyError:
-    download = 'T'
+    download = 'test'
 try:
     ref_dir = command_args['ref_dir']
 except KeyError:
@@ -346,6 +346,8 @@ def get_eukaryotes():
     
 #%% Download fna, gbff, faa files for each completed bacterial or archaeal genome, or execute eukaryote function.
 
+## !! The logic in this section need to be revised.  Overly complex right now.
+
 if download in ['T', 'test']:  ## added 'test' option to allow use of test dataset   
     if download == 'T':
         
@@ -530,8 +532,17 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
     ## If just building with the test set add all genomes in the set to new_genomes.
         
     if download == 'test':
+        
+        new_genome_faa = []
+        
         summary_complete = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
         new_genomes = summary_complete.index
+        
+        for assembly_accession in new_genomes:
+            for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
+                if f.endswith('protein.faa'):
+                    temp_faa = f
+                    new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
             
     ## Add columns to dataframe that will be used later.  This is done for all domains and for the
     ## T and test cases.
