@@ -4,7 +4,7 @@
 help_string = """
 Created on Sun Jan 04 17:06:39 2015
 
-@author: Jeff Bowman, bowmanjs@ldeo.columbia.edu
+@author: Jeff Bowman, jsbowman@ucsd.edu
 
 paprica is licensed under a Creative Commons Attribution-NonCommercial
 4.0 International License.  IF you use any portion of paprica in your
@@ -15,13 +15,15 @@ by Metabolic Structure: A General Framework and Application to a Seasonally
 Variable, Depth-Stratified Microbial Community from the Coastal West Antarctic
 Peninsula." PloS one 10.8 (2015): e0135868.
 
-If your analysis makes specific use of pplacer, Infernal, or pathway-tools
-please make sure that you also cite the relevant publications.
+If your analysis makes specific use of pplacer, Infernal, pathway-tools, or
+any other software please make sure that you also cite the relevant publications.
 
 REQUIRES:
     Files:
         kmer_top_1e5.txt
         bacterial_ssu.cm
+        archaea_ssu.cm
+        eukarya_ssu.cm
 
     Programs:
         raxmlHPC-PTHREADS-AVX2
@@ -39,12 +41,11 @@ RUN AS:
     python paprica-make_ref.py [options]
     
 OPTIONS:
-    -cpus: The number of cpus for RAxML to use.  Only relevant when domain = 
-    bacteria or archaea.
-    -domain: Which domain are you analyzing?  Either bacteria or archaea.
+    -cpus: The number of cpus for RAxML to use.
+    -domain: Which domain are you analyzing?  Either bacteria, archaea, or eukarya.
     -download: Initiate a fresh download from Genbank?  Either T, F, or test.  Test
     allows you to use the small test set of genomes provided here: http://www.polarmicrobes.org/extras/ref_genome_database.tgz.
-    -ref_dir: The name for the database you are building.
+    -ref_dir: The name for the database you are building.  The default is "ref_genome_database".
 
 This script must be located in the 'paprica' directory as it makes use of relative
 paths.
