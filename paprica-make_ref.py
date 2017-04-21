@@ -135,7 +135,7 @@ if 'h' in command_args.keys():
 try:        
     domain = command_args['domain']
 except KeyError:
-    domain = 'bacteria'
+    domain = 'archaea'
 try:
     cpus = str(command_args['cpus'])
 except KeyError:
@@ -143,7 +143,7 @@ except KeyError:
 try:
     download = command_args['download']
 except KeyError:
-    download = 'test'
+    download = 'T'
 try:
     ref_dir = command_args['ref_dir']
 except KeyError:
@@ -276,7 +276,7 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
         mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
         mkdir.communicate()
         
-        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A "genomic.fna.gz","genomic.gbff.gz","pep.fa.gz" ' + strain_ftp + '/*', shell = True, executable = executable)
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A "genomic.fna.gz","genomic.gbff.gz","protein.faa.gz" ' + strain_ftp + '/*', shell = True, executable = executable)
         wget0.communicate() 
         
         gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*', shell = True, executable = executable)
@@ -308,8 +308,36 @@ def download_euks(online_directory):
         
     except KeyError:
         print 'no', online_directory, 'online directory' 
+        
+## Define function to deterime if all the necessary files are present in existing genome directories
+## for bacteria and archaea.
 
-#%% Eukaryotic genomes.
+def check_directory(ref_dir_domain, genome):
+    file_count = 0
+    
+    print 'Checking files for accession', ref_dir_domain + 'refseq/' + genome
+    
+    for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
+        if f.endswith('protein.faa'):
+            file_count = file_count + 1
+        elif f.endswith('genomic.fna'):
+            file_count = file_count + 1
+        elif f.endswith('genomic.gbff'):
+            file_count = file_count + 1
+        elif f.endswith('16S.fasta'):
+            file_count = file_count + 1
+        elif f.endswith('bins.txt.gz'):
+            file_count = file_count + 1
+        
+            ## Sometime empty compositional vectors break the script downstream.  Not sure why this is happening,
+            ## test to see if vectors are valid and add to new_genome_faa if not so that they can be recalculated.
+        
+            test_bins = np.loadtxt(ref_dir_domain + 'refseq/' + genome + '/' + f, usecols = [1])
+            if len(test_bins) != 1e5:
+                file_count = file_count - 1
+            
+    if file_count != 5:
+        shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
 
 ## The download and parsing of eukaryotic genomes is very different from bacterial and archaeal
 ## genomes and needs to be handled separately.
@@ -436,35 +464,10 @@ if download in ['T', 'test']:  ## added 'test' option to allow use of test datas
                 
             ## Identify which genomes are already contained in the database.  Confirm that these
             ## genome directories have the necessary files and eliminate if they do not.
-            
-            ## !! This is a slow loop and can be functionalized/parallelized            
-            
-            for genome in os.listdir(ref_dir_domain + 'refseq/'):
-                file_count = 0
                 
-                print 'Checking files for accession', genome
-                
-                for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
-                    if f.endswith('protein.faa'):
-                        file_count = file_count + 1
-                    elif f.endswith('genomic.fna'):
-                        file_count = file_count + 1
-                    elif f.endswith('genomic.gbff'):
-                        file_count = file_count + 1
-                    elif f.endswith('16S.fasta'):
-                        file_count = file_count + 1
-                    elif f.endswith('bins.txt.gz'):
-                        file_count = file_count + 1
-                    
-                        ## Sometime empty compositional vectors break the script downstream.  Not sure why this is happening,
-                        ## test to see if vectors are valid and add to new_genome_faa if not so that they can be recalculated.
-                
-                        test_bins = np.loadtxt(ref_dir_domain + 'refseq/' + genome + '/' + f, usecols = [1])
-                        if len(test_bins) != 1e5:
-                            file_count = file_count - 1
-                        
-                if file_count != 5:
-                    shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
+            if __name__ == '__main__':  
+                Parallel(n_jobs = -1, verbose = 5)(delayed(check_directory)
+                (ref_dir_domain, genome) for genome in os.listdir(ref_dir_domain + 'refseq/'))
                     
             old_genomes = pd.Series(os.listdir(ref_dir_domain + 'refseq/'))
             
