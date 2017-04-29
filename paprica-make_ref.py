@@ -377,199 +377,196 @@ def get_eukaryotes():
 
 ## !! The logic in this section need to be revised.  Overly complex right now.
 
-if download in ['T', 'test']:  ## added 'test' option to allow use of test dataset   
-    if download == 'T':
-        
-        ## If the necessary directory structure isn't present, add it.
-        
-        print 'Checking for reference database directories, will create if necessary...'
+if download in ['T', 'test']:
     
+    ## If the necessary directory structure isn't present, add it.
+    
+    print 'Checking for reference database directories, will create if necessary...'
+
+    try:
+        os.listdir(ref_dir)
+    except OSError:
+        os.mkdir(ref_dir)
+        os.mkdir(ref_dir + '/user')
+        os.mkdir(ref_dir + '/user/bacteria')
+        os.mkdir(ref_dir + '/user/archaea')
+        
+    try:
+        os.listdir(ref_dir + domain)
+    except OSError:
+        os.mkdir(ref_dir + domain)
+        
+    if domain in ['bacteria', 'archaea']:
+        
         try:
-            os.listdir(ref_dir)
+            os.listdir(ref_dir + domain + '/refseq')
         except OSError:
-            os.mkdir(ref_dir)
-            os.mkdir(ref_dir + '/user')
-            os.mkdir(ref_dir + '/user/bacteria')
-            os.mkdir(ref_dir + '/user/archaea')
-            
-        try:
-            os.listdir(ref_dir + domain)
-        except OSError:
-            os.mkdir(ref_dir + domain)
-            
-        if domain in ['bacteria', 'archaea']:
-            
-            try:
-                os.listdir(ref_dir + domain + '/refseq')
-            except OSError:
-                os.mkdir(ref_dir + domain + '/refseq')
-                
-        ## Execute some tasks specific to the domain Eukarya.
-            
-        if domain == 'eukarya':
-            
-            ## For eukarya only you need to start with an empty refseq directory every
-            ## time you want to download. There is no option to just update the database
-            
-            shutil.rmtree(ref_dir_domain)
-            os.mkdir(ref_dir + domain)
             os.mkdir(ref_dir + domain + '/refseq')
             
-            summary_complete = get_eukaryotes()
+    ## Execute some tasks specific to the domain Eukarya.
+        
+    if domain == 'eukarya':
+        
+        ## For eukarya only you need to start with an empty refseq directory every
+        ## time you want to download. There is no option to just update the database
+        
+        shutil.rmtree(ref_dir_domain)
+        os.mkdir(ref_dir + domain)
+        os.mkdir(ref_dir + domain + '/refseq')
+        
+        summary_complete = get_eukaryotes()
+        
+        ## Execute the download function.  You can't do this from inside the function
+        ## because parallel requires input variables to be global.
+        
+        if __name__ == '__main__':  
+            Parallel(n_jobs = -1, verbose = 5)(delayed(download_euks)
+            (online_directory) for online_directory in summary_complete.index)
             
-            ## Execute the download function.  You can't do this from inside the function
-            ## because parallel requires input variables to be global.
+        ## Check to make sure that each downloaded directory has a .fa, .nt, and .gff3 file
+        ## extension.  Remove if it does not, and add to bad_eukarya.  The .nt
+        ## file is not required for regular paprica, but this makes the database
+        ## compatible with paprica-mgt.
             
-            if __name__ == '__main__':  
-                Parallel(n_jobs = -1, verbose = 5)(delayed(download_euks)
-                (online_directory) for online_directory in summary_complete.index)
-                
-            ## Check to make sure that each downloaded directory has a .fa, .nt, and .gff3 file
-            ## extension.  Remove if it does not, and add to bad_eukarya.  The .nt
-            ## file is not required for regular paprica, but this makes the database
-            ## compatible with paprica-mgt.
-                
-            for genome in summary_complete.sample_name:
-                file_count = 0
-                
+        for genome in summary_complete.sample_name:
+            file_count = 0
+            
+            try:
+                for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
+                    if f.endswith('pep.fa'):
+                        file_count = file_count + 1
+                    if f.endswith('nt.fa'):
+                        file_count = file_count + 1
+                    elif f.endswith('swissprot.gff3'):
+                        file_count = file_count + 1 
+            except OSError:
+                pass
+                    
+            if file_count != 3:
                 try:
-                    for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
-                        if f.endswith('pep.fa'):
-                            file_count = file_count + 1
-                        if f.endswith('nt.fa'):
-                            file_count = file_count + 1
-                        elif f.endswith('swissprot.gff3'):
-                            file_count = file_count + 1 
+                    shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
                 except OSError:
                     pass
-                        
-                if file_count != 3:
-                    try:
-                        shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
-                    except OSError:
-                        pass
-                    bad_eukarya.append(genome)
-                
-            ## Remove incomplete downloads from summary_complete.
-                
-            summary_complete = summary_complete[~summary_complete.sample_name.isin(bad_eukarya)]
+                bad_eukarya.append(genome)
             
-            ## For Eukarya, dataframe is currently indexed by online directory number.
-            ## Downstream scripts need it to be indexed by acccession.  
+        ## Remove incomplete downloads from summary_complete.
+            
+        summary_complete = summary_complete[~summary_complete.sample_name.isin(bad_eukarya)]
+        
+        ## For Eukarya, dataframe is currently indexed by online directory number.
+        ## Downstream scripts need it to be indexed by acccession.  
 
-            summary_complete = summary_complete.set_index('sample_name')
+        summary_complete = summary_complete.set_index('sample_name')
 
-        ## If bacteria or archaea continue here.
+    ## If bacteria or archaea continue here.
 
-        else:
-                
-            ## Identify which genomes are already contained in the database.  Confirm that these
-            ## genome directories have the necessary files and eliminate if they do not.
-                
-            if __name__ == '__main__':  
-                Parallel(n_jobs = -1, verbose = 5)(delayed(check_directory)
-                (ref_dir_domain, genome) for genome in os.listdir(ref_dir_domain + 'refseq/'))
-                    
-            old_genomes = pd.Series(os.listdir(ref_dir_domain + 'refseq/'))
+    else:
             
-            ## Download all the completed genomes, starting with the Genbank assembly_summary.txt file.
+        ## Identify which genomes are already contained in the database.  Confirm that these
+        ## genome directories have the necessary files and eliminate if they do not.
             
-            summary = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', header = 1, index_col = 0)
-            summary_complete = summary[summary.assembly_level == 'Complete Genome']
-            
-            ## Drop the bad genomes.
-            
-            if domain == 'bacteria':
-                summary_complete = summary_complete.drop(bad_bacteria)
-            elif domain == 'archaea':
-                summary_complete = summary_complete.drop(bad_archaea)
+        if __name__ == '__main__':  
+            Parallel(n_jobs = -1, verbose = 5)(delayed(check_directory)
+            (ref_dir_domain, genome) for genome in os.listdir(ref_dir_domain + 'refseq/'))
                 
-            ## Determine which genomes need to be downloaded.
-                
-            new_genomes = summary_complete.index[summary_complete.index.isin(old_genomes) == False]
-                
-            ## Download the good genomes.
+        old_genomes = pd.Series(os.listdir(ref_dir_domain + 'refseq/'))
+        
+        ## Download all the completed genomes, starting with the Genbank assembly_summary.txt file.
+        
+        summary = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', header = 1, index_col = 0)
+        summary_complete = summary[summary.assembly_level == 'Complete Genome']
+        
+        ## Drop the bad genomes.
+        
+        if domain == 'bacteria':
+            summary_complete = summary_complete.drop(bad_bacteria)
+        elif domain == 'archaea':
+            summary_complete = summary_complete.drop(bad_archaea)
             
+        ## Determine which genomes need to be downloaded.
+            
+        new_genomes = summary_complete.index[summary_complete.index.isin(old_genomes) == False]
+            
+        ## Download the good genomes.
+        
+        if download == 'T':
+        
             if __name__ == '__main__':  
                 Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
                 (ref_dir_domain, executable, assembly_accession) for assembly_accession in new_genomes)
-                
-            ## Sometime wget will fail to download a valid file.  This causes problems
-            ## downstream.  Check that each directory has an faa and fna file, and remove
-            ## from summary_complete if it does not.
-        
-            new_genome_faa = [] # This will be used for compositional vector creation, and will only hold new genomes with valid faa
-            incomplete_genomes = []
-                
-            for assembly_accession in new_genomes:
-        
-                ng_file_count = 0
-                temp_faa = ''
-                
-                ## Genbank now puts some useless fna files in the directory, remove
-                ## or they complicate things.
-                
-                for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
-                    if f.endswith('from_genomic.fna'):
-                        os.remove(ref_dir_domain + 'refseq/' + assembly_accession + '/' + f)
-                        
-                ## Now check to make sure that the files you want are in place.
-                
-                for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
-                    if f.endswith('protein.faa'):
-                        temp_faa = f
-                        ng_file_count = ng_file_count + 1
-                    elif f.endswith('genomic.fna'):
-                        ng_file_count = ng_file_count + 1
-                    elif f.endswith('genomic.gbff'):
-                        ng_file_count = ng_file_count + 1
-                                
-                if ng_file_count != 3:
-                    print assembly_accession, 'is missing a Genbank file'
-                    incomplete_genomes.append(assembly_accession)
-                else:
-                    new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
-                                   
-            summary_complete = summary_complete.drop(incomplete_genomes)
-            new_genomes = new_genomes.drop(incomplete_genomes)   
-                
-    ## If just building with the test set add all genomes in the set to new_genomes.
-        
-    if download == 'test':
-        
-        new_genome_faa = []
-        
-        summary_complete = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
-        new_genomes = summary_complete.index
-        
+            
+        ## Sometime wget will fail to download a valid file.  This causes problems
+        ## downstream.  Check that each directory has an faa and fna file, and remove
+        ## from summary_complete if it does not.
+    
+        new_genome_faa = [] # This will be used for compositional vector creation, and will only hold new genomes with valid faa
+        incomplete_genomes = []
+            
         for assembly_accession in new_genomes:
+    
+            ng_file_count = 0
+            temp_faa = ''
+            
+            ## Genbank now puts some useless fna files in the directory, remove
+            ## or they complicate things.
+            
+            for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
+                if f.endswith('from_genomic.fna'):
+                    os.remove(ref_dir_domain + 'refseq/' + assembly_accession + '/' + f)
+                    
+            ## Now check to make sure that the files you want are in place.
+            
             for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
                 if f.endswith('protein.faa'):
                     temp_faa = f
-                    new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
+                    ng_file_count = ng_file_count + 1
+                elif f.endswith('genomic.fna'):
+                    ng_file_count = ng_file_count + 1
+                elif f.endswith('genomic.gbff'):
+                    ng_file_count = ng_file_count + 1
+                            
+            if ng_file_count != 3:
+                print assembly_accession, 'is missing a Genbank file'
+                incomplete_genomes.append(assembly_accession)
+            else:
+                new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
+                               
+        summary_complete = summary_complete.drop(incomplete_genomes)
+        new_genomes = new_genomes.drop(incomplete_genomes)   
             
-    ## Add columns to dataframe that will be used later.  This is done for all domains and for the
-    ## T and test cases.
+## If download == F, assume that directories have already been checked for files and incomplete
+## directories removed.  This might be a bad assumption...
     
-    summary_complete['n16S'] = np.nan
-    summary_complete['nge'] = np.nan
-    summary_complete['ncds'] = np.nan
-    summary_complete['genome_size'] = np.nan
-    summary_complete['tax_name'] = np.nan
-    summary_complete['phi'] = np.nan
-    summary_complete['GC'] = np.nan
+if download == 'F':
     
-    ## Write out summary_complete and exit script.
-
-    summary_complete.to_csv(ref_dir_domain + 'genome_data.csv')
+    new_genome_faa = []
     
-## If download == F, start here.
-    
-else:
     summary_complete = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
     
     if domain != 'eukarya':
         summary_complete = summary_complete[summary_complete.assembly_level != 'Draft']
+    
+    new_genomes = summary_complete.index
+    
+    for assembly_accession in new_genomes:
+        for f in os.listdir(ref_dir_domain + 'refseq/' + assembly_accession):
+            if f.endswith('protein.faa'):
+                temp_faa = f
+                new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
+        
+## Add columns to dataframe that will be used later.
+
+summary_complete['n16S'] = np.nan
+summary_complete['nge'] = np.nan
+summary_complete['ncds'] = np.nan
+summary_complete['genome_size'] = np.nan
+summary_complete['tax_name'] = np.nan
+summary_complete['phi'] = np.nan
+summary_complete['GC'] = np.nan
+
+## Write out summary_complete.
+
+summary_complete.to_csv(ref_dir_domain + 'genome_data.csv')
 
 #%% Get the 16S/18S rRNA genes for each assembly and genome parameters.  Eukarya
 ## are a special case and must be handled separate from bacteria and archaea.
