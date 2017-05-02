@@ -335,7 +335,38 @@ def make_tax(bad_character):
     -t ' + ref_dir_domain + 'tax_ids.txt \
     -o ' + ref_dir_domain + 'taxa.csv', shell = True, executable = executable)
     taxtable_3.communicate()
-                
+    
+#%% Define a function to tally the unique reads assigned to each edge.
+
+def count_unique():
+	query_seqs = pd.DataFrame()
+
+	## Add all sequences in aligned fasta to the dataframe, indexed by record id.
+
+	for record in SeqIO.parse(query + '.' + ref + '.clean.align.fasta', 'fasta'):
+		query_seqs.loc[str(record.id), 'sequence'] = str(record.seq)
+		
+	## Read in the guppy csv file, indexing by edge number.
+				
+	query_csv = pd.DataFrame.from_csv(query + '.' + ref + '.clean.align.csv', header = 0, index_col = 3)
+
+	## Iterating by edge number, get all the sequences for that edge, then count the number of unique sequences.
+
+	unique_edge_counts = pd.DataFrame(columns = ['unique', 'edge', 'seq'])
+
+	for edge_num in query_csv.index:
+				
+		temp_df = query_seqs.loc[query_csv.loc[edge_num, 'name']]
+		temp_counts = temp_df.sequence.value_counts()
+		temp_df_out = pd.DataFrame(temp_counts)
+		temp_df_out.columns = ['unique']
+		temp_df_out['edge'] = edge_num
+		temp_df_out['seq'] = temp_df_out.index
+
+		unique_edge_counts = temp_df_out.merge(unique_edge_counts, how = 'outer')
+	
+	return(unique_edge_counts)
+    
 #%% Execute main program.
 
 if 'query' not in command_args.keys():
@@ -458,4 +489,5 @@ else:
     else:
         place(cwd + query, ref, ref_dir_domain, cm)
         guppy(cwd + query, ref)
-        classify()
+        
+    classify()
