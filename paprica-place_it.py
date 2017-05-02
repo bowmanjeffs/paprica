@@ -339,33 +339,39 @@ def make_tax(bad_character):
 #%% Define a function to tally the unique reads assigned to each edge.
 
 def count_unique():
-	query_seqs = pd.DataFrame()
-
-	## Add all sequences in aligned fasta to the dataframe, indexed by record id.
-
-	for record in SeqIO.parse(query + '.' + ref + '.clean.align.fasta', 'fasta'):
-		query_seqs.loc[str(record.id), 'sequence'] = str(record.seq)
-		
-	## Read in the guppy csv file, indexing by edge number.
-				
-	query_csv = pd.DataFrame.from_csv(query + '.' + ref + '.clean.align.csv', header = 0, index_col = 3)
-
-	## Iterating by edge number, get all the sequences for that edge, then count the number of unique sequences.
-
-	unique_edge_counts = pd.DataFrame(columns = ['unique', 'edge', 'seq'])
-
-	for edge_num in query_csv.index:
-				
-		temp_df = query_seqs.loc[query_csv.loc[edge_num, 'name']]
-		temp_counts = temp_df.sequence.value_counts()
-		temp_df_out = pd.DataFrame(temp_counts)
-		temp_df_out.columns = ['unique']
-		temp_df_out['edge'] = edge_num
-		temp_df_out['seq'] = temp_df_out.index
-
-		unique_edge_counts = temp_df_out.merge(unique_edge_counts, how = 'outer')
-	
-	return(unique_edge_counts)
+    query_seqs = pd.DataFrame()
+    
+    ## Add all sequences in aligned fasta to the dataframe, indexed by record id.
+    
+    for record in SeqIO.parse(query + '.' + ref + '.clean.align.fasta', 'fasta'):
+        query_seqs.loc[str(record.id), 'sequence'] = str(record.seq)
+    	
+    ## Read in the guppy csv file, indexing by edge number.
+    			
+    query_csv = pd.DataFrame.from_csv(query + '.' + ref + '.clean.align.csv', header = 0, index_col = 3)
+    
+    ## Iterating by edge number, get all the sequences for that edge, then count the number of unique sequences.
+    
+    unique_edge_counts = pd.DataFrame(columns = ['abundance', 'edge', 'seq'])
+    
+    for edge_num in query_csv.index:
+        
+        print 'Finding unique sequences within edge', edge_num
+    			
+        temp_df = query_seqs.loc[query_csv.loc[edge_num, 'name']]
+    	
+        try:
+            temp_counts = temp_df.sequence.value_counts()
+        except AttributeError:
+            temp_counts = pd.Series(1, name = temp_df.sequence)
+        temp_df_out = pd.DataFrame(temp_counts)
+        temp_df_out.columns = ['abundance']
+        temp_df_out['edge'] = edge_num
+        temp_df_out['seq'] = temp_df_out.index
+        
+        unique_edge_counts = temp_df_out.merge(unique_edge_counts, how = 'outer')
+        
+    return(unique_edge_counts)
     
 #%% Execute main program.
 
@@ -480,9 +486,9 @@ else:
         guppy_merge.communicate()
         guppy(cwd + query, ref)
         
-        merge = subprocess.Popen('cat ' + cwd + query + '.temp*.clean.fasta > ' + cwd + query + '.clean.fasta', shell = True, executable = executable)
+        merge = subprocess.Popen('cat ' + cwd + query + '.temp*.' + ref + '.clean.align.fasta > ' + cwd + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
         merge.communicate()
-        
+                
         cleanup = subprocess.Popen('rm -f ' + cwd + query + '.temp*', shell = True, executable = executable)
         cleanup.communicate()
         
@@ -491,3 +497,5 @@ else:
         guppy(cwd + query, ref)
         
     classify()
+    unique_seqs = count_unique()
+    unique_seqs.to_csv(cwd + query + '.' + domain + '.unique.seqs.csv')
