@@ -68,7 +68,10 @@ import datetime
 import random
 import pandas as pd
 
-paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.
+try:
+    paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.
+except NameError:
+    paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/'
 cwd = os.getcwd() + '/' # The current working directory.
                 
 ## Parse command line arguments.  Arguments that are unique to a run,
@@ -352,25 +355,43 @@ def count_unique():
     
     ## Iterating by edge number, get all the sequences for that edge, then count the number of unique sequences.
     
-    unique_edge_counts = pd.DataFrame(columns = ['abundance', 'edge', 'seq'])
+    unique_edge_counts = pd.DataFrame(columns = ['rep', 'abundance', 'edge_num'])
     
-    for edge_num in query_csv.index:
-        
+    for edge_num in query_csv.index.unique():
+    	
         print 'Finding unique sequences within edge', edge_num
     			
         temp_df = query_seqs.loc[query_csv.loc[edge_num, 'name']]
+        temp_seq_names = []
     	
         try:
             temp_counts = temp_df.sequence.value_counts()
+    		
+    		## Cludgy, but I can't find another way to capture unique sequence names!
+    		
+            for seq in temp_counts.index:
+                seq_name = temp_df.sequence[temp_df.sequence == seq].index.tolist()[0]
+                temp_seq_names.append(seq_name)
+    			
         except AttributeError:
             temp_counts = pd.Series(1, name = temp_df.sequence)
+            temp_counts.index = [temp_counts.name]
+            temp_seq_names.append(temp_df.name)
+    		
         temp_df_out = pd.DataFrame(temp_counts)
         temp_df_out.columns = ['abundance']
-        temp_df_out['edge'] = edge_num
-        temp_df_out['seq'] = temp_df_out.index
-        
-        unique_edge_counts = temp_df_out.merge(unique_edge_counts, how = 'outer')
-        
+        temp_df_out['edge_num'] = int(edge_num)
+        temp_df_out['rep'] = temp_seq_names
+    			   
+        ## Hash the sequence to create a lighter-weight index that reflects the
+        ## sequence.  This will be used for comparison across samples.
+    	
+        temp_df_out['seq'] = temp_counts.index                   
+        temp_df_out.index = temp_df_out['seq'].apply(hash)
+        temp_df_out.drop('seq', axis = 1, inplace = True)
+        unique_edge_counts = pd.concat([unique_edge_counts, temp_df_out])
+	      
+    unique_edge_counts.edge_num = unique_edge_counts.edge_num.astype(int)
     return(unique_edge_counts)
     
 #%% Execute main program.

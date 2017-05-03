@@ -1,4 +1,6 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 """
 Created on Sat Nov 28 15:45:43 2015
 
@@ -8,7 +10,7 @@ This script aggregates information from multiple '.edge_data.csv' files
 produces by running paprica on multiple samples.  It produces a matrix of edges
 by sample, and a matrix of mean edge parameters, by sample.
 
-Run as: python combine_edge_results.py -edge_in [suffix pattern for edges] -path_in [suffix pattern for paths] -ec_in [suffix pattern for ec numbers] -o [prefix for output]
+Run as: python combine_edge_results.py -edge_in [suffix pattern for edges] -path_in [suffix pattern for paths] -ec_in [suffix pattern for ec numbers] -unique_in [suffix pattern for unique sequences] -o [prefix for output]
 
 It will automatically loop through all files in the directory with the specified suffixes.
 
@@ -56,11 +58,22 @@ try:
     ec_suffix = command_args['ec_in']
 except KeyError:
     ec_suffix = 'bacteria.sum_ec.csv'
+    
+try:
+    unique_suffix = command_args['unique_in']
+except KeyError:
+    unique_suffix = 'bacteria.unique_seqs.csv'
+    
+def stop_here():
+    stop = []
+    print 'Manually stopped!'
+    print stop[1]
 
 edge_tally = pd.DataFrame()
 edge_data = pd.DataFrame()
 ec_tally = pd.DataFrame()
 path_tally = pd.DataFrame()
+unique_tally = pd.DataFrame()
 
 def fill_edge_data(param, name, df_in):
     temp = []
@@ -107,8 +120,15 @@ for f in os.listdir('.'):
         name = re.sub(ec_suffix, '', f)
         temp_ec = pd.read_csv(f, index_col = 0, names = [name])
         ec_tally = pd.concat([ec_tally, temp_ec], axis = 1)
+        
+    elif f.endswith(unique_suffix):
+        name = re.sub(unique_suffix, '', f)
+        temp_unique = pd.read_csv(f, index_col = 0, usecols = ['identifier', 'abundance_corrected'])
+        temp_unique.columns = [name]
+        unique_tally = pd.concat([unique_tally, temp_unique], axis = 1)
             
 pd.DataFrame.to_csv(edge_tally.transpose(), prefix + '.edge_tally.csv')
 pd.DataFrame.to_csv(edge_data.transpose(), prefix + '.edge_data.csv') 
 pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.path_tally.csv') 
-pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.ec_tally.csv')        
+pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.ec_tally.csv')
+pd.DataFrame.to_csv(unique_tally, prefix + '.unique_tally.csv')        

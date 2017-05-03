@@ -3,21 +3,16 @@
 
 help_string = """
 Created on Sun Oct 11 21:20:57 2015
-
 @author: Jeff Bowman, bowmanjs@ldeo.columbia.edu
-
 paprica is licensed under a Creative Commons Attribution-NonCommercial
 4.0 International License.  IF you use any portion of paprica in your
 work please cite:
-
 Bowman, Jeff S., and Hugh W. Ducklow. "Microbial Communities Can Be Described
 by Metabolic Structure: A General Framework and Application to a Seasonally
 Variable, Depth-Stratified Microbial Community from the Coastal West Antarctic
 Peninsula." PloS one 10.8 (2015): e0135868.
-
 If your analysis makes specific use of pplacer, Infernal, or pathway-tools
 please make sure that you also cite the relevant publications.
-
 REQUIRES:
     Python modules:
         pandas
@@ -37,10 +32,8 @@ OPTIONS:
         "old|new,old|new", note that quotes are necessary
     -omit: a range of edges (e.g. cyanobacteria) that should be omitted in the form:
         start:stop
-
 This script must be located in the 'paprica' directory as it makes use of relative
 paths.
-
 """
 
 import pandas as pd
@@ -49,7 +42,11 @@ import numpy as np
 import sys
 import os
 
-paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.
+try:
+    paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.
+except NameError:
+    paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/'
+
 cwd = os.getcwd() + '/'  # The current working directory
     
 ## Parse command line arguments.
@@ -77,6 +74,8 @@ if len(sys.argv) > 2:
     ref_dir = paprica_path + command_args['ref_dir']  # The complete path to the reference directory being used for analysis.        
     query = command_args['i']
     name = command_args['o']
+    unique = command_args['unique']
+    
     try:
         overrides = command_args['override']
     except KeyError:
@@ -87,15 +86,16 @@ if len(sys.argv) > 2:
         omit = ''
     
 else:
-    query = 'test.archaea.combined_16S.archaea.tax.clean.align.csv'
-    name = 'test.archaea'
+    query = 'summer.combined_16S.bacteria.tax.clean.align.csv'
+    name = 'summer'
     cutoff = 0.5  # The cutoff value used to determine pathways to include for internal nodes.
-    domain = 'archaea'  # The domain (bacteria or archaea) for analysis.
+    domain = 'bacteria'  # The domain (bacteria or archaea) for analysis.
     ref_dir = paprica_path + 'ref_genome_database'  # The complete path to the reference directory being used for analysis.        
     #omit = '674:818'
     #overrides = '5804|93,4619|4571'
     overrides = ''
     omit = ''
+    unique = 'summer.bacteria.unique.seqs.csv'
     
 ## Make sure that ref_dir ends with /.
     
@@ -286,6 +286,30 @@ for edge in list(edge_tally.index):
 
 if domain != 'eukarya':
     sample_confidence = sum((edge_data['confidence'] * edge_data['nedge_corrected'])) / edge_data['nedge_corrected'].sum() 
+    
+#%% Prepare the unique file
+## Annotate the unique file with corrected read number and taxonomy.
+
+print 'Normalizing abundance for unique sequences...'
+
+unique_csv = pd.DataFrame.from_csv(cwd + unique, header = 0, index_col = 0)
+
+for edge in override_dic.keys():
+    unique_csv.loc[unique_csv['edge_num'] == edge, 'edge_num'] = override_dic[edge]
+    
+for unique in unique_csv.index:
+    edge = unique_csv.loc[unique, 'edge_num']
+    n16S = edge_data.loc[edge, 'n16S']
+    
+    unique_csv.loc[unique, 'abundance_corrected'] = unique_csv.loc[unique, 'abundance'] / float(n16S)
+    unique_csv.loc[unique, 'taxon'] = edge_data.loc[edge, 'taxon']    
+    unique_csv.loc[unique, 'identifier'] = str(unique) + '_' + str(int(edge))
+
+unique_csv.index = unique_csv.identifier
+unique_csv.drop('identifier', axis = 1, inplace = True)    
+unique_csv.to_csv(cwd + name + '.unique_seqs.csv')
+
+#%%
 
 ## Generate a single column table of the total (corrected) abundance for each
 ## pathway.  Absent pathways are included as 0, to make it easier to compare
@@ -341,3 +365,4 @@ with open(cwd + name + '.sample_data.txt', 'w') as sample_data:
     print >> sample_data, 'ppathways' + '\t' + str(ppathways)
     print >> sample_data, 'nreads' + '\t' + str(nreads)
     print >> sample_data, 'database_created_at' + '\t' + database_time
+
