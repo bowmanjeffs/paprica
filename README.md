@@ -1,4 +1,4 @@
-## Notice - If you've been redirected here from genome_finder you're in the right place!  Verion 0.4 has a number of new features and improvements.  Please take a look at the manual for further details.  There are also several tutorials available:
+## Notice - If you've been redirected here from genome_finder you're in the right place!  Version 0.4 has a number of new features and improvements.  Please take a look at the manual for further details.  There are also several tutorials available:
 [Installing paprica on Mac OSX](http://www.polarmicrobes.org/installing-paprica-on-mac-osx/)  
 [Basic analysis with paprica](http://www.polarmicrobes.org/analysis-with-paprica/)  
 [Annotating metagenomes with paprica-mg](http://www.polarmicrobes.org/tutorial-annotating-metagenomes-with-paprica-mg/)  
@@ -16,7 +16,7 @@ PAthway PRediction by phylogenetIC plAcement
 A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out the manual and paprica-run.sh script to get started.  Once you've installed the depenencies the commands:
 
 ```
-get clone https://github.com/bowmanjeffs/paprica.git
+git clone https://github.com/bowmanjeffs/paprica.git
 cd paprica
 chmod a+x *py
 chmod a+x *sh
