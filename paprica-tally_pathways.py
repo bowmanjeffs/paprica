@@ -78,8 +78,11 @@ if len(sys.argv) > 2:
     ref_dir = paprica_path + command_args['ref_dir']  # The complete path to the reference directory being used for analysis.        
     query = command_args['i']
     name = command_args['o']
-    unique = command_args['unique']
     
+    try:
+        unique = command_args['unique']
+    except KeyError:
+        unique = False    
     try:
         overrides = command_args['override']
     except KeyError:
