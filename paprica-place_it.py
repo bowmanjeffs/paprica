@@ -52,6 +52,8 @@ OPTIONS:
     -ref_dir: The directory containing the paprica database.
     -splits: The number of files to split the query fasta into to facilitate
         parallel analysis with pplacer.
+    -unique: T or F, tally unique reads at each edge?  Can take significant time
+        if there are many unique reads or the query file is very large.
 
 This script must be located in the 'paprica' directory as it makes use of relative
 paths.
@@ -99,11 +101,13 @@ try:
     ref_dir = paprica_path + command_args['ref_dir']  # The complete path to the reference directory being used for analysis.        
     domain = command_args['domain']  # The domain being used for analysis.
     ref = command_args['ref']  # The name of the reference package being used.
+    unique = command_args['unique']
     
 except KeyError:
     ref_dir = paprica_path + 'ref_genome_database/'
     domain = 'bacteria'
     ref = 'combined_16S.bacteria.tax'
+    unique = 'F'
 
 ## If sys.argv == 1, you are probably running inside Python in testing mode.
 ## Provide some default values to make this possibe.  If > 1, parse command
@@ -518,5 +522,7 @@ else:
         guppy(cwd + query, ref)
         
     classify()
-    unique_seqs = count_unique()
-    unique_seqs.to_csv(cwd + query + '.' + domain + '.unique.seqs.csv')
+    
+    if unique == 'T':
+        unique_seqs = count_unique()
+        unique_seqs.to_csv(cwd + query + '.' + domain + '.unique.seqs.csv')

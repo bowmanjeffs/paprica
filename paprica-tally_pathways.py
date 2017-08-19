@@ -32,6 +32,10 @@ OPTIONS:
         "old|new,old|new", note that quotes are necessary
     -omit: a range of edges (e.g. cyanobacteria) that should be omitted in the form:
         start:stop
+    -unique: name of unique.seqs.csv file created by paprica-place_it.py.  If none specified,
+        unique sequences are not tracked.  To specify a file you must have used the
+        -unique T flag in paprica-place_it.py.  This is not the default behavior.
+        
 This script must be located in the 'paprica' directory as it makes use of relative
 paths.
 """
@@ -95,7 +99,7 @@ else:
     #overrides = '5804|93,4619|4571'
     overrides = ''
     omit = ''
-    unique = 'summer.bacteria.unique.seqs.csv'
+    unique = False
     
 ## Make sure that ref_dir ends with /.
     
@@ -164,7 +168,7 @@ if len(omit) > 0:
     edge_tally = edge_tally.drop(drop_edges, errors = 'ignore')
 
 ## Add the edge tally and mean pp to a new data frame that will hold other
-##sample information.
+## sample information.
 
 edge_data = pd.DataFrame(index = edge_tally.index)
 edge_data['nedge'] = edge_tally
@@ -287,27 +291,29 @@ for edge in list(edge_tally.index):
 if domain != 'eukarya':
     sample_confidence = sum((edge_data['confidence'] * edge_data['nedge_corrected'])) / edge_data['nedge_corrected'].sum() 
     
-#%% Prepare the unique file
+#%% Prepare unique read file if specified
 ## Annotate the unique file with corrected read number and taxonomy.
 
-print 'Normalizing abundance for unique sequences...'
+if unique != False:
 
-unique_csv = pd.DataFrame.from_csv(cwd + unique, header = 0, index_col = 0)
-
-for edge in override_dic.keys():
-    unique_csv.loc[unique_csv['edge_num'] == edge, 'edge_num'] = override_dic[edge]
+    print 'Normalizing abundance for unique sequences...'
     
-for unique in unique_csv.index:
-    edge = unique_csv.loc[unique, 'edge_num']
-    n16S = edge_data.loc[edge, 'n16S']
+    unique_csv = pd.DataFrame.from_csv(cwd + unique, header = 0, index_col = 0)
     
-    unique_csv.loc[unique, 'abundance_corrected'] = unique_csv.loc[unique, 'abundance'] / float(n16S)
-    unique_csv.loc[unique, 'taxon'] = edge_data.loc[edge, 'taxon']    
-    unique_csv.loc[unique, 'identifier'] = str(unique) + '_' + str(int(edge))
-
-unique_csv.index = unique_csv.identifier
-unique_csv.drop('identifier', axis = 1, inplace = True)    
-unique_csv.to_csv(cwd + name + '.unique_seqs.csv')
+    for edge in override_dic.keys():
+        unique_csv.loc[unique_csv['edge_num'] == edge, 'edge_num'] = override_dic[edge]
+        
+    for unique in unique_csv.index:
+        edge = unique_csv.loc[unique, 'edge_num']
+        n16S = edge_data.loc[edge, 'n16S']
+        
+        unique_csv.loc[unique, 'abundance_corrected'] = unique_csv.loc[unique, 'abundance'] / float(n16S)
+        unique_csv.loc[unique, 'taxon'] = edge_data.loc[edge, 'taxon']    
+        unique_csv.loc[unique, 'identifier'] = str(unique) + '_' + str(int(edge))
+    
+    unique_csv.index = unique_csv.identifier
+    unique_csv.drop('identifier', axis = 1, inplace = True)    
+    unique_csv.to_csv(cwd + name + '.unique_seqs.csv')
 
 #%%
 
