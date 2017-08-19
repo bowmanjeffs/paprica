@@ -62,7 +62,7 @@ except KeyError:
 try:
     unique_suffix = command_args['unique_in']
 except KeyError:
-    unique_suffix = 'bacteria.unique_seqs.csv'
+    unique_suffix = False
     
 def stop_here():
     stop = []
@@ -73,7 +73,6 @@ edge_tally = pd.DataFrame()
 edge_data = pd.DataFrame()
 ec_tally = pd.DataFrame()
 path_tally = pd.DataFrame()
-unique_tally = pd.DataFrame()
 
 def fill_edge_data(param, name, df_in):
     temp = []
@@ -120,15 +119,20 @@ for f in os.listdir('.'):
         name = re.sub(ec_suffix, '', f)
         temp_ec = pd.read_csv(f, index_col = 0, names = [name])
         ec_tally = pd.concat([ec_tally, temp_ec], axis = 1)
-        
-    elif f.endswith(unique_suffix):
-        name = re.sub(unique_suffix, '', f)
-        temp_unique = pd.read_csv(f, index_col = 0, usecols = ['identifier', 'abundance_corrected'])
-        temp_unique.columns = [name]
-        unique_tally = pd.concat([unique_tally, temp_unique], axis = 1)
             
 pd.DataFrame.to_csv(edge_tally.transpose(), prefix + '.edge_tally.csv')
 pd.DataFrame.to_csv(edge_data.transpose(), prefix + '.edge_data.csv') 
 pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.path_tally.csv') 
 pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.ec_tally.csv')
-pd.DataFrame.to_csv(unique_tally, prefix + '.unique_tally.csv')        
+
+if unique_suffix != False:
+    unique_tally = pd.DataFrame()
+    
+    for f in os.listdir('.'):
+        if f.endswith(unique_suffix):
+            name = re.sub(unique_suffix, '', f)
+            temp_unique = pd.read_csv(f, index_col = 0, usecols = ['identifier', 'abundance_corrected'])
+            temp_unique.columns = [name]
+            unique_tally = pd.concat([unique_tally, temp_unique], axis = 1)
+        
+    pd.DataFrame.to_csv(unique_tally, prefix + '.unique_tally.csv')        
