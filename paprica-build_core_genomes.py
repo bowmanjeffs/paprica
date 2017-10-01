@@ -88,10 +88,11 @@ if 'h' in command_args.keys():
 ## set some default values.  This is useful for testing.
         
 if len(sys.argv) == 1:
-    domain = 'eukarya'
-    tree = 'test.eukarya.combined_18S.eukarya.tax.clean.align.phyloxml'
+    domain = 'bacteria'
+    tree = 'test.bacteria.combined_16S.bacteria.tax.clean.align.phyloxml'
     ref_dir = 'ref_genome_database'
-    pgdb_dir = '~/ptools-local/pgdbs/user/'
+    #pgdb_dir = '~/ptools-local/pgdbs/user/'
+    pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
     
 else:        
     domain = command_args['domain']

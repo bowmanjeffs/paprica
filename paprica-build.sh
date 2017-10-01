@@ -34,4 +34,6 @@ paprica-place_it.py -ref_dir $ref_dir -query test.$domain -ref combined_$gene.$d
 
 ## 4. build the reference database.
 
-paprica-build_core_genomes.py -ref_dir $ref_dir -pgdb_dir $pgdb_dir -tree test.$domain.combined_$gene.$domain.tax.clean.align.phyloxml -domain $domain
+paprica-build_core_genomes.py -ref_dir $ref_dir -pgdb_dir $pgdb_dir -tree test.$domain.combined_$gene.$domain.tax.clean.align.phyloxml -domain $domain &&
+
+echo "Thanks for using paprica!  Please be sure to read through the manual, and check out the tutorials at www.polarmicrobes.org"

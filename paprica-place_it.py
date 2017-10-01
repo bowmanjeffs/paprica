@@ -99,14 +99,19 @@ if 'h' in command_args.keys():
 
 try:
     ref_dir = paprica_path + command_args['ref_dir']  # The complete path to the reference directory being used for analysis.        
-    domain = command_args['domain']  # The domain being used for analysis.
-    ref = command_args['ref']  # The name of the reference package being used.
-    unique = command_args['unique']
-    
 except KeyError:
     ref_dir = paprica_path + 'ref_genome_database/'
+try:    
+    domain = command_args['domain']  # The domain being used for analysis.
+except KeyError:
     domain = 'bacteria'
+try:
+    ref = command_args['ref']  # The name of the reference package being used.
+except KeyError:
     ref = 'combined_16S.bacteria.tax'
+try:    
+    unique = command_args['unique']
+except KeyError:
     unique = 'F'
 
 ## If sys.argv == 1, you are probably running inside Python in testing mode.
@@ -155,7 +160,7 @@ def stop_here():
 ## by make_tax, to insure that sequence names match between taxonomy database
 ## and tree.
     
-bad_character = '[\|\\=-@!%,;\(\):\'\"\s]'
+bad_character = '[\[\]\|\\=-@!%,;\(\):\'\"\s]'
 
 from Bio import SeqIO
 
