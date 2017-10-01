@@ -102,7 +102,6 @@ import gzip
 import re
 import sys
 import shutil
-import urllib2
 
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
@@ -137,7 +136,7 @@ if 'h' in command_args.keys():
 try:        
     domain = command_args['domain']
 except KeyError:
-    domain = 'archaea'
+    domain = 'eukarya'
 try:
     cpus = str(command_args['cpus'])
 except KeyError:
@@ -303,13 +302,17 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
 def download_euks(online_directory):
     try:
         assembly_accession = summary_complete.loc[online_directory, 'sample_name']
-        strain_ftp = 'ftp://http.imicrobe.us/projects/104/samples/' + online_directory
+        strain_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory
+        
+        strain_nt = assembly_accession + '.nt.fa.gz'
+        strain_fa = assembly_accession + '.pep.fa.gz'
         
         mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
         mkdir.communicate()
         
-        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A "pep.fa.gz","nt.fa.gz" ' + strain_ftp + '/*', shell = True, executable = executable)
-        wget0.communicate() 
+        for f in [strain_nt, strain_fa]:
+            wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/' + f, shell = True, executable = executable)
+            wget0.communicate() 
         
         wget1 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/annot/swissprot.gff3.gz', shell = True, executable = executable)
         wget1.communicate() 
