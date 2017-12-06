@@ -64,13 +64,24 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
     try:
         strain_ftp = genome_data_virus.loc[assembly_accession, 'ftp_path']
         
+        ## Required to use proxy server on SIO network.  Bafflingly there is bug in wget that
+        ## disallows the use of a wildcard with ftp when a proxy server is used.  So ftp
+        ## path must be converted to http.  Note that this requires the use of the -nd flag
+        ## because the http protocol will try to create the entire directory structure (grr!)
+        
+        base_name = strain_ftp.split('/')[-1]
+
         mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
         mkdir.communicate()
         
-        wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q -A "genomic.fna.gz","genomic.gbff.gz","protein.faa.gz" ' + strain_ftp + '/*', shell = True, executable = executable)
-        wget0.communicate() 
+        for extension in ['_genomic.fna.gz', '_genomic.gbff.gz', '_protein.faa.gz']:
+            wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget \
+                                     --tries=10 -q -r -nd -T30 -e robots=off ' \
+                                     + strain_ftp + '/' + base_name + extension, \
+                                     shell = True, executable = executable)
+            wget0.communicate() 
         
-        gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
+        gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*', shell = True, executable = executable)
         gunzip.communicate()
         
         print assembly_accession + ':' + strain_ftp

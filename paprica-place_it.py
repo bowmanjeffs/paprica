@@ -512,7 +512,7 @@ else:
             Parallel(n_jobs = splits, verbose = 5)(delayed(place)
             (split_query, ref, ref_dir_domain, cm) for split_query in split_list)
             
-        guppy_merge = subprocess.Popen('guppy merge ' + cwd + query + '*' + '.jplace -o ' + cwd + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
+        guppy_merge = subprocess.Popen('guppy merge ' + cwd + query + '*' + domain + '*' + '.jplace -o ' + cwd + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
         guppy_merge.communicate()
         guppy(cwd + query, ref)
         
