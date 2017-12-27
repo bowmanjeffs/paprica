@@ -52,21 +52,21 @@ raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -s /volumes/hd1/paprica/ref_genome_datab
 Partition: 0 with name: No Name Provided
 Base frequencies: 0.222 0.264 0.337 0.177 
 
-Inference[0]: Time 41.472514 GAMMA-based likelihood -52347.342406, best rearrangement setting 5
-alpha[0]: 0.440124 rates[0] ac ag at cg ct gt: 0.988326 3.203251 2.039922 0.790430 5.899428 1.000000 
+Inference[0]: Time 38.467541 GAMMA-based likelihood -52391.585758, best rearrangement setting 10
+alpha[0]: 0.438687 rates[0] ac ag at cg ct gt: 0.998501 3.199397 2.054907 0.798984 5.831380 1.000000 
 
 
 Conducting final model optimizations on all 1 trees under GAMMA-based models ....
 
-Inference[0] final GAMMA-based Likelihood: -52347.305452 tree written to file /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_result.ref.tre
+Inference[0] final GAMMA-based Likelihood: -52391.568805 tree written to file /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_result.ref.tre
 
 
-Starting final GAMMA-based thorough Optimization on tree 0 likelihood -52347.305452 .... 
+Starting final GAMMA-based thorough Optimization on tree 0 likelihood -52391.568805 .... 
 
-Final GAMMA-based Score of best tree -52347.305452
+Final GAMMA-based Score of best tree -52391.568805
 
 Program execution info written to /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_info.ref.tre
 Best-scoring ML tree written to: /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_bestTree.ref.tre
 
-Overall execution time: 63.924896 secs or 0.017757 hours or 0.000740 days
+Overall execution time: 63.099551 secs or 0.017528 hours or 0.000730 days
 
