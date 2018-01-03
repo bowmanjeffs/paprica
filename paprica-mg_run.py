@@ -92,9 +92,9 @@ else:
     name = command_args['o']
     
 if 'ref_dir' not in command_args.keys():
-    ref_dir = 'ref_genome_database'
+    ref_dir = 'paprica-mgt.database/ref_genome_database'
 else:
-    ref_dir = command_args['ref_dir']
+    ref_dir = 'paprica-mgt.database/' + command_args['ref_dir']
     
 if 'pathways' not in command_args.keys():
     pathways = 'F'

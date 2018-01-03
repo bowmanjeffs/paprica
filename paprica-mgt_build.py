@@ -121,7 +121,6 @@ ref_dir = paprica_path + ref_dir
 
 try:
     shutil.rmtree(ref_dir + 'virus')
-
 except OSError:
     pass
 
@@ -358,8 +357,14 @@ prot_df = pd.merge(prot_df, nuc_counts, left_on = 'sequence', right_index = True
 ## Now that you know which are duplicates, make nonredundant and print out to
 ## csv.  This is the basis of the paprica-mg database for metagenomic analysis.
 
+try:
+    os.mkdir(ref_dir + 'paprica-mgt.database')
+except OSError:
+    shutil.rmtree(ref_dir + 'paprica-mgt.database')
+    os.mkdir(ref_dir + 'paprica-mgt.database')
+
 prot_nr_trans_df = prot_df.drop_duplicates(subset = ['translation'])
-prot_nr_trans_df.to_csv(ref_dir + 'paprica-mg.ec.csv')
+prot_nr_trans_df.to_csv(ref_dir + 'paprica-mgt.database/paprica-mg.ec.csv')
 
 ## For metatranscriptome analysis we don't just want nonredunant, we want those
 ## coding sequences that are actually unique.
@@ -371,7 +376,7 @@ prot_unique_cds_df = prot_df[prot_df['cds_n_occurrences'] == 1]
 
 prot_unique_cds_df = prot_unique_cds_df[prot_unique_cds_df.sequence != 'no_nucleotide_sequence_found']
 prot_unique_cds_df.drop_duplicates(subset = ['translation'], inplace = True)
-prot_unique_cds_df.to_csv(ref_dir + 'paprica-mt.ec.csv')
+prot_unique_cds_df.to_csv(ref_dir + 'paprica-mgt.database/paprica-mt.ec.csv')
 
 ## Make a nonredundant fasta for the metagenomic analysis database.
 
@@ -383,12 +388,12 @@ with open(ref_dir + 'paprica-mg.fasta', 'w') as fasta_out:
         print >> fasta_out, '>' + protein_id
         print >> fasta_out, translation
 
-makedb = subprocess.Popen('diamond makedb --in ' + ref_dir + 'paprica-mg.fasta -d ' + ref_dir + 'paprica-mg', shell = True, executable = executable)
+makedb = subprocess.Popen('diamond makedb --in ' + ref_dir + 'paprica-mgt.database/paprica-mg.fasta -d ' + ref_dir + 'paprica-mgt.database/paprica-mg', shell = True, executable = executable)
 makedb.communicate()  
 
 ## Make an unique fasta for the metatranscriptomic analysis database.
 
-with open(ref_dir + 'paprica-mt.fasta', 'w') as fasta_out:
+with open(ref_dir + 'paprica-mgt.database/paprica-mt.fasta', 'w') as fasta_out:
     for row in prot_unique_cds_df.iterrows():
         protein_id = row[0]
         sequence = row[1]['sequence']
@@ -396,7 +401,7 @@ with open(ref_dir + 'paprica-mt.fasta', 'w') as fasta_out:
         print >> fasta_out, '>' + protein_id
         print >> fasta_out, sequence
 
-makedb = subprocess.Popen('bwa index ' + ref_dir + 'paprica-mt.fasta', shell = True, executable = executable)
+makedb = subprocess.Popen('bwa index ' + ref_dir + 'paprica-mgt.database/paprica-mt.fasta', shell = True, executable = executable)
 makedb.communicate()  
                         
                         
