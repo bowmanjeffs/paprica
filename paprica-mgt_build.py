@@ -380,7 +380,7 @@ prot_unique_cds_df.to_csv(ref_dir + 'paprica-mgt.database/paprica-mt.ec.csv')
 
 ## Make a nonredundant fasta for the metagenomic analysis database.
 
-with open(ref_dir + 'paprica-mg.fasta', 'w') as fasta_out:
+with open(ref_dir + 'paprica-mgt.database/paprica-mg.fasta', 'w') as fasta_out:
     for row in prot_nr_trans_df.iterrows():
         protein_id = row[0]
         translation = row[1]['translation']
