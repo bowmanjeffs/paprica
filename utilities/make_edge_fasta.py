@@ -16,6 +16,8 @@ It probably has a name that follows the form yoursample.combined_16S.tax.clean.a
 
 The input fasta should be any fasta file that contains the cleaned reads names.
 yoursample.combined_16S.tax.clean.fasta is a good bet.
+
+Identified reads will be named edgenumber_original read name
     
 """
 
@@ -45,6 +47,7 @@ fasta_name = fasta.rstrip('.fasta')
 
 get = set(map(str, range(start, stop))) # not inclusive of last number
 to_get = set()
+names = {}
 
 with open(csv, 'r') as csv_in:
     for line in csv_in:
@@ -52,11 +55,13 @@ with open(csv, 'r') as csv_in:
         if line[3] in get:
             name = line[1]
             to_get.add(name)
+            names[name] = str(line[3]) + '_' + name
             
 with open(fasta_name + '_' + str(start) + '_' + str(stop) + '.fasta', 'w') as fasta_out:
     for record in SeqIO.parse(fasta, 'fasta'):
         if record.id in to_get:
             print 'found', record.id
+            record.id = names[str(record.id)]
             SeqIO.write(record, fasta_out, 'fasta')
         
         

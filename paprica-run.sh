@@ -5,8 +5,8 @@
 #### access to the PGDBs if you want to do something more sophisticated than just tally up the number of metabolic pathways
 #### that have been inferred.
 
-#### If you have a large number run this script in a loop (see the manual for an example).  Because the bottleneck is alignment,
-#### and infernal is parallelized, it is best not to run samples in parallel.
+#### If you have a large number run this script in a loop (see the Wiki for an example).  Because the bottleneck is alignment,
+#### and infernal is already parallelized, it is best not to run samples in parallel.
 
 #### Execute this script as ./paprica-run.sh [query] [domain].
 
