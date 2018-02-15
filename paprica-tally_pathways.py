@@ -195,7 +195,10 @@ for edge in list(edge_tally.index):
     
     if edge in internal_probs.index:
         
-        edge_taxid = query_csv[query_csv['edge_num'] == edge].classification[0]
+        ## Not clear why its necessary to save as list, default data
+        ## structure fails inexplicably for some edge numbers otherwise.
+        
+        edge_taxid = list(query_csv[query_csv['edge_num'] == edge].classification)[0]
                 
         ## Collect other information that you might want later.
         
