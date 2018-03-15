@@ -136,7 +136,7 @@ if 'h' in command_args.keys():
 try:        
     domain = command_args['domain']
 except KeyError:
-    domain = 'eukarya'
+    domain = 'bacteria'
 try:
     cpus = str(command_args['cpus'])
 except KeyError:
@@ -144,7 +144,7 @@ except KeyError:
 try:
     download = command_args['download']
 except KeyError:
-    download = 'T'
+    download = 'test'
 try:
     ref_dir = command_args['ref_dir']
 except KeyError:
@@ -495,12 +495,13 @@ if download in ['T', 'test']:
         else:
             summary_complete = pd.read_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
         
-        ## Drop the bad genomes.
+        ## Drop the bad genomes if new download.
         
-        if domain == 'bacteria':
-            summary_complete = summary_complete.drop(bad_bacteria)
-        elif domain == 'archaea':
-            summary_complete = summary_complete.drop(bad_archaea)
+        if download == 'T':
+            if domain == 'bacteria':
+                summary_complete = summary_complete.drop(bad_bacteria)
+            elif domain == 'archaea':
+                summary_complete = summary_complete.drop(bad_archaea)
             
         ## Determine which genomes need to be downloaded.
             
