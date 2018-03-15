@@ -486,10 +486,14 @@ if download in ['T', 'test']:
                 
         old_genomes = pd.Series(os.listdir(ref_dir_domain + 'refseq/'))
         
-        ## Download all the completed genomes, starting with the Genbank assembly_summary.txt file.
+        ## If download == T, download all the completed genomes, starting with
+        ## the Genbank assembly_summary.txt file.
         
-        summary = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', header = 1, index_col = 0)
-        summary_complete = summary[summary.assembly_level == 'Complete Genome']
+        if download == 'T':
+            summary = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', header = 1, index_col = 0)
+            summary_complete = summary[summary.assembly_level == 'Complete Genome']
+        else:
+            summary_complete = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
         
         ## Drop the bad genomes.
         
