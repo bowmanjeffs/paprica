@@ -288,7 +288,7 @@ def make_tax(bad_character):
 
     seq_info = pd.DataFrame(columns = ['seqname', 'accession', 'tax_id', 'species_name', 'is_type'])
     
-    summary_complete = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
+    summary_complete = pd.read_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
     
     ## Need filler taxid for entries that don't have one.
     

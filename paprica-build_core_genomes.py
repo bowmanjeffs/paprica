@@ -207,7 +207,7 @@ def create_euk_files(d):
 
 ## Read in the genome_data file.
 
-genome_data = pd.DataFrame.from_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
+genome_data = pd.read_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
 genome_data['clade'] = np.nan
 genome_data['tip_name'] = np.nan
 genome_data['npaths_actual'] = np.nan
