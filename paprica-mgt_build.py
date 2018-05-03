@@ -335,8 +335,8 @@ columns = ['genome', 'domain', 'tax_name', 'EC_number', 'sequence', 'translation
 prot_df = pd.DataFrame(prot_array, index = prot_array_index, columns = columns)
 
 ## Determine how often each translation appears.  CDS with a translation
-## that is not unique should not be used for taxonomic profiling.  Currently
-## not using taxonomic profiling anyway.
+## that is not unique should not be used for taxonomic profiling with
+## metagenomes.  Currently not taxonomic profiling anyway.
 
 prot_counts = pd.DataFrame(prot_df['translation'].value_counts())
 prot_counts.columns = ['trans_n_occurrences'] # The number of times that the sequence appears across all genomes.
@@ -366,16 +366,12 @@ except OSError:
 prot_nr_trans_df = prot_df.drop_duplicates(subset = ['translation'])
 prot_nr_trans_df.to_csv(ref_dir + 'paprica-mgt.database/paprica-mg.ec.csv')
 
-## For metatranscriptome analysis we don't just want nonredunant, we want those
-## coding sequences that are actually unique.
+## For metatranscriptome analysis we want nonredundant sequences,
+## not translations.  Only those that appear only once should be
+## used for taxonomic bining, or genome-level analyses however.
 
-prot_unique_cds_df = prot_df[prot_df['cds_n_occurrences'] == 1]
-
-## Identical products from genes with silent mutations will still have the same
-## protein ID.  Need to eliminate.
-
+prot_unique_cds_df = prot_df.drop_duplicates(subset = ['sequence'])
 prot_unique_cds_df = prot_unique_cds_df[prot_unique_cds_df.sequence != 'no_nucleotide_sequence_found']
-prot_unique_cds_df.drop_duplicates(subset = ['translation'], inplace = True)
 prot_unique_cds_df.to_csv(ref_dir + 'paprica-mgt.database/paprica-mt.ec.csv')
 
 ## Make a nonredundant fasta for the metagenomic analysis database.

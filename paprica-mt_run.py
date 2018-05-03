@@ -179,10 +179,18 @@ prot_unique_cds_df = pd.concat([prot_unique_cds_df, prot_counts], axis = 1, join
 prot_unique_cds_df.dropna(subset = ['n_hits'], inplace = True)
 prot_unique_cds_df['length_cds'] = prot_unique_cds_df.translation.str.len() # CDS length, would be nice if this was precomputed
 
+## Add column flagging wither CDS is unique or not.  CDS that are
+## not unique should not be used for taxonomic binning, or for
+## genome-level gene expression analysis, as it is ambiguous as to
+## which genome a mapped transcript belongs.
+
+prot_unique_cds_df['unique'] = 'N'
+prot_unique_cds_df.unique[prot_unique_cds_df.cds_n_occurrences > 1] = 'Y'
+
 ## Write out the final csv file.
 
 print 'writing output csv:', cwd + name + '.tally_ec.csv...'
-columns_out = ['genome', 'domain', 'tax_name', 'EC_number', 'product', 'length_cds', 'n_hits']
+columns_out = ['genome', 'domain', 'tax_name', 'EC_number', 'product', 'length_cds', 'n_hits', 'unique']
 prot_unique_cds_df.to_csv(cwd + name + '.tally_ec.csv', columns = columns_out)
 
 ## Write out report file.
