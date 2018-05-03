@@ -89,9 +89,12 @@ else:
     name = command_args['o']
     
 if 'ref_dir' not in command_args.keys():
-    ref_dir = 'paprica-mgt.database/ref_genome_database'
+    ref_dir = 'ref_genome_database/paprica-mgt.database'
 else:
-    ref_dir = 'paprica-mgt.database/' + command_args['ref_dir']
+    ref_dir = command_args['ref_dir']
+    if ref_dir[-1] != '/':
+        ref_dir = ref_dir + '/'
+    ref_dir = ref_dir + 'paprica-mgt.database'
     
 if 'pathways' not in command_args.keys():
     pathways = 'F'
@@ -179,13 +182,13 @@ prot_unique_cds_df = pd.concat([prot_unique_cds_df, prot_counts], axis = 1, join
 prot_unique_cds_df.dropna(subset = ['n_hits'], inplace = True)
 prot_unique_cds_df['length_cds'] = prot_unique_cds_df.translation.str.len() # CDS length, would be nice if this was precomputed
 
-## Add column flagging wither CDS is unique or not.  CDS that are
+## Add column flagging whether CDS is unique or not.  CDS that are
 ## not unique should not be used for taxonomic binning, or for
 ## genome-level gene expression analysis, as it is ambiguous as to
 ## which genome a mapped transcript belongs.
 
 prot_unique_cds_df['unique'] = 'N'
-prot_unique_cds_df.unique[prot_unique_cds_df.cds_n_occurrences > 1] = 'Y'
+prot_unique_cds_df.loc[prot_unique_cds_df.cds_n_occurrences > 1, ('unique')] = 'Y'
 
 ## Write out the final csv file.
 
