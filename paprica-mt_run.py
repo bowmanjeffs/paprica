@@ -130,8 +130,7 @@ if len(query) == 1:
 
 ## Option for PE reads.
 
-if len(query) > 1:
-    
+if len(query) > 1:   
     bwa_aln = subprocess.Popen('bwa mem ' \
     + '-t ' + str(threads) + ' ' \
     + paprica_path + ref_dir + '/paprica-mt.fasta ' \
@@ -188,7 +187,7 @@ prot_unique_cds_df['length_cds'] = prot_unique_cds_df.translation.str.len() # CD
 ## which genome a mapped transcript belongs.
 
 prot_unique_cds_df['unique'] = 'N'
-prot_unique_cds_df.loc[prot_unique_cds_df.cds_n_occurrences > 1, ('unique')] = 'Y'
+prot_unique_cds_df.loc[prot_unique_cds_df.cds_n_occurrences == 1, ('unique')] = 'Y'
 
 ## Write out the final csv file.
 
