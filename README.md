@@ -13,7 +13,7 @@ Option 2: We've also created an Amazon Web Service machine instance.  Please rea
 ## paprica
 PAthway PRediction by phylogenetIC plAcement
 
-A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out the manual and paprica-run.sh script to get started.  Once you've installed the depenencies the commands:
+A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out the [Wiki](https://github.com/bowmanjeffs/paprica/wiki) and tutorials (listed above) to get started.  Once you've installed the depenencies the commands:
 
 ```
 git clone https://github.com/bowmanjeffs/paprica.git
