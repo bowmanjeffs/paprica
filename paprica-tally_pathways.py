@@ -76,8 +76,8 @@ if len(sys.argv) > 2:
     cutoff = float(command_args['cutoff'])  # The cutoff value used to determine pathways to include for internal nodes.
     domain = command_args['domain']  # The domain (bacteria or archaea) for analysis.
     ref_dir = paprica_path + command_args['ref_dir']  # The complete path to the reference directory being used for analysis.        
-    query = command_args['i']
     name = command_args['o']
+    query = command_args['i']
     
     try:
         unique = command_args['unique']

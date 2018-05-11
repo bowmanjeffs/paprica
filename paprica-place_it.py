@@ -46,6 +46,9 @@ CALL AS:
 OPTIONS:
     -cpus:  The number of cpus for RAxML to use.
     -domain: The domain (bacteria or archaea) you are analyzing for.
+    -large: If included will increase the --mxsize flag in cmalign
+        to 4000 Mb.  Note that this requires 4000 Mb per thread, so you
+        will need to have that much memory!
     -n:  The number of reads to subsample your input query to.
     -query: The prefix of the query fasta (entire name without extension).
     -ref: The name of the reference package for pplacer.
@@ -138,6 +141,14 @@ else:
         
     try:
         query = command_args['query']
+        query = query.split('.')
+        
+        ## Finally add some handling of extenstions!
+        
+        if query[-1] in ['fasta', 'fna', 'fa']:
+            query = query[0:-1]
+        query = '.'.join(query)
+        
     except KeyError:
         pass
     
@@ -220,8 +231,12 @@ def place(query, ref, ref_dir_domain, cm):
     ## Conduct alignment with Infernal (cmalign) against the bacteria profile
     ## obtained from the Rfam website at http://rfam.xfam.org/family/RF00177/cm.
     
-    align = subprocess.Popen('cmalign --dna -o ' + query + '.clean.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.fasta', shell = True, executable = executable)
-    align.communicate()    
+    if 'large' in command_args.keys():
+        align = subprocess.Popen('cmalign --mxsize 4000 --dna -o ' + query + '.clean.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.fasta', shell = True, executable = executable)
+        align.communicate()
+    else:
+        align = subprocess.Popen('cmalign --dna -o ' + query + '.clean.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.fasta', shell = True, executable = executable)
+        align.communicate()    
     
     combine = subprocess.Popen('esl-alimerge --outformat pfam --dna \
     -o ' + query + '.' + ref + '.clean.align.sto \

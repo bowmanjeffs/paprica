@@ -40,6 +40,7 @@ import sys
 import subprocess
 import os
 import gzip
+import re
 
 import pandas as pd
 
@@ -146,7 +147,7 @@ gz.communicate()
     
 #%% Iterate across sam file, tallying the number of hits to each reference that appears in the results.
 
-## This section should be parallelized
+## This section should be parallelized.  But how?
 
 prot_counts = pd.Series()
 prot_counts.name = 'n_hits'
@@ -159,18 +160,20 @@ with gzip.open(cwd + name + '.sam.gz', 'rb') as sam:
         
         if line.startswith('@') == False:
             i = i + 1
-            line = line.split('\t')
             
-            ## For mapped reads, add to tally for the reference sequence.
-            
-            if line[1] in ['0', '2', '16']:            
-                rname = line[2]
-                f = f + 1
+            if len(re.findall('X0:', line)) > 0: # Ignore read if it has an alternate optimal alignment.
+                line = line.split('\t')
                 
-                try:
-                    prot_counts[rname] = prot_counts[rname] + 1
-                except KeyError:
-                    prot_counts[rname] = 1
+                ## For mapped reads, add to tally for the reference sequence.
+                
+                if line[1] in ['0', '2', '16']:            
+                    rname = line[2]
+                    f = f + 1
+                    
+                    try:
+                        prot_counts[rname] = prot_counts[rname] + 1
+                    except KeyError:
+                        prot_counts[rname] = 1
     
                 print 'tallying hits for', name + ':', 'found', f, 'out of', i
 

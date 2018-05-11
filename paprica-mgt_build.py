@@ -185,9 +185,26 @@ genome_data_archaea['domain'] = 'archaea'
 genome_data_eukarya = pd.read_csv(ref_dir + 'eukarya/genome_data.final.csv', index_col = 0, header = 0)
 genome_data_eukarya = genome_data_eukarya.dropna(subset = ['clade'])
 genome_data_eukarya['domain'] = 'eukarya'
+genome_data_eukarya.drop_duplicates(subset = ['taxon_id'], inplace = True)
 
 genome_data_virus = pd.read_csv(ref_dir + 'virus/genome_data.final.csv', index_col = 0, header = 0)
 genome_data_virus['domain'] = 'virus'
+
+### !!! below block is commented for now, not clear that this is necessary !!! ###
+
+### For bacteria and archaea, limit resolution to species.  This is
+### an effort to limit the number of CDS lost because they are not
+### unique.
+#
+#genome_data_bacteria.drop_duplicates(subset = ['species_taxid'], inplace = True)
+#genome_data_archaea.drop_duplicates(subset = ['species_taxid'], inplace = True)
+#
+### For eukarya, limit resolution to strain because there is no
+### MMETSP equivalent for "species_taxid".
+#
+#genome_data_eukarya.drop_duplicates(subset = ['taxon_id'], inplace = True)
+
+## Combine all domain databases.
 
 genome_data = pd.concat([genome_data_bacteria, genome_data_archaea, genome_data_eukarya, genome_data_virus])
 
