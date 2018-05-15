@@ -47,17 +47,17 @@ except KeyError:
 try:
     edge_suffix = command_args['edge_in']
 except KeyError:
-    edge_suffix = 'bacteria.edge_data.csv'
+    edge_suffix = 'eukarya.edge_data.csv'
     
 try:
     path_suffix = command_args['path_in']
 except KeyError:
-    path_suffix = 'bacteria.sum_pathways.csv'
+    path_suffix = 'eukarya.sum_pathways.csv'
     
 try:
     ec_suffix = command_args['ec_in']
 except KeyError:
-    ec_suffix = 'bacteria.sum_ec.csv'
+    ec_suffix = 'eukarya.sum_ec.csv'
     
 try:
     unique_suffix = command_args['unique_in']
@@ -106,7 +106,11 @@ for f in os.listdir('.'):
         for param in ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'confidence']:
             edge_data.loc[name, param + '.mean'], edge_data.loc[name, param + '.sd'] = fill_edge_data(param, name, temp_edge)
         
-        temp_edge_abund = pd.DataFrame(temp_edge['nedge_corrected'])
+        if len(pd.isnull(pd.DataFrame(temp_edge['nedge_corrected'])) > 0):
+            temp_edge_abund = pd.DataFrame(temp_edge['nedge'])
+        else:
+            temp_edge_abund = pd.DataFrame(temp_edge['nedge_corrected'])
+            
         temp_edge_abund.columns = [name]        
         edge_tally = pd.concat([edge_tally, temp_edge_abund], axis = 1)
             
