@@ -69,6 +69,7 @@ import subprocess
 import sys
 import os
 from joblib import Parallel, delayed
+import multiprocessing
 import datetime
 import random
 import pandas as pd
@@ -152,6 +153,12 @@ else:
     except KeyError:
         pass
     
+## Count the system cpus, and divide by number of splits to determine cpus
+## that should be used by cmalign
+
+system_cpus = multiprocessing.cpu_count()
+cmalign_cpus = str(system_cpus / splits)
+    
 ## Make sure that ref_dir ends with /.
     
 if ref_dir.endswith('/') == False:
@@ -232,10 +239,10 @@ def place(query, ref, ref_dir_domain, cm):
     ## obtained from the Rfam website at http://rfam.xfam.org/family/RF00177/cm.
     
     if 'large' in command_args.keys():
-        align = subprocess.Popen('cmalign --mxsize 4000 --dna -o ' + query + '.clean.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.fasta', shell = True, executable = executable)
+        align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --mxsize 4000 --dna -o ' + query + '.clean.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.fasta', shell = True, executable = executable)
         align.communicate()
     else:
-        align = subprocess.Popen('cmalign --dna -o ' + query + '.clean.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.fasta', shell = True, executable = executable)
+        align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --dna -o ' + query + '.clean.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.fasta', shell = True, executable = executable)
         align.communicate()    
     
     combine = subprocess.Popen('esl-alimerge --outformat pfam --dna \
