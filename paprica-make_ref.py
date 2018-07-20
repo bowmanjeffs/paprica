@@ -136,7 +136,7 @@ if 'h' in command_args.keys():
 try:        
     domain = command_args['domain']
 except KeyError:
-    domain = 'bacteria'
+    domain = 'eukarya'
 try:
     cpus = str(command_args['cpus'])
 except KeyError:
@@ -302,10 +302,11 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
 def download_euks(online_directory):
     try:
         assembly_accession = summary_complete.loc[online_directory, 'sample_name']
-        strain_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory
+        #strain_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory
+        strain_ftp = 'https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/samples/' + online_directory
         
-        strain_nt = assembly_accession + '.nt.fa.gz'
-        strain_fa = assembly_accession + '.pep.fa.gz'
+        strain_nt = assembly_accession + '.nt.fa'
+        strain_fa = assembly_accession + '.pep.fa'
         
         mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
         mkdir.communicate()
@@ -314,11 +315,13 @@ def download_euks(online_directory):
             wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/' + f, shell = True, executable = executable)
             wget0.communicate() 
         
-        wget1 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/annot/swissprot.gff3.gz', shell = True, executable = executable)
+        wget1 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/annot/swissprot.gff3', shell = True, executable = executable)
         wget1.communicate() 
+        
+        ## gunzip commands no longer necessary since cyverse does not compress
     
-        gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*', shell = True, executable = executable)
-        gunzip.communicate()
+        #gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*', shell = True, executable = executable)
+        #gunzip.communicate()
         
         print assembly_accession + ':' + ref_dir_domain + 'refseq/' + assembly_accession
         
@@ -363,7 +366,7 @@ def get_eukaryotes():
     ## Get eukaryote sample data from MMETSP.
     
     if 'sample-attr.tab.gz' not in os.listdir(ref_dir_domain):
-        wget0 = subprocess.Popen('cd ' + ref_dir_domain + ';wget --tries=10 -T30 -q ftp://ftp.imicrobe.us/projects/104/sample-attr.tab.gz', shell = True, executable = executable)
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + ';wget --tries=10 -T30 -q https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/sample-attr.tab', shell = True, executable = executable)
         wget0.communicate()
     
     ## Parse this file into a dataframe.
@@ -371,7 +374,7 @@ def get_eukaryotes():
     summary_complete = pd.DataFrame()
     l = 0    
     
-    with gzip.open(ref_dir_domain + 'sample-attr.tab.gz', 'rb') as sample_attr:
+    with open(ref_dir_domain + 'sample-attr.tab', 'rb') as sample_attr:
         for line in sample_attr:
             line = line.rstrip()
             line = line.split('\t')
@@ -383,7 +386,7 @@ def get_eukaryotes():
     ## Get the 18S sequences.
 
     if 'combined_18S.fasta' not in os.listdir(ref_dir_domain):
-        wget_18S = subprocess.Popen('cd ' + ref_dir_domain + ';wget ftp://ftp.imicrobe.us/projects/104/18s/18s.fa.gz;mv 18s.fa.gz combined_18S.fasta.gz', shell = True, executable = executable)
+        wget_18S = subprocess.Popen('cd ' + ref_dir_domain + ';wget https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/18s/18s.fa;mv 18s.fa combined_18S.fasta', shell = True, executable = executable)
         wget_18S.communicate()
     
     return(summary_complete)    
@@ -802,10 +805,13 @@ for d in sorted(unique_assembly):
 ## Currently this matrix is being written out but is not being used anywhere.
 
 table_out_df = pd.DataFrame(table_out, index = sorted(bins), columns = unique_assembly)
-table_out_df.to_csv(ref_dir_domain + '5mer_compositional_vectors.csv.gz')
+table_out_df.to_csv(ref_dir_domain + '5mer_compositional_vectors.csv.gz', compression = 'gzip')
 
 #%% Calculate phi from the two distance measures
 ## Generate a distance matrix of the genomes according to compositional vectors.
+
+## Note: the distance function will work on a pandas dataframe which will avoid the need
+## to transpose if you want to simply execute on table_out_df
 
 dist_cv = spatial.distance.pdist(np.transpose(table_out), metric = 'braycurtis')
 dist_cv = spatial.distance.squareform(dist_cv)
