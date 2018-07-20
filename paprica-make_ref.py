@@ -608,7 +608,7 @@ if domain == 'eukarya':
     ## phylogenetic placement, and shouldn't really be used for building trees
     ## anyway.  Remove these.
     
-    unique = subprocess.Popen('seqmagick convert --deduplicate-sequences ' + ref_dir_domain + 'combined_18S.fasta.gz ' + ref_dir_domain + 'combined_18S.unique.fasta', shell = True, executable = executable)
+    unique = subprocess.Popen('seqmagick convert --deduplicate-sequences ' + ref_dir_domain + 'combined_18S.fasta ' + ref_dir_domain + 'combined_18S.unique.fasta', shell = True, executable = executable)
     unique.communicate()
     
     kept_genomes = [] # This will hold the names of genomes with unique 18S and correct data files (identified earlier).
