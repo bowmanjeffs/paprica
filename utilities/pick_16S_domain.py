@@ -13,9 +13,9 @@ PAL_0007_bacterial_16S_hits.txt
 PAL_0007_archaeal_16S_hits.txt
 PAL_0007_eukaryote_16S_hits.txt
 
-PAL_0007_bacterial_16S_hits.sto
-PAL_0007_archaeal_16S_hits.sto
-PAL_0007_eukaryote_16S_hits.sto
+PAL_0007_bacterial_16S_hits.fasta
+PAL_0007_archaeal_16S_hits.fasta
+PAL_0007_eukaryote_16S_hits.fasta
 
 """
 
