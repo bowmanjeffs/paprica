@@ -61,7 +61,7 @@ cwd = os.getcwd() + '/' # The current working directory.
 if len(sys.argv) == 1:
     paprica_path = '/volumes/hd1/paprica/' # The location of the paprica scripts during testing.
 else:
-    paprica_path = os.path.dirname(os.path.abspath(__file__)) + '/' # The location of the actual paprica scripts.
+    paprica_path = os.path.dirname(os.path.realpath(__file__)) + '/' # The location of the actual paprica scripts.
 
 ## Read in command line arguments.
 
