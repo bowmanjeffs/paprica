@@ -113,7 +113,7 @@ except KeyError:
 if ref_dir.endswith('/') == False:
     ref_dir = ref_dir + '/'
 
-paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/' # The location of the actual paprica scripts.  
+paprica_path = os.path.dirname(os.path.realpath("__file__")) + '/' # The location of the actual paprica scripts.  
 ref_dir = paprica_path + ref_dir
 
 #%% Download virus sequences, since they aren't used anywhere else.  Since this

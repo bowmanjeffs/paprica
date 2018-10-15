@@ -155,7 +155,7 @@ except KeyError:
 if ref_dir.endswith('/') == False:
     ref_dir = ref_dir + '/'
     
-paprica_path = os.path.dirname(os.path.abspath("__file__")) + '/' # The location of the actual paprica scripts.    
+paprica_path = os.path.dirname(os.path.realpath("__file__")) + '/' # The location of the actual paprica scripts.    
 
 ref_dir_domain = paprica_path + ref_dir + domain + '/'
 
