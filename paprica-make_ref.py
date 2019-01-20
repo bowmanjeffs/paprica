@@ -136,7 +136,7 @@ if 'h' in command_args.keys():
 try:        
     domain = command_args['domain']
 except KeyError:
-    domain = 'eukarya'
+    domain = 'archaea'
 try:
     cpus = str(command_args['cpus'])
 except KeyError:
@@ -144,7 +144,7 @@ except KeyError:
 try:
     download = command_args['download']
 except KeyError:
-    download = 'test'
+    download = 'T'
 try:
     ref_dir = command_args['ref_dir']
 except KeyError:
@@ -693,13 +693,14 @@ with open(ref_dir_domain + 'combined_16S.fasta', 'w') as fasta_out:
 
                 ## Get genome size.
                 
-                gs = ''                
+                genome_size = 0                
                 with open(ref_dir_domain + 'refseq/' + d + '/' + f, 'r') as fna_in:
                     for line in fna_in:
                         if line.startswith('>') == False:
                             line = line.rstrip()
-                            gs = gs + line
-                genome_size = len(gs)
+                            genome_size = genome_size + len(line)
+                            
+                ## Add genome data to summary_complete.
                 
                 summary_complete.loc[d, 'n16S'] = n16S
                 summary_complete.loc[d, 'nge'] = nge
