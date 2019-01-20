@@ -10,6 +10,8 @@ This script aggregates information from multiple '.edge_data.csv' files
 produces by running paprica on multiple samples.  It produces a matrix of edges
 by sample, and a matrix of mean edge parameters, by sample.
 
+For simple execution (works in most user cases) run as:
+    python combine_edge_results.py -domain [domain] -o [prefix for output]
 Run as: python combine_edge_results.py -edge_in [suffix pattern for edges] -path_in [suffix pattern for paths] -ec_in [suffix pattern for ec numbers] -unique_in [suffix pattern for unique sequences] -o [prefix for output]
 
 It will automatically loop through all files in the directory with the specified suffixes.
@@ -38,31 +40,42 @@ if 'h' in command_args.keys():
     pass
     #print help_string ## no help sting
     quit()
-
-try:
+    
+if 'domain' in command_args.keys():
+    domain = command_args['domain']
     prefix = command_args['o']
-except KeyError:
-    prefix = 'combined_results'
-
-try:
-    edge_suffix = command_args['edge_in']
-except KeyError:
-    edge_suffix = 'eukarya.edge_data.csv'
+    edge_suffix = domain + '.edge_data.csv'
+    path_suffix = domain + '.sum_pathways.csv'
+    ec_suffix = domain + '.sum_ec.csv'
+    unique_suffix = domain + '.unique_seqs.csv'
     
-try:
-    path_suffix = command_args['path_in']
-except KeyError:
-    path_suffix = 'eukarya.sum_pathways.csv'
+    ## delete old combined files here 
     
-try:
-    ec_suffix = command_args['ec_in']
-except KeyError:
-    ec_suffix = 'eukarya.sum_ec.csv'
+else:
+    try:
+        prefix = command_args['o']
+    except KeyError:
+        prefix = 'combined_results'
     
-try:
-    unique_suffix = command_args['unique_in']
-except KeyError:
-    unique_suffix = False
+    try:
+        edge_suffix = command_args['edge_in']
+    except KeyError:
+        edge_suffix = 'archaea.edge_data.csv'
+        
+    try:
+        path_suffix = command_args['path_in']
+    except KeyError:
+        path_suffix = 'archaea.sum_pathways.csv'
+        
+    try:
+        ec_suffix = command_args['ec_in']
+    except KeyError:
+        ec_suffix = 'archaea.sum_ec.csv'
+        
+    try:
+        unique_suffix = command_args['unique_in']
+    except KeyError:
+        unique_suffix = 'archaea.unique.seqs.csv'
     
 def stop_here():
     stop = []
