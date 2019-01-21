@@ -19,9 +19,9 @@ Akifumi S. Tanabe (NRIFS)
 Charlie Taylor    (UF)
 
 
-Alignment has 2283 distinct alignment patterns
+Alignment has 2359 distinct alignment patterns
 
-Proportion of gaps and completely undetermined characters in this alignment: 47.48%
+Proportion of gaps and completely undetermined characters in this alignment: 47.86%
 
 RAxML rapid hill-climbing mode
 
@@ -36,7 +36,7 @@ GAMMA model of rate heteorgeneity, ML estimate of alpha-parameter
 GAMMA Model parameters will be estimated up to an accuracy of 0.1000000000 Log Likelihood units
 
 Partition: 0
-Alignment Patterns: 2283
+Alignment Patterns: 2359
 Name: No Name Provided
 DataType: DNA
 Substitution Matrix: GTR
@@ -52,21 +52,21 @@ raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -s /volumes/hd1/paprica/ref_genome_datab
 Partition: 0 with name: No Name Provided
 Base frequencies: 0.252 0.227 0.313 0.208 
 
-Inference[0]: Time 10093.805149 GAMMA-based likelihood -773641.077347, best rearrangement setting 25
-alpha[0]: 0.424764 rates[0] ac ag at cg ct gt: 0.787399 2.182306 1.381387 0.688408 3.494403 1.000000 
+Inference[0]: Time 9073.485658 GAMMA-based likelihood -817980.306420, best rearrangement setting 25
+alpha[0]: 0.424221 rates[0] ac ag at cg ct gt: 0.784217 2.204297 1.396425 0.701786 3.505154 1.000000 
 
 
 Conducting final model optimizations on all 1 trees under GAMMA-based models ....
 
-Inference[0] final GAMMA-based Likelihood: -773639.350560 tree written to file /volumes/hd1/paprica/ref_genome_database/bacteria/RAxML_result.ref.tre
+Inference[0] final GAMMA-based Likelihood: -817979.750991 tree written to file /volumes/hd1/paprica/ref_genome_database/bacteria/RAxML_result.ref.tre
 
 
-Starting final GAMMA-based thorough Optimization on tree 0 likelihood -773639.350560 .... 
+Starting final GAMMA-based thorough Optimization on tree 0 likelihood -817979.750991 .... 
 
-Final GAMMA-based Score of best tree -773636.204020
+Final GAMMA-based Score of best tree -817968.294770
 
 Program execution info written to /volumes/hd1/paprica/ref_genome_database/bacteria/RAxML_info.ref.tre
 Best-scoring ML tree written to: /volumes/hd1/paprica/ref_genome_database/bacteria/RAxML_bestTree.ref.tre
 
-Overall execution time: 11802.835336 secs or 3.278565 hours or 0.136607 days
+Overall execution time: 10686.773155 secs or 2.968548 hours or 0.123690 days
 
