@@ -559,6 +559,13 @@ internal_ec_n = pd.DataFrame(index = int_nodes, columns = terminal_ec.columns)
 n_clades = len(tree.get_nonterminals())
 i_clade = 0
 
+## Iterate across all subtrees and collect information that will be saved in
+## the "internal" dataframes.
+
+## This is the slowest loop in the database build process and should be parallelized.
+## Since the shape of the dataframe is known it shouldn't be too difficult to memmap
+## this with np.memmap.
+
 for clade in tree.get_nonterminals():
     
     i_clade += 1
