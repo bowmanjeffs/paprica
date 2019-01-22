@@ -56,6 +56,9 @@ import pandas as pd
 from Bio import SeqIO
 import sys
 import os
+import re
+from joblib import Parallel, delayed
+import multiprocessing
 
 command_args = {}
 
@@ -81,7 +84,14 @@ except NameError:
     paprica_path = os.path.dirname(os.path.realpath("__file__")) + '/'
 cwd = os.getcwd() + '/' # The current working directory.
 
-## Define a function to search an input fasta against a set, and write
+#%% Define a stop function for diagnostic use only.
+
+def stop_here():
+    stop = []
+    print 'Manually stopped!'
+    print stop[1]
+
+#%% Define a function to search an input fasta against a set, and write
 ## reads with ids in that set to an output fasta.
 
 def write_fasta(fasta_out, fasta_in, domain_set):
@@ -90,18 +100,77 @@ def write_fasta(fasta_out, fasta_in, domain_set):
         for record in SeqIO.parse(fasta_in, 'fasta'):            
             if record.id in domain_set:
                 SeqIO.write(record, fasta_out, 'fasta')
+                
+#%% Define a function to split an input fasta file.
+                
+def split_fasta(file_in, nsplits):
+    
+    splits = []            
+    tseqs = len(re.findall('>', open(file_in + '.fasta', 'r').read()))
+    
+    nseqs = tseqs / nsplits
+    
+    seq_i = 0
+    file_n = 1
+    
+    file_out = open(file_in + '.temp' + str(file_n) + '.fasta', 'w')
+    
+    for record in SeqIO.parse(file_in + '.fasta', 'fasta'):
+        seq_i = seq_i + 1
+        
+        if seq_i <= nseqs:
+            SeqIO.write(record, file_out, 'fasta')
+        elif seq_i > nseqs:
+            splits.append(file_in + '.temp' + str(file_n))
+            file_out.close()
+            file_n = file_n + 1
+            file_out = open(file_in + '.temp' + str(file_n) + '.fasta', 'w')
+            SeqIO.write(record, file_out, 'fasta')
+            seq_i = 0
+        
+    splits.append(file_in + '.temp' + str(file_n))
+    file_out.close()
+    
+    return(splits)
+    
+#%% Define a function to run cmscan
+
+def run_cmscan(split_in):   
+    os.system('cmscan --cpu 1 --tblout ' + split_in + '.txt ' + paprica_path + 'models/all_domains.cm ' + split_in + '.fasta > /dev/null')
+    
+#%% Run program
+
+## Determine number of processors
+    
+nsplits = multiprocessing.cpu_count()
+    
+split_list = split_fasta(cwd + prefix, nsplits)
 
 ## Search the input fasta with cmscan against the covariance model of all domains.
-       
-os.system('cmscan --tblout ' + cwd + prefix + '.txt ' + paprica_path + 'models/all_domains.cm ' + cwd + fasta_in + ' > /dev/null')
-
-## Read in the output of cmscan, then iterate across all lines, selecting for each read the domain with the lowest 
-## E-value.  This is considered to the be true domain of the genome originating the read.
+    
+if __name__ == '__main__':  
+    Parallel(n_jobs = nsplits, verbose = 5)(delayed(run_cmscan)
+    (split_in) for split_in in split_list)
+    
+## Aggregate output.
     
 colnames = ['target.name', 'target.accession', 'query.name', 'accession', 'mdl', 'mdl.from', 'mdl.to', 'seq.from', 'seq.to', 'strand', 'trunc', 'pass', 'gc', 'bias', 'score', 'E-value', 'inc', 'description']
+cmscan = pd.DataFrame(columns = colnames)
 
-cmscan = pd.read_csv(cwd + prefix + '.txt', comment = '#', names = colnames, header = None, skiprows = [0,1], delim_whitespace = True, index_col = 2)
-
+for split in split_list:
+    try:
+        cmscan_temp = pd.read_csv(split + '.txt', comment = '#', names = colnames, header = None, skiprows = [0,1], delim_whitespace = True, index_col = 2)
+        cmscan = pd.concat([cmscan, cmscan_temp])
+    except IOError:
+        continue
+    
+## Cleanup temp output.
+        
+os.system('rm -f ' + cwd + prefix + '.temp*')
+        
+## Iterate across all lines, selecting for each read the domain with the lowest 
+## E-value.  This is considered to the be true domain of the genome originating the read.
+    
 bacteria_set = []
 archaea_set = []
 eukarya_set = []
