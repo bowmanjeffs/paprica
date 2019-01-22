@@ -93,7 +93,7 @@ def write_fasta(fasta_out, fasta_in, domain_set):
 
 ## Search the input fasta with cmscan against the covariance model of all domains.
        
-os.system('cmscan --cpu 1 --tblout ' + cwd + prefix + '.txt ' + paprica_path + 'models/all_domains.cm ' + cwd + fasta_in + ' > /dev/null')
+os.system('cmscan --tblout ' + cwd + prefix + '.txt ' + paprica_path + 'models/all_domains.cm ' + cwd + fasta_in + ' > /dev/null')
 
 ## Read in the output of cmscan, then iterate across all lines, selecting for each read the domain with the lowest 
 ## E-value.  This is considered to the be true domain of the genome originating the read.
