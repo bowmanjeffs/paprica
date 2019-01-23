@@ -200,7 +200,7 @@ bacteria_set = set(bacteria_set)
 archaea_set = set(archaea_set)
 eukarya_set = set(eukarya_set)
             
-print prefix, len(bacteria_set), len(archaea_set), len(eukarya_set)
+print prefix, 'nbacteria =', len(bacteria_set), 'narchaea =', len(archaea_set), 'neukaryotes =', len(eukarya_set)
 
 ## Write fasta files for each domain.
                 
