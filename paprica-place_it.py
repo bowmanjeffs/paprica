@@ -124,9 +124,9 @@ except KeyError:
 ## No default is currently provided for query.
     
 if len(sys.argv) == 1:
-    cpus = '8'
-    #splits = 1
-    #query = 'test.eukarya'
+    command_args['cpus'] = '8'
+    command_args['splits'] = 2
+    command_args['query'] = 'test.bacteria.bacteria'
 
 else:
     
@@ -497,9 +497,7 @@ if 'query' not in command_args.keys():
         print >> database_info, 'nseqs in reference alignment:', n_aseqs 
             
 else:
-    
-    splits = int(command_args['splits'])
-    
+        
     clear_wspace = subprocess.call('rm -f ' + cwd + query + '.' + ref + '*', shell = True, executable = executable)
     clear_wspace = subprocess.call('rm -f ' + cwd + query + '.sub*', shell = True, executable = executable)
     
@@ -537,6 +535,10 @@ else:
         guppy_merge = subprocess.Popen('guppy merge ' + cwd + query + '*' + domain + '*' + '.jplace -o ' + cwd + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
         guppy_merge.communicate()
         guppy(cwd + query, ref)
+        
+        ## Note that the below merge command sloppily adds the reference sequences
+        ## for each of the split files, those this doesn't have any negative impact
+        ## other than space.
         
         merge = subprocess.Popen('cat ' + cwd + query + '.temp*.' + ref + '.clean.align.fasta > ' + cwd + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
         merge.communicate()
