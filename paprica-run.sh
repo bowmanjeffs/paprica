@@ -27,7 +27,7 @@ paprica-pick_domain.py -in $query
 
 ## 2. phylogenetic placement of query reads
 
-paprica-place_it.py -ref_dir ref_genome_database -query $query.$domain -ref combined_$gene.$domain.tax -splits 18 -domain $domain -unique T &&
+paprica-place_it.py -ref_dir ref_genome_database -query $query.$domain -ref combined_$gene.$domain.tax -splits 1 -domain $domain -unique T &&
 
 ## 3. find pathways and other information associated with edges.  if you subsampled in the previous step (i.e. with -n) your input
 ##    file is $query.$domain.sub.combined_$gene.tax.clean.align.csv and your unique file is $query.$domain.sub.$domain.unique.seqs.csv.
