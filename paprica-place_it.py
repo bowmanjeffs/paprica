@@ -270,6 +270,9 @@ def guppy(query, ref):
     guppy2 = subprocess.Popen('guppy fat --node-numbers --point-mass --pp -o ' + query + '.' + ref + '.clean.align.phyloxml ' + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
     guppy2.communicate()
     
+    guppy3 = subprocess.Popen('guppy edpl --pp --csv -o ' + query + '.' + ref + '.clean.align.edpl.csv ' + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
+    guppy3.communicate()
+    
 #%% Define a function to classify read placements.
     
 def classify():
