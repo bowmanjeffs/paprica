@@ -116,7 +116,7 @@ except KeyError:
 try:    
     unique = command_args['unique']
 except KeyError:
-    unique = 'F'
+    unique = 'T'
 
 ## If sys.argv == 1, you are probably running inside Python in testing mode.
 ## Provide some default values to make this possibe.  If > 1, parse command
@@ -124,9 +124,11 @@ except KeyError:
 ## No default is currently provided for query.
     
 if len(sys.argv) == 1:
-    command_args['cpus'] = '8'
-    command_args['splits'] = 2
-    command_args['query'] = 'test.bacteria.bacteria'
+    cpus = '8'
+    splits = 1
+    query = 'test.bacteria'
+    command_args['query'] = query
+    command_args['unique'] = 'T'
 
 else:
     
@@ -192,6 +194,40 @@ def clean_name(file_name, bad_character):
             print >> fasta_out, '>' + record.name
             print >> fasta_out, record.seq
             
+#%% Define a function to create a unique fasta file from the input.
+            
+def make_unique(query):
+    
+    seq_count = {}
+    seq_names = {}
+    name_seq = {}
+    
+    clean_name(query, bad_character)
+    
+    for record in SeqIO.parse(query + '.clean.fasta', 'fasta'):
+        name = str(record.id)
+        seq = str(record.seq)
+        
+        if seq in seq_count.keys():
+            seq_count[seq] = seq_count[seq] + 1
+            temp_name_list = seq_names[seq]
+            temp_name_list.append(name)
+            seq_names[seq] = temp_name_list
+        else:
+            seq_count[seq] = 1
+            seq_names[seq] = [name]
+            
+    with open(query + '.clean.unique.fasta', 'w') as fasta_out, open(query + '.clean.unique.count', 'w') as count_out:
+        print >> count_out, 'rep_name' + ',' + 'abundance'
+        for seq in seq_names.keys():
+            print >> fasta_out, '>' + seq_names[seq][0]
+            print >> fasta_out, seq
+            
+            print >> count_out, seq_names[seq][0] + ',' + str(seq_count[seq])
+            name_seq[seq_names[seq][0]] = seq
+            
+    return seq_count, seq_names, name_seq
+            
 #%% Define function to split fasta file to run pplacer in parallel.  This greatly
 ## improves the speed of paprica_run.sh, but at the cost of memory overhead.
 ## Users need to be cautious of memory limits when considering the number of
@@ -231,46 +267,45 @@ def split_fasta(file_in, nsplits):
     
 def place(query, ref, ref_dir_domain, cm):
             
-    clean_name(query, bad_character)
-    degap = subprocess.Popen('seqmagick mogrify --ungap ' + query + '.clean.fasta', shell = True, executable = executable)
+    degap = subprocess.Popen('seqmagick mogrify --ungap ' + query + '.clean.unique.fasta', shell = True, executable = executable)
     degap.communicate()
     
     ## Conduct alignment with Infernal (cmalign) against the bacteria profile
     ## obtained from the Rfam website at http://rfam.xfam.org/family/RF00177/cm.
     
     if 'large' in command_args.keys():
-        align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --mxsize 4000 --dna -o ' + query + '.clean.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.fasta', shell = True, executable = executable)
+        align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --mxsize 4000 --dna -o ' + query + '.clean.unique.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.unique.fasta', shell = True, executable = executable)
         align.communicate()
     else:
-        align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --dna -o ' + query + '.clean.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.fasta', shell = True, executable = executable)
+        align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --dna -o ' + query + '.clean.unique.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.unique.fasta', shell = True, executable = executable)
         align.communicate()    
     
     combine = subprocess.Popen('esl-alimerge --outformat pfam --dna \
-    -o ' + query + '.' + ref + '.clean.align.sto \
-    ' + query + '.clean.align.sto \
+    -o ' + query + '.' + ref + '.clean.unique.align.sto \
+    ' + query + '.clean.unique.align.sto \
     ' + ref_dir_domain + ref + '.refpkg/' + ref + '.clean.align.sto', shell = True, executable = executable)
     combine.communicate()
       
-    convert = subprocess.Popen('seqmagick convert ' + query + '.' + ref + '.clean.align.sto ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
+    convert = subprocess.Popen('seqmagick convert ' + query + '.' + ref + '.clean.unique.align.sto ' + query + '.' + ref + '.clean.unique.align.fasta', shell = True, executable = executable)
     convert.communicate()
     
-    pplacer = subprocess.Popen('pplacer -o ' + query + '.' + ref + '.clean.align.jplace \
+    pplacer = subprocess.Popen('pplacer -o ' + query + '.' + ref + '.clean.unique.align.jplace \
     --out-dir ' + os.getcwd() + ' \
     -p --keep-at-most 20 --map-identity\
-    -c ' + ref_dir_domain + ref + '.refpkg ' + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
+    -c ' + ref_dir_domain + ref + '.refpkg ' + query + '.' + ref + '.clean.unique.align.fasta', shell = True, executable = executable)
     pplacer.communicate()
     
 #%% Define function to generate csv file of placements and fat tree    
     
 def guppy(query, ref):
     
-    guppy1 = subprocess.Popen('guppy to_csv --point-mass --pp -o ' + query + '.' + ref + '.clean.align.csv ' + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
+    guppy1 = subprocess.Popen('guppy to_csv --point-mass --pp -o ' + query + '.' + ref + '.clean.unique.align.csv ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
     guppy1.communicate()
     
-    guppy2 = subprocess.Popen('guppy fat --node-numbers --point-mass --pp -o ' + query + '.' + ref + '.clean.align.phyloxml ' + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
+    guppy2 = subprocess.Popen('guppy fat --node-numbers --point-mass --pp -o ' + query + '.' + ref + '.clean.unique.align.phyloxml ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
     guppy2.communicate()
     
-    guppy3 = subprocess.Popen('guppy edpl --pp --csv -o ' + query + '.' + ref + '.clean.align.edpl.csv ' + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
+    guppy3 = subprocess.Popen('guppy edpl --pp --csv -o ' + query + '.' + ref + '.clean.unique.align.edpl.csv ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
     guppy3.communicate()
     
 #%% Define a function to classify read placements.
@@ -281,7 +316,7 @@ def classify():
     ## this, but classification command requires sqlite output.
     
     prep_database = subprocess.Popen('rppr prep_db -c ' + ref_dir_domain + ref + '.refpkg \
-    --sqlite ' + query + '.' + ref + '.clean.align.db',
+    --sqlite ' + query + '.' + ref + '.clean.unique.align.db',
     shell = True,
     executable = executable)
     
@@ -291,7 +326,7 @@ def classify():
     
     guppy_classify = subprocess.Popen('guppy classify \
     -c ' + ref_dir_domain + ref + '.refpkg \
-    --sqlite ' + query + '.' + ref + '.clean.align.db '+ query + '.' + ref + '.clean.align.jplace',
+    --sqlite ' + query + '.' + ref + '.clean.unique.align.db '+ query + '.' + ref + '.clean.unique.align.jplace',
     shell = True,
     executable = executable)
     
@@ -375,58 +410,70 @@ def make_tax(bad_character):
     
 #%% Define a function to tally the unique reads assigned to each edge.
 
-def count_unique():
-    query_seqs = pd.DataFrame()
-    
-    ## Add all sequences in aligned fasta to the dataframe, indexed by record id.
-    
-    for record in SeqIO.parse(query + '.' + ref + '.clean.align.fasta', 'fasta'):
-        query_seqs.loc[str(record.id), 'sequence'] = str(record.seq)
-    	
-    ## Read in the guppy csv file, indexing by edge number.
-    			
-    query_csv = pd.DataFrame.from_csv(query + '.' + ref + '.clean.align.csv', header = 0, index_col = 3)
-    
-    ## Iterating by edge number, get all the sequences for that edge, then count the number of unique sequences.
-    
-    unique_edge_counts = pd.DataFrame(columns = ['rep', 'abundance', 'edge_num'])
-    
-    for edge_num in query_csv.index.unique():
-    	
-        print 'Finding unique sequences within edge', edge_num
-    			
-        temp_df = query_seqs.loc[query_csv.loc[edge_num, 'name']]
-        temp_seq_names = []
-    	
-        try:
-            temp_counts = temp_df.sequence.value_counts()
-    		
-    		## Cludgy, but I can't find another way to capture unique sequence names!
-    		
-            for seq in temp_counts.index:
-                seq_name = temp_df.sequence[temp_df.sequence == seq].index.tolist()[0]
-                temp_seq_names.append(seq_name)
-    			
-        except AttributeError:
-            temp_counts = pd.Series(1, name = temp_df.sequence)
-            temp_counts.index = [temp_counts.name]
-            temp_seq_names.append(temp_df.name)
-    		
-        temp_df_out = pd.DataFrame(temp_counts)
-        temp_df_out.columns = ['abundance']
-        temp_df_out['edge_num'] = int(edge_num)
-        temp_df_out['rep'] = temp_seq_names
-    			   
-        ## Hash the sequence to create a lighter-weight index that reflects the
-        ## sequence.  This will be used for comparison across samples.
-    	
-        temp_df_out['seq'] = temp_counts.index                   
-        temp_df_out.index = temp_df_out['seq'].apply(hash)
-        temp_df_out.drop('seq', axis = 1, inplace = True)
-        unique_edge_counts = pd.concat([unique_edge_counts, temp_df_out])
-	      
-    unique_edge_counts.edge_num = unique_edge_counts.edge_num.astype(int)
-    return(unique_edge_counts)
+#def count_unique():
+#    
+#    query_seqs = pd.DataFrame()
+#    
+#    ## Add all sequences in aligned fasta to the dataframe, indexed by record id.
+#    
+#    for record in SeqIO.parse(query + '.' + ref + '.clean.unique.align.fasta', 'fasta'):
+#        query_seqs.loc[str(record.id), 'sequence'] = str(record.seq)
+#    	
+#    ## Read in the guppy csv file, indexing by edge number.
+#    			
+#    query_csv = pd.read_csv(query + '.' + ref + '.clean.unique.align.csv', header = 0, index_col = 3)
+#        
+#    ## Iterating by edge number, get all the sequences for that edge, then count the number of unique sequences.
+#    
+#    unique_edge_counts = pd.DataFrame(columns = ['rep', 'abundance', 'edge_num'])
+#    
+#    for edge_num in query_csv.index.unique():
+#    	
+#        print 'Finding unique sequences within edge', edge_num
+#    			
+#        temp_df = query_seqs.loc[query_csv.loc[edge_num, 'name']]
+#        temp_seq_names = []
+#    	
+#        try:
+#            temp_counts = temp_df.sequence.value_counts()
+#    		
+#    		## Cludgy, but I can't find another way to capture unique sequence names!
+#    		
+#            for seq in temp_counts.index:
+#                seq_name = temp_df.sequence[temp_df.sequence == seq].index.tolist()[0]
+#                temp_seq_names.append(seq_name)
+#    			
+#        except AttributeError:
+#            temp_counts = pd.Series(1, name = temp_df.sequence)
+#            temp_counts.index = [temp_counts.name]
+#            temp_seq_names.append(temp_df.name)
+#    		
+#        temp_df_out = pd.DataFrame(temp_counts)
+#        temp_df_out.columns = ['abundance']
+#        temp_df_out['edge_num'] = int(edge_num)
+#        temp_df_out['rep'] = temp_seq_names
+#    			   
+#        ## Hash the sequence to create a lighter-weight index that reflects the
+#        ## sequence.  This will be used for comparison across samples.
+#    	
+#        temp_df_out['seq'] = temp_counts.index                   
+#        temp_df_out.index = temp_df_out['seq'].apply(hash)
+#        temp_df_out.drop('seq', axis = 1, inplace = True)
+#        unique_edge_counts = pd.concat([unique_edge_counts, temp_df_out])
+#    	      
+#    unique_edge_counts.edge_num = unique_edge_counts.edge_num.astype(int)
+#    
+#    ## Read in the unique read abundance table.  This abundance will be assigned
+#    ## to the representative reads in unique_edge_counts.
+#    
+#    unique_csv = pd.read_csv(query + '.clean.unique.count', header = 0, index_col = 0)
+#    unique_edge_counts['hash'] = unique_edge_counts.index
+#    unique_edge_counts.index = unique_edge_counts.rep
+#    unique_edge_counts.loc[unique_csv.index, 'abundance'] = unique_edge_counts.loc[unique_csv.index, 'abundance'] * unique_csv.abundance
+#    unique_edge_counts.index = unique_edge_counts.hash
+#    unique_edge_counts.drop(columns = 'hash', inplace = True)
+#    
+#    return(unique_edge_counts)
     
 #%% Execute main program.
 
@@ -525,7 +572,11 @@ else:
         ## query, easiest way to do this is to just change the query variable.
             
         query = query + '.sub'
-                        
+        
+    ## Make a unique fasta file.
+    
+    unique_count, unique_names, unique_seq_names = make_unique(cwd + query)
+                            
     ## Create splits, if splits > 1
     
     if splits > 1:        
@@ -535,7 +586,7 @@ else:
             Parallel(n_jobs = splits, verbose = 5)(delayed(place)
             (split_query, ref, ref_dir_domain, cm) for split_query in split_list)
             
-        guppy_merge = subprocess.Popen('guppy merge ' + cwd + query + '*' + domain + '*' + '.jplace -o ' + cwd + query + '.' + ref + '.clean.align.jplace', shell = True, executable = executable)
+        guppy_merge = subprocess.Popen('guppy merge ' + cwd + query + '*' + domain + '*' + '.jplace -o ' + cwd + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
         guppy_merge.communicate()
         guppy(cwd + query, ref)
         
@@ -543,7 +594,7 @@ else:
         ## for each of the split files, those this doesn't have any negative impact
         ## other than space.
         
-        merge = subprocess.Popen('cat ' + cwd + query + '.temp*.' + ref + '.clean.align.fasta > ' + cwd + query + '.' + ref + '.clean.align.fasta', shell = True, executable = executable)
+        merge = subprocess.Popen('cat ' + cwd + query + '.temp*.' + ref + '.clean.unique.align.fasta > ' + cwd + query + '.' + ref + '.clean.unique.align.fasta', shell = True, executable = executable)
         merge.communicate()
                 
         cleanup = subprocess.Popen('rm -f ' + cwd + query + '.temp*', shell = True, executable = executable)
@@ -553,8 +604,25 @@ else:
         place(cwd + query, ref, ref_dir_domain, cm)
         guppy(cwd + query, ref)
         
+    ## Add the abundance of each unique read to the guppy csv file and the edpl value.
+    
+    guppy_csv = pd.read_csv(cwd + query + '.' + ref + '.clean.unique.align.csv', header = 0, index_col = 'name')
+    edpl_csv = pd.read_csv(cwd + query + '.' + ref + '.clean.unique.align.edpl.csv', header = None, names = ['edpl'])
+    unique_abund = pd.read_csv(cwd + query + '.clean.unique.count', header = 0, index_col = 'rep_name')
+    
+    guppy_csv.loc[edpl_csv.index, 'edpl'] = edpl_csv.edpl
+    guppy_csv.loc[unique_abund.index, 'abund'] = unique_abund.abundance
+    
+    ## Add the hash of each unique read to the guppy csv file
+    
+    for name in guppy_csv.index:
+        row_seq = unique_seq_names[name]
+        guppy_csv.loc[name, 'hash'] = str(hash(row_seq))
+        
+    guppy_csv.to_csv(cwd + query + '.' + ref + '.clean.unique.align.csv')
+        
     classify()
     
-    if unique == 'T':
-        unique_seqs = count_unique()
-        unique_seqs.to_csv(cwd + query + '.' + domain + '.unique.seqs.csv')
+#    if unique == 'T':
+#        unique_seqs = count_unique()
+#        unique_seqs.to_csv(cwd + query + '.' + domain + '.unique.seqs.csv')

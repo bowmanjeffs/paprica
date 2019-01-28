@@ -11,8 +11,7 @@ produces by running paprica on multiple samples.  It produces a matrix of edges
 by sample, and a matrix of mean edge parameters, by sample.
 
 For simple execution (works in most user cases) run as:
-    python combine_edge_results.py -domain [domain] -o [prefix for output]
-Run as: python combine_edge_results.py -edge_in [suffix pattern for edges] -path_in [suffix pattern for paths] -ec_in [suffix pattern for ec numbers] -unique_in [suffix pattern for unique sequences] -o [prefix for output]
+    ./combine_edge_results.py -edge_in [suffix pattern for edges] -path_in [suffix pattern for paths] -ec_in [suffix pattern for ec numbers] -unique_in [suffix pattern for unique sequences] -o [prefix for output]
 
 It will automatically loop through all files in the directory with the specified suffixes.
 
@@ -49,33 +48,39 @@ if 'domain' in command_args.keys():
     ec_suffix = domain + '.sum_ec.csv'
     unique_suffix = domain + '.unique_seqs.csv'
     
-    ## delete old combined files here 
+    ## Delete old combined files, so that
+    ## the script doesn't try to include them.
+    
+    os.system('rm -f ' + prefix + '.edge_tally.csv')
+    os.system('rm -f ' + prefix + '.edge_data.csv')
+    os.system('rm -f ' + prefix + '.path_tally.csv')
+    os.system('rm -f ' + prefix + '.ec_tally.csv')
     
 else:
     try:
         prefix = command_args['o']
     except KeyError:
-        prefix = 'combined_results'
+        prefix = 'test'
     
     try:
         edge_suffix = command_args['edge_in']
     except KeyError:
-        edge_suffix = 'archaea.edge_data.csv'
+        edge_suffix = 'bacteria.edge_data.csv'
         
     try:
         path_suffix = command_args['path_in']
     except KeyError:
-        path_suffix = 'archaea.sum_pathways.csv'
+        path_suffix = 'bacteria.sum_pathways.csv'
         
     try:
         ec_suffix = command_args['ec_in']
     except KeyError:
-        ec_suffix = 'archaea.sum_ec.csv'
+        ec_suffix = 'bacteria.sum_ec.csv'
         
     try:
         unique_suffix = command_args['unique_in']
     except KeyError:
-        unique_suffix = 'archaea.unique.seqs.csv'
+        unique_suffix = 'bacteria.unique_seqs.csv'
     
 def stop_here():
     stop = []
@@ -142,14 +147,13 @@ pd.DataFrame.to_csv(edge_data.transpose(), prefix + '.edge_data.csv')
 pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.path_tally.csv') 
 pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.ec_tally.csv')
 
-if unique_suffix != False:
-    unique_tally = pd.DataFrame()
+unique_tally = pd.DataFrame()
+
+for f in os.listdir('.'):
+    if f.endswith(unique_suffix):
+        name = re.sub(unique_suffix, '', f)
+        temp_unique = pd.read_csv(f, index_col = 0, usecols = ['identifier', 'abundance_corrected'])
+        temp_unique.columns = [name]
+        unique_tally = pd.concat([unique_tally, temp_unique], axis = 1, sort = False)
     
-    for f in os.listdir('.'):
-        if f.endswith(unique_suffix):
-            name = re.sub(unique_suffix, '', f)
-            temp_unique = pd.read_csv(f, index_col = 0, usecols = ['identifier', 'abundance_corrected'])
-            temp_unique.columns = [name]
-            unique_tally = pd.concat([unique_tally, temp_unique], axis = 1)
-        
-    pd.DataFrame.to_csv(unique_tally, prefix + '.unique_tally.csv')        
+pd.DataFrame.to_csv(unique_tally, prefix + '.unique_tally.csv')        

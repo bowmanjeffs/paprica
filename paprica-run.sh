@@ -27,11 +27,11 @@ paprica-pick_domain.py -in $query
 
 ## 2. phylogenetic placement of query reads
 
-paprica-place_it.py -ref_dir ref_genome_database -query $query.$domain -ref combined_$gene.$domain.tax -splits 1 -domain $domain -unique T &&
+paprica-place_it.py -ref_dir ref_genome_database -query $query.$domain -ref combined_$gene.$domain.tax -splits 1 -domain $domain &&
 
 ## 3. find pathways and other information associated with edges.  if you subsampled in the previous step (i.e. with -n) your input
 ##    file is $query.$domain.sub.combined_$gene.tax.clean.align.csv and your unique file is $query.$domain.sub.$domain.unique.seqs.csv.
 
-paprica-tally_pathways.py -ref_dir ref_genome_database -edpl $query.$domain.combined_$gene.$domain.tax.clean.align.edpl.csv -i $query.$domain.combined_$gene.$domain.tax.clean.align.csv -o $query.$domain -cutoff 0.5 -domain $domain -unique $query.$domain.$domain.unique.seqs.csv &&
+paprica-tally_pathways.py -ref_dir ref_genome_database -edpl $query.$domain.combined_$gene.$domain.tax.clean.align.edpl.csv -i $query.$domain.combined_$gene.$domain.tax.clean.align.csv -o $query.$domain -cutoff 0.5 -domain $domain &&
 
 echo "Thanks for using paprica!  Please be sure to read through the manual, and check out the tutorials at www.polarmicrobes.org"

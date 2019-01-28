@@ -74,7 +74,7 @@ if 'h' in command_args.keys():
 try:        
     prefix = command_args['in']
 except KeyError:
-    prefix = 'test.bacteria'
+    prefix = 'test'
     
 fasta_in = prefix + '.fasta'
     
@@ -84,6 +84,23 @@ except NameError:
     paprica_path = os.path.dirname(os.path.realpath("__file__")) + '/'
 cwd = os.getcwd() + '/' # The current working directory.
 
+#%% Check to make sure the output files don't already exist.  Exit if they do.
+
+file_set = set(os.listdir(cwd))
+exit_test = 0
+
+if prefix + '.bacteria.fasta' in file_set:
+    exit_test = exit_test + 1
+    
+if prefix + '.archaea.fasta' in file_set:
+    exit_test = exit_test + 1
+    
+if prefix + '.eukarya.fasta' in file_set:
+    exit_test = exit_test + 1
+
+if exit_test == 3:
+    exit()
+    
 #%% Define a stop function for diagnostic use only.
 
 def stop_here():
