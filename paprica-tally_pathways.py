@@ -346,10 +346,10 @@ sample_ec = sample_ec.fillna(0)
 
 edge_data.to_csv(cwd + name + '.edge_data.csv')
 
-sample_pathways_sum.to_csv(cwd + name + '.sum_pathways.csv')
+sample_pathways_sum.to_csv(cwd + name + '.sum_pathways.csv', header = False)
 sample_pathways.to_csv(cwd + name + '.pathways.csv')
 
-sample_ec_sum.to_csv(cwd + name + '.sum_ec.csv')
+sample_ec_sum.to_csv(cwd + name + '.sum_ec.csv', header = False)
 sample_ec.to_csv(cwd + name + '.ec.csv')
 
 ## Get the database creation time, this serves as a version.
