@@ -111,12 +111,23 @@ def stop_here():
 #%% Define a function to search an input fasta against a set, and write
 ## reads with ids in that set to an output fasta.
 
-def write_fasta(fasta_out, fasta_in, domain_set):
+def write_fasta(fasta_out, fasta_in, domain_set, domain):
+    
+    n = 0
     
     with open(fasta_out, 'w') as fasta_out:            
         for record in SeqIO.parse(fasta_in, 'fasta'):            
             if record.id in domain_set:
-                SeqIO.write(record, fasta_out, 'fasta')
+                
+                temp_record = record
+                temp_names = seq_names[str(record.seq)]
+                for name in temp_names:
+                    n = n + 1
+                    temp_record.id = name
+                    temp_record.description = ''
+                    SeqIO.write(record, fasta_out, 'fasta')
+                    
+    print domain, 'total:unique', str(n) + ':' + str(len(domain_set))
                 
 #%% Define a function to split an input fasta file.
                 
@@ -155,13 +166,49 @@ def split_fasta(file_in, nsplits):
 def run_cmscan(split_in):   
     os.system('cmscan --cpu 1 --tblout ' + split_in + '.txt ' + paprica_path + 'models/all_domains.cm ' + split_in + '.fasta > /dev/null')
     
+#%% Define a function to create a unique fasta file from the input.
+            
+def make_unique(query):
+    
+    seq_count = {}
+    seq_names = {}
+    name_seq = {}
+        
+    for record in SeqIO.parse(query + '.fasta', 'fasta'):
+        name = str(record.id)
+        seq = str(record.seq)
+        
+        if seq in seq_count.keys():
+            seq_count[seq] = seq_count[seq] + 1
+            temp_name_list = seq_names[seq]
+            temp_name_list.append(name)
+            seq_names[seq] = temp_name_list
+        else:
+            seq_count[seq] = 1
+            seq_names[seq] = [name]
+            
+    with open(query + '.unique.fasta', 'w') as fasta_out, open(query + '.unique.count', 'w') as count_out:
+        print >> count_out, 'rep_name' + ',' + 'abundance'
+        for seq in seq_names.keys():
+            print >> fasta_out, '>' + seq_names[seq][0]
+            print >> fasta_out, seq
+            
+            print >> count_out, seq_names[seq][0] + ',' + str(seq_count[seq])
+            name_seq[seq_names[seq][0]] = seq
+            
+    return seq_count, seq_names, name_seq
+    
 #%% Run program
+    
+## Make unique
+
+seq_count, seq_names, name_seq = make_unique(cwd + prefix)
 
 ## Determine number of processors
     
 nsplits = multiprocessing.cpu_count()
     
-split_list = split_fasta(cwd + prefix, nsplits)
+split_list = split_fasta(cwd + prefix + '.unique', nsplits)
 
 ## Search the input fasta with cmscan against the covariance model of all domains.
     
@@ -177,13 +224,13 @@ cmscan = pd.DataFrame(columns = colnames)
 for split in split_list:
     try:
         cmscan_temp = pd.read_csv(split + '.txt', comment = '#', names = colnames, header = None, skiprows = [0,1], delim_whitespace = True, index_col = 2)
-        cmscan = pd.concat([cmscan, cmscan_temp])
+        cmscan = pd.concat([cmscan, cmscan_temp], sort = False)
     except IOError:
         continue
     
 ## Cleanup temp output.
         
-os.system('rm -f ' + cwd + prefix + '.temp*')
+os.system('rm -f ' + cwd + prefix + '.unique.temp*')
         
 ## Iterate across all lines, selecting for each read the domain with the lowest 
 ## E-value.  This is considered to the be true domain of the genome originating the read.
@@ -217,10 +264,8 @@ bacteria_set = set(bacteria_set)
 archaea_set = set(archaea_set)
 eukarya_set = set(eukarya_set)
             
-print prefix, 'nbacteria =', len(bacteria_set), 'narchaea =', len(archaea_set), 'neukaryotes =', len(eukarya_set)
-
 ## Write fasta files for each domain.
                 
-write_fasta(prefix + '.bacteria.fasta', fasta_in, bacteria_set)
-write_fasta(prefix + '.archaea.fasta', fasta_in, archaea_set)
-write_fasta(prefix + '.eukarya.fasta', fasta_in, eukarya_set)
+write_fasta(prefix + '.bacteria.fasta', prefix + '.unique.fasta', bacteria_set, 'bacteria')
+write_fasta(prefix + '.archaea.fasta', prefix + '.unique.fasta', archaea_set, 'archaea')
+write_fasta(prefix + '.eukarya.fasta', prefix + '.unique.fasta', eukarya_set, 'eukarya')
