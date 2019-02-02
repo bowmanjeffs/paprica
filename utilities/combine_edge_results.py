@@ -142,10 +142,10 @@ for f in os.listdir('.'):
         temp_ec = pd.read_csv(f, index_col = 0, names = [name])
         ec_tally = pd.concat([ec_tally, temp_ec], axis = 1)
             
-pd.DataFrame.to_csv(edge_tally.transpose(), prefix + '.edge_tally.csv')
-pd.DataFrame.to_csv(edge_data.transpose(), prefix + '.edge_data.csv') 
+pd.DataFrame.to_csv(edge_tally.transpose(), prefix + '.edge_tally.csv') 
 pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.path_tally.csv') 
 pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.ec_tally.csv')
+pd.DataFrame.to_csv(edge_data, prefix + '.edge_data.csv')
 
 unique_tally = pd.DataFrame()
 
