@@ -114,12 +114,18 @@ def fill_edge_data(param, name, df_in):
     
     print name, param, mean, sd
     return mean, sd
+
+taxon_map = {}
         
 for f in os.listdir('.'):
     if f.endswith(edge_suffix):
         
         temp_edge = pd.read_csv(f, index_col = 0)
         name = re.sub(edge_suffix, '', f)
+        
+        for edge in temp_edge.index:
+            temp_tax = temp_edge.loc[edge, 'taxon']
+            taxon_map[edge] = temp_tax
         
         for param in ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'confidence']:
             edge_data.loc[name, param + '.mean'], edge_data.loc[name, param + '.sd'] = fill_edge_data(param, name, temp_edge)
@@ -156,4 +162,9 @@ for f in os.listdir('.'):
         temp_unique.columns = [name]
         unique_tally = pd.concat([unique_tally, temp_unique], axis = 1, sort = False)
     
-pd.DataFrame.to_csv(unique_tally, prefix + '.unique_tally.csv')        
+pd.DataFrame.to_csv(unique_tally, prefix + '.unique_tally.csv')    
+
+with open(prefix + '.taxon_map.txt', 'w') as taxon_out:
+    print >> taxon_out, 'edge' + '\t' + 'taxon'
+    for edge in sorted(taxon_map.iterkeys()):
+        print >> taxon_out, str(edge) + '\t' + taxon_map[edge]

@@ -86,10 +86,10 @@ if len(sys.argv) > 2:
         omit = ''
     
 else:
-    query = 'test.bacteria.combined_16S.bacteria.tax.clean.unique.align.csv'
-    name = 'test.bacteria'
+    query = 'test.eukarya.combined_18S.eukarya.tax.clean.unique.align.csv'
+    name = 'test.eukarya'
     cutoff = 0.5  # The cutoff value used to determine pathways to include for internal nodes.
-    domain = 'bacteria'  # The domain (bacteria or archaea) for analysis.
+    domain = 'eukarya'  # The domain (bacteria or archaea) for analysis.
     ref_dir = paprica_path + 'ref_genome_database'  # The complete path to the reference directory being used for analysis.        
     #omit = '674:818'
     #overrides = '5804|93,4619|4571'
@@ -114,6 +114,7 @@ def stop_here():
 
 genome_data = pd.read_csv(ref_dir_domain + 'genome_data.final.csv', header = 0, index_col = 0)
 internal_data = pd.read_csv(ref_dir_domain + 'internal_data.csv', header = 0, index_col = 0)
+lineages = pd.read_csv(ref_dir_domain + 'node_lineages.csv', header = 0, index_col = 0)
 
 terminal_paths = pd.read_csv(ref_dir_domain + 'terminal_paths.csv', header = 0, index_col = 0)
 internal_probs = pd.read_csv(ref_dir_domain + 'internal_probs.csv', header = 0, index_col = 0)
@@ -200,20 +201,29 @@ for edge in list(edge_tally.index):
         
         edge_taxid = list(query_csv[query_csv['edge_num'] == edge].classification)[0]
                 
-        ## Collect other information that you might want later.
+        ## Collect other information that you might want later. Classification
+        ## information currently not available due to shift to epa-ng
         
-        edge_data.loc[edge, 'taxon'] = node_classification.loc[edge_taxid, 'tax_name']
-        edge_data.loc[edge, 'n16S'] = internal_data.loc[edge, 'n16S']
-        edge_data.loc[edge, 'nedge_corrected'] = float(edge_data.loc[edge, 'nedge']) / float(internal_data.loc[edge, 'n16S'])
-        edge_data.loc[edge, 'nge'] = internal_data.loc[edge, 'nge']
-        edge_data.loc[edge, 'ncds'] = internal_data.loc[edge, 'ncds']
+        try:
+            edge_data.loc[edge, 'taxon'] = node_classification.loc[edge_taxid, 'tax_name']
+        except TypeError:
+            pass
+        
         edge_data.loc[edge, 'genome_size'] = internal_data.loc[edge, 'genome_size']
-        edge_data.loc[edge, 'phi'] = internal_data.loc[edge, 'phi']
         edge_data.loc[edge, 'clade_size'] = internal_data.loc[edge, 'clade_size']
         edge_data.loc[edge, 'npaths_terminal'] = internal_data.loc[edge, 'npaths_terminal']
         edge_data.loc[edge, 'nec_terminal'] = internal_data.loc[edge, 'nec_terminal']
         edge_data.loc[edge, 'branch_length'] = internal_data.loc[edge, 'branch_length']
-        edge_data.loc[edge, 'GC'] = internal_data.loc[edge, 'GC']
+        edge_data.loc[edge, 'nedge_corrected'] = edge_data.loc[edge, 'nedge']
+        
+        if domain != 'eukarya':
+        
+            edge_data.loc[edge, 'n16S'] = internal_data.loc[edge, 'n16S']
+            edge_data.loc[edge, 'GC'] = internal_data.loc[edge, 'GC']
+            edge_data.loc[edge, 'phi'] = internal_data.loc[edge, 'phi']
+            edge_data.loc[edge, 'ncds'] = internal_data.loc[edge, 'ncds']
+            edge_data.loc[edge, 'nge'] = internal_data.loc[edge, 'nge']
+            edge_data.loc[edge, 'nedge_corrected'] = float(edge_data.loc[edge, 'nedge']) / float(internal_data.loc[edge, 'n16S'])
         
         ## Get the pathways associated with the edge.  Report the abundance of
         ## pathways as the 16S copy number corrected abundance of edge.
@@ -251,15 +261,20 @@ for edge in list(edge_tally.index):
         ## Now get some useful data for the edge.
         
         edge_data.loc[edge, 'taxon'] = genome_data.loc[genome_data['clade'] == edge, 'tax_name'][0]
-        edge_data.loc[edge, 'n16S'] = genome_data.loc[genome_data['clade'] == edge, 'n16S'][0]
-        edge_data.loc[edge, 'nedge_corrected'] = float(edge_data.loc[edge, 'nedge']) / float(genome_data.loc[genome_data['clade'] == edge, 'n16S'])
-        edge_data.loc[edge, 'nge'] = genome_data.loc[genome_data['clade'] == edge, 'nge'][0]
-        edge_data.loc[edge, 'ncds'] = genome_data.loc[genome_data['clade'] == edge, 'ncds'][0]
-        edge_data.loc[edge, 'genome_size'] = genome_data.loc[genome_data['clade'] == edge, 'genome_size'][0]
-        edge_data.loc[edge, 'phi'] = genome_data.loc[genome_data['clade'] == edge, 'phi'][0]
         edge_data.loc[edge, 'clade_size'] = 1
         edge_data.loc[edge, 'branch_length'] = genome_data.loc[genome_data['clade'] == edge, 'branch_length'][0]
-        edge_data.loc[edge, 'GC'] = genome_data.loc[genome_data['clade'] == edge, 'GC'][0]
+        edge_data.loc[edge, 'nedge_corrected'] = edge_data.loc[edge, 'nedge']
+        
+        if domain != 'eukarya':
+            
+            edge_data.loc[edge, 'GC'] = genome_data.loc[genome_data['clade'] == edge, 'GC'][0]
+            edge_data.loc[edge, 'phi'] = genome_data.loc[genome_data['clade'] == edge, 'phi'][0]
+            edge_data.loc[edge, 'genome_size'] = genome_data.loc[genome_data['clade'] == edge, 'genome_size'][0]
+            edge_data.loc[edge, 'ncds'] = genome_data.loc[genome_data['clade'] == edge, 'ncds'][0]
+            edge_data.loc[edge, 'nge'] = genome_data.loc[genome_data['clade'] == edge, 'nge'][0]
+            edge_data.loc[edge, 'nedge_corrected'] = float(edge_data.loc[edge, 'nedge']) / float(genome_data.loc[genome_data['clade'] == edge, 'n16S'])
+            edge_data.loc[edge, 'n16S'] = genome_data.loc[genome_data['clade'] == edge, 'n16S'][0]
+            edge_data.loc[edge, 'confidence'] = genome_data.loc[genome_data['clade'] == edge, 'phi'][0] # Phi for terminal nodes
         
         ## Get the pathways associated with the edge.  The pathways are indexed by assembly not edge number.
         
@@ -267,13 +282,12 @@ for edge in list(edge_tally.index):
         edge_pathways = terminal_paths.loc[assembly, terminal_paths.loc[assembly, :] == 1]
         
         ## For bacteria and archaea, correct for multiple 16S rRNA gene copies.
+        ## The assumption here is that each genome has only one copy of a pathway.
         
-        if domain != 'eukarya':
-            edge_pathways.loc[:] = edge_data.loc[edge, 'nedge_corrected']       
+        edge_pathways.loc[:] = edge_data.loc[edge, 'nedge_corrected'] 
                 
         edge_data.loc[edge, 'npaths_terminal'] = np.nan
         edge_data.loc[edge, 'npaths_actual'] = genome_data.loc[genome_data['clade'] == edge, 'npaths_actual'][0]
-        edge_data.loc[edge, 'confidence'] = genome_data.loc[genome_data['clade'] == edge, 'phi'][0] # Phi for terminal nodes
 
         sample_pathways.loc[:, edge] = edge_pathways
         
@@ -297,8 +311,11 @@ for edge in list(edge_tally.index):
 if domain != 'eukarya':
     sample_confidence = sum((edge_data['confidence'] * edge_data['nedge_corrected'])) / edge_data['nedge_corrected'].sum() 
     
-#%% Prepare unique read file if specified
-## Annotate the unique file with corrected read number and taxonomy.
+## Add lineage data for each edge
+
+edge_data = pd.concat([edge_data, lineages], axis = 1, join = 'inner')
+    
+#%% Prepare unique read file, annotating with corrected read number and taxonomy.
 
 print 'Normalizing abundance for unique sequences...'
 
@@ -310,11 +327,19 @@ unique_csv.index = unique_csv.hash
 
 for unique in unique_csv.index:
     edge = unique_csv.loc[unique, 'edge_num']
-    n16S = edge_data.loc[edge, 'n16S']
     
-    unique_csv.loc[unique, 'abundance_corrected'] = unique_csv.loc[unique, 'abund'] / float(n16S)
-    unique_csv.loc[unique, 'taxon'] = edge_data.loc[edge, 'taxon']    
+    if domain != 'eukarya':
+        n16S = edge_data.loc[edge, 'n16S']
+    else:
+        n16S = 1
+    
+    unique_csv.loc[unique, 'abundance_corrected'] = unique_csv.loc[unique, 'abund'] / float(n16S)  
     unique_csv.loc[unique, 'identifier'] = str(unique) + '_' + str(int(edge))
+        
+    try:
+        unique_csv.loc[unique, 'taxon'] = edge_data.loc[edge, 'taxon']  
+    except KeyError:
+        pass
 
 unique_csv.index = unique_csv.identifier
 unique_csv.drop('identifier', axis = 1, inplace = True)    

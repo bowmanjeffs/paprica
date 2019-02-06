@@ -1,0 +1,77 @@
+
+
+Using BFGS method to optimize GTR rate parameters, to disable this specify "--no-bfgs" 
+
+
+
+This is RAxML version 8.2.9 released by Alexandros Stamatakis on July 20 2016.
+
+With greatly appreciated code contributions by:
+Andre Aberer      (HITS)
+Simon Berger      (HITS)
+Alexey Kozlov     (HITS)
+Kassian Kobert    (HITS)
+David Dao         (KIT and HITS)
+Sarah Lutteropp   (KIT and HITS)
+Nick Pattengale   (Sandia)
+Wayne Pfeiffer    (SDSC)
+Akifumi S. Tanabe (NRIFS)
+Charlie Taylor    (UF)
+
+
+Alignment has 1151 distinct alignment patterns
+
+Proportion of gaps and completely undetermined characters in this alignment: 52.83%
+
+RAxML Model Optimization up to an accuracy of 0.100000 log likelihood units
+
+Using 1 distinct models/data partitions with joint branch length optimization
+
+
+All free model parameters will be estimated by RAxML
+GAMMA model of rate heteorgeneity, ML estimate of alpha-parameter
+
+GAMMA Model parameters will be estimated up to an accuracy of 0.1000000000 Log Likelihood units
+
+Partition: 0
+Alignment Patterns: 1151
+Name: No Name Provided
+DataType: DNA
+Substitution Matrix: GTR
+
+
+
+
+RAxML was called as follows:
+
+raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -f e -t /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_rootedTree.root.ref.tre -n recalc.root.ref.tre -s /volumes/hd1/paprica/ref_genome_database/archaea/combined_16S.archaea.tax.clean.align.fasta -w /volumes/hd1/paprica/ref_genome_database/archaea/ 
+
+
+
+Model parameters (binary file format) written to: /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_binaryModelParameters.recalc.root.ref.tre
+
+
+Overall Time for Tree Evaluation 1.024624
+Final GAMMA  likelihood: -58935.684956
+
+Number of free parameters for AIC-TEST(BR-LEN): 470
+Number of free parameters for AIC-TEST(NO-BR-LEN): 9
+
+
+Model Parameters of Partition 0, Name: No Name Provided, Type of Data: DNA
+alpha: 0.444660
+Tree-Length: 18.347246
+rate A <-> C: 0.998841
+rate A <-> G: 3.188115
+rate A <-> T: 1.958036
+rate C <-> G: 0.804469
+rate C <-> T: 5.907136
+rate G <-> T: 1.000000
+
+freq pi(A): 0.223701
+freq pi(C): 0.262991
+freq pi(G): 0.335264
+freq pi(T): 0.178043
+
+Final tree written to:                 /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_result.recalc.root.ref.tre
+Execution Log File written to:         /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_log.recalc.root.ref.tre

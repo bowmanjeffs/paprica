@@ -48,6 +48,12 @@ wget https://github.com/matsen/pplacer/releases/download/v1.1.alpha18/pplacer-li
 unzip pplacer-linux-v1.1.alpha18-2-gcb55169.zip
 mv pplacer-Linux-v1.1.alpha18-2-gcb55169 pplacer
 
+## Install epa-ng
+## Double check that you have all dependencies as described here: https://github.com/Pbdas/epa-ng#installation
+
+git clone https://github.com/Pbdas/epa-ng.git
+cd epa-ng;make
+
 ## Modify PATH in .bashrc
 TEMPNAME=`whoami`
 echo "## added by paprica installer" >> .bashrc
@@ -56,6 +62,7 @@ echo "PATH=/home/${TEMPNAME}/infernal/binaries:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/infernal/easel:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/standard-RAxML:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/paprica:"'$PATH' >> .bashrc
+echo "PATH=/home/${TEMPNAME}/epa-ng/bin:"'$PATH' >> .bashrc
 echo "export PATH" >> .bashrc
 source .bashrc
 
