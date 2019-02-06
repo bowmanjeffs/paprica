@@ -34,8 +34,8 @@ REQUIRES:
         joblib
 
 CALL AS:
-    python genome_finder_place_it.py -domain [domain] -query [query] -ref [ref] -splits [splits] -n [nseqs] for analysis or
-    python genome_finder_place_it.py -domain [domain] -ref [ref] -cpus [ncpus] to generate a reference package.  
+    paprica-place_it.py -domain [domain] -query [query] -ref [ref] -splits [splits] -n [nseqs] for analysis or
+    paprica-place_it.py -domain [domain] -ref [ref] -cpus [ncpus] to generate a reference package.  
 
     Note that [ref] or [query] includes the entire file name without extension
     (which must be .fasta).
@@ -108,11 +108,11 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'bacteria'
+    domain = 'archaea'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
-    ref = 'combined_16S.bacteria.tax'
+    ref = 'combined_16S.archaea.tax'
 try:    
     unique = command_args['unique']
 except KeyError:
@@ -126,9 +126,9 @@ except KeyError:
 if len(sys.argv) == 1:
     cpus = '8'
     splits = 1
-    query = 'test.bacteria'
+    query = 'test.archaea'
     command_args['query'] = query
-    command_args['unique'] = 'T'
+#    command_args['unique'] = 'T'
 
 else:
     
@@ -262,6 +262,40 @@ def split_fasta(file_in, nsplits):
     file_out.close()
     
     return(splits)
+    
+#%% Define a function to split a comined query and reference (such as one
+## combined by a call to esl-alimerge).
+    
+def split_query_ref(query, ref, combined):
+    
+    ref_out_name = ref.split('/')[-1]
+    ref_out_name = '.'.join(ref_out_name.split('.')[0:-1])
+    ref_out_name = ref_out_name + '.newlength.fasta'
+    
+    query_out_name = '.'.join(query.split('.')[0:-1])
+    query_out_name = query_out_name + '.newlength.fasta'
+    
+    query_names = []
+    ref_names = []
+    
+    for record in SeqIO.parse(query, 'stockholm'):
+        query_names.append(record.id)
+        
+    for record in SeqIO.parse(ref, 'stockholm'):
+        ref_names.append(record.id)
+        
+    query_names = set(query_names)
+    ref_names = set(ref_names)
+    
+    with open(ref_out_name, 'w') as ref_out, open(query_out_name, 'w') as query_out:
+        for record in SeqIO.parse(combined, 'stockholm'):
+            if record.id in query_names:
+                SeqIO.write(record, query_out, 'fasta')
+            elif record.id in ref_names:
+                SeqIO.write(record, ref_out, 'fasta')
+            else:
+                print 'Error, record.id not in query or ref!'
+                break
 
 #%% Define function to execute phylogenetic placement on a query fasta, or split query fasta
     
@@ -280,32 +314,35 @@ def place(query, ref, ref_dir_domain, cm):
         align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --dna -o ' + query + '.clean.unique.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.unique.fasta', shell = True, executable = executable)
         align.communicate()    
     
-    combine = subprocess.Popen('esl-alimerge --outformat pfam --dna \
+    combine = subprocess.Popen('esl-alimerge --outformat Pfam --dna \
     -o ' + query + '.' + ref + '.clean.unique.align.sto \
     ' + query + '.clean.unique.align.sto \
     ' + ref_dir_domain + ref + '.refpkg/' + ref + '.clean.align.sto', shell = True, executable = executable)
     combine.communicate()
-      
-    convert = subprocess.Popen('seqmagick convert ' + query + '.' + ref + '.clean.unique.align.sto ' + query + '.' + ref + '.clean.unique.align.fasta', shell = True, executable = executable)
-    convert.communicate()
     
-    pplacer = subprocess.Popen('pplacer -o ' + query + '.' + ref + '.clean.unique.align.jplace \
-    --out-dir ' + os.getcwd() + ' \
-    -p --keep-at-most 20 --map-identity\
-    -c ' + ref_dir_domain + ref + '.refpkg ' + query + '.' + ref + '.clean.unique.align.fasta', shell = True, executable = executable)
-    pplacer.communicate()
+    split_query_ref(query + '.clean.unique.align.sto', ref_dir_domain + ref + '.refpkg/' + ref + '.clean.align.sto', query + '.' + ref + '.clean.unique.align.sto')
+    
+    os.system('rm epa_info.log')
+    
+    epa_ng = subprocess.Popen('epa-ng -q ' + query + '.clean.unique.align.newlength.fasta \
+    -s ' + ref + '.clean.align.newlength.fasta \
+    -t ' + ref_dir_domain + ref + '.refpkg/RAxML_result.recalc.root.ref.tre \
+    --model ' + ref_dir_domain + ref + '.refpkg/RAxML_info.recalc.root.ref.tre', shell = True, executable = executable)
+    epa_ng.communicate()
+    
+    os.system('mv epa_result.jplace ' + query + '.' + ref + '.clean.unique.align.jplace')
     
 #%% Define function to generate csv file of placements and fat tree    
     
 def guppy(query, ref):
     
-    guppy1 = subprocess.Popen('guppy to_csv --point-mass --pp -o ' + query + '.' + ref + '.clean.unique.align.csv ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
+    guppy1 = subprocess.Popen('guppy to_csv --point-mass -o ' + query + '.' + ref + '.clean.unique.align.csv ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
     guppy1.communicate()
     
-    guppy2 = subprocess.Popen('guppy fat --node-numbers --point-mass --pp -o ' + query + '.' + ref + '.clean.unique.align.phyloxml ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
+    guppy2 = subprocess.Popen('guppy fat --node-numbers --point-mass -o ' + query + '.' + ref + '.clean.unique.align.phyloxml ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
     guppy2.communicate()
     
-    guppy3 = subprocess.Popen('guppy edpl --pp --csv -o ' + query + '.' + ref + '.clean.unique.align.edpl.csv ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
+    guppy3 = subprocess.Popen('guppy edpl --csv -o ' + query + '.' + ref + '.clean.unique.align.edpl.csv ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
     guppy3.communicate()
     
 #%% Define a function to classify read placements.
@@ -514,8 +551,13 @@ if 'query' not in command_args.keys():
     
     ## Generate SH-like support values for the tree.
     
-    raxml3 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T ' + cpus + ' -m GTRGAMMA -f J -p 12345 -t ' + ref_dir_domain + 'RAxML_rootedTree.root.ref.tre -n conf.root.ref.tre -s ' + ref_dir_domain + ref + '.clean.align.fasta -w ' + ref_dir_domain, shell = True, executable = executable)   
-    raxml3.communicate()
+#    raxml3 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T ' + cpus + ' -m GTRGAMMA -f J -p 12345 -t ' + ref_dir_domain + 'RAxML_rootedTree.root.ref.tre -n conf.root.ref.tre -s ' + ref_dir_domain + ref + '.clean.align.fasta -w ' + ref_dir_domain, shell = True, executable = executable)   
+#    raxml3.communicate()
+    
+    ## Generate info file according the epa-ng instructions.
+    
+    raxml4 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T ' + cpus + ' -m GTRGAMMA -f e -t ' + ref_dir_domain + 'RAxML_rootedTree.root.ref.tre -n recalc.root.ref.tre -s ' + ref_dir_domain + ref + '.clean.align.fasta -w ' + ref_dir_domain, shell = True, executable = executable)   
+    raxml4.communicate()
     
     ## Generate taxonomy information for the reference package.
     
@@ -528,11 +570,12 @@ if 'query' not in command_args.keys():
     
     taxit = subprocess.Popen('taxit create -l 16S_rRNA -P ' + ref_dir_domain + ref + '.refpkg \
     --aln-fasta ' + ref_dir_domain + ref + '.clean.align.fasta \
-    --tree-stats ' + ref_dir_domain + 'RAxML_info.ref.tre \
-    --tree-file ' + ref_dir_domain + 'RAxML_fastTreeSH_Support.conf.root.ref.tre \
+    --tree-stats ' + ref_dir_domain + 'RAxML_info.recalc.root.ref.tre \
+    --tree-file ' + ref_dir_domain + 'RAxML_result.recalc.root.ref.tre \
     --aln-sto ' + ref_dir_domain + ref + '.clean.align.sto \
     --seq-info ' + ref_dir_domain + 'seq_info.updated.csv \
     --taxonomy ' + ref_dir_domain + 'taxa.csv \
+    --no-reroot \
     ', shell = True, executable = executable)
     
     taxit.communicate()
@@ -620,6 +663,9 @@ else:
         guppy_csv.loc[name, 'hash'] = str(hash(row_seq))
         
     guppy_csv.to_csv(cwd + query + '.' + ref + '.clean.unique.align.csv')
+    
+    ## Executing the classify function to add information to the taxonomy db,
+    ## but this information is not currently being used downstream.
         
     classify()
     
