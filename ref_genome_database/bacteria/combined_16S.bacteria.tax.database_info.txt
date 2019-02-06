@@ -1,2 +1,2 @@
-ref tree built at: 2019-01-20T15:11:23.915603
-nseqs in reference alignment: 5856
+ref tree built at: 2019-02-04T16:13:50.700929
+nseqs in reference alignment: 6159

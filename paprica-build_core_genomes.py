@@ -89,14 +89,13 @@ if 'h' in command_args.keys():
         
 if len(sys.argv) == 1:
     domain = 'bacteria'
-    tree = 'test.bacteria.combined_16S.bacteria.tax.clean.align.phyloxml'
+    tree_file = 'test.bacteria.combined_16S.bacteria.tax.clean.unique.align.phyloxml'
     ref_dir = 'ref_genome_database'
-    #pgdb_dir = '~/ptools-local/pgdbs/user/'
     pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
     
 else:        
     domain = command_args['domain']
-    tree = command_args['tree']
+    tree_file = command_args['tree']
     ref_dir = command_args['ref_dir']
     pgdb_dir = command_args['pgdb_dir']
     
@@ -216,7 +215,7 @@ genome_data['branch_length'] = np.nan
 ## Get the clade number of each assembly and add this information to 
 ## genome_data.
     
-tree = Phylo.read(tree, 'phyloxml')
+tree = Phylo.read(tree_file, 'phyloxml')
     
 assemblies = []
     
@@ -417,7 +416,7 @@ if __name__ == '__main__':
 terminal_paths = pd.DataFrame(index = assemblies)
 
 for i,d in enumerate(assemblies):
-    np = 0 # Number of pathways predicted.
+    n_paths = 0 # Number of pathways predicted.
     try:
         with open(pgdb_dir + d.lower() + 'cyc/1.0/reports/pathways-report.txt', 'r') as report:            
             for line in report:
@@ -437,9 +436,9 @@ for i,d in enumerate(assemblies):
                                         terminal_paths.loc[d, path] = 1
                                         
                                     print 'collecting paths for terminal node', d, i + 1, 'of', len(assemblies), path
-                                    np = np + 1
+                                    n_paths = n_paths + 1
                                     
-        genome_data.loc[d, 'npaths_actual'] = np
+        genome_data.loc[d, 'npaths_actual'] = n_paths
         
     except IOError:
         print d, 'has no pathway report'
@@ -451,10 +450,10 @@ for i,d in enumerate(assemblies):
 user_ec = pd.read_csv(ref_dir + 'user/' + 'user_ec.csv', header = 0, index_col = 0, comment = '#')
         
 terminal_ec = pd.DataFrame(index = assemblies)
-ec_names = pd.DataFrame()
+#ec_names = pd.DataFrame()
         
 for i,d in enumerate(assemblies):
-    np = 0
+    n_paths = 0
     
     for f in os.listdir(ref_dir_domain + '/refseq/' + d):
         if f.endswith('gbff'):
@@ -470,7 +469,7 @@ for i,d in enumerate(assemblies):
                             
                             if 'EC_number' in feature.qualifiers.keys():
                                 
-                                np = np + 1
+                                n_paths = n_paths + 1
                                 ec = feature.qualifiers['EC_number']
                                 
                                 ## Some draft genomes will not have a product qualifier.
@@ -495,7 +494,7 @@ for i,d in enumerate(assemblies):
                                     except KeyError:
                                         terminal_ec.loc[d, each] = 1
                                         
-                                    ec_names.loc[each, 'name'] = prod
+#                                    ec_names.loc[each, 'name'] = prod
 
             ## For some assemblies an error is raised on a second(?) record identified
             ## in the Genbank file.  It isn't clear why this is happening, pass the error
@@ -510,7 +509,7 @@ for i,d in enumerate(assemblies):
         temp_user_ec = user_ec[user_ec['GI_number'] == d]
         
         for entry in temp_user_ec.index:
-            np = np + 1
+            n_paths = n_paths + 1
             each = temp_user_ec.loc[entry, 'EC_number']
             print 'collecting EC numbers for terminal node', d, i + 1, 'of', len(assemblies), each
                                 
@@ -524,15 +523,15 @@ for i,d in enumerate(assemblies):
                 
             ## Check to make sure that the enzyme number has a name, add if it does not
                 
-            try:
-                if pd.isnull(ec_names.loc[each, 'name']):
-                    ec_names.loc[each, 'name'] = temp_user_ec.loc[entry, 'product']
-            except KeyError:
-                ec_names.loc[each, 'name'] = temp_user_ec.loc[entry, 'product']
+#            try:
+#                if pd.isnull(ec_names.loc[each, 'name']):
+#                    ec_names.loc[each, 'name'] = temp_user_ec.loc[entry, 'product']
+#            except KeyError:
+#                ec_names.loc[each, 'name'] = temp_user_ec.loc[entry, 'product']
 
     ## Add the total number of enzymes for that assembly to genome_data.
 
-    genome_data.loc[d, 'nec_actual'] = np
+    genome_data.loc[d, 'nec_actual'] = n_paths
 
 #%% Collect pathway and other data for internal nodes.
 ## Make an initial pass over the tree to collect all the internal node numbers.
@@ -540,102 +539,286 @@ for i,d in enumerate(assemblies):
 int_nodes = set()
 
 for clade in tree.get_nonterminals():
-    edge = int(clade.confidence)
-    int_nodes.add(edge)
+    try:
+        edge = int(clade.confidence)
+        int_nodes.add(edge)
+    except TypeError:
+        continue
     
 int_nodes = sorted(int_nodes)
+n_clades = len(int_nodes)
 
 ## Create a new dataframes to store pathway data, the fraction of daughters
 ## with each pathway, and genome data inferred from daughters for each internal
 ## node.
 
-internal_probs = pd.DataFrame(index = int_nodes, columns = terminal_paths.columns)
-internal_data = pd.DataFrame(index = int_nodes, columns = ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'clade_size', 'npaths_terminal', 'branch_length'])
-internal_ec_probs = pd.DataFrame(index = int_nodes, columns = terminal_ec.columns)
-internal_ec_n = pd.DataFrame(index = int_nodes, columns = terminal_ec.columns)
+internal_probs_columns = list(terminal_paths.columns)
+internal_data_columns = ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'clade_size', 'npaths_terminal', 'nec_terminal', 'branch_length']
+internal_ec_probs_columns = terminal_ec.columns
+internal_ec_n_columns = terminal_ec.columns
 
-## Determine how many clade members you need to iterate across.
+internal_probs = np.memmap(open('internal_probs.mmap', 'w+b'), shape = (n_clades, len(internal_probs_columns)), dtype = 'f8')
+internal_data = np.memmap(open('internal_data.mmap', 'w+b'), shape = (n_clades, len(internal_data_columns)), dtype = 'f8')
+internal_ec_probs = np.memmap(open('internal_ec_probs.mmap', 'w+b'), shape = (n_clades, len(internal_ec_probs_columns)), dtype = 'f8')
+internal_ec_n = np.memmap(open('internal_ec_n.mmap', 'w+b'), shape = (n_clades, len(internal_ec_n_columns)), dtype = 'f8')
 
-n_clades = len(tree.get_nonterminals())
-i_clade = 0
+## Define a funciton to iterate across all subtrees and collect information that will be saved in
+## the "internal" memory-mapped arrays.
 
-## Iterate across all subtrees and collect information that will be saved in
-## the "internal" dataframes.
+def get_internals(clade,
+                  int_nodes,
+                  genome_data,
+                  terminal_paths,
+                  terminal_ec,
+                  internal_probs_columns,
+                  internal_data_columns,
+                  internal_ec_probs_columns,
+                  internal_ec_n_columns,
+                  internal_probs,
+                  internal_data,
+                  internal_ec_probs,
+                  internal_ec_n):
+    
+    if clade.confidence > 0:
+        
+        edge = int(clade.confidence)
+        print 'collecting data for internal node', str(edge)
+        
+        ## Data on the clade that you want later.
+        
+        edge_i = int_nodes.index(edge)
+        internal_data[edge_i, internal_data_columns.index('branch_length')] = clade.branch_length
+        
+        ## Iterate across all terminal nodes in clades to get the corresponding
+        ## assemblies.
+        
+        ntip = len(clade.get_terminals())
+        clade_members = []
+        
+        for tip in clade.get_terminals():
 
-## This is the slowest loop in the database build process and should be parallelized.
-## Since the shape of the dataframe is known it shouldn't be too difficult to memmap
-## this with np.memmap.
-
-for clade in tree.get_nonterminals():
-    
-    i_clade += 1
-    print 'collecting data for internal node', str(edge) + ',', i_clade, 'of', n_clades
-    
-    ## Data on the clade that you want later.
-    
-    edge = int(clade.confidence)
-    internal_data.loc[edge, 'branch_length'] = clade.branch_length
-    
-    ## Iterate across all terminal nodes in clades to get the corresponding
-    ## assemblies.
-    
-    ntip = len(clade.get_terminals())
-    clade_members = []
-    
-    for tip in clade.get_terminals():
-        
-        name = tip.name
-        assembly = genome_data[genome_data['tip_name'] == tip.name].index.tolist()[0]        
-        clade_members.append(assembly)
-        
-    ## Get data for all clade members.
-        
-    clade_data = genome_data.loc[clade_members]
-    clade_paths = terminal_paths.loc[clade_members]
-    clade_ec = terminal_ec.loc[clade_members]
-        
-    npaths = clade_paths.count(axis = 0, numeric_only = True)
-    rpaths = npaths.div(ntip)
-    internal_probs.loc[edge, :] = rpaths
-    
-    nec = clade_ec.count(axis = 0, numeric_only = True)
-    rec = nec.div(ntip)
-    internal_ec_probs.loc[edge, :] = rec
-    
-    ## The mean number of occurrences of EC_numbers are calculated for clade
-    ## so that later on an estimate can be given of the number that will appear
-    ## in an internal node.
-    
-    mec = clade_ec.mean(axis = 0, numeric_only = True)
-    internal_ec_n.loc[edge, :] = mec
-    
-    ## Calculate values for this edge.
-    
-    if domain != 'eukarya':
-        
-        ## These parameters cannot be calculated from transcriptomes.
+            assembly = genome_data[genome_data['tip_name'] == tip.name].index.tolist()[0]        
+            clade_members.append(assembly)
             
-        internal_data.loc[edge, 'n16S'] = clade_data['n16S'].dropna().mean()
-        internal_data.loc[edge, 'nge'] = clade_data['nge'].dropna().mean()
-        internal_data.loc[edge, 'ncds'] = clade_data['ncds'].dropna().mean()
-        internal_data.loc[edge, 'genome_size'] = clade_data['genome_size'].dropna().mean()
-        internal_data.loc[edge, 'phi'] = clade_data['phi'].dropna().mean()
-        internal_data.loc[edge, 'GC'] = clade_data['GC'].dropna().mean()
+        ## Get data for all clade members.
+            
+        clade_data = genome_data.loc[clade_members]
+        clade_paths = terminal_paths.loc[clade_members]
+        clade_ec = terminal_ec.loc[clade_members]
+            
+        npaths = clade_paths.count(axis = 0, numeric_only = True)
+        rpaths = npaths.div(ntip)
+        internal_probs[edge_i, :] = rpaths
         
-    ## These parameters are relevant to all domains.
+        nec = clade_ec.count(axis = 0, numeric_only = True)
+        rec = nec.div(ntip)
+        internal_ec_probs[edge_i, :] = rec
         
-    internal_data.loc[edge, 'clade_size'] = ntip
-    internal_data.loc[edge, 'npaths_terminal'] = clade_data['npaths_actual'].dropna().mean()
-    internal_data.loc[edge, 'nec_terminal'] = clade_data['nec_actual'].dropna().mean()
+        ## The mean number of occurrences of EC_numbers are calculated for clade
+        ## so that later on an estimate can be given of the number that will appear
+        ## in an internal node.
+        
+        mec = clade_ec.mean(axis = 0, numeric_only = True)
+        internal_ec_n[edge_i, :] = mec
+        
+        ## Calculate values for this edge.
+        
+        if domain != 'eukarya':
+            
+            ## These parameters cannot be calculated from transcriptomes.
+            
+            internal_data[edge_i, internal_data_columns.index('n16S')] = clade_data['n16S'].dropna().mean()
+            internal_data[edge_i, internal_data_columns.index('nge')] = clade_data['nge'].dropna().mean()
+            internal_data[edge_i, internal_data_columns.index('ncds')] = clade_data['ncds'].dropna().mean()
+            internal_data[edge_i, internal_data_columns.index('genome_size')] = clade_data['genome_size'].dropna().mean()
+            internal_data[edge_i, internal_data_columns.index('phi')] = clade_data['phi'].dropna().mean()
+            internal_data[edge_i, internal_data_columns.index('GC')] = clade_data['GC'].dropna().mean()
+            
+        ## These parameters are relevant to all domains.
+        
+        internal_data[edge_i, internal_data_columns.index('clade_size')] = ntip
+        internal_data[edge_i, internal_data_columns.index('npaths_terminal')] = clade_data['npaths_actual'].dropna().mean()
+        internal_data[edge_i, internal_data_columns.index('nec_terminal')] = clade_data['nec_actual'].dropna().mean()
+        
+#%% Execute the get_internals function in parallel, this massively speeds up
+## the database build.
+        
+## For bacteria currently throughs RuntimeError: maximum recursion depth exceeded
+## if more than 1 processor used
+
+if __name__ == '__main__':         
+    Parallel(n_jobs = 1)(delayed(get_internals)(clade, int_nodes, genome_data, terminal_paths, terminal_ec, internal_probs_columns, internal_data_columns, internal_ec_probs_columns, internal_ec_n_columns, internal_probs, internal_data, internal_ec_probs, internal_ec_n)
+    for clade in tree.get_nonterminals())
+        
+#%% Collect taxonomy information for each of the nodes in the reference tree.
+
+if domain in ['bacteria', 'archaea']:
+    ranks = ["root",
+             "below_root",
+             "superkingdom",
+             "below_superkingdom",
+             "below_below_superkingdom",
+             "phylum",
+             "below_phylum",
+             "below_below_phylum",
+             "class","below_class",
+             "order","below_order",
+             "below_below_order",
+             "family",
+             "below_family",
+             "genus",
+             "species",
+             "below_species"]
+else:
+    ranks = ["root",
+             "below_root",
+             "superkingdom",
+             "below_superkingdom",
+             "below_below_superkingdom",
+             "below_below_below_superkingdom",
+             "below_below_below_below_superkingdom",
+             "kingdom",
+             "subkingdom",
+             "phylum",
+             "below_phylum",
+             "below_below_phylum",
+             "subphylum",
+             "below_subphylum",
+             "below_below_subphylum",
+             "below_below_below_subphylum",
+             "below_below_below_below_subphylum",
+             "below_below_below_below_below_subphylum",
+             "below_below_below_below_below_below_subphylum",
+             "below_below_below_below_below_below_below_subphylum",
+             "below_below_below_below_below_below_below_below_subphylum",
+             "below_below_below_below_below_below_below_below_below_subphylum",
+             "below_below_below_below_below_below_below_below_below_below_subphylum",
+             "below_below_below_below_below_below_below_below_below_below_below_subphylum",
+             "class",
+             "below_class",
+             "subclass",
+             "below_subclass",
+             "order",
+             "below_order",
+             "suborder",
+             "superfamily",
+             "family",
+             "below_family",
+             "subfamily",
+             "tribe",
+             "genus",
+             "below_genus",
+             "subgenus",
+             "species",
+             "below_species",
+             "varietas",
+             "below_varietas"]
+
+lineage = pd.read_csv(ref_dir_domain + 'taxa.csv', index_col = 0)
+ref_taxa = pd.read_csv(ref_dir_domain + 'seq_info.updated.csv', index_col = 0)
+
+node_lineages = pd.DataFrame(columns = lineage.columns)
+node_lineages_index = []
     
-## Write out ya database files.
+for clade in tree.get_nonterminals():
+    try:
+        clade_number = int(clade.confidence)
+        print 'getting lineage for', clade_number
+        terminals = []
         
+        for terminal in clade.get_terminals():
+            terminals.append(terminal.name.strip('@'))
+            
+        temp_taxids = ref_taxa.loc[terminals, 'tax_id']
+        
+        temp_lineage = lineage.loc[temp_taxids]
+        temp_lineage = temp_lineage.dropna(1, thresh = 1)
+        temp_lineage.drop(['parent_id', 'rank', 'tax_name'], inplace = True, axis = 1)
+        
+        ## Now iterate across columns, starting at root
+        ## until you find the first mismatch.  The one
+        ## before this is the consensus.
+        
+        for i,rank in enumerate(temp_lineage.columns):
+            if i != 0:
+                if len(temp_lineage[rank].unique()) > 1:
+                    consensus_rank = temp_lineage.columns[i - 1]
+                    consensus_taxid = temp_lineage.loc[temp_lineage.index[0], consensus_rank]
+                    break
+                    
+        ## Now look up the consensus taxonomy.
+            
+        consensus_taxa = lineage.loc[consensus_taxid, 'tax_name']
+        consensus_lineage = lineage.loc[consensus_taxid].drop_duplicates()
+        temp = node_lineages.append(consensus_lineage)
+        node_lineages = temp
+        
+        node_lineages_index.append(clade_number)
+
+    ## Error exception here is problematic, for some reason KeyError
+    ## exception does not catch error raised by temp_taxids not being present
+    ## in temp_lineage.  Works without being explicit on error type, but this
+    ## is bad.
+            
+    except:
+        print 'none'
+
+
+for clade in tree.get_terminals():
+    
+    try:        
+        clade_number = int(clade.confidence)
+        print 'getting lineage for', clade_number
+        terminal = clade.name.strip('@')
+    
+        temp_taxid = ref_taxa.loc[terminal, 'tax_id']
+        temp_lineage = lineage.loc[temp_taxid]
+        temp = node_lineages.append(temp_lineage)
+        node_lineages = temp
+        node_lineages_index.append(clade_number)
+    
+    except:
+        print 'none'
+    
+node_lineages.index = node_lineages_index
+    
+for rank in ranks:
+    for index in node_lineages.index:
+        temp = node_lineages.loc[index, rank]
+        
+        if temp in lineage.index:
+            node_lineages.loc[index, rank] = lineage.loc[temp, 'tax_name']
+            
+## Check that all edges have a minimal entry in lineages, this is important
+## as the euks get a bit whonky and sometimes there's no tax info.
+            
+for edge in int_nodes:
+    if edge not in node_lineages.index:
+        node_lineages.loc[edge, 'parent_id'] = 1
+        
+for edge in terminal_paths.index:
+    if edge not in genome_data.clade:
+        node_lineages.loc[edge, 'parent_id'] = 1
+   
+## Write out ya database files.
+            
+node_lineages.to_csv(ref_dir_domain + 'node_lineages.csv')      
 genome_data.to_csv(ref_dir_domain + 'genome_data.final.csv')
+terminal_paths.to_csv(ref_dir_domain + 'terminal_paths.csv')
+terminal_ec.to_csv(ref_dir_domain + 'terminal_ec.csv')
+
+internal_data = pd.DataFrame(internal_data, index = int_nodes, columns = internal_data_columns)
 internal_data.to_csv(ref_dir_domain + 'internal_data.csv')
 
-terminal_paths.to_csv(ref_dir_domain + 'terminal_paths.csv')
+internal_probs = pd.DataFrame(internal_probs, index = int_nodes, columns = internal_probs_columns)
 internal_probs.to_csv(ref_dir_domain + 'internal_probs.csv')
 
+internal_ec_probs = pd.DataFrame(internal_ec_probs, index = int_nodes, columns = internal_ec_probs_columns)
 internal_ec_probs.to_csv(ref_dir_domain + 'internal_ec_probs.csv')
+
+internal_ec_n = pd.DataFrame(internal_ec_n, index = int_nodes, columns = internal_ec_n_columns)
 internal_ec_n.to_csv(ref_dir_domain + 'internal_ec_n.csv')
-terminal_ec.to_csv(ref_dir_domain + 'terminal_ec.csv')
+
+## Clean up memory maps
+
+os.system('rm *mmap')
