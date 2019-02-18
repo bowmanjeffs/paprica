@@ -58,6 +58,10 @@ if 'domain' in command_args.keys():
     
 else:
     try:
+        domain = command_args['domain']
+    except KeyError:
+        domain = 'bacteria'
+    try:
         prefix = command_args['o']
     except KeyError:
         prefix = 'test'
@@ -65,22 +69,22 @@ else:
     try:
         edge_suffix = command_args['edge_in']
     except KeyError:
-        edge_suffix = 'bacteria.edge_data.csv'
+        edge_suffix = '16S.exp.bacteria.edge_data.csv'
         
     try:
         path_suffix = command_args['path_in']
     except KeyError:
-        path_suffix = 'bacteria.sum_pathways.csv'
+        path_suffix = '16S.exp.bacteria.sum_pathways.csv'
         
     try:
         ec_suffix = command_args['ec_in']
     except KeyError:
-        ec_suffix = 'bacteria.sum_ec.csv'
+        ec_suffix = '16S.exp.bacteria.sum_ec.csv'
         
     try:
         unique_suffix = command_args['unique_in']
     except KeyError:
-        unique_suffix = 'bacteria.unique_seqs.csv'
+        unique_suffix = '16S.exp.bacteria.unique_seqs.csv'
     
 def stop_here():
     stop = []
@@ -127,8 +131,10 @@ for f in os.listdir('.'):
             temp_tax = temp_edge.loc[edge, 'taxon']
             taxon_map[edge] = temp_tax
         
-        for param in ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'confidence']:
-            edge_data.loc[name, param + '.mean'], edge_data.loc[name, param + '.sd'] = fill_edge_data(param, name, temp_edge)
+        if domain != 'eukarya':
+        
+            for param in ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'confidence']:
+                edge_data.loc[name, param + '.mean'], edge_data.loc[name, param + '.sd'] = fill_edge_data(param, name, temp_edge)
         
         if len(pd.isnull(pd.DataFrame(temp_edge['nedge_corrected'])) > 0):
             temp_edge_abund = pd.DataFrame(temp_edge['nedge'])
@@ -167,4 +173,4 @@ pd.DataFrame.to_csv(unique_tally, prefix + '.unique_tally.csv')
 with open(prefix + '.taxon_map.txt', 'w') as taxon_out:
     print >> taxon_out, 'edge' + '\t' + 'taxon'
     for edge in sorted(taxon_map.iterkeys()):
-        print >> taxon_out, str(edge) + '\t' + taxon_map[edge]
+        print >> taxon_out, str(edge) + '\t' + str(taxon_map[edge])

@@ -244,7 +244,7 @@ with open(cwd + prefix + '.bacterial16S.reads.txt', 'w') as bacteria_out, open(c
         temp = cmscan.loc[index]
         
         try:
-            e_min = temp[temp['E-value'] == temp['E-value'].min()]
+            e_min = temp[temp['score'] == temp['score'].max()]
             domain = e_min.loc[index, 'target.name']
 
         except AttributeError:
