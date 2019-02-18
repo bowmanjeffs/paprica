@@ -235,7 +235,7 @@ def count_ec(output, i):
             ## in the Genbank file.  It isn't clear why this is happening, pass the error
             ## here.
                                 
-            except AttributeError:
+            except (AttributeError, OSError):
                 pass    
 
 sums = np.memmap(open('tmp.paprica.mmp', 'w+b'), shape = genome_data.index.shape[0], dtype = 'uint64')
