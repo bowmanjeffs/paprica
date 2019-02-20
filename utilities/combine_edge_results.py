@@ -40,51 +40,42 @@ if 'h' in command_args.keys():
     #print help_string ## no help sting
     quit()
     
-if 'domain' in command_args.keys():
+try:
     domain = command_args['domain']
+except KeyError:
+    domain = 'eukarya'
+try:
     prefix = command_args['o']
-    edge_suffix = domain + '.edge_data.csv'
-    path_suffix = domain + '.sum_pathways.csv'
-    ec_suffix = domain + '.sum_ec.csv'
-    unique_suffix = domain + '.unique_seqs.csv'
+except KeyError:
+    prefix = 'test'
+
+try:
+    edge_suffix = command_args['edge_in']
+except KeyError:
+    edge_suffix = 'eukarya.edge_data.csv'
     
-    ## Delete old combined files, so that
-    ## the script doesn't try to include them.
+try:
+    path_suffix = command_args['path_in']
+except KeyError:
+    path_suffix = 'eukarya.sum_pathways.csv'
     
-    os.system('rm -f ' + prefix + '.edge_tally.csv')
-    os.system('rm -f ' + prefix + '.edge_data.csv')
-    os.system('rm -f ' + prefix + '.path_tally.csv')
-    os.system('rm -f ' + prefix + '.ec_tally.csv')
+try:
+    ec_suffix = command_args['ec_in']
+except KeyError:
+    ec_suffix = 'eukarya.sum_ec.csv'
     
-else:
-    try:
-        domain = command_args['domain']
-    except KeyError:
-        domain = 'bacteria'
-    try:
-        prefix = command_args['o']
-    except KeyError:
-        prefix = 'test'
-    
-    try:
-        edge_suffix = command_args['edge_in']
-    except KeyError:
-        edge_suffix = '16S.exp.bacteria.edge_data.csv'
+try:
+    unique_suffix = command_args['unique_in']
+except KeyError:
+    unique_suffix = 'eukarya.unique_seqs.csv'
         
-    try:
-        path_suffix = command_args['path_in']
-    except KeyError:
-        path_suffix = '16S.exp.bacteria.sum_pathways.csv'
-        
-    try:
-        ec_suffix = command_args['ec_in']
-    except KeyError:
-        ec_suffix = '16S.exp.bacteria.sum_ec.csv'
-        
-    try:
-        unique_suffix = command_args['unique_in']
-    except KeyError:
-        unique_suffix = '16S.exp.bacteria.unique_seqs.csv'
+## Delete old combined files, so that
+## the script doesn't try to include them.
+
+os.system('rm -f ' + prefix + '.edge_tally.csv')
+os.system('rm -f ' + prefix + '.edge_data.csv')
+os.system('rm -f ' + prefix + '.path_tally.csv')
+os.system('rm -f ' + prefix + '.ec_tally.csv')
     
 def stop_here():
     stop = []
