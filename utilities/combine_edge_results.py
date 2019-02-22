@@ -11,7 +11,7 @@ produces by running paprica on multiple samples.  It produces a matrix of edges
 by sample, and a matrix of mean edge parameters, by sample.
 
 For simple execution (works in most user cases) run as:
-    ./combine_edge_results.py -edge_in [suffix pattern for edges] -path_in [suffix pattern for paths] -ec_in [suffix pattern for ec numbers] -unique_in [suffix pattern for unique sequences] -o [prefix for output]
+    ./combine_edge_results.py -domain [domain] -edge_in [suffix pattern for edges] -path_in [suffix pattern for paths] -ec_in [suffix pattern for ec numbers] -unique_in [suffix pattern for unique sequences] -o [prefix for output]
 
 It will automatically loop through all files in the directory with the specified suffixes.
 
@@ -43,7 +43,8 @@ if 'h' in command_args.keys():
 try:
     domain = command_args['domain']
 except KeyError:
-    domain = 'eukarya'
+    domain = 'archaea'
+    
 try:
     prefix = command_args['o']
 except KeyError:
@@ -52,22 +53,22 @@ except KeyError:
 try:
     edge_suffix = command_args['edge_in']
 except KeyError:
-    edge_suffix = 'eukarya.edge_data.csv'
+    edge_suffix = 'archaea.edge_data.csv'
     
 try:
     path_suffix = command_args['path_in']
 except KeyError:
-    path_suffix = 'eukarya.sum_pathways.csv'
+    path_suffix = 'archaea.sum_pathways.csv'
     
 try:
     ec_suffix = command_args['ec_in']
 except KeyError:
-    ec_suffix = 'eukarya.sum_ec.csv'
+    ec_suffix = 'archaea.sum_ec.csv'
     
 try:
     unique_suffix = command_args['unique_in']
 except KeyError:
-    unique_suffix = 'eukarya.unique_seqs.csv'
+    unique_suffix = 'archaea.unique_seqs.csv'
         
 ## Delete old combined files, so that
 ## the script doesn't try to include them.
