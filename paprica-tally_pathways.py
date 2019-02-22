@@ -304,7 +304,15 @@ for edge in list(edge_tally.index):
         edge_data.loc[edge, 'nec_actual'] = edge_ec_n.sum()
         edge_data.loc[edge, 'nec_terminal'] = np.nan
 
-        sample_ec.loc[:, edge] = edge_ec_n        
+        sample_ec.loc[:, edge] = edge_ec_n      
+        
+if 'taxon' not in edge_data.columns:
+    
+    ## This means that none of the edges had valid taxon data, something
+    ## to address later. Quick fix here to make sure that combine_edge_results.py
+    ## doesn't fail.
+    
+    edge_data['taxon'] = ''
 
 ## Calculate the confidence score for the sample.
 
