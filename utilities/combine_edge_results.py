@@ -120,7 +120,7 @@ for f in os.listdir('.'):
         name = re.sub(edge_suffix, '', f)
         
         for edge in temp_edge.index:
-            temp_tax = temp_edge.loc[edge, 'taxon']
+            temp_tax = temp_edge.loc[edge, 'tax_name']
             taxon_map[edge] = temp_tax
         
         if domain != 'eukarya':
