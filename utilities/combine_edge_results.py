@@ -160,7 +160,7 @@ for f in os.listdir('.'):
         temp_unique.columns = [name]
         unique_tally = pd.concat([unique_tally, temp_unique], axis = 1, sort = False)
     
-pd.DataFrame.to_csv(unique_tally, prefix + '.unique_tally.csv')    
+pd.DataFrame.to_csv(unique_tally.transpose, prefix + '.unique_tally.csv')    
 
 with open(prefix + '.taxon_map.txt', 'w') as taxon_out:
     print >> taxon_out, 'edge' + '\t' + 'taxon'
