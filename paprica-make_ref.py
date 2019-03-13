@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 help_string = """
@@ -126,8 +126,8 @@ for i,arg in enumerate(sys.argv):
         except IndexError:
             command_args[arg] = ''
             
-if 'h' in command_args.keys():
-    print help_string
+if 'h' in list(command_args.keys()):
+    print(help_string)
     quit()
         
 ## Define some variables based on these arguments.  If any arguments are
@@ -168,7 +168,7 @@ elif domain == 'archaea':
 elif domain == 'eukarya':
     cm = paprica_path + 'models/eukarya_ssu.cm'
 else:
-    print 'Error, you must specify either -domain bacteria, -domain archaea, or -domain eukarya!'
+    print('Error, you must specify either -domain bacteria, -domain archaea, or -domain eukarya!')
     quit()
 
 #%% Define functions
@@ -177,8 +177,8 @@ else:
 
 def stop_here():
     stop = []
-    print 'Manually stopped!'
-    print stop[1]
+    print('Manually stopped!')
+    print(stop[1])
 
 ## Define a function to tally the 5, 4, and 3mers in each faa (i.e. to construct
 ## compositional vectors).
@@ -195,7 +195,7 @@ def calc_vector(path, bins):
     #k2_used_bins = set()
     found_bins = {}
     
-    print 'working on', path
+    print('working on', path)
     path_split = path.split('/')
     assembly = path_split[-2]
     
@@ -231,7 +231,7 @@ def calc_vector(path, bins):
         
     norm_bins = {}
     
-    for kmer in found_bins.keys():
+    for kmer in list(found_bins.keys()):
         if kmer in bins: # if not a kmer of interest, don't bother normalizing
             kmer_1 = kmer[0:-1]
             kmer_2 = kmer[1:]
@@ -245,19 +245,19 @@ def calc_vector(path, bins):
             kmer_norm = (found_bins[kmer] - kmer_0) / kmer_0
             norm_bins[kmer] = kmer_norm
         
-    with gzip.open(ref_dir_domain + 'refseq/' + assembly + '/' + assembly + '_' + str(k) + 'mer_bins.txt.gz', 'wb') as bins_out:
+    with gzip.open(ref_dir_domain + 'refseq/' + assembly + '/' + assembly + '_' + str(k) + 'mer_bins.txt.gz', 'wt') as bins_out:
         for each in sorted(bins):
             try:
-                print >> bins_out, each + '\t' + str(norm_bins[each])
+                print(each + '\t' + str(norm_bins[each]), file = bins_out)
             except KeyError:
-                print >> bins_out, each + '\t' + str(0)
+                print(each + '\t' + str(0), file = bins_out)
 
 ## Define a function to find the 16S rRNA gene in a fna genome file.
 
 def search_16S(directory, d):
     for f in os.listdir(directory + '/' + d):
         if f.endswith('fna'):
-            print f ## testing
+            print(f) ## testing
             
             find_16S = subprocess.Popen('cmsearch --cpu 1 --tblout ' + directory + '/' + d + '/' + d + '.16S.hits -A ' + directory + '/' + d + '/' + d + '.16S.sto ' + cm + ' ' + directory + '/' + d + '/' + f, shell = True, executable = executable)
             find_16S.communicate()
@@ -294,10 +294,10 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
         gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*', shell = True, executable = executable)
         gunzip.communicate()
         
-        print assembly_accession + ':' + strain_ftp
+        print(assembly_accession + ':' + strain_ftp)
         
     except KeyError:
-        print 'no', assembly_accession, 'path'
+        print('no', assembly_accession, 'path')
         
 def download_euks(online_directory):
     try:
@@ -323,10 +323,10 @@ def download_euks(online_directory):
         #gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*', shell = True, executable = executable)
         #gunzip.communicate()
         
-        print assembly_accession + ':' + ref_dir_domain + 'refseq/' + assembly_accession
+        print(assembly_accession + ':' + ref_dir_domain + 'refseq/' + assembly_accession)
         
     except KeyError:
-        print 'no', online_directory, 'online directory' 
+        print('no', online_directory, 'online directory') 
         
 ## Define function to deterime if all the necessary files are present in existing genome directories
 ## for bacteria and archaea.
@@ -334,7 +334,7 @@ def download_euks(online_directory):
 def check_directory(ref_dir_domain, genome):
     file_count = 0
     
-    print 'Checking files for accession', ref_dir_domain + 'refseq/' + genome
+    print('Checking files for accession', ref_dir_domain + 'refseq/' + genome)
     
     for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
         if f.endswith('protein.faa'):
@@ -399,7 +399,7 @@ if download in ['T', 'test']:
     
     ## If the necessary directory structure isn't present, add it.
     
-    print 'Checking for reference database directories, will create if necessary...'
+    print('Checking for reference database directories, will create if necessary...')
 
     try:
         os.listdir(ref_dir)
@@ -549,7 +549,7 @@ if download in ['T', 'test']:
                     ng_file_count = ng_file_count + 1
                             
             if ng_file_count != 3:
-                print assembly_accession, 'is missing a Genbank file'
+                print(assembly_accession, 'is missing a Genbank file')
                 incomplete_genomes.append(assembly_accession)
             else:
                 new_genome_faa.append(ref_dir_domain + 'refseq/' + assembly_accession + '/' + temp_faa)
@@ -629,12 +629,12 @@ if domain == 'eukarya':
                     summary_complete.loc[genome, 'tax_name'] = tax_name
                     keep = True
                     kept_genomes.append(genome)
-                    print >> good_fasta_18S, line,
+                    print(line, end=' ', file=good_fasta_18S)
                 else:
                     keep = False
             else:
                 if keep == True:
-                    print >> good_fasta_18S, line,
+                    print(line, end=' ', file=good_fasta_18S)
                     
     summary_complete = summary_complete[summary_complete.index.isin(kept_genomes)]
     
@@ -798,7 +798,7 @@ i = 0
 l = len(unique_assembly)
 
 for d in sorted(unique_assembly):
-    print 'reading vector matrix,', i + 1, 'of', l
+    print('reading vector matrix,', i + 1, 'of', l)
     temp_bins = np.loadtxt(ref_dir_domain + 'refseq/' + d + '/' + d + '_5mer_bins.txt.gz', usecols = [1])
     table_out[:,i] = temp_bins
     i = i + 1
@@ -821,7 +821,7 @@ dist_cv.to_csv(ref_dir_domain + '5mer_compositional_vectors.dist')
 
 ## Read in the 16S distance matrix and convert to a symmetrical square matrix.
 
-dist_16S = pd.read_table(ref_dir_domain + 'RAxML_distances.dist', names = ['taxa1', 'taxa2', 'distance'], delim_whitespace = True)
+dist_16S = pd.read_csv(ref_dir_domain + 'RAxML_distances.dist', names = ['taxa1', 'taxa2', 'distance'], delim_whitespace = True)
 col_row_names = pd.concat([dist_16S.taxa1, dist_16S.taxa2])
 col_row_names = pd.Series(col_row_names.unique())
 new_dist_16S = pd.DataFrame(spatial.distance.squareform(dist_16S['distance']), columns = col_row_names, index = col_row_names)
@@ -830,7 +830,7 @@ new_dist_16S = pd.DataFrame(spatial.distance.squareform(dist_16S['distance']), c
 ## range of 0 to 1.  There might be a better way to do this than the notation
 ## used here (calling on original array, then output array).
 
-print 'normalizing distance matrices...'
+print('normalizing distance matrices...')
 
 dist_16S_norm = (new_dist_16S - new_dist_16S.mean().mean()) / new_dist_16S.std().mean()
 dist_16S_norm = dist_16S_norm + abs(dist_16S_norm.min().min())
@@ -853,13 +853,13 @@ with open(ref_dir_domain + 'distance_measure_subsample.txt', 'w') as dist_sample
         rx = dist_cv_norm.loc[r1, r2]
         ry = dist_16S_norm.loc[r1, r2]
 
-        print >> dist_sample, r1, r2, rx, ry
+        print(r1, r2, rx, ry, file=dist_sample)
         
 ## I fit an exponential curve: 16S = 0.0005 * exp(7.2259 * cv) at R2 = 0.74.
 ## These values are used below, but if you're going through all the trouble
 ## to read this script you should fit your own curve.
         
-print 'calculating phi parameter...'
+print('calculating phi parameter...')
         
 pred_16S = np.exp(dist_cv_norm.mul(7.2259)).mul(0.0005) # predicted 16S values based on above function
 residuals = pred_16S.sub(dist_16S_norm) # difference between predicted and observed
@@ -910,7 +910,7 @@ if len(os.listdir(ref_dir + 'user/' + domain)) > 0:
                     fna = True
                     
             if gbff == False or fna == False:
-                print 'draft', assembly_accession, 'is missing either fna or gbff'
+                print('draft', assembly_accession, 'is missing either fna or gbff')
             else:
                 good_drafts[assembly_accession] = re.sub('\s', '_', name)
 
@@ -921,14 +921,14 @@ if len(os.listdir(ref_dir + 'user/' + domain)) > 0:
 ## summary_complete.  All the entries should be nan because we don't want
 ## to use the draft values for any predictions.
             
-if len(good_drafts.keys()) > 0:
+if len(list(good_drafts.keys())) > 0:
         
     if __name__ == '__main__':  
         Parallel(n_jobs = -1, verbose = 5)(delayed(search_16S)
-        (ref_dir + 'user/' + domain, d) for d in good_drafts.keys())
+        (ref_dir + 'user/' + domain, d) for d in list(good_drafts.keys()))
 
 with open(ref_dir + 'user/' + domain + '/' + 'draft.combined_16S.fasta', 'w') as draft_fasta_out:        
-        for d in good_drafts.keys():
+        for d in list(good_drafts.keys()):
             
             count_16S = subprocess.Popen('grep -c \'>\' ' + ref_dir + 'user/' + domain + '/' + d + '/' + d + '.16S.fasta', shell = True, executable = executable, stdout = subprocess.PIPE)
             n16S = count_16S.communicate()[0]
@@ -984,14 +984,14 @@ with open(ref_dir + 'user/' + domain + '/' + 'draft.combined_16S.fasta', 'w') as
                         continue
                     
             else:
-                print 'sorry, no 16S rRNA genes found in draft assembly', d
+                print('sorry, no 16S rRNA genes found in draft assembly', d)
          
 ## Generate a fasta file with meaningful taxonomic names consisting of only
 ## those 16S rRNA genes used in the final alignment.
          
 unique_16S = set()
         
-print 'writing out data files'
+print('writing out data files')
         
 with open(ref_dir_domain + 'combined_16S.' + domain + '.tax.fasta', 'w') as tax_fasta_out:
     for record in SeqIO.parse(ref_dir_domain + 'combined_16S.unique.fasta', 'fasta'):
@@ -1018,7 +1018,7 @@ with open(ref_dir_domain + 'combined_16S.' + domain + '.tax.fasta', 'w') as tax_
             SeqIO.write(record, tax_fasta_out, 'fasta')
             unique_16S.add(str(record.seq))
         else:
-            print 'sorry, a 16S rRNA gene sequence identical to', record.id, 'is already in use, not including'
+            print('sorry, a 16S rRNA gene sequence identical to', record.id, 'is already in use, not including')
             summary_complete = summary_complete[summary_complete.organism_name != record.id]
         
 ## Write out the final summary_complete file.
