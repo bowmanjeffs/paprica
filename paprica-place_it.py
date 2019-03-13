@@ -424,14 +424,15 @@ def make_tax(bad_character):
         
     taxtable_1 = subprocess.Popen('rm -f ' + ref_dir + 'taxonomy.db;\
     rm -f ' + ref_dir + 'taxdmp.zip;\
-    taxit new_database -d ' + ref_dir + 'taxonomy.db', shell = True, executable = executable)
+    taxit new_database ' + ref_dir + 'taxonomy.db', shell = True, executable = executable)
     taxtable_1.communicate()
     
     ## Probably some of your taxids are old.  Update them.
     
     taxtable_2 = subprocess.Popen('taxit update_taxids \
-    -d ' + ref_dir + 'taxonomy.db \
-    -o ' + ref_dir_domain + 'seq_info.updated.csv ' + ref_dir_domain + 'seq_info.csv', shell = True, executable = executable)
+    -o ' + ref_dir_domain + 'seq_info.updated.csv \
+    ' + ref_dir_domain + 'seq_info.csv \
+    ' + ref_dir + 'taxonomy.db', shell = True, executable = executable)
     taxtable_2.communicate()
     
     ## Generate the file tax_ids.txt based on the newly generated seq_info.updates.csv.
@@ -440,8 +441,8 @@ def make_tax(bad_character):
     seq_info.to_csv(ref_dir_domain + 'tax_ids.txt', columns = ['tax_id'], header = False, index = False)
     
     taxtable_3 = subprocess.Popen('taxit taxtable \
-    -d ' + ref_dir + 'taxonomy.db \
-    -t ' + ref_dir_domain + 'tax_ids.txt \
+    ' + ref_dir + 'taxonomy.db \
+    -f ' + ref_dir_domain + 'tax_ids.txt \
     -o ' + ref_dir_domain + 'taxa.csv', shell = True, executable = executable)
     taxtable_3.communicate()
 
