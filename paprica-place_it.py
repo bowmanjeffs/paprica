@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 help_string = """
@@ -94,8 +94,8 @@ for i,arg in enumerate(sys.argv):
         except IndexError:
             command_args[arg] = ''
         
-if 'h' in command_args.keys():
-    print help_string
+if 'h' in list(command_args.keys()):
+    print(help_string)
     quit()
 
 ## Parse command line for mandatory variables, providing defaults if they are
@@ -159,7 +159,7 @@ else:
 ## that should be used by cmalign
 
 system_cpus = multiprocessing.cpu_count()
-cmalign_cpus = str(system_cpus / splits)
+cmalign_cpus = str(int(system_cpus / splits))
     
 ## Make sure that ref_dir ends with /.
     
@@ -173,8 +173,8 @@ cm = paprica_path + 'models/' + domain + '_ssu.cm' # Domain specific covariance 
 
 def stop_here():
     stop = []
-    print 'Manually stopped!'
-    print stop[1]
+    print('Manually stopped!')
+    print(stop[1])
     
 #%% Define function to clean record names.  Not that bad_character is also used
 ## by make_tax, to insure that sequence names match between taxonomy database
@@ -191,8 +191,8 @@ def clean_name(file_name, bad_character):
     with open(file_name + '.clean.fasta', 'w') as fasta_out:
         for record in SeqIO.parse(file_name + '.fasta', 'fasta'): 
             record.name = re.sub(bad_character, '_', str(record.description))
-            print >> fasta_out, '>' + record.name
-            print >> fasta_out, record.seq
+            print('>' + record.name, file=fasta_out)
+            print(record.seq, file=fasta_out)
             
 #%% Define a function to create a unique fasta file from the input.
             
@@ -208,7 +208,7 @@ def make_unique(query):
         name = str(record.id)
         seq = str(record.seq)
         
-        if seq in seq_count.keys():
+        if seq in list(seq_count.keys()):
             seq_count[seq] = seq_count[seq] + 1
             temp_name_list = seq_names[seq]
             temp_name_list.append(name)
@@ -218,12 +218,12 @@ def make_unique(query):
             seq_names[seq] = [name]
             
     with open(query + '.clean.unique.fasta', 'w') as fasta_out, open(query + '.clean.unique.count', 'w') as count_out:
-        print >> count_out, 'rep_name' + ',' + 'abundance'
-        for seq in seq_names.keys():
-            print >> fasta_out, '>' + seq_names[seq][0]
-            print >> fasta_out, seq
+        print('rep_name' + ',' + 'abundance', file=count_out)
+        for seq in list(seq_names.keys()):
+            print('>' + seq_names[seq][0], file=fasta_out)
+            print(seq, file=fasta_out)
             
-            print >> count_out, seq_names[seq][0] + ',' + str(seq_count[seq])
+            print(seq_names[seq][0] + ',' + str(seq_count[seq]), file=count_out)
             name_seq[seq_names[seq][0]] = seq
             
     return seq_count, seq_names, name_seq
@@ -294,7 +294,7 @@ def split_query_ref(query, ref, combined):
             elif record.id in ref_names:
                 SeqIO.write(record, ref_out, 'fasta')
             else:
-                print 'Error, record.id not in query or ref!'
+                print('Error, record.id not in query or ref!')
                 break
 
 #%% Define function to execute phylogenetic placement on a query fasta, or split query fasta
@@ -307,7 +307,7 @@ def place(query, ref, ref_dir_domain, cm):
     ## Conduct alignment with Infernal (cmalign) against the bacteria profile
     ## obtained from the Rfam website at http://rfam.xfam.org/family/RF00177/cm.
     
-    if 'large' in command_args.keys():
+    if 'large' in list(command_args.keys()):
         align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --mxsize 4000 --dna -o ' + query + '.clean.unique.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.unique.fasta', shell = True, executable = executable)
         align.communicate()
     else:
@@ -447,7 +447,7 @@ def make_tax(bad_character):
 
 #%% Execute main program.
 
-if 'query' not in command_args.keys():
+if 'query' not in list(command_args.keys()):
     
     ## If the query flag is not given this is taken as instruction to build
     ## the reference package.  
@@ -519,8 +519,8 @@ if 'query' not in command_args.keys():
     n_aseqs = len(re.findall('>', open(ref_dir_domain + '/' + ref + '.fasta', 'r').read()))
     
     with open(ref_dir_domain + '/' + ref + '.database_info.txt', 'w') as database_info:
-        print >> database_info, 'ref tree built at:', current_time
-        print >> database_info, 'nseqs in reference alignment:', n_aseqs 
+        print('ref tree built at:', current_time, file=database_info)
+        print('nseqs in reference alignment:', n_aseqs, file=database_info) 
             
 else:
         
@@ -530,11 +530,11 @@ else:
     ## Select a random subset of reads, if this option is specified.  This is useful for
     ## normalizing the number of sampled reads across different samples.    
     
-    if 'n' in command_args.keys():
+    if 'n' in list(command_args.keys()):
         
         nseqs = command_args['n']
         tseqs = len(re.findall('>', open(cwd + query + '.fasta', 'r').read()))
-        nseqs_get = random.sample(range(1, tseqs), int(nseqs))
+        nseqs_get = random.sample(list(range(1, tseqs)), int(nseqs))
         
         seq_i = 0
 
