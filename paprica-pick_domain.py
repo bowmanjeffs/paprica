@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 help_string = """
@@ -67,8 +67,8 @@ for i,arg in enumerate(sys.argv):
         arg = arg.strip('-')
         command_args[arg] = sys.argv[i + 1]
         
-if 'h' in command_args.keys():
-    print help_string
+if 'h' in list(command_args.keys()):
+    print(help_string)
     quit()
 
 try:        
@@ -105,8 +105,8 @@ if exit_test == 3:
 
 def stop_here():
     stop = []
-    print 'Manually stopped!'
-    print stop[1]
+    print('Manually stopped!')
+    print(stop[1])
 
 #%% Define a function to search an input fasta against a set, and write
 ## reads with ids in that set to an output fasta.
@@ -127,7 +127,7 @@ def write_fasta(fasta_out, fasta_in, domain_set, domain):
                     temp_record.description = ''
                     SeqIO.write(record, fasta_out, 'fasta')
                     
-    print domain, 'total:unique', str(n) + ':' + str(len(domain_set))
+    print(domain, 'total:unique', str(n) + ':' + str(len(domain_set)))
                 
 #%% Define a function to split an input fasta file.
                 
@@ -178,7 +178,7 @@ def make_unique(query):
         name = str(record.id)
         seq = str(record.seq)
         
-        if seq in seq_count.keys():
+        if seq in list(seq_count.keys()):
             seq_count[seq] = seq_count[seq] + 1
             temp_name_list = seq_names[seq]
             temp_name_list.append(name)
@@ -188,12 +188,12 @@ def make_unique(query):
             seq_names[seq] = [name]
             
     with open(query + '.unique.fasta', 'w') as fasta_out, open(query + '.unique.count', 'w') as count_out:
-        print >> count_out, 'rep_name' + ',' + 'abundance'
-        for seq in seq_names.keys():
-            print >> fasta_out, '>' + seq_names[seq][0]
-            print >> fasta_out, seq
+        print('rep_name' + ',' + 'abundance', file = count_out)
+        for seq in list(seq_names.keys()):
+            print('>' + seq_names[seq][0], file = fasta_out)
+            print(seq, file = fasta_out)
             
-            print >> count_out, seq_names[seq][0] + ',' + str(seq_count[seq])
+            print(seq_names[seq][0] + ',' + str(seq_count[seq]), file = count_out)
             name_seq[seq_names[seq][0]] = seq
             
     return seq_count, seq_names, name_seq
@@ -251,13 +251,13 @@ with open(cwd + prefix + '.bacterial16S.reads.txt', 'w') as bacteria_out, open(c
             domain = temp['target.name']           
                     
         if 'bacteria' in str(domain):
-            print >> bacteria_out, index
+            print(index, file=bacteria_out)
             bacteria_set.append(index)
         elif 'archaea' in str(domain):
-            print >> archaea_out, index 
+            print(index, file=archaea_out) 
             archaea_set.append(index)
         elif 'eukarya' in str(domain):
-            print >> eukarya_out, index
+            print(index, file=eukarya_out)
             eukarya_set.append(index)
             
 bacteria_set = set(bacteria_set)
