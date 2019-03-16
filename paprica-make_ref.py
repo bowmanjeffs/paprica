@@ -302,7 +302,6 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
 def download_euks(online_directory):
     try:
         assembly_accession = summary_complete.loc[online_directory, 'sample_name']
-        #strain_ftp = 'ftp://ftp.imicrobe.us/projects/104/samples/' + online_directory
         strain_ftp = 'https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/samples/' + online_directory
         
         strain_nt = assembly_accession + '.nt.fa'
@@ -317,11 +316,6 @@ def download_euks(online_directory):
         
         wget1 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/annot/swissprot.gff3', shell = True, executable = executable)
         wget1.communicate() 
-        
-        ## gunzip commands no longer necessary since cyverse does not compress
-    
-        #gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*', shell = True, executable = executable)
-        #gunzip.communicate()
         
         print(assembly_accession + ':' + ref_dir_domain + 'refseq/' + assembly_accession)
         
@@ -365,7 +359,7 @@ def get_eukaryotes():
 
     ## Get eukaryote sample data from MMETSP.
     
-    if 'sample-attr.tab.gz' not in os.listdir(ref_dir_domain):
+    if 'sample-attr.tab' not in os.listdir(ref_dir_domain):
         wget0 = subprocess.Popen('cd ' + ref_dir_domain + ';wget --tries=10 -T30 -q https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/sample-attr.tab', shell = True, executable = executable)
         wget0.communicate()
     
@@ -374,7 +368,7 @@ def get_eukaryotes():
     summary_complete = pd.DataFrame()
     l = 0    
     
-    with open(ref_dir_domain + 'sample-attr.tab', 'rb') as sample_attr:
+    with open(ref_dir_domain + 'sample-attr.tab', 'r') as sample_attr:
         for line in sample_attr:
             line = line.rstrip()
             line = line.split('\t')
@@ -386,8 +380,20 @@ def get_eukaryotes():
     ## Get the 18S sequences.
 
     if 'combined_18S.fasta' not in os.listdir(ref_dir_domain):
-        wget_18S = subprocess.Popen('cd ' + ref_dir_domain + ';wget https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/18s/18s.fa;mv 18s.fa combined_18S.fasta', shell = True, executable = executable)
+        wget_18S = subprocess.Popen('cd ' + ref_dir_domain + ';wget https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/18s/18s.fa', shell = True, executable = executable)
         wget_18S.communicate()
+        
+        ## For some reason the 18S.fa file is malformed, need to remove space
+        ## from infront of all lines with space.  Easiest way to do this is
+        ## probably just to read in each line and scrub.
+        
+        with open(ref_dir_domain + '18s.fa', 'r') as fasta_in, open(ref_dir_domain + 'combined_18S.fasta', 'w') as fasta_out:
+            for line in fasta_in:
+                line = line.strip()
+                line = line.rstrip()
+                print(line, file = fasta_out)
+                
+        os.remove(ref_dir_domain + '18s.fa')
     
     return(summary_complete)    
     
@@ -493,7 +499,7 @@ if download in ['T', 'test']:
         ## the Genbank assembly_summary.txt file.
         
         if download == 'T':
-            summary = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', header = 1, index_col = 0)
+            summary = pd.read_csv('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/' + domain + '/assembly_summary.txt', sep = '\t', header = 1, index_col = 0)
             summary_complete = summary[summary.assembly_level == 'Complete Genome']
         else:
             summary_complete = pd.read_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
@@ -618,23 +624,16 @@ if domain == 'eukarya':
     ## be used.  Also add a reasonable taxonomic name for each reference sequence
     ## to summary_complete as tax_id.
 
-    with open(ref_dir_domain + 'combined_18S.unique.fasta', 'r') as fasta_18S, open(ref_dir_domain + 'combined_18S.' + domain + '.tax.fasta', 'w') as good_fasta_18S:
-        for line in fasta_18S:
-            if line.startswith('>'):
-                tax_name = line.strip('>')
-                tax_name = tax_name.rstrip()
-                genome = tax_name.split('|')[0]
+    with open(ref_dir_domain + 'combined_18S.' + domain + '.tax.fasta', 'w') as good_fasta_18S:
+        for record in SeqIO.parse(ref_dir_domain + 'combined_18S.unique.fasta', 'fasta'):
+            tax_name = str(record.id)
+            genome = tax_name.split('|')[0]
                 
-                if genome in summary_complete.index:
-                    summary_complete.loc[genome, 'tax_name'] = tax_name
-                    keep = True
-                    kept_genomes.append(genome)
-                    print(line, end=' ', file=good_fasta_18S)
-                else:
-                    keep = False
-            else:
-                if keep == True:
-                    print(line, end=' ', file=good_fasta_18S)
+            if genome in summary_complete.index:
+                summary_complete.loc[genome, 'tax_name'] = tax_name
+                keep = True
+                kept_genomes.append(genome)
+                SeqIO.write(record, good_fasta_18S, 'fasta')
                     
     summary_complete = summary_complete[summary_complete.index.isin(kept_genomes)]
     

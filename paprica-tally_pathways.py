@@ -97,10 +97,10 @@ if len(sys.argv) > 2:
         omit = ''
     
 else:
-    query = 'test.bacteria.combined_16S.bacteria.tax.clean.unique.align.csv'
-    name = 'test.bacteria'
+    query = 'test.archaea.combined_16S.archaea.tax.clean.unique.align.csv'
+    name = 'test.archaea'
     cutoff = 0.5  # The cutoff value used to determine pathways to include for internal nodes.
-    domain = 'bacteria'  # The domain (bacteria or archaea) for analysis.
+    domain = 'archaea'  # The domain (bacteria or archaea) for analysis.
     ref_dir = paprica_path + 'ref_genome_database'  # The complete path to the reference directory being used for analysis.        
     #omit = '674:818'
     #overrides = '5804|93,4619|4571'
@@ -201,7 +201,7 @@ for qname in query_csv.index:
 
 ## Inflate the dataframe based on the values in the abundance column.
 
-query_csv_deflate = query_csv
+unique_csv = query_csv.copy()
 query_csv = query_csv.loc[query_csv.index.repeat(query_csv.abund)]
 query_csv.drop(columns = 'abund', inplace = True)
 
@@ -384,7 +384,7 @@ edge_data = pd.concat([edge_data, lineages], axis = 1, join = 'inner')
 
 print('Normalizing abundance for unique sequences...')
 
-unique_csv = query_csv_deflate[['hash', 'abund', 'edge_num', 'origin']]
+unique_csv = unique_csv[['hash', 'abund', 'edge_num', 'origin']]
 unique_csv.loc[unique_csv.index, 'name'] = unique_csv.index
 unique_csv.index = unique_csv.hash
 

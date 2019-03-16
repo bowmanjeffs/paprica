@@ -55,8 +55,6 @@ OPTIONS:
     -ref_dir: The directory containing the paprica database.
     -splits: The number of files to split the query fasta into to facilitate
         parallel analysis with pplacer.
-    -unique: T or F, tally unique reads at each edge?  Can take significant time
-        if there are many unique reads or the query file is very large.
 
 This script must be located in the 'paprica' directory as it makes use of relative
 paths.
@@ -108,15 +106,11 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'archaea'
+    domain = 'eukarya'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
-    ref = 'combined_16S.archaea.tax'
-try:    
-    unique = command_args['unique']
-except KeyError:
-    unique = 'T'
+    ref = 'combined_18S.eukarya.tax'
 
 ## If sys.argv == 1, you are probably running inside Python in testing mode.
 ## Provide some default values to make this possibe.  If > 1, parse command
@@ -126,9 +120,8 @@ except KeyError:
 if len(sys.argv) == 1:
     cpus = '8'
     splits = 1
-    query = 'test.archaea'
+    query = 'test.eukarya'
     command_args['query'] = query
-#    command_args['unique'] = 'T'
 
 else:
     
@@ -187,12 +180,13 @@ from Bio import SeqIO
 def clean_name(file_name, bad_character):
     
     bad_character = re.compile(bad_character)
-    
+        
     with open(file_name + '.clean.fasta', 'w') as fasta_out:
         for record in SeqIO.parse(file_name + '.fasta', 'fasta'): 
             record.name = re.sub(bad_character, '_', str(record.description))
-            print('>' + record.name, file=fasta_out)
-            print(record.seq, file=fasta_out)
+            record.id = record.name
+            record.description = ''
+            SeqIO.write(record, fasta_out, 'fasta')
             
 #%% Define a function to create a unique fasta file from the input.
             
@@ -218,7 +212,7 @@ def make_unique(query):
             seq_names[seq] = [name]
             
     with open(query + '.clean.unique.fasta', 'w') as fasta_out, open(query + '.clean.unique.count', 'w') as count_out:
-        print('rep_name' + ',' + 'abundance', file=count_out)
+        print('rep_name' + ',' + 'abundance', file = count_out)
         for seq in list(seq_names.keys()):
             print('>' + seq_names[seq][0], file=fasta_out)
             print(seq, file=fasta_out)
@@ -602,7 +596,3 @@ else:
     ## but this information is not currently being used downstream.
         
     classify()
-    
-#    if unique == 'T':
-#        unique_seqs = count_unique()
-#        unique_seqs.to_csv(cwd + query + '.' + domain + '.unique.seqs.csv')

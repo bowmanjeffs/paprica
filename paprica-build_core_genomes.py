@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 help_string = """
@@ -54,7 +54,7 @@ import re
 import sys
 import shutil
 from joblib import Parallel, delayed
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 import pandas as pd
 import numpy as np
@@ -65,8 +65,8 @@ executable = '/bin/bash'
 
 def stop_here():
     stop = []
-    print 'Manually stopped!'
-    print stop[1]
+    print('Manually stopped!')
+    print(stop[1])
                
 ## Read in command line arguments.
 
@@ -80,16 +80,16 @@ for i,arg in enumerate(sys.argv):
         except IndexError:
             command_args[arg] = ''
         
-if 'h' in command_args.keys():
-    print help_string
+if 'h' in list(command_args.keys()):
+    print(help_string)
     quit()
         
 ## Define some variables based on these arguments.  If nothing in sys.argv
 ## set some default values.  This is useful for testing.
         
 if len(sys.argv) == 1:
-    domain = 'bacteria'
-    tree_file = 'test.bacteria.combined_16S.bacteria.tax.clean.unique.align.phyloxml'
+    domain = 'archaea'
+    tree_file = 'test.archaea.combined_16S.archaea.tax.clean.unique.align.phyloxml'
     ref_dir = 'ref_genome_database'
     pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
     
@@ -120,7 +120,7 @@ ref_dir_domain = paprica_path + ref_dir + domain + '/'
 
 def make_pgdb(d, ref_dir_domain):
     
-    print d, 'start prediction'
+    print(d, 'start prediction')
     
     predict_pathways = subprocess.Popen('pathway-tools \
     -lisp \
@@ -130,7 +130,7 @@ def make_pgdb(d, ref_dir_domain):
     &> ' + ref_dir_domain + 'pathos_' + d + '.log', shell = True, executable = executable)
     
     predict_pathways.communicate()   
-    print d, 'prediction complete'
+    print(d, 'prediction complete')
     
 ## The directory structure for the domain eukaryote does not come automatically
 ## with Genbank format files.  Define a function that uses the pep.fa and
@@ -154,7 +154,7 @@ def create_euk_files(d):
     
     combined_length = 1
     
-    print 'generating genbank format files for', d + '...'
+    print('generating genbank format files for', d + '...')
     
     ## Some directory names differ from the accession number.  Rename these
     ## directories to match the accession number.
@@ -165,7 +165,7 @@ def create_euk_files(d):
             
     if a != d:
         os.rename(ref_dir_domain + 'refseq/' + d, ref_dir_domain + 'refseq/' + a)
-        print 'directory', d, 'is now', a
+        print('directory', d, 'is now', a)
     
     for record in SeqIO.parse(ref_dir_domain + 'refseq/' + a + '/' + a + '.pep.fa', 'fasta'):
             
@@ -221,7 +221,7 @@ assemblies = []
     
 for clade in tree.get_terminals():
     clade_number = int(clade.confidence)
-    print clade_number
+    print(clade_number)
     
     assembly = clade.name
     assembly = assembly.strip('@')
@@ -245,13 +245,13 @@ for clade in tree.get_terminals():
 ## download and parse enzyme.dat from ftp://ftp.expasy.org/databases/enzyme/enzyme.dat.
     
 if domain == 'eukarya':
-    print 'Downloading enzyme.dat from ftp.expasy.org...'
-    enzyme = urllib2.urlopen('ftp://ftp.expasy.org/databases/enzyme/enzyme.dat')
+    print('Downloading enzyme.dat from ftp.expasy.org...')
+    enzyme = urllib.request.urlopen('ftp://ftp.expasy.org/databases/enzyme/enzyme.dat')
     
-    print 'Parsing enzyme.dat to enzyme_table.dat...'
+    print('Parsing enzyme.dat to enzyme_table.dat...')
     with open('enzyme_table.dat', 'w') as enzyme_out:
         for line in enzyme:
-            print >> enzyme_out, 'accession', 'ec', 'name'
+            print('accession', 'ec', 'name', file=enzyme_out)
             
             for line in enzyme:
                 if line.startswith('ID'):
@@ -274,11 +274,11 @@ if domain == 'eukarya':
                         sprot = sprot.strip()
                         sprot = sprot.rstrip()
                         
-                        print >> enzyme_out, sprot, ec, name
+                        print(sprot, ec, name, file=enzyme_out)
                     
     enzyme.close()
 
-    print 'Reading enzyme_table.dat...'
+    print('Reading enzyme_table.dat...')
     sprot_df = pd.read_csv('enzyme_table.dat', header = 0, index_col = 0, sep = ' ')
 
     ## For eukarya, generate gbff files from pep.fa.  This takes a long time, so
@@ -325,14 +325,14 @@ for d in assemblies:
                 
             with open(ref_dir_domain + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(ref_dir_domain + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
                 
-                print 'recreating pathologic files for', d
+                print('recreating pathologic files for', d)
                 
-                print >> organism_params, 'ID' + '\t' + d
-                print >> organism_params, 'Storage' + '\t' + 'File'
-                print >> organism_params, 'Name' + '\t' + d
-                print >> organism_params, 'Rank' + '\t' + 'Strain'
-                print >> organism_params, 'Domain' + '\t' + 'TAX-2'
-                print >> organism_params, 'Create?' + '\t' + 't'
+                print('ID' + '\t' + d, file=organism_params)
+                print('Storage' + '\t' + 'File', file=organism_params)
+                print('Name' + '\t' + d, file=organism_params)
+                print('Rank' + '\t' + 'Strain', file=organism_params)
+                print('Domain' + '\t' + 'TAX-2', file=organism_params)
+                print('Create?' + '\t' + 't', file=organism_params)
                 
                 g = 0
                 
@@ -343,17 +343,17 @@ for d in assemblies:
                         basename = re.split('gbff', gbk)[0]
                         subprocess.call('cd ' + ref_dir_domain + 'refseq/' + d + ';cp ' + gbk + ' ' + basename + 'gbk', shell = True, executable = executable)
                         
-                        print >> genetic_elements, 'ID' + '\t' + d + '.' + str(g)
-                        print >> genetic_elements, 'NAME' + '\t' + d + '.' + str(g)
-                        print >> genetic_elements, 'TYPE' + '\t' + ':CHRSM'
+                        print('ID' + '\t' + d + '.' + str(g), file=genetic_elements)
+                        print('NAME' + '\t' + d + '.' + str(g), file=genetic_elements)
+                        print('TYPE' + '\t' + ':CHRSM', file=genetic_elements)
                         
                         if domain == 'eukarya':
-                            print >> genetic_elements, 'CIRCULAR?' + '\t' + 'Y'
+                            print('CIRCULAR?' + '\t' + 'Y', file=genetic_elements)
                         else:
-                            print >> genetic_elements, 'CIRCULAR?' + '\t' + 'N'
+                            print('CIRCULAR?' + '\t' + 'N', file=genetic_elements)
                             
-                        print >> genetic_elements, 'ANNOT-FILE' + '\t' + basename + 'gbk'
-                        print >> genetic_elements, '//'
+                        print('ANNOT-FILE' + '\t' + basename + 'gbk', file=genetic_elements)
+                        print('//', file=genetic_elements)
                         
             if g > 0:
                 new_pgdbs.append(d)
@@ -361,18 +361,18 @@ for d in assemblies:
     ## If there was no previous build attempt the directory will not exist and
     ## os will throw an error.
             
-    except OSError:
+    except FileNotFoundError:
         
         clade = genome_data.loc[d, 'clade']
             
         with open(ref_dir_domain + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(ref_dir_domain + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
     
-            print >> organism_params, 'ID' + '\t' + d
-            print >> organism_params, 'Storage' + '\t' + 'File'
-            print >> organism_params, 'Name' + '\t' + d
-            print >> organism_params, 'Rank' + '\t' + 'Strain'
-            print >> organism_params, 'Domain' + '\t' + 'TAX-2'
-            print >> organism_params, 'Create?' + '\t' + 't'
+            print('ID' + '\t' + d, file=organism_params)
+            print('Storage' + '\t' + 'File', file=organism_params)
+            print('Name' + '\t' + d, file=organism_params)
+            print('Rank' + '\t' + 'Strain', file=organism_params)
+            print('Domain' + '\t' + 'TAX-2', file=organism_params)
+            print('Create?' + '\t' + 't', file=organism_params)
             
             g = 0
             
@@ -383,19 +383,19 @@ for d in assemblies:
                     basename = re.split('gbff', gbk)[0]
                     subprocess.call('cd ' + ref_dir_domain + 'refseq/' + d + ';cp ' + gbk + ' ' + basename + 'gbk', shell = True, executable = executable)
                     
-                    print >> genetic_elements, 'ID' + '\t' + d + '.' + str(g)
-                    print >> genetic_elements, 'NAME' + '\t' + d + '.' + str(g)
-                    print >> genetic_elements, 'TYPE' + '\t' + ':CHRSM'
-                    print >> genetic_elements, 'CIRCULAR?' + '\t' + 'Y'
-                    print >> genetic_elements, 'ANNOT-FILE' + '\t' + basename + 'gbk'
-                    print >> genetic_elements, '//'
+                    print('ID' + '\t' + d + '.' + str(g), file=genetic_elements)
+                    print('NAME' + '\t' + d + '.' + str(g), file=genetic_elements)
+                    print('TYPE' + '\t' + ':CHRSM', file=genetic_elements)
+                    print('CIRCULAR?' + '\t' + 'Y', file=genetic_elements)
+                    print('ANNOT-FILE' + '\t' + basename + 'gbk', file=genetic_elements)
+                    print('//', file=genetic_elements)
                     
             if g > 0:
                 new_pgdbs.append(d)
                 
 ## Previous failed builds confuse pathway-tools.  Remove the directory.
 
-print 'removing previous failed PGDBs...'
+print('removing previous failed PGDBs...')
                 
 for d in new_pgdbs:
     shutil.rmtree(pgdb_dir + d.lower() + 'cyc', ignore_errors = True)
@@ -405,7 +405,7 @@ for d in new_pgdbs:
 ## Previously this was done externally with Gnu Parallel. Switched to using joblib
 ## to reduce the number of dependencies.
 
-print len(new_pgdbs), 'new pgdbs will be created'
+print(len(new_pgdbs), 'new pgdbs will be created')
 
 if __name__ == '__main__':  
     Parallel(n_jobs = -1, verbose = 5)(delayed(make_pgdb)
@@ -435,13 +435,13 @@ for i,d in enumerate(assemblies):
                                         terminal_paths[path] = np.nan
                                         terminal_paths.loc[d, path] = 1
                                         
-                                    print 'collecting paths for terminal node', d, i + 1, 'of', len(assemblies), path
+                                    print('collecting paths for terminal node', d, i + 1, 'of', len(assemblies), path)
                                     n_paths = n_paths + 1
                                     
         genome_data.loc[d, 'npaths_actual'] = n_paths
         
     except IOError:
-        print d, 'has no pathway report'
+        print(d, 'has no pathway report')
         
 #%% Collect EC_numbers for each terminal node
 
@@ -467,7 +467,7 @@ for i,d in enumerate(assemblies):
                             except KeyError:
                                 protein_id = 'no protein_id'
                             
-                            if 'EC_number' in feature.qualifiers.keys():
+                            if 'EC_number' in list(feature.qualifiers.keys()):
                                 
                                 n_paths = n_paths + 1
                                 ec = feature.qualifiers['EC_number']
@@ -483,7 +483,7 @@ for i,d in enumerate(assemblies):
                                 ## in a genome this information needs to be tallied.
                                 
                                 for each in ec:
-                                    print 'collecting EC numbers for terminal node', d, i + 1, 'of', str(len(assemblies)) + ',', protein_id + ':', each
+                                    print('collecting EC numbers for terminal node', d, i + 1, 'of', str(len(assemblies)) + ',', protein_id + ':', each)
                                     
                                     try:
                                         temp = terminal_ec.loc[d, each]
@@ -511,13 +511,13 @@ for i,d in enumerate(assemblies):
         for entry in temp_user_ec.index:
             n_paths = n_paths + 1
             each = temp_user_ec.loc[entry, 'EC_number']
-            print 'collecting EC numbers for terminal node', d, i + 1, 'of', len(assemblies), each
+            print('collecting EC numbers for terminal node', d, i + 1, 'of', len(assemblies), each)
                                 
             try:
                 if pd.isnull(terminal_ec.loc[d, each]) == True:
                     terminal_ec.loc[d, each] = 1
                 else:
-                    print 'There is already an entry for', d, each
+                    print('There is already an entry for', d, each)
             except KeyError:
                 terminal_ec.loc[d, each] = 1
                 
@@ -563,7 +563,8 @@ internal_ec_probs = np.memmap(open('internal_ec_probs.mmap', 'w+b'), shape = (n_
 internal_ec_n = np.memmap(open('internal_ec_n.mmap', 'w+b'), shape = (n_clades, len(internal_ec_n_columns)), dtype = 'f8')
 
 ## Define a funciton to iterate across all subtrees and collect information that will be saved in
-## the "internal" memory-mapped arrays.
+## the "internal" memory-mapped arrays. Remember that these are not dataframes
+## and cannot be indexed by column/row names!
 
 def get_internals(clade,
                   int_nodes,
@@ -578,11 +579,16 @@ def get_internals(clade,
                   internal_data,
                   internal_ec_probs,
                   internal_ec_n):
-    
+
+    try:
+        int(clade.confidence)
+    except TypeError:
+        return
+           
     if clade.confidence > 0:
         
         edge = int(clade.confidence)
-        print 'collecting data for internal node', str(edge)
+        print('collecting data for internal node', str(edge))
         
         ## Data on the clade that you want later.
         
@@ -643,79 +649,90 @@ def get_internals(clade,
 #%% Execute the get_internals function in parallel, this massively speeds up
 ## the database build.
         
-## For bacteria currently throughs RuntimeError: maximum recursion depth exceeded
-## if more than 1 processor used
+## For bacteria currently throws RuntimeError: maximum recursion depth exceeded
+## if more than 1 processor used.  This is kind of a problem because the
+## bacteria database is the one that takes a long time to build...
+        
+if domain == 'bacteria':
+    njobs = 1
+else:
+    njobs = -1
 
 if __name__ == '__main__':         
-    Parallel(n_jobs = 1)(delayed(get_internals)(clade, int_nodes, genome_data, terminal_paths, terminal_ec, internal_probs_columns, internal_data_columns, internal_ec_probs_columns, internal_ec_n_columns, internal_probs, internal_data, internal_ec_probs, internal_ec_n)
+    Parallel(n_jobs = njobs)(delayed(get_internals)(clade, int_nodes, genome_data, terminal_paths, terminal_ec, internal_probs_columns, internal_data_columns, internal_ec_probs_columns, internal_ec_n_columns, internal_probs, internal_data, internal_ec_probs, internal_ec_n)
     for clade in tree.get_nonterminals())
         
 #%% Collect taxonomy information for each of the nodes in the reference tree.
+    
+## Commented ranks below are now taken from lineage.columns.  Delete
+## these lines in the future.
 
-if domain in ['bacteria', 'archaea']:
-    ranks = ["root",
-             "below_root",
-             "superkingdom",
-             "below_superkingdom",
-             "below_below_superkingdom",
-             "phylum",
-             "below_phylum",
-             "below_below_phylum",
-             "class","below_class",
-             "order","below_order",
-             "below_below_order",
-             "family",
-             "below_family",
-             "genus",
-             "species",
-             "below_species"]
-else:
-    ranks = ["root",
-             "below_root",
-             "superkingdom",
-             "below_superkingdom",
-             "below_below_superkingdom",
-             "below_below_below_superkingdom",
-             "below_below_below_below_superkingdom",
-             "kingdom",
-             "subkingdom",
-             "phylum",
-             "below_phylum",
-             "below_below_phylum",
-             "subphylum",
-             "below_subphylum",
-             "below_below_subphylum",
-             "below_below_below_subphylum",
-             "below_below_below_below_subphylum",
-             "below_below_below_below_below_subphylum",
-             "below_below_below_below_below_below_subphylum",
-             "below_below_below_below_below_below_below_subphylum",
-             "below_below_below_below_below_below_below_below_subphylum",
-             "below_below_below_below_below_below_below_below_below_subphylum",
-             "below_below_below_below_below_below_below_below_below_below_subphylum",
-             "below_below_below_below_below_below_below_below_below_below_below_subphylum",
-             "class",
-             "below_class",
-             "subclass",
-             "below_subclass",
-             "order",
-             "below_order",
-             "suborder",
-             "superfamily",
-             "family",
-             "below_family",
-             "subfamily",
-             "tribe",
-             "genus",
-             "below_genus",
-             "subgenus",
-             "species",
-             "below_species",
-             "varietas",
-             "below_varietas"]
+#if domain in ['bacteria', 'archaea']:
+#    ranks = ["root",
+#             "below_root",
+#             "superkingdom",
+#             "below_superkingdom",
+#             "below_below_superkingdom",
+#             "phylum",
+#             "below_phylum",
+#             "below_below_phylum",
+#             "class","below_class",
+#             "order","below_order",
+#             "below_below_order",
+#             "family",
+#             "below_family",
+#             "genus",
+#             "species",
+#             "below_species"]
+#else:
+#    ranks = ["root",
+#             "below_root",
+#             "superkingdom",
+#             "below_superkingdom",
+#             "below_below_superkingdom",
+#             "below_below_below_superkingdom",
+#             "below_below_below_below_superkingdom",
+#             "kingdom",
+#             "subkingdom",
+#             "phylum",
+#             "below_phylum",
+#             "below_below_phylum",
+#             "subphylum",
+#             "below_subphylum",
+#             "below_below_subphylum",
+#             "below_below_below_subphylum",
+#             "below_below_below_below_subphylum",
+#             "below_below_below_below_below_subphylum",
+#             "below_below_below_below_below_below_subphylum",
+#             "below_below_below_below_below_below_below_subphylum",
+#             "below_below_below_below_below_below_below_below_subphylum",
+#             "below_below_below_below_below_below_below_below_below_subphylum",
+#             "below_below_below_below_below_below_below_below_below_below_subphylum",
+#             "below_below_below_below_below_below_below_below_below_below_below_subphylum",
+#             "class",
+#             "below_class",
+#             "subclass",
+#             "below_subclass",
+#             "order",
+#             "below_order",
+#             "suborder",
+#             "superfamily",
+#             "family",
+#             "below_family",
+#             "subfamily",
+#             "tribe",
+#             "genus",
+#             "below_genus",
+#             "subgenus",
+#             "species",
+#             "below_species",
+#             "varietas",
+#             "below_varietas"]
 
 lineage = pd.read_csv(ref_dir_domain + 'taxa.csv', index_col = 0)
 ref_taxa = pd.read_csv(ref_dir_domain + 'seq_info.updated.csv', index_col = 0)
+
+ranks = lineage.columns
 
 node_lineages = pd.DataFrame(columns = lineage.columns)
 node_lineages_index = []
@@ -723,7 +740,7 @@ node_lineages_index = []
 for clade in tree.get_nonterminals():
     try:
         clade_number = int(clade.confidence)
-        print 'getting lineage for', clade_number
+        print('getting lineage for', clade_number)
         terminals = []
         
         for terminal in clade.get_terminals():
@@ -761,14 +778,14 @@ for clade in tree.get_nonterminals():
     ## is bad.
             
     except:
-        print 'none'
+        print('none')
 
 
 for clade in tree.get_terminals():
     
     try:        
         clade_number = int(clade.confidence)
-        print 'getting lineage for', clade_number
+        print('getting lineage for', clade_number)
         terminal = clade.name.strip('@')
     
         temp_taxid = ref_taxa.loc[terminal, 'tax_id']
@@ -778,7 +795,7 @@ for clade in tree.get_terminals():
         node_lineages_index.append(clade_number)
     
     except:
-        print 'none'
+        print('none')
     
 node_lineages.index = node_lineages_index
     
