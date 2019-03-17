@@ -246,10 +246,13 @@ for clade in tree.get_terminals():
     
 if domain == 'eukarya':
     print('Downloading enzyme.dat from ftp.expasy.org...')
-    enzyme = urllib.request.urlopen('ftp://ftp.expasy.org/databases/enzyme/enzyme.dat')
+    enzyme = urllib.request.urlopen('ftp://ftp.expasy.org/databases/enzyme/enzyme.dat').read()
+    
+    wget0 = subprocess.Popen('cd ' + ref_dir_domain + ';wget ftp://ftp.expasy.org/databases/enzyme/enzyme.dat', shell = True, executable = executable)
+    wget0.communicate()
     
     print('Parsing enzyme.dat to enzyme_table.dat...')
-    with open('enzyme_table.dat', 'w') as enzyme_out:
+    with open(ref_dir_domain + 'enzyme.dat', 'r') as enzyme, open('enzyme_table.dat', 'w') as enzyme_out:
         for line in enzyme:
             print('accession', 'ec', 'name', file=enzyme_out)
             
@@ -275,8 +278,6 @@ if domain == 'eukarya':
                         sprot = sprot.rstrip()
                         
                         print(sprot, ec, name, file=enzyme_out)
-                    
-    enzyme.close()
 
     print('Reading enzyme_table.dat...')
     sprot_df = pd.read_csv('enzyme_table.dat', header = 0, index_col = 0, sep = ' ')
@@ -285,6 +286,10 @@ if domain == 'eukarya':
     ## only do this for directories that don't already have this file.  This should
     ## only happen if something went wrong on a previous build, or you deleted some
     ## or all of the Genbank files.
+    
+    ## !!! For eukarya paprica-make_ref.py always deletes the database and
+    ## !!! downloads everything from scratch, the gbff files will always need
+    ## !!! to be rebuilt.  This needs to be fixed.
     
     ## Determine which directories need the gbff file.
     
