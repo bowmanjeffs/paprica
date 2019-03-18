@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -11,7 +11,11 @@ produces by running paprica on multiple samples.  It produces a matrix of edges
 by sample, and a matrix of mean edge parameters, by sample.
 
 For simple execution (works in most user cases) run as:
-    ./combine_edge_results.py -domain [domain] -edge_in [suffix pattern for edges] -path_in [suffix pattern for paths] -ec_in [suffix pattern for ec numbers] -unique_in [suffix pattern for unique sequences] -o [prefix for output]
+    ./combine_edge_results.py -domain [domain] -o [prefix for output]
+    
+If your file names don't follow the default suffix pattern of (e.g.)
+[domain].edge_data.csv, you will need to specify the suffix pattern like this:
+    ./combine_edge_results.py -domain [domain]  -o [prefix for output] -edge_in [suffix pattern for edges] -path_in [suffix pattern for paths] -ec_in [suffix pattern for ec numbers] -unique_in [suffix pattern for unique sequences]
 
 It will automatically loop through all files in the directory with the specified suffixes.
 
@@ -35,7 +39,7 @@ for i,arg in enumerate(sys.argv):
         except IndexError:
             command_args[arg] = ''
         
-if 'h' in command_args.keys():
+if 'h' in list(command_args.keys()):
     pass
     #print help_string ## no help sting
     quit()
@@ -53,22 +57,22 @@ except KeyError:
 try:
     edge_suffix = command_args['edge_in']
 except KeyError:
-    edge_suffix = 'archaea.edge_data.csv'
+    edge_suffix = domain + '.edge_data.csv'
     
 try:
     path_suffix = command_args['path_in']
 except KeyError:
-    path_suffix = 'archaea.sum_pathways.csv'
+    path_suffix = domain + '.sum_pathways.csv'
     
 try:
     ec_suffix = command_args['ec_in']
 except KeyError:
-    ec_suffix = 'archaea.sum_ec.csv'
+    ec_suffix = domain + '.sum_ec.csv'
     
 try:
     unique_suffix = command_args['unique_in']
 except KeyError:
-    unique_suffix = 'archaea.unique_seqs.csv'
+    unique_suffix = domain + '.unique_seqs.csv'
         
 ## Delete old combined files, so that
 ## the script doesn't try to include them.
@@ -80,8 +84,8 @@ os.system('rm -f ' + prefix + '.ec_tally.csv')
     
 def stop_here():
     stop = []
-    print 'Manually stopped!'
-    print stop[1]
+    print('Manually stopped!')
+    print(stop[1])
 
 edge_tally = pd.DataFrame()
 edge_data = pd.DataFrame()
@@ -96,9 +100,9 @@ def fill_edge_data(param, name, df_in):
         ## did not provide a n16S value for draft genomes.
         
         try:
-            n = range(int(math.ceil(df_in.loc[index, 'nedge_corrected'])))
+            n = list(range(int(math.ceil(df_in.loc[index, 'nedge_corrected']))))
         except ValueError:
-            n = range(int(df_in.loc[index, 'nedge']))
+            n = list(range(int(df_in.loc[index, 'nedge'])))
             
         for i in n:
             temp.append(df_in.loc[index, param])
@@ -108,7 +112,7 @@ def fill_edge_data(param, name, df_in):
     mean = temp.mean()
     sd = temp.std()
     
-    print name, param, mean, sd
+    print(name, param, mean, sd)
     return mean, sd
 
 taxon_map = {}
@@ -163,6 +167,6 @@ for f in os.listdir('.'):
 pd.DataFrame.to_csv(unique_tally.transpose(), prefix + '.unique_tally.csv')    
 
 with open(prefix + '.taxon_map.txt', 'w') as taxon_out:
-    print >> taxon_out, 'edge' + '\t' + 'taxon'
-    for edge in sorted(taxon_map.iterkeys()):
-        print >> taxon_out, str(edge) + '\t' + str(taxon_map[edge])
+    print('edge' + '\t' + 'taxon', file=taxon_out)
+    for edge in sorted(taxon_map.keys()):
+        print(str(edge) + '\t' + str(taxon_map[edge]), file=taxon_out)
