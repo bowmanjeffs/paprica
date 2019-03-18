@@ -456,6 +456,8 @@ user_ec = pd.read_csv(ref_dir + 'user/' + 'user_ec.csv', header = 0, index_col =
         
 terminal_ec = pd.DataFrame(index = assemblies)
 #ec_names = pd.DataFrame()
+
+## !!! This loop needs to be parallelized
         
 for i,d in enumerate(assemblies):
     n_paths = 0
