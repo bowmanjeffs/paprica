@@ -47,12 +47,12 @@ if 'h' in list(command_args.keys()):
 try:
     domain = command_args['domain']
 except KeyError:
-    domain = 'archaea'
+    domain = 'bacteria'
     
 try:
     prefix = command_args['o']
 except KeyError:
-    prefix = 'test'
+    prefix = 'test.' + domain
 
 try:
     edge_suffix = command_args['edge_in']
@@ -127,11 +127,13 @@ for f in os.listdir('.'):
             temp_tax = temp_edge.loc[edge, 'tax_name']
             taxon_map[edge] = temp_tax
         
-        if domain != 'eukarya':
-        
+        if domain != 'eukarya':        
             for param in ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'confidence']:
                 edge_data.loc[name, param + '.mean'], edge_data.loc[name, param + '.sd'] = fill_edge_data(param, name, temp_edge)
-        
+                
+        elif domain == 'eukarya':            
+            print(f, 'summary edge_data files are not created for domain eukarya')
+            
         if len(pd.isnull(pd.DataFrame(temp_edge['nedge_corrected'])) > 0):
             temp_edge_abund = pd.DataFrame(temp_edge['nedge'])
         else:
