@@ -9,7 +9,7 @@
 
 ## If you'd like to try paprica without downloading the dependencies you have two options.
 Option 1: We've created a Virtualbox appliance [here](http://www.polarmicrobes.org/extras/paprica-demo.ova).  You will need to download the (free) Oracle Virtualbox software and then import the appliance. The appliance isn't updated every time we make an improvement to paprica, so you'll probably want to re-clone the Github repository once you've got the VB up and running.  
-Option 2: We've also created an Amazon Web Service machine instance.  Please read the tutorial located [here](http://www.polarmicrobes.org/paprica-on-the-cloud/).
+Option 2: We've also created an Amazon Web Service machine instance.  Please read the tutorial located [here](http://www.polarmicrobes.org/paprica-on-the-cloud/).  NOTE: the AWS machine instance is no longer supported, but could be on request.
 
 ## paprica
 PAthway PRediction by phylogenetIC plAcement
@@ -43,7 +43,7 @@ Bowman, Jeff S., and Hugh W. Ducklow. "Microbial Communities Can Be Described by
 
 ## Overview
 
-Paprica conducts metabolic inference on (preferably, but not exclusively, NGS) 16S rRNA gene libraries.  Instead of using an OTU based approach however, it uses a phylogenetic placement approach.  This provides a more intuitive connection between its ìhidden state predictionî and library analysis components, and allows resolution at the strain and species level for some spots on the prokaryotic phylogenetic tree.
+Paprica conducts metabolic inference on (preferably, but not exclusively, NGS) 16S rRNA gene libraries.  Instead of using an OTU based approach however, it uses a phylogenetic placement approach.  This provides a more intuitive connection between its ‚Äúhidden state prediction‚Äù and library analysis components, and allows resolution at the strain and species level for some spots on the prokaryotic phylogenetic tree.
 
 Paprica uses pathways shared between the members of all clades on a reference tree to determine what pathways are likely to be associated with a phylogenetically placed read.
 
