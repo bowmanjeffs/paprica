@@ -9,27 +9,17 @@
 
 cd ~
 
-## Install pip
-#sudo apt-get install python-dev
-#wget https://bootstrap.pypa.io/ez_setup.py -O - | python - --user
-#wget http://pypi.python.org/packages/source/p/pip/pip-1.1.tar.gz#md5=62a9f08dd5dc69d76734568a6c040508
-#tar -xvf pip*.gz
-#cd pip*
-#sudo python setup.py install
-
 ## Install some packages
-sudo apt-get install python-pip
-sudo pip install --upgrade pip
 sudo apt-get install build-essential
 sudo apt-get install git
 sudo apt-get install zip
 
 ## Install python dependencies, including external python tools
-sudo pip install numpy
-sudo pip install biopython
-sudo pip install parallel
-sudo apt-get install python-pandas
-sudo pip install seqmagick
+pip3 install numpy
+pip3 install biopython
+pip3 install joblib
+pip3 install pandas
+pip3 install seqmagick
 
 ## Install RAxML
 git clone https://github.com/stamatak/standard-RAxML.git
@@ -44,20 +34,25 @@ tar -xzvf infernal-1.1.2-linux-intel-gcc.tar.gz
 mv infernal-1.1.2-linux-intel-gcc infernal
 
 ## Install pplacer
-wget https://github.com/matsen/pplacer/releases/download/v1.1.alpha18/pplacer-linux-v1.1.alpha18-2-gcb55169.zip
-unzip pplacer-linux-v1.1.alpha18-2-gcb55169.zip
-mv pplacer-Linux-v1.1.alpha18-2-gcb55169 pplacer
+wget https://github.com/matsen/pplacer/releases/download/v1.1.alpha19/pplacer-linux-v1.1.alpha19.zip
+unzip v1.1.alpha19/pplacer-linux-v1.1.alpha19.zip
+mv pplacer-Linux-v1.1.alpha19 pplacer
 
 ## Install epa-ng
-## Double check that you have all dependencies as described here: https://github.com/Pbdas/epa-ng#installation
+## Double check that you have all dependencies as described here: https://github.com/Pbdas/epa-ng#installation.
+## If the compiler yells at you about not having zlib, you will need to have zlib1g-dev installed, not just zlib1g!
 
 git clone https://github.com/Pbdas/epa-ng.git
 cd epa-ng;make
 
 ## Modify PATH in .bashrc
+
+cd ~
+
 TEMPNAME=`whoami`
 echo "## added by paprica installer" >> .bashrc
 echo "PATH=/home/${TEMPNAME}/pplacer:"'$PATH' >> .bashrc
+echo "PATH=/home/${TEMPNAME}/.local/bin:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/infernal/binaries:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/infernal/easel:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/standard-RAxML:"'$PATH' >> .bashrc
