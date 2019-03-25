@@ -8,7 +8,7 @@
 ## Please go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
 ## If you'd like to try paprica without downloading the dependencies you have two options.
-Option 1: We've created a Virtualbox appliance [here](http://www.polarmicrobes.org/extras/paprica-demo.ova).  You will need to download the (free) Oracle Virtualbox software and then import the appliance. The appliance isn't updated every time we make an improvement to paprica, so you'll probably want to re-clone the Github repository once you've got the VB up and running.  
+Option 1: We've created a Virtualbox appliance [here](http://www.polarmicrobes.org/extras/paprica-demo.ova) running Ubuntu.  You will need to download the (free) Oracle Virtualbox software and then import the appliance. The appliance isn't updated every time we make an improvement to paprica, so you'll probably want to re-clone the Github repository once you've got the VB up and running.  The log-in information for the VB machine is user: tester, pass: paprica (naturally).
 Option 2: We've also created an Amazon Web Service machine instance.  Please read the tutorial located [here](http://www.polarmicrobes.org/paprica-on-the-cloud/).  NOTE: the AWS machine instance is no longer supported, but could be on request.
 
 ## paprica
