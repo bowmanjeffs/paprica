@@ -132,7 +132,7 @@ for f in os.listdir('.'):
                 edge_data.loc[name, param + '.mean'], edge_data.loc[name, param + '.sd'] = fill_edge_data(param, name, temp_edge)
                 
         elif domain == 'eukarya':            
-            print(f, 'summary edge_data files are not created for domain eukarya')
+            print(f, 'please note that summary edge_data files are not created for domain eukarya')
             
         if len(pd.isnull(pd.DataFrame(temp_edge['nedge_corrected'])) > 0):
             temp_edge_abund = pd.DataFrame(temp_edge['nedge'])
@@ -155,7 +155,9 @@ for f in os.listdir('.'):
 pd.DataFrame.to_csv(edge_tally.transpose(), prefix + '.edge_tally.csv') 
 pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.path_tally.csv') 
 pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.ec_tally.csv')
-pd.DataFrame.to_csv(edge_data, prefix + '.edge_data.csv')
+
+if domain != 'eukarya':
+    pd.DataFrame.to_csv(edge_data, prefix + '.edge_data.csv')
 
 unique_tally = pd.DataFrame()
 

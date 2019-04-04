@@ -200,7 +200,8 @@ def make_unique(query):
     
 #%% Run program
     
-## Make unique
+## Make unique.  If program hangs here you probably didn't denoise your reads
+## adequately!
 
 seq_count, seq_names, name_seq = make_unique(cwd + prefix)
 
