@@ -1,11 +1,13 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 help_string = """
 Created on Thu Jun 25 16:58:12 2015
 
 @author: jeff
 
 CALL AS:
-    python make_edge_fasta.py -csv [unique.csv] -start [start-inclusive] -stop [stop-not inclusive]
+    make_edge_fasta.py -csv [unique.csv] -start [start-inclusive] -stop [stop-not inclusive]
     
 This script makes a fasta file of the reads associated with a given range of edges.  If you
 would like the reads associated within only one edge (such as 1234), you would use edge edge+1
@@ -30,8 +32,8 @@ for i,arg in enumerate(sys.argv):
         except IndexError:
             command_args[arg] = ''
         
-if 'h' in command_args.keys():
-    print help_string
+if 'h' in list(command_args.keys()):
+    print(help_string)
     quit()
 
 csv = command_args['csv']
@@ -47,7 +49,7 @@ fasta = '.'.join(fasta)
 with open(fasta + '_' + str(start) + '_' + str(stop) + '.clean.unique.fasta', 'w') as fasta_out:
     for record in SeqIO.parse(fasta + '.fasta', 'fasta'):
         if record.id in select:
-            print 'found', record.id
+            print('found', record.id)
             SeqIO.write(record, fasta_out, 'fasta')
         
         
