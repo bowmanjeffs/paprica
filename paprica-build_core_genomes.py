@@ -88,8 +88,8 @@ if 'h' in list(command_args.keys()):
 ## set some default values.  This is useful for testing.
         
 if len(sys.argv) == 1:
-    domain = 'archaea'
-    tree_file = 'test.archaea.combined_16S.archaea.tax.clean.unique.align.phyloxml'
+    domain = 'bacteria'
+    tree_file = 'test.' + domain + '.combined_16S.' + domain + '.tax.clean.unique.align.phyloxml'
     ref_dir = 'ref_genome_database'
     pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
     
@@ -670,71 +670,6 @@ if __name__ == '__main__':
     for clade in tree.get_nonterminals())
         
 #%% Collect taxonomy information for each of the nodes in the reference tree.
-    
-## Commented ranks below are now taken from lineage.columns.  Delete
-## these lines in the future.
-
-#if domain in ['bacteria', 'archaea']:
-#    ranks = ["root",
-#             "below_root",
-#             "superkingdom",
-#             "below_superkingdom",
-#             "below_below_superkingdom",
-#             "phylum",
-#             "below_phylum",
-#             "below_below_phylum",
-#             "class","below_class",
-#             "order","below_order",
-#             "below_below_order",
-#             "family",
-#             "below_family",
-#             "genus",
-#             "species",
-#             "below_species"]
-#else:
-#    ranks = ["root",
-#             "below_root",
-#             "superkingdom",
-#             "below_superkingdom",
-#             "below_below_superkingdom",
-#             "below_below_below_superkingdom",
-#             "below_below_below_below_superkingdom",
-#             "kingdom",
-#             "subkingdom",
-#             "phylum",
-#             "below_phylum",
-#             "below_below_phylum",
-#             "subphylum",
-#             "below_subphylum",
-#             "below_below_subphylum",
-#             "below_below_below_subphylum",
-#             "below_below_below_below_subphylum",
-#             "below_below_below_below_below_subphylum",
-#             "below_below_below_below_below_below_subphylum",
-#             "below_below_below_below_below_below_below_subphylum",
-#             "below_below_below_below_below_below_below_below_subphylum",
-#             "below_below_below_below_below_below_below_below_below_subphylum",
-#             "below_below_below_below_below_below_below_below_below_below_subphylum",
-#             "below_below_below_below_below_below_below_below_below_below_below_subphylum",
-#             "class",
-#             "below_class",
-#             "subclass",
-#             "below_subclass",
-#             "order",
-#             "below_order",
-#             "suborder",
-#             "superfamily",
-#             "family",
-#             "below_family",
-#             "subfamily",
-#             "tribe",
-#             "genus",
-#             "below_genus",
-#             "subgenus",
-#             "species",
-#             "below_species",
-#             "varietas",
-#             "below_varietas"]
 
 lineage = pd.read_csv(ref_dir_domain + 'taxa.csv', index_col = 0)
 ref_taxa = pd.read_csv(ref_dir_domain + 'seq_info.updated.csv', index_col = 0)
@@ -773,10 +708,14 @@ for clade in tree.get_nonterminals():
         ## Now look up the consensus taxonomy.
             
         consensus_taxa = lineage.loc[consensus_taxid, 'tax_name']
-        consensus_lineage = lineage.loc[consensus_taxid].drop_duplicates()
-        temp = node_lineages.append(consensus_lineage)
-        node_lineages = temp
+        consensus_lineage = lineage.loc[consensus_taxid]
         
+        if len(consensus_lineage.shape) > 1:
+            consensus_lineage = consensus_lineage.drop_duplicates()
+        
+        ## Save consensus lineage.
+        
+        node_lineages = node_lineages.append(consensus_lineage)
         node_lineages_index.append(clade_number)
 
     ## Error exception here is problematic, for some reason KeyError
@@ -786,8 +725,7 @@ for clade in tree.get_nonterminals():
             
     except:
         print('none')
-
-
+        
 for clade in tree.get_terminals():
     
     try:        
@@ -797,13 +735,12 @@ for clade in tree.get_terminals():
     
         temp_taxid = ref_taxa.loc[terminal, 'tax_id']
         temp_lineage = lineage.loc[temp_taxid]
-        temp = node_lineages.append(temp_lineage)
-        node_lineages = temp
+        node_lineages = node_lineages.append(temp_lineage)
         node_lineages_index.append(clade_number)
     
     except:
         print('none')
-    
+           
 node_lineages.index = node_lineages_index
     
 for rank in ranks:

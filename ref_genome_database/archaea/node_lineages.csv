@@ -1,434 +1,462 @@
-,parent_id,rank,tax_name,root,below_root,superkingdom,below_superkingdom,below_below_superkingdom,phylum,below_phylum,below_below_phylum,class,below_class,order,below_order,below_below_order,family,below_family,genus,species,below_species
-18,2159,genus,Methanosphaera,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,,,Methanosphaera,,
-4,2316,species,Methanosphaera sp. BMS,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,,Methanosphaera sp. BMS,
-17,2172,species,Methanobrevibacter sp. AbM4,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,,Methanobrevibacter sp. AbM4,
-16,2172,species,Methanobrevibacter smithii,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,,Methanobrevibacter smithii,
-12,2172,species,Methanobrevibacter smithii,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,,Methanobrevibacter smithii,
-8,2173,below_species,Methanobrevibacter smithii ATCC 35061,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,,Methanobrevibacter smithii ATCC 35061
-11,2172,species,Methanobrevibacter millerae,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,,Methanobrevibacter millerae,
-15,2172,species,Methanobrevibacter ruminantium,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,,Methanobrevibacter ruminantium,
-25,145260,species,Methanothermobacter wolfeii,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,,Methanothermobacter wolfeii,
-24,145260,species,Methanothermobacter marburgensis,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,,Methanothermobacter marburgensis,
-23,145260,species,Methanothermobacter sp. CaT2,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,,Methanothermobacter sp. CaT2,
-91,2259,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,,,Thermococcus,,
-89,2259,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,,,Thermococcus,,
-31,2263,species,Thermococcus litoralis,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus litoralis,
-30,2263,species,Thermococcus sp. 2319x1,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus sp. 2319x1,
-88,2259,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,,,Thermococcus,,
-44,2259,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,,,Thermococcus,,
-43,2260,species,Pyrococcus sp. ST04,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Pyrococcus sp. ST04,
-42,2260,species,Pyrococcus kukulkanii,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Pyrococcus kukulkanii,
-41,2260,species,Pyrococcus sp. NA2,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Pyrococcus sp. NA2,
-37,2260,species,Pyrococcus sp. NA2,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Pyrococcus sp. NA2,
-40,2260,species,Pyrococcus furiosus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Pyrococcus furiosus,
-87,2263,species,Thermococcus peptonophilus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus peptonophilus,
-83,2263,species,Thermococcus peptonophilus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus peptonophilus,
-59,2263,species,Thermococcus peptonophilus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus peptonophilus,
-55,2263,species,Thermococcus peptonophilus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus peptonophilus,
-54,2263,species,Thermococcus gammatolerans,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus gammatolerans,
-53,2263,species,Thermococcus sp. AM4,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus sp. AM4,
-52,2263,species,Thermococcus nautili,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus nautili,
-50,2263,species,Thermococcus nautili,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus nautili,
-58,2263,species,Thermococcus guaymasensis,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus guaymasensis,
-82,2263,species,Thermococcus sp. 4557,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus sp. 4557,
-80,2263,species,Thermococcus sp. 4557,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus sp. 4557,
-66,2263,species,Thermococcus sp. 4557,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus sp. 4557,
-64,2263,species,Thermococcus sp. 4557,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus sp. 4557,
-62,2263,species,Thermococcus sp. 4557,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus sp. 4557,
-79,2263,species,Thermococcus profundus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus profundus,
-78,2263,species,Thermococcus sp. P6,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus sp. P6,
-76,2263,species,Thermococcus sp. P6,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus sp. P6,
-75,2263,species,Thermococcus thioreducens,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus thioreducens,
-74,2263,species,Thermococcus celer,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus celer,
-72,2263,species,Thermococcus celer,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus celer,
-86,2263,species,Thermococcus paralvinellae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,Thermococcus paralvinellae,
-196,2157,below_superkingdom,DPANN group,root,cellular organisms,,DPANN group,,,,,,,,,,,,,,
-195,1783275,phylum,Candidatus Korarchaeota,root,cellular organisms,Archaea,,,Candidatus Korarchaeota,,,,,,,,,,,,
-194,1783275,phylum,Thaumarchaeota,root,cellular organisms,Archaea,,,Thaumarchaeota,,,,,,,,,,,,
-106,651137,below_phylum,unclassified Thaumarchaeota,root,cellular organisms,Archaea,TACK group,,,unclassified Thaumarchaeota,,,,,,,,,,,
-98,1825023,species,Candidatus Nitrosotenuis aquarius,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,unclassified Thaumarchaeota,,,,,,,,,,Candidatus Nitrosotenuis aquarius,
-105,651137,below_phylum,unclassified Thaumarchaeota,root,cellular organisms,Archaea,TACK group,,,unclassified Thaumarchaeota,,,,,,,,,,,
-104,338190,genus,Nitrosopumilus,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,Nitrosopumilales,,,,,Nitrosopumilus,,
-103,338190,genus,Candidatus Nitrosomarinus,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,Nitrosopumilales,,,,,Candidatus Nitrosomarinus,,
-193,183924,order,Sulfolobales,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,,,Sulfolobales,,,,,,,
-171,183924,order,Sulfolobales,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,,,Sulfolobales,,,,,,,
-153,183924,order,Sulfolobales,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,,,Sulfolobales,,,,,,,
-141,118883,genus,Sulfodiicoccus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,,,Sulfodiicoccus,,
-140,118883,genus,Sulfolobus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,,,Sulfolobus,,
-112,118883,genus,Sulfolobus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,,,Sulfolobus,,
-139,118883,genus,Sulfolobus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,,,Sulfolobus,,
-125,118883,genus,Sulfolobus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,,,Sulfolobus,,
-124,118883,genus,Sulfolobus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,,,Sulfolobus,,
-123,118883,genus,Sulfolobus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,,,Sulfolobus,,
-121,118883,genus,Sulfolobus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,,,Sulfolobus,,
-117,43080,below_species,Sulfolobus islandicus M.16.27,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,,Sulfolobus islandicus M.16.27
-120,2287,below_species,Saccharolobus solfataricus 98/2,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Saccharolobus,,Saccharolobus solfataricus 98/2
-138,118883,genus,Acidianus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,,,Acidianus,,
-128,12914,species,Acidianus hospitalis,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,Acidianus hospitalis,
-137,118883,genus,Acidianus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,,,Acidianus,,
-136,41980,species,Metallosphaera sedula,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,Metallosphaera sedula,
-132,43687,below_species,Metallosphaera sedula DSM 5348,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Metallosphaera,,Metallosphaera sedula DSM 5348
-135,41980,species,Metallosphaera hakonensis,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,Metallosphaera hakonensis,
-152,183924,order,Acidilobales,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,,,Acidilobales,,,,,,,
-146,871006,family,Acidilobaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,,,,Acidilobaceae,,,,
-144,105850,species,Acidilobus sp. 7A,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Acidilobales,,,Acidilobaceae,,,Acidilobus sp. 7A,
-151,2307,genus,Pyrolobus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,,,Pyrolobus,,
-150,2307,genus,Pyrodictium,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,,,Pyrodictium,,
-170,2272,genus,Ignicoccus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,,,Ignicoccus,,
-156,54258,species,Ignicoccus islandicus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,,Ignicoccus islandicus,
-169,2272,genus,Staphylothermus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,,,Staphylothermus,,
-159,2279,species,Staphylothermus hellenicus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,,Staphylothermus hellenicus,
-168,2272,genus,Desulfurococcus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,,,Desulfurococcus,,
-166,2272,genus,Desulfurococcus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,,,Desulfurococcus,,
-164,2273,species,Desulfurococcus mucosus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,,Desulfurococcus mucosus,
-163,94694,below_species,Desulfurococcus amylolyticus DSM 16532,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Desulfurococcus,,Desulfurococcus amylolyticus DSM 16532
-192,2266,family,Thermofilaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,,,,Thermofilaceae,,,,
-176,2268,species,Thermofilum adornatus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermofilaceae,,,Thermofilum adornatus,
-174,2268,species,Thermofilum adornatus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermofilaceae,,,Thermofilum adornatus,
-191,2267,genus,Caldivirga,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,,,Caldivirga,,
-190,2267,genus,Vulcanisaeta,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,,,Vulcanisaeta,,
-180,164450,species,Vulcanisaeta distributa,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,,Vulcanisaeta distributa,
-189,2267,genus,Thermoproteus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,,,Thermoproteus,,
-183,2270,species,Thermoproteus uzoniensis,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,,Thermoproteus uzoniensis,
-188,2276,species,Pyrobaculum islandicum,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,,Pyrobaculum islandicum,
-187,2276,species,Pyrobaculum aerophilum,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,,Pyrobaculum aerophilum,
-212,2232,genus,Archaeoglobus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,,,Archaeoglobus,,
-211,2232,genus,Archaeoglobus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,,,Archaeoglobus,,
-210,2232,genus,Archaeoglobus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,,,Archaeoglobus,,
-202,2234,below_species,Archaeoglobus fulgidus DSM 4304,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Archaeoglobus,,Archaeoglobus fulgidus DSM 4304
-209,2232,genus,Geoglobus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,,,Geoglobus,,
-208,2232,genus,Ferroglobus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,,,Ferroglobus,,
-206,2232,genus,Ferroglobus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,,,Ferroglobus,,
-224,1963271,genus,Halopenitus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,,,Halopenitus,,
-223,56688,species,Halorubrum trapanicum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,,Halorubrum trapanicum,
-219,56688,species,Halorubrum trapanicum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,,Halorubrum trapanicum,
-222,56688,species,Halorubrum lacusprofundi,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,,Halorubrum lacusprofundi,
-247,1644055,family,Haloferacaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,,,,Haloferacaceae,,,,
-239,1644056,genus,Haloquadratum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,,,Haloquadratum,,
-233,1644056,genus,Haloquadratum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,,,Haloquadratum,,
-231,293091,below_species,Haloquadratum walsbyi C23,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloquadratum,,Haloquadratum walsbyi C23
-238,2251,species,Haloferax mediterranei,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,,Haloferax mediterranei,
-237,2251,species,Haloferax gibbonsii,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,,Haloferax gibbonsii,
-246,1644055,family,Haloferacaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,,,,Haloferacaceae,,,,
-244,376170,species,Haloplanus aerogenes,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,,Haloplanus aerogenes,
-243,376170,species,Haloplanus sp. CBA1112,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,,Haloplanus sp. CBA1112,
-312,183963,order,Halobacteriales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,,,,,
-260,2236,genus,Halanaeroarchaeum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halanaeroarchaeum,,
-254,2236,genus,Halanaeroarchaeum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halanaeroarchaeum,,
-252,2236,genus,Halanaeroarchaeum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halanaeroarchaeum,,
-259,2239,species,Halobacterium hubeiense,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,,Halobacterium hubeiense,
-258,2239,species,Halobacterium salinarum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,,Halobacterium salinarum,
-311,183963,order,Halobacteriales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,,,Halobacteriales,,,,,,,
-263,63743,species,Natronomonas pharaonis,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,,Natronomonas pharaonis,
-310,183963,order,Natrialbales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,,,Natrialbales,,,,,,,
-292,183963,order,Natrialbales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,,,Natrialbales,,,,,,,
-291,183963,order,Halobacteriales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,,,Halobacteriales,,,,,,,
-290,1644061,genus,Halobiforma,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,,,Halobiforma,,
-270,1644061,genus,Halobiforma,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,,,Halobiforma,,
-268,1644061,genus,Halobiforma,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,,,Halobiforma,,
-289,1644061,genus,Natronolimnobius,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,,,Natronolimnobius,,
-277,1644061,genus,Natronolimnobius,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,,,Natronolimnobius,,
-275,253106,species,Natronolimnobius sp. AArc1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,,Natronolimnobius sp. AArc1,
-273,253106,species,Natronolimnobius sp. AArc1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,,Natronolimnobius sp. AArc1,
-288,1644061,genus,Halostagnicola,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,,,Halostagnicola,,
-287,1644061,genus,Natrinema,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,,,Natrinema,,
-285,1644061,genus,Natrinema,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,,,Natrinema,,
-281,88723,species,Natrinema sp. J7-2,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,,Natrinema sp. J7-2,
-284,121871,species,Haloterrigena daqingensis,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,,Haloterrigena daqingensis,
-296,146825,species,Halorhabdus utahensis,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,,Halorhabdus utahensis,
-308,1963268,genus,Halomicrobium,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,,,Halomicrobium,,
-307,2237,species,Haloarcula taiwanensis,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,,Haloarcula taiwanensis,
-306,2237,species,Haloarcula marismortui,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,,Haloarcula marismortui,
-305,2237,species,Haloarcula hispanica,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,,Haloarcula hispanica,
-388,224756,order,Methanomicrobiales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,,,Methanomicrobiales,,,,,,,
-330,2191,family,Methanocorpusculaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,,,,Methanocorpusculaceae,,,,
-322,2191,family,Methanocorpusculaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,,,,Methanocorpusculaceae,,,,
-321,2191,family,Methanoregulaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,,,,Methanoregulaceae,,,,
-320,2191,family,Methanospirillaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,,,,Methanospirillaceae,,,,
-319,395331,species,Methanoregula boonei,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanoregulaceae,,,Methanoregula boonei,
-329,2194,genus,Methanoculleus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,,,Methanoculleus,,
-327,45989,species,Methanoculleus marisnigri,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,,Methanoculleus marisnigri,
-326,83986,below_species,Methanoculleus bourgensis MS2,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,Methanoculleus,,Methanoculleus bourgensis MS2
-387,224756,order,Methanocellales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,,,Methanocellales,,,,,,,
-335,570266,species,Methanocella conradii,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanocellales,,,Methanocellaceae,,,Methanocella conradii,
-333,570266,species,Methanocella conradii,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanocellales,,,Methanocellaceae,,,Methanocella conradii,
-386,94695,family,Methanosaetaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,,,,Methanosaetaceae,,,,
-338,2222,species,Methanothrix soehngenii,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosaetaceae,,,Methanothrix soehngenii,
-385,2206,genus,Methanosalsum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,,,Methanosalsum,,
-341,2206,genus,Methanosalsum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,,,Methanosalsum,,
-384,2206,genus,Methanohalophilus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,,,Methanohalophilus,,
-348,2206,genus,Methanohalophilus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,,,Methanohalophilus,,
-344,2175,species,Methanohalophilus halophilus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanohalophilus halophilus,
-347,2225,species,Methanococcoides burtonii,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanococcoides burtonii,
-383,2206,genus,Methanomethylovorans,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,,,Methanomethylovorans,,
-382,2206,genus,Methanolobus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,,,Methanolobus,,
-381,2207,species,Methanosarcina sp. MTP4,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanosarcina sp. MTP4,
-380,2207,species,Methanosarcina lacustris,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanosarcina lacustris,
-354,2207,species,Methanosarcina lacustris,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanosarcina lacustris,
-379,2207,species,Methanosarcina thermophila,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanosarcina thermophila,
-378,2207,species,Methanosarcina acetivorans,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanosarcina acetivorans,
-374,2207,species,Methanosarcina acetivorans,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanosarcina acetivorans,
-373,2207,species,Methanosarcina mazei,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanosarcina mazei,
-361,2207,species,Methanosarcina mazei,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanosarcina mazei,
-359,2209,below_species,Methanosarcina mazei WWM610,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,Methanosarcina mazei WWM610
-372,2207,species,Methanosarcina barkeri,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanosarcina barkeri,
-371,2207,species,Methanosarcina barkeri,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanosarcina barkeri,
-367,2208,below_species,Methanosarcina barkeri 227,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,Methanosarcina barkeri 227
-365,2208,below_species,Methanosarcina barkeri 227,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,Methanosarcina barkeri 227
-370,2207,species,Methanosarcina sp. Kolksee,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,Methanosarcina sp. Kolksee,
-377,38027,below_species,Methanosarcina siciliae T4/M,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,Methanosarcina siciliae T4/M
-447,28890,below_phylum,Diaforarchaea group,root,cellular organisms,Archaea,,,,Diaforarchaea group,,,,,,,,,,,
-396,183967,below_class,unclassified Thermoplasmata,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,,unclassified Thermoplasmata,,,,,,,,
-410,2301,family,Thermoplasmataceae,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,,,,Thermoplasmataceae,,,,
-402,2302,species,Thermoplasma volcanium,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Thermoplasmataceae,,,Thermoplasma volcanium,
-409,2301,family,Cuniculiplasmataceae,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,,,,Cuniculiplasmataceae,,,,
-408,2301,family,Picrophilaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,,,,Picrophilaceae,,,,
-407,74968,species,Ferroplasma acidiphilum,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Ferroplasmaceae,,,Ferroplasma acidiphilum,
-414,379546,species,Aciduliprofundum sp. MAR08-339,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,DHVE2 group,,,,,,,,,Aciduliprofundum sp. MAR08-339,
-446,2182,family,Methanocaldococcaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,,,,Methanocaldococcaceae,,,,
-426,196118,species,Methanocaldococcus infernus,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,,Methanocaldococcus infernus,
-425,196118,species,Methanocaldococcus bathoardescens,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,,Methanocaldococcus bathoardescens,
-424,196118,species,Methanocaldococcus sp. FS406-22,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,,Methanocaldococcus sp. FS406-22,
-423,196118,species,Methanocaldococcus vulcanius,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,,Methanocaldococcus vulcanius,
-421,196118,species,Methanocaldococcus vulcanius,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,,Methanocaldococcus vulcanius,
-445,2182,family,Methanocaldococcaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,,,,Methanocaldococcaceae,,,,
-444,2183,genus,Methanococcus,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,,,Methanococcus,,
-430,2183,genus,Methanococcus,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,,,Methanococcus,,
-443,2184,species,Methanococcus voltae,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,,Methanococcus voltae,
-442,2184,species,Methanococcus vannielii,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,,Methanococcus vannielii,
-440,39152,below_species,Methanococcus maripaludis C7,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,,Methanococcus maripaludis C7
-438,39152,below_species,Methanococcus maripaludis C7,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,,Methanococcus maripaludis C7
-457,2160,species,Methanobacterium paludis,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,,Methanobacterium paludis,
-455,2160,species,Methanobacterium paludis,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,,Methanobacterium paludis,
-0,2160,species,Methanobacterium sp. MB1,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,Methanobacterium sp. MB1,
-1,2160,species,Methanobacterium subterraneum,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,Methanobacterium subterraneum,
-2,2316,species,Methanosphaera sp. BMS,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanosphaera,Methanosphaera sp. BMS,
-3,2317,below_species,Methanosphaera stadtmanae DSM 3091,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanosphaera,Methanosphaera stadtmanae,Methanosphaera stadtmanae DSM 3091
-5,2172,species,Methanobrevibacter sp. AbM4,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter sp. AbM4,
-6,2173,below_species,Methanobrevibacter smithii ATCC 35061,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter smithii,Methanobrevibacter smithii ATCC 35061
-7,2172,species,Methanobrevibacter smithii,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter smithii,
-9,2172,species,Methanobrevibacter millerae,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter millerae,
-10,2172,species,Methanobrevibacter sp. YE315,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter sp. YE315,
-13,83816,below_species,Methanobrevibacter ruminantium M1,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter ruminantium,Methanobrevibacter ruminantium M1
-14,2172,species,Methanobrevibacter olleyae,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter olleyae,
-19,145260,species,Methanothermobacter wolfeii,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanothermobacter,Methanothermobacter wolfeii,
-20,145263,below_species,Methanothermobacter marburgensis str. Marburg,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanothermobacter,Methanothermobacter marburgensis,Methanothermobacter marburgensis str. Marburg
-21,145260,species,Methanothermobacter sp. CaT2,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanothermobacter,Methanothermobacter sp. CaT2,
-22,145262,below_species,Methanothermobacter thermautotrophicus str. Delta H,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanothermobacter,Methanothermobacter thermautotrophicus,Methanothermobacter thermautotrophicus str. Delta H
-26,2180,below_species,Methanothermus fervidus DSM 2088,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanothermaceae,,Methanothermus,Methanothermus fervidus,Methanothermus fervidus DSM 2088
-27,2265,below_species,Thermococcus litoralis DSM 5473,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus litoralis,Thermococcus litoralis DSM 5473
-28,2263,species,Thermococcus sp. 2319x1,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus sp. 2319x1,
-29,172049,below_species,Thermococcus sibiricus MM 739,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus sibiricus,Thermococcus sibiricus MM 739
-32,2263,species,Thermococcus chitonophagus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus chitonophagus,
-33,2260,species,Pyrococcus sp. ST04,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,Pyrococcus sp. ST04,
-34,2260,species,Pyrococcus kukulkanii,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,Pyrococcus kukulkanii,
-35,2260,species,Pyrococcus sp. NA2,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,Pyrococcus sp. NA2,
-36,29292,below_species,Pyrococcus abyssi GE5,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,Pyrococcus abyssi,Pyrococcus abyssi GE5
-38,2261,below_species,Pyrococcus furiosus DSM 3638,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,Pyrococcus furiosus,Pyrococcus furiosus DSM 3638
-39,1008460,below_species,Pyrococcus yayanosii CH1,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,Pyrococcus yayanosii,Pyrococcus yayanosii CH1
-45,2263,species,Thermococcus peptonophilus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus peptonophilus,
-46,187878,below_species,Thermococcus gammatolerans EJ3,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus gammatolerans,Thermococcus gammatolerans EJ3
-47,2263,species,Thermococcus sp. AM4,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus sp. AM4,
-48,2263,species,Thermococcus nautili,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus nautili,
-49,2263,species,Thermococcus eurythermalis,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus eurythermalis,
-51,2263,species,Thermococcus sp. EXT12c,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus sp. EXT12c,
-56,110164,below_species,Thermococcus guaymasensis DSM 11113,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus guaymasensis,Thermococcus guaymasensis DSM 11113
-57,2263,species,Thermococcus gorgonarius,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus gorgonarius,
-60,2263,species,Thermococcus sp. 4557,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus sp. 4557,
-61,2263,species,Thermococcus siculi,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus siculi,
-63,2263,species,Thermococcus cleftensis,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus cleftensis,
-65,2263,species,Thermococcus pacificus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus pacificus,
-67,2263,species,Thermococcus profundus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus profundus,
-68,2263,species,Thermococcus sp. P6,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus sp. P6,
-69,2263,species,Thermococcus thioreducens,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus thioreducens,
-70,2264,below_species,Thermococcus celer Vu 13 = JCM 8558,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus celer,Thermococcus celer Vu 13 = JCM 8558
-71,2263,species,Thermococcus barossii,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus barossii,
-73,2263,species,Thermococcus radiotolerans,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus radiotolerans,
-77,2263,species,Thermococcus piezophilus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus piezophilus,
-81,342948,below_species,Thermococcus onnurineus NA1,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus onnurineus,Thermococcus onnurineus NA1
-84,2263,species,Thermococcus paralvinellae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus paralvinellae,
-85,55802,below_species,Thermococcus barophilus MP,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus barophilus,Thermococcus barophilus MP
-90,971279,below_species,Palaeococcus pacificus DY20341,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Palaeococcus,Palaeococcus pacificus,Palaeococcus pacificus DY20341
-92,2490204,species,Candidatus Mancarchaeum acidiphilum,root,cellular organisms,Archaea,DPANN group,,Candidatus Micrarchaeota,,,,,,,,,,Candidatus Mancarchaeum,Candidatus Mancarchaeum acidiphilum,
-93,498846,below_species,Candidatus Korarchaeum cryptofilum OPF8,root,cellular organisms,Archaea,TACK group,,Candidatus Korarchaeota,,,,,,,,,,Candidatus Korarchaeum,Candidatus Korarchaeum cryptofilum,Candidatus Korarchaeum cryptofilum OPF8
-94,498374,species,Candidatus Nitrosocaldus islandicus,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,Nitrososphaeria,,Candidatus Nitrosocaldales,,,Candidatus Nitrosocaldaceae,,Candidatus Nitrosocaldus,Candidatus Nitrosocaldus islandicus,
-95,1034015,below_species,Nitrososphaera viennensis EN76,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,Nitrososphaeria,,Nitrososphaerales,,,Nitrososphaeraceae,,Nitrososphaera,Nitrososphaera viennensis,Nitrososphaera viennensis EN76
-96,1825023,species,Candidatus Nitrosotenuis aquarius,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,unclassified Thaumarchaeota,,,,,,,,,Candidatus Nitrosotenuis,Candidatus Nitrosotenuis aquarius,
-97,1825023,species,Candidatus Nitrosotenuis cloacae,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,unclassified Thaumarchaeota,,,,,,,,,Candidatus Nitrosotenuis,Candidatus Nitrosotenuis cloacae,
-99,1593364,species,Candidatus Nitrosopelagicus brevis,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,unclassified Thaumarchaeota,,,,,,,,,Candidatus Nitrosopelagicus,Candidatus Nitrosopelagicus brevis,
-100,338191,species,Candidatus Nitrosopumilus adriaticus,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,Nitrosopumilales,,,Nitrosopumilaceae,,Nitrosopumilus,Candidatus Nitrosopumilus adriaticus,
-101,1993653,species,Candidatus Nitrosomarinus catalina,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,Nitrosopumilales,,,Nitrosopumilaceae,,Candidatus Nitrosomarinus,Candidatus Nitrosomarinus catalina,
-102,338191,species,Candidatus Nitrosopumilus sediminis,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,Nitrosopumilales,,,Nitrosopumilaceae,,Nitrosopumilus,Candidatus Nitrosopumilus sediminis,
-109,2017961,species,Sulfodiicoccus acidiphilus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfodiicoccus,Sulfodiicoccus acidiphilus,
-110,2285,below_species,Sulfolobus acidocaldarius DSM 639,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,Sulfolobus acidocaldarius,Sulfolobus acidocaldarius DSM 639
-111,111955,below_species,Sulfurisphaera tokodaii str. 7,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfurisphaera,Sulfurisphaera tokodaii,Sulfurisphaera tokodaii str. 7
-113,2284,species,Sulfolobus sp. A20,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,Sulfolobus sp. A20,
-114,43080,below_species,Sulfolobus islandicus Y.N.15.51,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,Sulfolobus islandicus,Sulfolobus islandicus Y.N.15.51
-115,43080,below_species,Sulfolobus islandicus M.16.27,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,Sulfolobus islandicus,Sulfolobus islandicus M.16.27
-116,43080,below_species,Sulfolobus islandicus M.14.25,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,Sulfolobus islandicus,Sulfolobus islandicus M.14.25
-118,2287,below_species,Saccharolobus solfataricus 98/2,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Saccharolobus,Saccharolobus solfataricus,Saccharolobus solfataricus 98/2
-119,2287,below_species,Saccharolobus solfataricus P2,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Saccharolobus,Saccharolobus solfataricus,Saccharolobus solfataricus P2
-122,43080,below_species,Sulfolobus islandicus L.S.2.15,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,Sulfolobus islandicus,Sulfolobus islandicus L.S.2.15
-126,563177,below_species,Acidianus hospitalis W1,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Acidianus,Acidianus hospitalis,Acidianus hospitalis W1
-127,312539,below_species,Acidianus sulfidivorans JP7,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Acidianus,Acidianus sulfidivorans,Acidianus sulfidivorans JP7
-129,12914,species,Acidianus brierleyi,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Acidianus,Acidianus brierleyi,
-130,43687,below_species,Metallosphaera sedula DSM 5348,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Metallosphaera,Metallosphaera sedula,Metallosphaera sedula DSM 5348
-131,41980,species,Metallosphaera sedula,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Metallosphaera,Metallosphaera sedula,
-133,79601,below_species,Metallosphaera hakonensis JCM 8857 = DSM 7519,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Metallosphaera,Metallosphaera hakonensis,Metallosphaera hakonensis JCM 8857 = DSM 7519
-134,1006005,below_species,Metallosphaera cuprina Ar-4,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Metallosphaera,Metallosphaera cuprina,Metallosphaera cuprina Ar-4
-142,105850,species,Acidilobus sp. 7A,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Acidilobales,,,Acidilobaceae,,Acidilobus,Acidilobus sp. 7A,
-143,242703,below_species,Acidilobus saccharovorans 345-15,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Acidilobales,,,Acidilobaceae,,Acidilobus,Acidilobus saccharovorans,Acidilobus saccharovorans 345-15
-145,200415,below_species,Caldisphaera lagunensis DSM 15908,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Acidilobales,,,Caldisphaeraceae,,Caldisphaera,Caldisphaera lagunensis,Caldisphaera lagunensis DSM 15908
-147,54252,below_species,Pyrolobus fumarii 1A,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Pyrodictiaceae,,Pyrolobus,Pyrolobus fumarii,Pyrolobus fumarii 1A
-148,2308,species,Pyrodictium delaneyi,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Pyrodictiaceae,,Pyrodictium,Pyrodictium delaneyi,
-149,54248,below_species,Hyperthermus butylicus DSM 5456,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Pyrodictiaceae,,Hyperthermus,Hyperthermus butylicus,Hyperthermus butylicus DSM 5456
-154,54259,below_species,Ignicoccus islandicus DSM 13165,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Ignicoccus,Ignicoccus islandicus,Ignicoccus islandicus DSM 13165
-155,160233,below_species,Ignicoccus hospitalis KIN4/I,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Ignicoccus,Ignicoccus hospitalis,Ignicoccus hospitalis KIN4/I
-157,84599,below_species,Staphylothermus hellenicus DSM 12710,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Staphylothermus,Staphylothermus hellenicus,Staphylothermus hellenicus DSM 12710
-158,2280,below_species,Staphylothermus marinus F1,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Staphylothermus,Staphylothermus marinus,Staphylothermus marinus F1
-160,2275,below_species,Desulfurococcus mucosus DSM 2162,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Desulfurococcus,Desulfurococcus mucosus,Desulfurococcus mucosus DSM 2162
-161,94694,below_species,Desulfurococcus amylolyticus DSM 16532,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Desulfurococcus,Desulfurococcus amylolyticus,Desulfurococcus amylolyticus DSM 16532
-162,94694,below_species,Desulfurococcus amylolyticus 1221n,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Desulfurococcus,Desulfurococcus amylolyticus,Desulfurococcus amylolyticus 1221n
-165,54254,below_species,Thermosphaera aggregans DSM 11486,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Thermosphaera,Thermosphaera aggregans,Thermosphaera aggregans DSM 11486
-167,1200300,below_species,Thermogladius calderae 1633,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Thermogladius,Thermogladius calderae,Thermogladius calderae 1633
-172,2268,species,Thermofilum adornatus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermofilaceae,,Thermofilum,Thermofilum adornatus,
-173,2269,below_species,Thermofilum pendens Hrk 5,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermofilaceae,,Thermofilum,Thermofilum pendens,Thermofilum pendens Hrk 5
-175,2268,species,Thermofilum uzonense,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermofilaceae,,Thermofilum,Thermofilum uzonense,
-177,76887,below_species,Caldivirga maquilingensis IC-167,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Caldivirga,Caldivirga maquilingensis,Caldivirga maquilingensis IC-167
-178,164451,below_species,Vulcanisaeta distributa DSM 14429,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Vulcanisaeta,Vulcanisaeta distributa,Vulcanisaeta distributa DSM 14429
-179,985052,below_species,Vulcanisaeta moutnovskia 768-28,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Vulcanisaeta,Vulcanisaeta moutnovskia,Vulcanisaeta moutnovskia 768-28
-181,184117,below_species,Thermoproteus uzoniensis 768-20,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Thermoproteus,Thermoproteus uzoniensis,Thermoproteus uzoniensis 768-20
-182,2271,below_species,Thermoproteus tenax Kra 1,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Thermoproteus,Thermoproteus tenax,Thermoproteus tenax Kra 1
-184,2277,below_species,Pyrobaculum islandicum DSM 4184,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Pyrobaculum,Pyrobaculum islandicum,Pyrobaculum islandicum DSM 4184
-185,13773,below_species,Pyrobaculum aerophilum str. IM2,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Pyrobaculum,Pyrobaculum aerophilum,Pyrobaculum aerophilum str. IM2
-186,121277,below_species,Pyrobaculum arsenaticum DSM 13514,root,cellular organisms,Archaea,TACK group,,Crenarchaeota,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Pyrobaculum,Pyrobaculum arsenaticum,Pyrobaculum arsenaticum DSM 13514
-198,1316941,below_species,Archaeoglobus sulfaticallidus PM70-1,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Archaeoglobus,Archaeoglobus sulfaticallidus,Archaeoglobus sulfaticallidus PM70-1
-199,58290,below_species,Archaeoglobus veneficus SNP6,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Archaeoglobus,Archaeoglobus veneficus,Archaeoglobus veneficus SNP6
-200,2234,below_species,Archaeoglobus fulgidus DSM 4304,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Archaeoglobus,Archaeoglobus fulgidus,Archaeoglobus fulgidus DSM 4304
-201,2234,below_species,Archaeoglobus fulgidus DSM 8774,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Archaeoglobus,Archaeoglobus fulgidus,Archaeoglobus fulgidus DSM 8774
-203,190818,species,Geoglobus ahangari,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Geoglobus,Geoglobus ahangari,
-204,54261,below_species,Ferroglobus placidus DSM 10642,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Ferroglobus,Ferroglobus placidus,Ferroglobus placidus DSM 10642
-205,84156,below_species,Archaeoglobus profundus DSM 5631,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Archaeoglobus,Archaeoglobus profundus,Archaeoglobus profundus DSM 5631
-207,190818,species,Geoglobus acetivorans,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Geoglobus,Geoglobus acetivorans,
-213,1070314,species,Halorussus sp. RC-68,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halorussus,Halorussus sp. RC-68,
-214,1450140,species,Halohasta litchfieldiae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halohasta,Halohasta litchfieldiae,
-215,2116545,species,halophilic archaeon DL31,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,unclassified Haloferacales,,,,,halophilic archaeon DL31,
-216,1209988,species,Halopenitus persicus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halopenitus,Halopenitus persicus,
-217,56688,species,Halorubrum trapanicum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,Halorubrum trapanicum,
-218,56688,species,Halorubrum sp. BOL3-1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,Halorubrum sp. BOL3-1,
-220,2247,below_species,Halorubrum lacusprofundi ATCC 49239,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,Halorubrum lacusprofundi,Halorubrum lacusprofundi ATCC 49239
-221,56688,species,Halorubrum sp. PV6,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,Halorubrum sp. PV6,
-225,93506,species,archaeon AArc-Sl,root,cellular organisms,Archaea,unclassified Archaea,unclassified Archaea (miscellaneous),,,,,,,,,,,,archaeon AArc-Sl,
-229,293091,below_species,Haloquadratum walsbyi C23,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloquadratum,Haloquadratum walsbyi,Haloquadratum walsbyi C23
-230,293091,below_species,Haloquadratum walsbyi DSM 16790,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloquadratum,Haloquadratum walsbyi,Haloquadratum walsbyi DSM 16790
-232,60847,below_species,Halogeometricum borinquense DSM 11551,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Halogeometricum,Halogeometricum borinquense,Halogeometricum borinquense DSM 11551
-234,2252,below_species,Haloferax mediterranei ATCC 33500,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloferax,Haloferax mediterranei,Haloferax mediterranei ATCC 33500
-235,2251,species,Haloferax gibbonsii,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloferax,Haloferax gibbonsii,
-236,2246,below_species,Haloferax volcanii DS2,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloferax,Haloferax volcanii,Haloferax volcanii DS2
-240,376170,species,Haloplanus aerogenes,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloplanus,Haloplanus aerogenes,
-241,376170,species,Haloplanus sp. CBA1112,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloplanus,Haloplanus sp. CBA1112,
-242,376170,species,Haloplanus sp. CBA1113,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloplanus,Haloplanus sp. CBA1113,
-245,1644057,species,Salinigranum rubrum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Salinigranum,Salinigranum rubrum,
-250,1656823,species,Halanaeroarchaeum sulfurireducens,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halanaeroarchaeum,Halanaeroarchaeum sulfurireducens,
-251,1656823,species,Halanaeroarchaeum sulfurireducens,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halanaeroarchaeum,Halanaeroarchaeum sulfurireducens,
-253,1980514,species,Halodesulfurarchaeum formicicum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halodesulfurarchaeum,Halodesulfurarchaeum formicicum,
-255,2239,species,Halobacterium hubeiense,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halobacterium,Halobacterium hubeiense,
-256,2242,below_species,Halobacterium salinarum NRC-1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halobacterium,Halobacterium salinarum,Halobacterium salinarum NRC-1
-257,2239,species,Halobacterium sp. DL1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halobacterium,Halobacterium sp. DL1,
-261,2257,below_species,Natronomonas pharaonis DSM 2160,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Natronomonas,Natronomonas pharaonis,Natronomonas pharaonis DSM 2160
-262,416273,below_species,Natronomonas moolapensis 8.8.11,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Natronomonas,Natronomonas moolapensis,Natronomonas moolapensis 8.8.11
-264,1269201,species,Salinarchaeum sp. Harcht-Bsk1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Salinarchaeum,Salinarchaeum sp. Harcht-Bsk1,
-265,413810,below_species,Halalkalicoccus jeotgali B3,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halalkalicoccus,Halalkalicoccus jeotgali,Halalkalicoccus jeotgali B3
-266,229731,below_species,Halobiforma lacisalsi AJ5,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Halobiforma,Halobiforma lacisalsi,Halobiforma lacisalsi AJ5
-267,29288,below_species,Natronococcus occultus SP4,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natronococcus,Natronococcus occultus,Natronococcus occultus SP4
-269,44930,below_species,Natronobacterium gregoryi SP2,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natronobacterium,Natronobacterium gregoryi,Natronobacterium gregoryi SP2
-271,253106,species,Natronolimnobius sp. AArc1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natronolimnobius,Natronolimnobius sp. AArc1,
-272,253106,species,Natronolimnobius sp. AArc-Mg,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natronolimnobius,Natronolimnobius sp. AArc-Mg,
-274,253106,species,Natronolimnobius aegyptiacus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natronolimnobius,Natronolimnobius aegyptiacus,
-276,387343,below_species,Halopiger xanaduensis SH-6,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Halopiger,Halopiger xanaduensis,Halopiger xanaduensis SH-6
-278,353800,below_species,Halostagnicola larsenii XH-48,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Halostagnicola,Halostagnicola larsenii,Halostagnicola larsenii XH-48
-279,88723,species,Natrinema sp. J7-2,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natrinema,Natrinema sp. J7-2,
-280,69525,below_species,Natrinema pellirubrum DSM 15624,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natrinema,Natrinema pellirubrum,Natrinema pellirubrum DSM 15624
-282,121871,species,Haloterrigena daqingensis,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Haloterrigena,Haloterrigena daqingensis,
-283,62320,below_species,Haloterrigena turkmenica DSM 5511,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Haloterrigena,Haloterrigena turkmenica,Haloterrigena turkmenica DSM 5511
-286,13769,below_species,Natrialba magadii ATCC 43099,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natrialba,Natrialba magadii,Natrialba magadii ATCC 43099
-293,1073987,species,Halorientalis sp. IM1011,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Halorientalis,Halorientalis sp. IM1011,
-294,146826,below_species,Halorhabdus utahensis DSM 12940,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Halorhabdus,Halorhabdus utahensis,Halorhabdus utahensis DSM 12940
-295,430914,below_species,Halorhabdus tiamatea SARL4B,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Halorhabdus,Halorhabdus tiamatea,Halorhabdus tiamatea SARL4B
-297,2144190,species,Haloarculaceae archaeon HArcel1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,unclassified Haloarculaceae,,Haloarculaceae archaeon HArcel1,
-300,57705,below_species,Halomicrobium mukohataei DSM 12286,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Halomicrobium,Halomicrobium mukohataei,Halomicrobium mukohataei DSM 12286
-301,2237,species,Haloarcula taiwanensis,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Haloarcula,Haloarcula taiwanensis,
-302,2238,below_species,Haloarcula marismortui ATCC 43049,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Haloarcula,Haloarcula marismortui,Haloarcula marismortui ATCC 43049
-303,51589,below_species,Haloarcula hispanica ATCC 33960,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Haloarcula,Haloarcula hispanica,Haloarcula hispanica ATCC 33960
-304,2237,species,Haloarcula sp. CBA1115,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Haloarcula,Haloarcula sp. CBA1115,
-314,83984,below_species,Methanocorpusculum labreanum Z,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanocorpusculaceae,,Methanocorpusculum,Methanocorpusculum labreanum,Methanocorpusculum labreanum Z
-315,475088,below_species,Methanosphaerula palustris E1-9c,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanoregulaceae,,Methanosphaerula,Methanosphaerula palustris,Methanosphaerula palustris E1-9c
-316,2203,below_species,Methanospirillum hungatei JF-1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanospirillaceae,,Methanospirillum,Methanospirillum hungatei,Methanospirillum hungatei JF-1
-317,358766,below_species,Methanoregula boonei 6A8,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanoregulaceae,,Methanoregula,Methanoregula boonei,Methanoregula boonei 6A8
-318,882104,below_species,Methanoregula formicica SMSP,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanoregulaceae,,Methanoregula,Methanoregula formicica,Methanoregula formicica SMSP
-323,2198,below_species,Methanoculleus marisnigri JR1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,Methanoculleus,Methanoculleus marisnigri,Methanoculleus marisnigri JR1
-324,83986,below_species,Methanoculleus bourgensis MS2,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,Methanoculleus,Methanoculleus bourgensis,Methanoculleus bourgensis MS2
-325,45989,species,Methanoculleus bourgensis,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,Methanoculleus,Methanoculleus bourgensis,
-328,54120,below_species,Methanolacinia petrolearia DSM 11571,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,Methanolacinia,Methanolacinia petrolearia,Methanolacinia petrolearia DSM 11571
-331,1175444,below_species,Methanocella conradii HZ254,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanocellales,,,Methanocellaceae,,Methanocella,Methanocella conradii,Methanocella conradii HZ254
-332,570267,below_species,Methanocella paludicola SANAE,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanocellales,,,Methanocellaceae,,Methanocella,Methanocella paludicola,Methanocella paludicola SANAE
-334,1175445,below_species,Methanocella arvoryzae MRE50,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanocellales,,,Methanocellaceae,,Methanocella,Methanocella arvoryzae,Methanocella arvoryzae MRE50
-336,2223,below_species,Methanothrix soehngenii GP6,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosaetaceae,,Methanothrix,Methanothrix soehngenii,Methanothrix soehngenii GP6
-337,301375,below_species,Methanosaeta harundinacea 6Ac,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosaetaceae,,Methanothrix,Methanosaeta harundinacea,Methanosaeta harundinacea 6Ac
-339,39669,below_species,Methanosalsum zhilinae DSM 4017,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosalsum,Methanosalsum zhilinae,Methanosalsum zhilinae DSM 4017
-340,2322,below_species,Methanohalobium evestigatum Z-7303,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanohalobium,Methanohalobium evestigatum,Methanohalobium evestigatum Z-7303
-342,2175,species,Methanohalophilus halophilus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanohalophilus,Methanohalophilus halophilus,
-343,2176,below_species,Methanohalophilus mahii DSM 5219,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanohalophilus,Methanohalophilus mahii,Methanohalophilus mahii DSM 5219
-345,29291,below_species,Methanococcoides burtonii DSM 6242,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanococcoides,Methanococcoides burtonii,Methanococcoides burtonii DSM 6242
-346,2226,below_species,Methanococcoides methylutens MM1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanococcoides,Methanococcoides methylutens,Methanococcoides methylutens MM1
-349,101192,below_species,Methanomethylovorans hollandica DSM 15978,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanomethylovorans,Methanomethylovorans hollandica,Methanomethylovorans hollandica DSM 15978
-350,420950,below_species,Methanolobus psychrophilus R15,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanolobus,Methanolobus psychrophilus,Methanolobus psychrophilus R15
-351,2207,species,Methanosarcina sp. MTP4,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina sp. MTP4,
-352,170861,below_species,Methanosarcina lacustris Z-7289,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina lacustris,Methanosarcina lacustris Z-7289
-353,2207,species,Methanosarcina sp. WH1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina sp. WH1,
-355,2210,below_species,Methanosarcina thermophila TM-1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina thermophila,Methanosarcina thermophila TM-1
-356,2214,below_species,Methanosarcina acetivorans C2A,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina acetivorans,Methanosarcina acetivorans C2A
-357,2209,below_species,Methanosarcina mazei WWM610,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina mazei,Methanosarcina mazei WWM610
-358,2209,below_species,Methanosarcina mazei Go1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina mazei,Methanosarcina mazei Go1
-360,418008,below_species,Methanosarcina horonobensis HB-1 = JCM 15518,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina horonobensis,Methanosarcina horonobensis HB-1 = JCM 15518
-362,2208,below_species,Methanosarcina barkeri 3,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina barkeri,Methanosarcina barkeri 3
-363,2208,below_species,Methanosarcina barkeri 227,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina barkeri,Methanosarcina barkeri 227
-364,2208,below_species,Methanosarcina barkeri MS,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina barkeri,Methanosarcina barkeri MS
-366,2208,below_species,Methanosarcina barkeri str. Fusaro,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina barkeri,Methanosarcina barkeri str. Fusaro
-368,2207,species,Methanosarcina sp. Kolksee,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina sp. Kolksee,
-369,2215,below_species,Methanosarcina vacuolata Z-761,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina vacuolata,Methanosarcina vacuolata Z-761
-375,38027,below_species,Methanosarcina siciliae T4/M,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina siciliae,Methanosarcina siciliae T4/M
-376,38027,below_species,Methanosarcina siciliae C2J,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina siciliae,Methanosarcina siciliae C2J
-391,1406512,below_species,Candidatus Methanomassiliicoccus intestinalis Issoire-Mx1,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Methanomassiliicoccales,,,Methanomassiliicoccaceae,,Methanomassiliicoccus,Candidatus Methanomassiliicoccus intestinalis,Candidatus Methanomassiliicoccus intestinalis Issoire-Mx1
-392,1607807,species,Candidatus Methanoplasma termitum,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Methanomassiliicoccales,,,Methanomassiliicoccaceae,,Candidatus Methanoplasma,Candidatus Methanoplasma termitum,
-393,1919231,species,Thermoplasmatales archaeon BRNA1,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,unclassified Thermoplasmatales,unclassified Thermoplasmatales (miscellaneous),,,,Thermoplasmatales archaeon BRNA1,
-394,1234666,species,methanogenic archaeon ISO4-H5,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,unclassified Thermoplasmata,,,,,,,methanogenic archaeon ISO4-H5,
-395,1291540,below_species,Candidatus Methanomethylophilus alvus Mx1201,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Methanomassiliicoccales,,,Methanomassiliicoccaceae,,Candidatus Methanomethylophilus,Candidatus Methanomethylophilus alvus,Candidatus Methanomethylophilus alvus Mx1201
-400,50339,below_species,Thermoplasma volcanium GSS1,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Thermoplasmataceae,,Thermoplasma,Thermoplasma volcanium,Thermoplasma volcanium GSS1
-401,2303,below_species,Thermoplasma acidophilum DSM 1728,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Thermoplasmataceae,,Thermoplasma,Thermoplasma acidophilum,Thermoplasma acidophilum DSM 1728
-403,1747777,species,Cuniculiplasma divulgatum,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Cuniculiplasmataceae,,Cuniculiplasma,Cuniculiplasma divulgatum,
-404,82076,below_species,Picrophilus torridus DSM 9790,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Picrophilaceae,,Picrophilus,Picrophilus torridus,Picrophilus torridus DSM 9790
-405,74968,species,Ferroplasma acidiphilum,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Ferroplasmaceae,,Ferroplasma,Ferroplasma acidiphilum,
-406,97393,below_species,Ferroplasma acidarmanus fer1,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Ferroplasmaceae,,Ferroplasma,Ferroplasma acidarmanus,Ferroplasma acidarmanus fer1
-412,379546,species,Aciduliprofundum sp. MAR08-339,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,DHVE2 group,,,,,,,,Aciduliprofundum,Aciduliprofundum sp. MAR08-339,
-413,379547,below_species,Aciduliprofundum boonei T469,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,DHVE2 group,,,,,,,,Aciduliprofundum,Aciduliprofundum boonei,Aciduliprofundum boonei T469
-416,67760,below_species,Methanocaldococcus infernus ME,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,Methanocaldococcus infernus,Methanocaldococcus infernus ME
-417,196118,species,Methanocaldococcus bathoardescens,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,Methanocaldococcus bathoardescens,
-418,196118,species,Methanocaldococcus sp. FS406-22,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,Methanocaldococcus sp. FS406-22,
-419,73913,below_species,Methanocaldococcus vulcanius M7,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,Methanocaldococcus vulcanius,Methanocaldococcus vulcanius M7
-420,83171,below_species,Methanocaldococcus fervens AG86,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,Methanocaldococcus fervens,Methanocaldococcus fervens AG86
-422,2190,below_species,Methanocaldococcus jannaschii DSM 2661,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,Methanocaldococcus jannaschii,Methanocaldococcus jannaschii DSM 2661
-427,2189,below_species,Methanotorris igneus Kol 5,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanotorris,Methanotorris igneus,Methanotorris igneus Kol 5
-428,42879,below_species,Methanococcus aeolicus Nankai-3,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus aeolicus,Methanococcus aeolicus Nankai-3
-429,155863,below_species,Methanothermococcus okinawensis IH1,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanothermococcus,Methanothermococcus okinawensis,Methanothermococcus okinawensis IH1
-431,2188,below_species,Methanococcus voltae A3,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus voltae,Methanococcus voltae A3
-432,2187,below_species,Methanococcus vannielii SB,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus vannielii,Methanococcus vannielii SB
-433,2184,species,Methanococcus maripaludis,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,
-434,39152,below_species,Methanococcus maripaludis S2,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,Methanococcus maripaludis S2
-436,39152,below_species,Methanococcus maripaludis C7,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,Methanococcus maripaludis C7
-437,39152,below_species,Methanococcus maripaludis C5,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,Methanococcus maripaludis C5
-439,39152,below_species,Methanococcus maripaludis C6,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,Methanococcus maripaludis C6
-453,2160,species,Methanobacterium paludis,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,Methanobacterium paludis,
-454,2160,species,Methanobacterium lacus,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,Methanobacterium lacus,
-456,2160,species,Methanobacterium congolense,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,Methanobacterium congolense,
-460,2160,species,Methanobacterium formicicum,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,Methanobacterium formicicum,
+,parent_id,rank,tax_name,root,root_,superkingdom,superkingdom_,superkingdom__,phylum,phylum_,phylum__,class,class_,order,order_,order__,family,family_,genus,species,species_
+459,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+457,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+451,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+17,Methanobacteriales,family,Methanobacteriaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,,,
+3,Methanobacteriaceae,genus,Methanosphaera,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanosphaera,,
+16,Methanobacteriaceae,genus,Methanobrevibacter,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,,
+15,Methanobacteriaceae,genus,Methanobrevibacter,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,,
+11,Methanobacteriaceae,genus,Methanobrevibacter,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,,
+7,Methanobrevibacter,species,Methanobrevibacter smithii,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter smithii,
+10,Methanobacteriaceae,genus,Methanobrevibacter,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,,
+14,Methanobacteriaceae,genus,Methanobrevibacter,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,,
+450,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+442,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+441,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+189,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+83,Thermococcales,family,Thermococcaceae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,,
+82,Thermococcales,family,Thermococcaceae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,,
+24,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+23,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+81,Thermococcales,family,Thermococcaceae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,,
+67,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+63,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+47,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+45,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+44,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+36,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+35,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+34,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+33,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+31,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+43,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+39,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+42,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+62,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+58,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+56,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+54,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+52,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+51,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+61,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+66,Thermococcaceae,genus,Thermococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,,
+80,Thermococcales,family,Thermococcaceae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,,,
+79,Thermococcaceae,genus,Pyrococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,,
+71,Thermococcaceae,genus,Pyrococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,,
+78,Thermococcaceae,genus,Pyrococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,,
+74,Thermococcaceae,genus,Pyrococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,,
+77,Thermococcaceae,genus,Pyrococcus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,,
+188,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+187,Archaea,superkingdom_,TACK group,root,cellular organisms,Archaea,TACK group,,,,,,,,,,,,,,
+186,Archaea,superkingdom_,TACK group,root,cellular organisms,Archaea,TACK group,,,,,,,,,,,,,,
+100,TACK group,phylum,Thaumarchaeota,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,,,,,,,,
+99,TACK group,phylum,Thaumarchaeota,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,,,,,,,,
+98,TACK group,phylum,Thaumarchaeota,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,,,,,,,,
+90,unclassified Thaumarchaeota,genus,Candidatus Nitrosotenuis,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,unclassified Thaumarchaeota,,,,,,,,,Candidatus Nitrosotenuis,,
+97,TACK group,phylum,Thaumarchaeota,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,,,,,,,,
+96,Nitrosopumilales,family,Nitrosopumilaceae,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,Nitrosopumilales,,,Nitrosopumilaceae,,,,
+95,Nitrosopumilales,family,Nitrosopumilaceae,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,Nitrosopumilales,,,Nitrosopumilaceae,,,,
+185,Crenarchaeota <phylum>,class,Thermoprotei,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,,,,,,,,
+163,Crenarchaeota <phylum>,class,Thermoprotei,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,,,,,,,,
+117,Desulfurococcales,family,Desulfurococcaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,,,
+103,Desulfurococcaceae,genus,Ignicoccus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Ignicoccus,,
+116,Desulfurococcales,family,Desulfurococcaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,,,
+106,Desulfurococcaceae,genus,Staphylothermus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Staphylothermus,,
+115,Desulfurococcales,family,Desulfurococcaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,,,
+114,Desulfurococcales,family,Desulfurococcaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,,,
+113,Desulfurococcaceae,genus,Desulfurococcus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Desulfurococcus,,
+111,Desulfurococcus,species,Desulfurococcus amylolyticus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Desulfurococcus,Desulfurococcus amylolyticus,
+162,Crenarchaeota <phylum>,class,Thermoprotei,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,,,,,,,,
+128,Crenarchaeota <phylum>,class,Thermoprotei,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,,,,,,,,
+122,Desulfurococcales,family,Pyrodictiaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Pyrodictiaceae,,,,
+120,Desulfurococcales,family,Pyrodictiaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Pyrodictiaceae,,,,
+127,Thermoprotei,order,Acidilobales,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Acidilobales,,,,,,,
+126,Acidilobaceae,genus,Acidilobus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Acidilobales,,,Acidilobaceae,,Acidilobus,,
+161,Sulfolobales,family,Sulfolobaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,,
+159,Sulfolobales,family,Sulfolobaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,,
+131,Sulfolobales,family,Sulfolobaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,,
+158,Sulfolobales,family,Sulfolobaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,,
+144,Sulfolobales,family,Sulfolobaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,,
+143,Sulfolobales,family,Sulfolobaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,,
+142,Sulfolobales,family,Sulfolobaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,,
+140,Sulfolobales,family,Sulfolobaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,,
+138,Sulfolobales,family,Sulfolobaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,,
+137,Saccharolobus,species,Saccharolobus solfataricus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Saccharolobus,Saccharolobus solfataricus,
+157,Sulfolobales,family,Sulfolobaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,,
+153,Sulfolobales,family,Sulfolobaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,,,
+152,Sulfolobaceae,genus,Metallosphaera,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Metallosphaera,,
+148,Metallosphaera,species,Metallosphaera sedula,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Metallosphaera,Metallosphaera sedula,
+151,Sulfolobaceae,genus,Metallosphaera,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Metallosphaera,,
+156,Sulfolobaceae,genus,Acidianus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Acidianus,,
+184,Thermoprotei,order,Thermoproteales,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,,,,,
+168,Thermofilaceae,genus,Thermofilum,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermofilaceae,,Thermofilum,,
+166,Thermofilaceae,genus,Thermofilum,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermofilaceae,,Thermofilum,,
+183,Thermoproteales,family,Thermoproteaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,,,
+182,Thermoproteales,family,Thermoproteaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,,,
+172,Thermoproteaceae,genus,Vulcanisaeta,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Vulcanisaeta,,
+181,Thermoproteales,family,Thermoproteaceae,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,,,
+177,Thermoproteaceae,genus,Pyrobaculum,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Pyrobaculum,,
+176,Thermoproteaceae,genus,Pyrobaculum,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Pyrobaculum,,
+180,Thermoproteaceae,genus,Thermoproteus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Thermoproteus,,
+440,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+246,Archaea,phylum,Euryarchaeota,root,cellular organisms,Archaea,,,Euryarchaeota,,,,,,,,,,,,
+220,Methanococci,order,Methanococcales,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,,,,,
+200,Methanocaldococcaceae,genus,Methanocaldococcus,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,,
+199,Methanocaldococcaceae,genus,Methanocaldococcus,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,,
+198,Methanocaldococcaceae,genus,Methanocaldococcus,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,,
+197,Methanocaldococcaceae,genus,Methanocaldococcus,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,,
+196,Methanocaldococcaceae,genus,Methanocaldococcus,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,,
+219,Methanococci,order,Methanococcales,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,,,,,
+218,Methanococcales,family,Methanococcaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,,,
+204,Methanococcales,family,Methanococcaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,,,
+217,Methanococcaceae,genus,Methanococcus,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,,
+216,Methanococcaceae,genus,Methanococcus,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,,
+215,Methanococcus,species,Methanococcus maripaludis,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,
+209,Methanococcus,species,Methanococcus maripaludis,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,
+214,Methanococcus,species,Methanococcus maripaludis,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,
+212,Methanococcus,species,Methanococcus maripaludis,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,
+245,Euryarchaeota,phylum_,Diaforarchaea group,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,,,,,,,,,,
+241,Diaforarchaea group,class,Thermoplasmata,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,,,,,,,,
+229,Diaforarchaea group,class,Thermoplasmata,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,,,,,,,,
+228,Diaforarchaea group,class,Thermoplasmata,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,,,,,,,,
+227,Diaforarchaea group,class,Thermoplasmata,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,,,,,,,,
+226,Diaforarchaea group,class,Thermoplasmata,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,,,,,,,,
+240,Thermoplasmata,order,Thermoplasmatales,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,,,,,
+232,Thermoplasmataceae,genus,Thermoplasma,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Thermoplasmataceae,,Thermoplasma,,
+239,Thermoplasmata,order,Thermoplasmatales,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,,,,,
+238,Thermoplasmata,order,Thermoplasmatales,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,,,,,
+237,Ferroplasmaceae,genus,Ferroplasma,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Ferroplasmaceae,,Ferroplasma,,
+244,DHVE2 group,genus,Aciduliprofundum,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,DHVE2 group,,,,,,,,Aciduliprofundum,,
+439,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+261,Archaeoglobales,family,Archaeoglobaceae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,,,
+260,Archaeoglobales,family,Archaeoglobaceae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,,,
+258,Archaeoglobales,family,Archaeoglobaceae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,,,
+254,Archaeoglobales,family,Archaeoglobaceae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,,,
+253,Archaeoglobales,family,Archaeoglobaceae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,,,
+251,Archaeoglobales,family,Archaeoglobaceae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,,,
+257,Archaeoglobus,species,Archaeoglobus fulgidus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Archaeoglobus,Archaeoglobus fulgidus,
+438,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+364,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+324,Stenosarchaea group,class,Halobacteria,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,,,,,,,,
+272,Halobacteriales,family,Halobacteriaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,,,
+266,Halobacteriales,family,Halobacteriaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,,,
+264,Halobacteriales,family,Halobacteriaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,,,
+271,Halobacteriaceae,genus,Halobacterium,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halobacterium,,
+270,Halobacteriaceae,genus,Halobacterium,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halobacterium,,
+323,Stenosarchaea group,class,Halobacteria,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,,,,,,,,
+275,Haloarculaceae,genus,Natronomonas,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Natronomonas,,
+322,Stenosarchaea group,class,Halobacteria,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,,,,,,,,
+304,Stenosarchaea group,class,Halobacteria,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,,,,,,,,
+303,Stenosarchaea group,class,Halobacteria,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,,,,,,,,
+301,Natrialbales,family,Natrialbaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,,,
+283,Natrialbales,family,Natrialbaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,,,
+282,Natrialbales,family,Natrialbaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,,,
+280,Natrialbales,family,Natrialbaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,,,
+300,Natrialbales,family,Natrialbaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,,,
+292,Natrialbales,family,Natrialbaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,,,
+291,Natrialbales,family,Natrialbaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,,,
+287,Natrialbaceae,genus,Haloterrigena,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Haloterrigena,,
+290,Natrialbaceae,genus,Natrinema,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natrinema,,
+299,Natrialbales,family,Natrialbaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,,,
+297,Natrialbaceae,genus,Natronolimnobius,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natronolimnobius,,
+295,Natrialbaceae,genus,Natronolimnobius,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natronolimnobius,,
+321,Halobacteriales,family,Haloarculaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,,,
+311,Halobacteriales,family,Haloarculaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,,,
+309,Halobacteriales,family,Haloarculaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,,,
+308,Haloarculaceae,genus,Halorhabdus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Halorhabdus,,
+320,Halobacteriales,family,Haloarculaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,,,
+318,Haloarculaceae,genus,Haloarcula,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Haloarcula,,
+317,Haloarculaceae,genus,Haloarcula,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Haloarcula,,
+315,Haloarculaceae,genus,Haloarcula,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Haloarcula,,
+363,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+362,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+344,Halobacteria,order,Haloferacales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,,,,,
+336,Haloferacales,family,Haloferacaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,,,
+330,Haloferacaceae,genus,Haloferax,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloferax,,
+329,Haloferacaceae,genus,Haloferax,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloferax,,
+335,Haloferacales,family,Haloferacaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,,,
+333,Haloquadratum,species,Haloquadratum walsbyi,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloquadratum,Haloquadratum walsbyi,
+343,Halobacteria,order,Haloferacales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,,,,,
+342,Haloferacaceae,genus,Haloplanus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloplanus,,
+341,Haloferacaceae,genus,Haloplanus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloplanus,,
+361,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+360,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+359,cellular organisms,superkingdom,Archaea,root,cellular organisms,Archaea,,,,,,,,,,,,,,,
+358,Haloferacales,family,Halorubraceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,,,
+357,Halorubraceae,genus,Halorubrum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,,
+353,Halorubraceae,genus,Halorubrum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,,
+351,Halorubraceae,genus,Halorubrum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,,
+356,Halorubraceae,genus,Halorubrum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,,
+437,Stenosarchaea group,class,Methanomicrobia,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,,,,,,,,
+381,Methanomicrobia,order,Methanomicrobiales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,,,,,
+371,Methanomicrobiales,family,Methanomicrobiaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,,,
+370,Methanomicrobiaceae,genus,Methanoculleus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,Methanoculleus,,
+369,Methanoculleus,species,Methanoculleus bourgensis,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,Methanoculleus,Methanoculleus bourgensis,
+380,Methanomicrobia,order,Methanomicrobiales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,,,,,
+378,Methanomicrobia,order,Methanomicrobiales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,,,,,
+376,Methanomicrobia,order,Methanomicrobiales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,,,,,
+375,Methanoregulaceae,genus,Methanoregula,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanoregulaceae,,Methanoregula,,
+436,Stenosarchaea group,class,Methanomicrobia,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,,,,,,,,
+430,Methanomicrobia,order,Methanosarcinales,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,,,,,
+384,Methanosaetaceae,genus,Methanothrix,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosaetaceae,,Methanothrix,,
+429,Methanosarcinales,family,Methanosarcinaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,,
+387,Methanosarcinales,family,Methanosarcinaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,,
+428,Methanosarcinales,family,Methanosarcinaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,,
+394,Methanosarcinales,family,Methanosarcinaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,,
+390,Methanosarcinaceae,genus,Methanohalophilus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanohalophilus,,
+393,Methanosarcinaceae,genus,Methanococcoides,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanococcoides,,
+427,Methanosarcinales,family,Methanosarcinaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,,
+426,Methanosarcinales,family,Methanosarcinaceae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,,,
+425,Methanosarcinaceae,genus,Methanosarcina,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,
+424,Methanosarcinaceae,genus,Methanosarcina,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,
+400,Methanosarcinaceae,genus,Methanosarcina,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,
+423,Methanosarcinaceae,genus,Methanosarcina,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,
+403,Methanosarcina,species,Methanosarcina siciliae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina siciliae,
+422,Methanosarcinaceae,genus,Methanosarcina,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,
+421,Methanosarcinaceae,genus,Methanosarcina,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,
+409,Methanosarcinaceae,genus,Methanosarcina,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,
+407,Methanosarcina,species,Methanosarcina mazei,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina mazei,
+420,Methanosarcinaceae,genus,Methanosarcina,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,
+412,Methanosarcinaceae,genus,Methanosarcina,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,,
+419,Methanosarcina,species,Methanosarcina barkeri,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina barkeri,
+418,Methanosarcina,species,Methanosarcina barkeri,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina barkeri,
+416,Methanosarcina,species,Methanosarcina barkeri,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina barkeri,
+435,Methanocellaceae,genus,Methanocella,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanocellales,,,Methanocellaceae,,Methanocella,,
+433,Methanocellaceae,genus,Methanocella,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanocellales,,,Methanocellaceae,,Methanocella,,
+449,Methanobacteriaceae,genus,Methanothermobacter,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanothermobacter,,
+448,Methanobacteriaceae,genus,Methanothermobacter,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanothermobacter,,
+447,Methanobacteriaceae,genus,Methanothermobacter,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanothermobacter,,
+456,Methanobacteriaceae,genus,Methanobacterium,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,,
+454,Methanobacteriaceae,genus,Methanobacterium,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,,
+0,Methanobacterium,species,Methanobacterium sp. MB1,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,Methanobacterium sp. MB1,
+1,Methanosphaera,species,Methanosphaera sp. BMS,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanosphaera,Methanosphaera sp. BMS,
+2,Methanosphaera stadtmanae,species_,Methanosphaera stadtmanae DSM 3091,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanosphaera,Methanosphaera stadtmanae,Methanosphaera stadtmanae DSM 3091
+4,Methanobrevibacter,species,Methanobrevibacter sp. AbM4,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter sp. AbM4,
+5,Methanobrevibacter smithii,species_,Methanobrevibacter smithii ATCC 35061,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter smithii,Methanobrevibacter smithii ATCC 35061
+6,Methanobrevibacter,species,Methanobrevibacter smithii,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter smithii,
+8,Methanobrevibacter,species,Methanobrevibacter millerae,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter millerae,
+9,Methanobrevibacter,species,Methanobrevibacter sp. YE315,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter sp. YE315,
+12,Methanobrevibacter,species,Methanobrevibacter olleyae,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter olleyae,
+13,Methanobrevibacter ruminantium,species_,Methanobrevibacter ruminantium M1,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobrevibacter,Methanobrevibacter ruminantium,Methanobrevibacter ruminantium M1
+18,Methanothermus fervidus,species_,Methanothermus fervidus DSM 2088,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanothermaceae,,Methanothermus,Methanothermus fervidus,Methanothermus fervidus DSM 2088
+19,Palaeococcus pacificus,species_,Palaeococcus pacificus DY20341,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Palaeococcus <euryarchaeote>,Palaeococcus pacificus,Palaeococcus pacificus DY20341
+20,Thermococcus litoralis,species_,Thermococcus litoralis DSM 5473,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus litoralis,Thermococcus litoralis DSM 5473
+21,Thermococcus sibiricus,species_,Thermococcus sibiricus MM 739,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus sibiricus,Thermococcus sibiricus MM 739
+22,Thermococcus,species,Thermococcus sp. 2319x1,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus sp. 2319x1,
+25,Thermococcus,species,Thermococcus profundus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus profundus,
+26,Thermococcus,species,Thermococcus piezophilus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus piezophilus,
+27,Thermococcus,species,Thermococcus sp. P6,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus sp. P6,
+28,Thermococcus,species,Thermococcus thioreducens,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus thioreducens,
+29,Thermococcus celer,species_,Thermococcus celer Vu 13 = JCM 8558,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus celer,Thermococcus celer Vu 13 = JCM 8558
+30,Thermococcus,species,Thermococcus barossii,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus barossii,
+32,Thermococcus,species,Thermococcus radiotolerans,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus radiotolerans,
+37,Thermococcus,species,Thermococcus sp. 4557,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus sp. 4557,
+38,Thermococcus,species,Thermococcus siculi,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus siculi,
+40,Thermococcus,species,Thermococcus cleftensis,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus cleftensis,
+41,Thermococcus,species,Thermococcus pacificus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus pacificus,
+46,Thermococcus onnurineus,species_,Thermococcus onnurineus NA1,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus onnurineus,Thermococcus onnurineus NA1
+48,Thermococcus,species,Thermococcus sp. EXT12c,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus sp. EXT12c,
+49,Thermococcus,species,Thermococcus eurythermalis,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus eurythermalis,
+50,Thermococcus,species,Thermococcus nautili,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus nautili,
+53,Thermococcus,species,Thermococcus sp. AM4,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus sp. AM4,
+55,Thermococcus gammatolerans,species_,Thermococcus gammatolerans EJ3,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus gammatolerans,Thermococcus gammatolerans EJ3
+57,Thermococcus guaymasensis,species_,Thermococcus guaymasensis DSM 11113,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus guaymasensis,Thermococcus guaymasensis DSM 11113
+59,Thermococcus,species,Thermococcus peptonophilus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus peptonophilus,
+60,Thermococcus,species,Thermococcus gorgonarius,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus gorgonarius,
+64,Thermococcus barophilus,species_,Thermococcus barophilus MP,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus barophilus,Thermococcus barophilus MP
+65,Thermococcus,species,Thermococcus paralvinellae,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus paralvinellae,
+68,Thermococcus,species,Thermococcus chitonophagus,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Thermococcus,Thermococcus chitonophagus,
+69,Pyrococcus,species,Pyrococcus kukulkanii,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,Pyrococcus kukulkanii,
+70,Pyrococcus,species,Pyrococcus sp. ST04,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,Pyrococcus sp. ST04,
+72,Pyrococcus abyssi,species_,Pyrococcus abyssi GE5,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,Pyrococcus abyssi,Pyrococcus abyssi GE5
+73,Pyrococcus,species,Pyrococcus sp. NA2,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,Pyrococcus sp. NA2,
+75,Pyrococcus yayanosii,species_,Pyrococcus yayanosii CH1,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,Pyrococcus yayanosii,Pyrococcus yayanosii CH1
+76,Pyrococcus furiosus,species_,Pyrococcus furiosus DSM 3638,root,cellular organisms,Archaea,,,Euryarchaeota,,,Thermococci,,Thermococcales,,,Thermococcaceae,,Pyrococcus,Pyrococcus furiosus,Pyrococcus furiosus DSM 3638
+84,Candidatus Mancarchaeum,species,Candidatus Mancarchaeum acidiphilum,root,cellular organisms,Archaea,DPANN group,,Candidatus Micrarchaeota,,,,,,,,,,Candidatus Mancarchaeum,Candidatus Mancarchaeum acidiphilum,
+85,Candidatus Korarchaeum cryptofilum,species_,Candidatus Korarchaeum cryptofilum OPF8,root,cellular organisms,Archaea,TACK group,,Candidatus Korarchaeota,,,,,,,,,,Candidatus Korarchaeum,Candidatus Korarchaeum cryptofilum,Candidatus Korarchaeum cryptofilum OPF8
+86,Candidatus Nitrosocaldus,species,Candidatus Nitrosocaldus islandicus,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,Nitrososphaeria,,Candidatus Nitrosocaldales,,,Candidatus Nitrosocaldaceae,,Candidatus Nitrosocaldus,Candidatus Nitrosocaldus islandicus,
+87,Nitrososphaera viennensis,species_,Nitrososphaera viennensis EN76,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,Nitrososphaeria,,Nitrososphaerales,,,Nitrososphaeraceae,,Nitrososphaera,Nitrososphaera viennensis,Nitrososphaera viennensis EN76
+88,Candidatus Nitrosotenuis,species,Candidatus Nitrosotenuis aquarius,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,unclassified Thaumarchaeota,,,,,,,,,Candidatus Nitrosotenuis,Candidatus Nitrosotenuis aquarius,
+89,Candidatus Nitrosotenuis,species,Candidatus Nitrosotenuis cloacae,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,unclassified Thaumarchaeota,,,,,,,,,Candidatus Nitrosotenuis,Candidatus Nitrosotenuis cloacae,
+91,Candidatus Nitrosopelagicus,species,Candidatus Nitrosopelagicus brevis,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,unclassified Thaumarchaeota,,,,,,,,,Candidatus Nitrosopelagicus,Candidatus Nitrosopelagicus brevis,
+92,Nitrosopumilus,species,Candidatus Nitrosopumilus adriaticus,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,Nitrosopumilales,,,Nitrosopumilaceae,,Nitrosopumilus,Candidatus Nitrosopumilus adriaticus,
+93,Candidatus Nitrosomarinus,species,Candidatus Nitrosomarinus catalina,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,Nitrosopumilales,,,Nitrosopumilaceae,,Candidatus Nitrosomarinus,Candidatus Nitrosomarinus catalina,
+94,Nitrosopumilus,species,Candidatus Nitrosopumilus sediminis,root,cellular organisms,Archaea,TACK group,,Thaumarchaeota,,,,,Nitrosopumilales,,,Nitrosopumilaceae,,Nitrosopumilus,Candidatus Nitrosopumilus sediminis,
+101,Ignicoccus hospitalis,species_,Ignicoccus hospitalis KIN4/I,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Ignicoccus,Ignicoccus hospitalis,Ignicoccus hospitalis KIN4/I
+102,Ignicoccus islandicus,species_,Ignicoccus islandicus DSM 13165,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Ignicoccus,Ignicoccus islandicus,Ignicoccus islandicus DSM 13165
+104,Staphylothermus hellenicus,species_,Staphylothermus hellenicus DSM 12710,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Staphylothermus,Staphylothermus hellenicus,Staphylothermus hellenicus DSM 12710
+105,Staphylothermus marinus,species_,Staphylothermus marinus F1,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Staphylothermus,Staphylothermus marinus,Staphylothermus marinus F1
+107,Thermogladius calderae,species_,Thermogladius calderae 1633,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Thermogladius,Thermogladius calderae,Thermogladius calderae 1633
+108,Thermosphaera aggregans,species_,Thermosphaera aggregans DSM 11486,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Thermosphaera,Thermosphaera aggregans,Thermosphaera aggregans DSM 11486
+109,Desulfurococcus amylolyticus,species_,Desulfurococcus amylolyticus 1221n,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Desulfurococcus,Desulfurococcus amylolyticus,Desulfurococcus amylolyticus 1221n
+110,Desulfurococcus amylolyticus,species_,Desulfurococcus amylolyticus DSM 16532,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Desulfurococcus,Desulfurococcus amylolyticus,Desulfurococcus amylolyticus DSM 16532
+112,Desulfurococcus mucosus,species_,Desulfurococcus mucosus DSM 2162,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Desulfurococcaceae,,Desulfurococcus,Desulfurococcus mucosus,Desulfurococcus mucosus DSM 2162
+118,Pyrodictium,species,Pyrodictium delaneyi,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Pyrodictiaceae,,Pyrodictium,Pyrodictium delaneyi,
+119,Hyperthermus butylicus,species_,Hyperthermus butylicus DSM 5456,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Pyrodictiaceae,,Hyperthermus,Hyperthermus butylicus,Hyperthermus butylicus DSM 5456
+121,Pyrolobus fumarii,species_,Pyrolobus fumarii 1A,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Desulfurococcales,,,Pyrodictiaceae,,Pyrolobus,Pyrolobus fumarii,Pyrolobus fumarii 1A
+123,Caldisphaera lagunensis,species_,Caldisphaera lagunensis DSM 15908,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Acidilobales,,,Caldisphaeraceae,,Caldisphaera,Caldisphaera lagunensis,Caldisphaera lagunensis DSM 15908
+124,Acidilobus,species,Acidilobus sp. 7A,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Acidilobales,,,Acidilobaceae,,Acidilobus,Acidilobus sp. 7A,
+125,Acidilobus saccharovorans,species_,Acidilobus saccharovorans 345-15,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Acidilobales,,,Acidilobaceae,,Acidilobus,Acidilobus saccharovorans,Acidilobus saccharovorans 345-15
+129,Sulfolobus acidocaldarius,species_,Sulfolobus acidocaldarius DSM 639,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,Sulfolobus acidocaldarius,Sulfolobus acidocaldarius DSM 639
+130,Sulfurisphaera tokodaii,species_,Sulfurisphaera tokodaii str. 7,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfurisphaera,Sulfurisphaera tokodaii,Sulfurisphaera tokodaii str. 7
+132,Sulfolobus,species,Sulfolobus sp. A20,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,Sulfolobus sp. A20,
+133,Sulfolobus islandicus,species_,Sulfolobus islandicus Y.N.15.51,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,Sulfolobus islandicus,Sulfolobus islandicus Y.N.15.51
+134,Sulfolobus islandicus,species_,Sulfolobus islandicus M.16.27,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,Sulfolobus islandicus,Sulfolobus islandicus M.16.27
+135,Saccharolobus solfataricus,species_,Saccharolobus solfataricus P2,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Saccharolobus,Saccharolobus solfataricus,Saccharolobus solfataricus P2
+136,Saccharolobus solfataricus,species_,Saccharolobus solfataricus 98/2,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Saccharolobus,Saccharolobus solfataricus,Saccharolobus solfataricus 98/2
+139,Sulfolobus islandicus,species_,Sulfolobus islandicus M.14.25,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,Sulfolobus islandicus,Sulfolobus islandicus M.14.25
+141,Sulfolobus islandicus,species_,Sulfolobus islandicus L.S.2.15,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfolobus,Sulfolobus islandicus,Sulfolobus islandicus L.S.2.15
+145,Acidianus,species,Acidianus brierleyi,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Acidianus,Acidianus brierleyi,
+146,Metallosphaera sedula,species_,Metallosphaera sedula DSM 5348,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Metallosphaera,Metallosphaera sedula,Metallosphaera sedula DSM 5348
+147,Metallosphaera,species,Metallosphaera sedula,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Metallosphaera,Metallosphaera sedula,
+149,Metallosphaera hakonensis,species_,Metallosphaera hakonensis JCM 8857 = DSM 7519,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Metallosphaera,Metallosphaera hakonensis,Metallosphaera hakonensis JCM 8857 = DSM 7519
+150,Metallosphaera cuprina,species_,Metallosphaera cuprina Ar-4,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Metallosphaera,Metallosphaera cuprina,Metallosphaera cuprina Ar-4
+154,Acidianus hospitalis,species_,Acidianus hospitalis W1,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Acidianus,Acidianus hospitalis,Acidianus hospitalis W1
+155,Acidianus sulfidivorans,species_,Acidianus sulfidivorans JP7,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Acidianus,Acidianus sulfidivorans,Acidianus sulfidivorans JP7
+160,Sulfodiicoccus,species,Sulfodiicoccus acidiphilus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Sulfolobales,,,Sulfolobaceae,,Sulfodiicoccus,Sulfodiicoccus acidiphilus,
+164,Thermofilum,species,Thermofilum adornatus,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermofilaceae,,Thermofilum,Thermofilum adornatus,
+165,Thermofilum pendens,species_,Thermofilum pendens Hrk 5,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermofilaceae,,Thermofilum,Thermofilum pendens,Thermofilum pendens Hrk 5
+167,Thermofilum,species,Thermofilum uzonense,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermofilaceae,,Thermofilum,Thermofilum uzonense,
+169,Caldivirga maquilingensis,species_,Caldivirga maquilingensis IC-167,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Caldivirga,Caldivirga maquilingensis,Caldivirga maquilingensis IC-167
+170,Vulcanisaeta distributa,species_,Vulcanisaeta distributa DSM 14429,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Vulcanisaeta,Vulcanisaeta distributa,Vulcanisaeta distributa DSM 14429
+171,Vulcanisaeta moutnovskia,species_,Vulcanisaeta moutnovskia 768-28,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Vulcanisaeta,Vulcanisaeta moutnovskia,Vulcanisaeta moutnovskia 768-28
+173,Pyrobaculum islandicum,species_,Pyrobaculum islandicum DSM 4184,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Pyrobaculum,Pyrobaculum islandicum,Pyrobaculum islandicum DSM 4184
+174,Pyrobaculum aerophilum,species_,Pyrobaculum aerophilum str. IM2,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Pyrobaculum,Pyrobaculum aerophilum,Pyrobaculum aerophilum str. IM2
+175,Pyrobaculum arsenaticum,species_,Pyrobaculum arsenaticum DSM 13514,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Pyrobaculum,Pyrobaculum arsenaticum,Pyrobaculum arsenaticum DSM 13514
+178,Thermoproteus tenax,species_,Thermoproteus tenax Kra 1,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Thermoproteus,Thermoproteus tenax,Thermoproteus tenax Kra 1
+179,Thermoproteus uzoniensis,species_,Thermoproteus uzoniensis 768-20,root,cellular organisms,Archaea,TACK group,,Crenarchaeota <phylum>,,,Thermoprotei,,Thermoproteales,,,Thermoproteaceae,,Thermoproteus,Thermoproteus uzoniensis,Thermoproteus uzoniensis 768-20
+190,Methanocaldococcus infernus,species_,Methanocaldococcus infernus ME,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,Methanocaldococcus infernus,Methanocaldococcus infernus ME
+191,Methanocaldococcus,species,Methanocaldococcus bathoardescens,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,Methanocaldococcus bathoardescens,
+192,Methanocaldococcus,species,Methanocaldococcus sp. FS406-22,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,Methanocaldococcus sp. FS406-22,
+193,Methanocaldococcus jannaschii,species_,Methanocaldococcus jannaschii DSM 2661,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,Methanocaldococcus jannaschii,Methanocaldococcus jannaschii DSM 2661
+194,Methanocaldococcus fervens,species_,Methanocaldococcus fervens AG86,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,Methanocaldococcus fervens,Methanocaldococcus fervens AG86
+195,Methanocaldococcus vulcanius,species_,Methanocaldococcus vulcanius M7,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanocaldococcus,Methanocaldococcus vulcanius,Methanocaldococcus vulcanius M7
+201,Methanotorris igneus,species_,Methanotorris igneus Kol 5,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanocaldococcaceae,,Methanotorris,Methanotorris igneus,Methanotorris igneus Kol 5
+202,Methanothermococcus okinawensis,species_,Methanothermococcus okinawensis IH1,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanothermococcus,Methanothermococcus okinawensis,Methanothermococcus okinawensis IH1
+203,Methanococcus aeolicus,species_,Methanococcus aeolicus Nankai-3,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus aeolicus,Methanococcus aeolicus Nankai-3
+205,Methanococcus voltae,species_,Methanococcus voltae A3,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus voltae,Methanococcus voltae A3
+206,Methanococcus vannielii,species_,Methanococcus vannielii SB,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus vannielii,Methanococcus vannielii SB
+207,Methanococcus,species,Methanococcus maripaludis,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,
+208,Methanococcus maripaludis,species_,Methanococcus maripaludis S2,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,Methanococcus maripaludis S2
+210,Methanococcus maripaludis,species_,Methanococcus maripaludis C7,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,Methanococcus maripaludis C7
+211,Methanococcus maripaludis,species_,Methanococcus maripaludis C5,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,Methanococcus maripaludis C5
+213,Methanococcus maripaludis,species_,Methanococcus maripaludis C6,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanococci,,Methanococcales,,,Methanococcaceae,,Methanococcus,Methanococcus maripaludis,Methanococcus maripaludis C6
+221,Candidatus Methanomassiliicoccus intestinalis,species_,Candidatus Methanomassiliicoccus intestinalis Issoire-Mx1,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Methanomassiliicoccales,,,Methanomassiliicoccaceae,,Methanomassiliicoccus,Candidatus Methanomassiliicoccus intestinalis,Candidatus Methanomassiliicoccus intestinalis Issoire-Mx1
+222,Candidatus Methanoplasma,species,Candidatus Methanoplasma termitum,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Methanomassiliicoccales,,,Methanomassiliicoccaceae,,Candidatus Methanoplasma,Candidatus Methanoplasma termitum,
+223,unclassified Thermoplasmatales (miscellaneous),species,Thermoplasmatales archaeon BRNA1,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,unclassified Thermoplasmatales,unclassified Thermoplasmatales (miscellaneous),,,,Thermoplasmatales archaeon BRNA1,
+224,unclassified Thermoplasmata,species,methanogenic archaeon ISO4-H5,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,unclassified Thermoplasmata,,,,,,,methanogenic archaeon ISO4-H5,
+225,Candidatus Methanomethylophilus alvus,species_,Candidatus Methanomethylophilus alvus Mx1201,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Methanomassiliicoccales,,,Candidatus Methanomethylophilaceae,,Candidatus Methanomethylophilus,Candidatus Methanomethylophilus alvus,Candidatus Methanomethylophilus alvus Mx1201
+230,Thermoplasma volcanium,species_,Thermoplasma volcanium GSS1,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Thermoplasmataceae,,Thermoplasma,Thermoplasma volcanium,Thermoplasma volcanium GSS1
+231,Thermoplasma acidophilum,species_,Thermoplasma acidophilum DSM 1728,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Thermoplasmataceae,,Thermoplasma,Thermoplasma acidophilum,Thermoplasma acidophilum DSM 1728
+233,Cuniculiplasma,species,Cuniculiplasma divulgatum,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Cuniculiplasmataceae,,Cuniculiplasma,Cuniculiplasma divulgatum,
+234,Picrophilus torridus,species_,Picrophilus torridus DSM 9790,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Picrophilaceae,,Picrophilus,Picrophilus torridus,Picrophilus torridus DSM 9790
+235,Ferroplasma acidarmanus,species_,Ferroplasma acidarmanus fer1,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Ferroplasmaceae,,Ferroplasma,Ferroplasma acidarmanus,Ferroplasma acidarmanus fer1
+236,Ferroplasma,species,Ferroplasma acidiphilum,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,,Thermoplasmata,,Thermoplasmatales,,,Ferroplasmaceae,,Ferroplasma,Ferroplasma acidiphilum,
+242,Aciduliprofundum,species,Aciduliprofundum sp. MAR08-339,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,DHVE2 group,,,,,,,,Aciduliprofundum,Aciduliprofundum sp. MAR08-339,
+243,Aciduliprofundum boonei,species_,Aciduliprofundum boonei T469,root,cellular organisms,Archaea,,,Euryarchaeota,Diaforarchaea group,DHVE2 group,,,,,,,,Aciduliprofundum,Aciduliprofundum boonei,Aciduliprofundum boonei T469
+247,Archaeoglobus sulfaticallidus,species_,Archaeoglobus sulfaticallidus PM70-1,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Archaeoglobus,Archaeoglobus sulfaticallidus,Archaeoglobus sulfaticallidus PM70-1
+248,Geoglobus,species,Geoglobus ahangari,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Geoglobus,Geoglobus ahangari,
+249,Ferroglobus placidus,species_,Ferroglobus placidus DSM 10642,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Ferroglobus,Ferroglobus placidus,Ferroglobus placidus DSM 10642
+250,Archaeoglobus profundus,species_,Archaeoglobus profundus DSM 5631,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Archaeoglobus,Archaeoglobus profundus,Archaeoglobus profundus DSM 5631
+252,Geoglobus,species,Geoglobus acetivorans,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Geoglobus,Geoglobus acetivorans,
+255,Archaeoglobus fulgidus,species_,Archaeoglobus fulgidus DSM 8774,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Archaeoglobus,Archaeoglobus fulgidus,Archaeoglobus fulgidus DSM 8774
+256,Archaeoglobus fulgidus,species_,Archaeoglobus fulgidus DSM 4304,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Archaeoglobus,Archaeoglobus fulgidus,Archaeoglobus fulgidus DSM 4304
+259,Archaeoglobus veneficus,species_,Archaeoglobus veneficus SNP6,root,cellular organisms,Archaea,,,Euryarchaeota,,,Archaeoglobi,,Archaeoglobales,,,Archaeoglobaceae,,Archaeoglobus,Archaeoglobus veneficus,Archaeoglobus veneficus SNP6
+262,Halanaeroarchaeum,species,Halanaeroarchaeum sulfurireducens,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halanaeroarchaeum,Halanaeroarchaeum sulfurireducens,
+263,Halanaeroarchaeum,species,Halanaeroarchaeum sulfurireducens,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halanaeroarchaeum,Halanaeroarchaeum sulfurireducens,
+265,Halodesulfurarchaeum,species,Halodesulfurarchaeum formicicum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halodesulfurarchaeum,Halodesulfurarchaeum formicicum,
+267,Halobacterium,species,Halobacterium hubeiense,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halobacterium,Halobacterium hubeiense,
+268,Halobacterium salinarum,species_,Halobacterium salinarum NRC-1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halobacterium,Halobacterium salinarum,Halobacterium salinarum NRC-1
+269,Halobacterium,species,Halobacterium sp. DL1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halobacterium,Halobacterium sp. DL1,
+273,Natronomonas pharaonis,species_,Natronomonas pharaonis DSM 2160,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Natronomonas,Natronomonas pharaonis,Natronomonas pharaonis DSM 2160
+274,Natronomonas moolapensis,species_,Natronomonas moolapensis 8.8.11,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Natronomonas,Natronomonas moolapensis,Natronomonas moolapensis 8.8.11
+276,Salinarchaeum,species,Salinarchaeum sp. Harcht-Bsk1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Salinarchaeum,Salinarchaeum sp. Harcht-Bsk1,
+277,Halopiger xanaduensis,species_,Halopiger xanaduensis SH-6,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Halopiger,Halopiger xanaduensis,Halopiger xanaduensis SH-6
+278,Natronobacterium gregoryi,species_,Natronobacterium gregoryi SP2,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natronobacterium,Natronobacterium gregoryi,Natronobacterium gregoryi SP2
+279,Natronococcus occultus,species_,Natronococcus occultus SP4,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natronococcus,Natronococcus occultus,Natronococcus occultus SP4
+281,Halobiforma lacisalsi,species_,Halobiforma lacisalsi AJ5,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Halobiforma,Halobiforma lacisalsi,Halobiforma lacisalsi AJ5
+284,Natrialba magadii,species_,Natrialba magadii ATCC 43099,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natrialba,Natrialba magadii,Natrialba magadii ATCC 43099
+285,Haloterrigena,species,Haloterrigena daqingensis,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Haloterrigena,Haloterrigena daqingensis,
+286,Haloterrigena turkmenica,species_,Haloterrigena turkmenica DSM 5511,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Haloterrigena,Haloterrigena turkmenica,Haloterrigena turkmenica DSM 5511
+288,Natrinema,species,Natrinema sp. J7-2,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natrinema,Natrinema sp. J7-2,
+289,Natrinema pellirubrum,species_,Natrinema pellirubrum DSM 15624,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natrinema,Natrinema pellirubrum,Natrinema pellirubrum DSM 15624
+293,Natronolimnobius,species,Natronolimnobius sp. AArc1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natronolimnobius,Natronolimnobius sp. AArc1,
+294,Natronolimnobius,species,Natronolimnobius sp. AArc-Mg,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natronolimnobius,Natronolimnobius sp. AArc-Mg,
+296,Natronolimnobius,species,Natronolimnobius aegyptiacus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Natronolimnobius,Natronolimnobius aegyptiacus,
+298,Halostagnicola larsenii,species_,Halostagnicola larsenii XH-48,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Natrialbales,,,Natrialbaceae,,Halostagnicola,Halostagnicola larsenii,Halostagnicola larsenii XH-48
+302,Halalkalicoccus jeotgali,species_,Halalkalicoccus jeotgali B3,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halalkalicoccus,Halalkalicoccus jeotgali,Halalkalicoccus jeotgali B3
+305,unclassified Haloarculaceae,species,Haloarculaceae archaeon HArcel1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,unclassified Haloarculaceae,,Haloarculaceae archaeon HArcel1,
+306,Halorhabdus tiamatea,species_,Halorhabdus tiamatea SARL4B,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Halorhabdus,Halorhabdus tiamatea,Halorhabdus tiamatea SARL4B
+307,Halorhabdus utahensis,species_,Halorhabdus utahensis DSM 12940,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Halorhabdus,Halorhabdus utahensis,Halorhabdus utahensis DSM 12940
+310,Halorientalis,species,Halorientalis sp. IM1011,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Halorientalis,Halorientalis sp. IM1011,
+312,Haloarcula,species,Haloarcula taiwanensis,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Haloarcula,Haloarcula taiwanensis,
+313,Haloarcula hispanica,species_,Haloarcula hispanica ATCC 33960,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Haloarcula,Haloarcula hispanica,Haloarcula hispanica ATCC 33960
+314,Haloarcula,species,Haloarcula sp. CBA1115,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Haloarcula,Haloarcula sp. CBA1115,
+316,Haloarcula marismortui,species_,Haloarcula marismortui ATCC 43049,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Haloarcula,Haloarcula marismortui,Haloarcula marismortui ATCC 43049
+319,Halomicrobium mukohataei,species_,Halomicrobium mukohataei DSM 12286,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Haloarculaceae,,Halomicrobium,Halomicrobium mukohataei,Halomicrobium mukohataei DSM 12286
+325,Halorussus,species,Halorussus sp. RC-68,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Halobacteriales,,,Halobacteriaceae,,Halorussus,Halorussus sp. RC-68,
+326,Haloferax mediterranei,species_,Haloferax mediterranei ATCC 33500,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloferax,Haloferax mediterranei,Haloferax mediterranei ATCC 33500
+327,Haloferax,species,Haloferax gibbonsii,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloferax,Haloferax gibbonsii,
+328,Haloferax volcanii,species_,Haloferax volcanii DS2,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloferax,Haloferax volcanii,Haloferax volcanii DS2
+331,Haloquadratum walsbyi,species_,Haloquadratum walsbyi DSM 16790,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloquadratum,Haloquadratum walsbyi,Haloquadratum walsbyi DSM 16790
+332,Haloquadratum walsbyi,species_,Haloquadratum walsbyi C23,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloquadratum,Haloquadratum walsbyi,Haloquadratum walsbyi C23
+334,Halogeometricum borinquense,species_,Halogeometricum borinquense DSM 11551,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Halogeometricum,Halogeometricum borinquense,Halogeometricum borinquense DSM 11551
+337,Salinigranum,species,Salinigranum rubrum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Salinigranum,Salinigranum rubrum,
+338,Haloplanus,species,Haloplanus aerogenes,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloplanus,Haloplanus aerogenes,
+339,Haloplanus,species,Haloplanus sp. CBA1112,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloplanus,Haloplanus sp. CBA1112,
+340,Haloplanus,species,Haloplanus sp. CBA1113,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Haloferacaceae,,Haloplanus,Haloplanus sp. CBA1113,
+345,Halohasta,species,Halohasta litchfieldiae,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halohasta,Halohasta litchfieldiae,
+346,unclassified Haloferacales,species,halophilic archaeon DL31,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,unclassified Haloferacales,,,,,halophilic archaeon DL31,
+347,unclassified Archaea (miscellaneous),species,archaeon AArc-Sl,root,cellular organisms,Archaea,unclassified Archaea,unclassified Archaea (miscellaneous),,,,,,,,,,,,archaeon AArc-Sl,
+348,Halopenitus,species,Halopenitus persicus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halopenitus,Halopenitus persicus,
+349,Halorubrum,species,Halorubrum ezzemoulense,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,Halorubrum ezzemoulense,
+350,Halorubrum,species,Halorubrum sp. BOL3-1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,Halorubrum sp. BOL3-1,
+352,Halorubrum,species,Halorubrum trapanicum,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,Halorubrum trapanicum,
+354,Halorubrum,species,Halorubrum sp. PV6,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,Halorubrum sp. PV6,
+355,Halorubrum lacusprofundi,species_,Halorubrum lacusprofundi ATCC 49239,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Halobacteria,,Haloferacales,,,Halorubraceae,,Halorubrum,Halorubrum lacusprofundi,Halorubrum lacusprofundi ATCC 49239
+365,Methanolacinia petrolearia,species_,Methanolacinia petrolearia DSM 11571,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,Methanolacinia,Methanolacinia petrolearia,Methanolacinia petrolearia DSM 11571
+366,Methanoculleus marisnigri,species_,Methanoculleus marisnigri JR1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,Methanoculleus,Methanoculleus marisnigri,Methanoculleus marisnigri JR1
+367,Methanoculleus,species,Methanoculleus bourgensis,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,Methanoculleus,Methanoculleus bourgensis,
+368,Methanoculleus bourgensis,species_,Methanoculleus bourgensis MS2,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanomicrobiaceae,,Methanoculleus,Methanoculleus bourgensis,Methanoculleus bourgensis MS2
+372,Methanospirillum hungatei,species_,Methanospirillum hungatei JF-1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanospirillaceae,,Methanospirillum,Methanospirillum hungatei,Methanospirillum hungatei JF-1
+373,Methanoregula boonei,species_,Methanoregula boonei 6A8,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanoregulaceae,,Methanoregula,Methanoregula boonei,Methanoregula boonei 6A8
+374,Methanoregula formicica,species_,Methanoregula formicica SMSP,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanoregulaceae,,Methanoregula,Methanoregula formicica,Methanoregula formicica SMSP
+377,Methanosphaerula palustris,species_,Methanosphaerula palustris E1-9c,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanoregulaceae,,Methanosphaerula,Methanosphaerula palustris,Methanosphaerula palustris E1-9c
+379,Methanocorpusculum labreanum,species_,Methanocorpusculum labreanum Z,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanomicrobiales,,,Methanocorpusculaceae,,Methanocorpusculum,Methanocorpusculum labreanum,Methanocorpusculum labreanum Z
+382,Methanothrix soehngenii,species_,Methanothrix soehngenii GP6,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosaetaceae,,Methanothrix,Methanothrix soehngenii,Methanothrix soehngenii GP6
+383,Methanosaeta harundinacea,species_,Methanosaeta harundinacea 6Ac,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosaetaceae,,Methanothrix,Methanosaeta harundinacea,Methanosaeta harundinacea 6Ac
+385,Methanosalsum zhilinae,species_,Methanosalsum zhilinae DSM 4017,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosalsum,Methanosalsum zhilinae,Methanosalsum zhilinae DSM 4017
+386,Methanohalobium evestigatum,species_,Methanohalobium evestigatum Z-7303,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanohalobium,Methanohalobium evestigatum,Methanohalobium evestigatum Z-7303
+388,Methanohalophilus,species,Methanohalophilus halophilus,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanohalophilus,Methanohalophilus halophilus,
+389,Methanohalophilus mahii,species_,Methanohalophilus mahii DSM 5219,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanohalophilus,Methanohalophilus mahii,Methanohalophilus mahii DSM 5219
+391,Methanococcoides methylutens,species_,Methanococcoides methylutens MM1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanococcoides,Methanococcoides methylutens,Methanococcoides methylutens MM1
+392,Methanococcoides burtonii,species_,Methanococcoides burtonii DSM 6242,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanococcoides,Methanococcoides burtonii,Methanococcoides burtonii DSM 6242
+395,Methanomethylovorans hollandica,species_,Methanomethylovorans hollandica DSM 15978,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanomethylovorans,Methanomethylovorans hollandica,Methanomethylovorans hollandica DSM 15978
+396,Methanolobus psychrophilus,species_,Methanolobus psychrophilus R15,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanolobus,Methanolobus psychrophilus,Methanolobus psychrophilus R15
+397,Methanosarcina,species,Methanosarcina sp. MTP4,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina sp. MTP4,
+398,Methanosarcina lacustris,species_,Methanosarcina lacustris Z-7289,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina lacustris,Methanosarcina lacustris Z-7289
+399,Methanosarcina,species,Methanosarcina sp. WH1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina sp. WH1,
+401,Methanosarcina siciliae,species_,Methanosarcina siciliae C2J,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina siciliae,Methanosarcina siciliae C2J
+402,Methanosarcina siciliae,species_,Methanosarcina siciliae T4/M,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina siciliae,Methanosarcina siciliae T4/M
+404,Methanosarcina thermophila,species_,Methanosarcina thermophila TM-1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina thermophila,Methanosarcina thermophila TM-1
+405,Methanosarcina mazei,species_,Methanosarcina mazei WWM610,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina mazei,Methanosarcina mazei WWM610
+406,Methanosarcina mazei,species_,Methanosarcina mazei Go1,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina mazei,Methanosarcina mazei Go1
+408,Methanosarcina horonobensis,species_,Methanosarcina horonobensis HB-1 = JCM 15518,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina horonobensis,Methanosarcina horonobensis HB-1 = JCM 15518
+410,Methanosarcina,species,Methanosarcina sp. Kolksee,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina sp. Kolksee,
+411,Methanosarcina vacuolata,species_,Methanosarcina vacuolata Z-761,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina vacuolata,Methanosarcina vacuolata Z-761
+413,Methanosarcina barkeri,species_,Methanosarcina barkeri 3,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina barkeri,Methanosarcina barkeri 3
+414,Methanosarcina barkeri,species_,Methanosarcina barkeri 227,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina barkeri,Methanosarcina barkeri 227
+415,Methanosarcina barkeri,species_,Methanosarcina barkeri MS,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina barkeri,Methanosarcina barkeri MS
+417,Methanosarcina barkeri,species_,Methanosarcina barkeri str. Fusaro,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanosarcinales,,,Methanosarcinaceae,,Methanosarcina,Methanosarcina barkeri,Methanosarcina barkeri str. Fusaro
+431,Methanocella conradii,species_,Methanocella conradii HZ254,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanocellales,,,Methanocellaceae,,Methanocella,Methanocella conradii,Methanocella conradii HZ254
+432,Methanocella paludicola,species_,Methanocella paludicola SANAE,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanocellales,,,Methanocellaceae,,Methanocella,Methanocella paludicola,Methanocella paludicola SANAE
+434,Methanocella arvoryzae,species_,Methanocella arvoryzae MRE50,root,cellular organisms,Archaea,,,Euryarchaeota,Stenosarchaea group,,Methanomicrobia,,Methanocellales,,,Methanocellaceae,,Methanocella,Methanocella arvoryzae,Methanocella arvoryzae MRE50
+443,Methanothermobacter,species,Methanothermobacter wolfeii,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanothermobacter,Methanothermobacter wolfeii,
+444,Methanothermobacter marburgensis,species_,Methanothermobacter marburgensis str. Marburg,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanothermobacter,Methanothermobacter marburgensis,Methanothermobacter marburgensis str. Marburg
+445,Methanothermobacter thermautotrophicus,species_,Methanothermobacter thermautotrophicus str. Delta H,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanothermobacter,Methanothermobacter thermautotrophicus,Methanothermobacter thermautotrophicus str. Delta H
+446,Methanothermobacter,species,Methanothermobacter sp. CaT2,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanothermobacter,Methanothermobacter sp. CaT2,
+452,Methanobacterium,species,Methanobacterium paludis,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,Methanobacterium paludis,
+453,Methanobacterium,species,Methanobacterium lacus,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,Methanobacterium lacus,
+455,Methanobacterium,species,Methanobacterium congolense,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,Methanobacterium congolense,
+458,Methanobacterium,species,Methanobacterium subterraneum,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,Methanobacterium subterraneum,
+460,Methanobacterium,species,Methanobacterium formicicum,root,cellular organisms,Archaea,,,Euryarchaeota,Methanomada group,,Methanobacteria,,Methanobacteriales,,,Methanobacteriaceae,,Methanobacterium,Methanobacterium formicicum,
