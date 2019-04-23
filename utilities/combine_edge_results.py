@@ -73,7 +73,7 @@ try:
     unique_suffix = command_args['unique_in']
 except KeyError:
     unique_suffix = domain + '.unique_seqs.csv'
-        
+            
 ## Delete old combined files, so that
 ## the script doesn't try to include them.
 
@@ -115,7 +115,7 @@ def fill_edge_data(param, name, df_in):
     print(name, param, mean, sd)
     return mean, sd
 
-taxon_map = {}
+taxon_map = pd.DataFrame(columns = ['phylum', 'class', 'order', 'family', 'genus', 'species', 'taxon'])
         
 for f in os.listdir('.'):
     if f.endswith(edge_suffix):
@@ -123,9 +123,19 @@ for f in os.listdir('.'):
         temp_edge = pd.read_csv(f, index_col = 0)
         name = re.sub(edge_suffix, '', f)
         
-        for edge in temp_edge.index:
-            temp_tax = temp_edge.loc[edge, 'tax_name']
-            taxon_map[edge] = temp_tax
+        for edge in temp_edge.index:            
+            for rank in ['phylum', 'class', 'order', 'family', 'genus', 'species', 'taxon', 'tax_name']:
+                try:
+                    temp_rank = temp_edge.loc[edge, rank]
+                    
+                    ## Limit lowest taxonomic name to 'taxon'
+                    
+                    if rank == 'tax_name':
+                        rank = 'taxon'
+                        
+                    taxon_map.loc[edge, rank] = temp_rank
+                except KeyError:
+                    continue
         
         if domain != 'eukarya':        
             for param in ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'confidence']:
@@ -151,10 +161,16 @@ for f in os.listdir('.'):
         name = re.sub(ec_suffix, '', f)
         temp_ec = pd.read_csv(f, index_col = 0, names = [name])
         ec_tally = pd.concat([ec_tally, temp_ec], axis = 1)
+        
+## Do some gap filling for taxon_map; where there is a missing level but the
+## level is known, fill it.
+        
+!!
             
 pd.DataFrame.to_csv(edge_tally.transpose(), prefix + '.edge_tally.csv') 
 pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.path_tally.csv') 
 pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.ec_tally.csv')
+pd.DataFrame.to_csv(taxon_map, prefix + '.taxon_map.csv') 
 
 if domain != 'eukarya':
     pd.DataFrame.to_csv(edge_data, prefix + '.edge_data.csv')
@@ -168,9 +184,4 @@ for f in os.listdir('.'):
         temp_unique.columns = [name]
         unique_tally = pd.concat([unique_tally, temp_unique], axis = 1, sort = False)
     
-pd.DataFrame.to_csv(unique_tally.transpose(), prefix + '.unique_tally.csv')    
-
-with open(prefix + '.taxon_map.txt', 'w') as taxon_out:
-    print('edge' + '\t' + 'taxon', file=taxon_out)
-    for edge in sorted(taxon_map.keys()):
-        print(str(edge) + '\t' + str(taxon_map[edge]), file=taxon_out)
+pd.DataFrame.to_csv(unique_tally.transpose(), prefix + '.unique_tally.csv') 
