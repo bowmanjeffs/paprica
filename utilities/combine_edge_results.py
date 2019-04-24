@@ -164,8 +164,6 @@ for f in os.listdir('.'):
         
 ## Do some gap filling for taxon_map; where there is a missing level but the
 ## level is known, fill it.
-        
-!!
             
 pd.DataFrame.to_csv(edge_tally.transpose(), prefix + '.edge_tally.csv') 
 pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.path_tally.csv') 
