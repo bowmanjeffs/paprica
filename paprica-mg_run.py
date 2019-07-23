@@ -19,7 +19,7 @@ If your analysis makes specific use of pplacer, Infernal, or pathway-tools
 please make sure that you also cite the relevant publications.
 
 CALL AS:
-    python paprica-mg_run.py [OPTIONS]
+    paprica-mg_run.py [OPTIONS]
     
 OPTIONS:
     -i: Input fasta or fasta.gz.
@@ -59,7 +59,7 @@ def stop_here():
 cwd = os.getcwd() + '/' # The current working directory.
 
 if len(sys.argv) == 1:
-    paprica_path = '/volumes/hd1/paprica/' # The location of the paprica scripts during testing.
+    paprica_path = '/volumes/hd2/jeff/paprica/' # The location of the paprica scripts during testing.
 else:
     paprica_path = os.path.dirname(os.path.realpath(__file__)) + '/' # The location of the actual paprica scripts.
 
@@ -92,9 +92,9 @@ else:
     name = command_args['o']
     
 if 'ref_dir' not in command_args.keys():
-    ref_dir = 'paprica-mgt.database/ref_genome_database'
+    ref_dir = 'ref_genome_database/paprica-mgt.database'
 else:
-    ref_dir = 'paprica-mgt.database/' + command_args['ref_dir']
+    ref_dir = command_args['ref_dir']
     
 if 'pathways' not in command_args.keys():
     pathways = 'F'
@@ -117,7 +117,7 @@ if ref_dir_path.endswith('/') == False:
 ## that the index values in the resulting DF aren't unique, which works great.
 ## Note use of --top 0, this means only top tying hits are reported.
     
-ec_df = pd.DataFrame.from_csv(ref_dir_path + 'paprica-mg.ec.csv')
+ec_df = pd.read_csv(ref_dir_path + 'paprica-mg.ec.csv', index_col = 0)
 ngenomes = len(ec_df['genome'].unique())
     
 print 'executing DIAMOND blastx, this might take a while...'
