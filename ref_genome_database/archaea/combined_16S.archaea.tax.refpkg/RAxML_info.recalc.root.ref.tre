@@ -19,9 +19,9 @@ Akifumi S. Tanabe (NRIFS)
 Charlie Taylor    (UF)
 
 
-Alignment has 1151 distinct alignment patterns
+Alignment has 1154 distinct alignment patterns
 
-Proportion of gaps and completely undetermined characters in this alignment: 52.83%
+Proportion of gaps and completely undetermined characters in this alignment: 52.86%
 
 RAxML Model Optimization up to an accuracy of 0.100000 log likelihood units
 
@@ -34,7 +34,7 @@ GAMMA model of rate heteorgeneity, ML estimate of alpha-parameter
 GAMMA Model parameters will be estimated up to an accuracy of 0.1000000000 Log Likelihood units
 
 Partition: 0
-Alignment Patterns: 1151
+Alignment Patterns: 1154
 Name: No Name Provided
 DataType: DNA
 Substitution Matrix: GTR
@@ -51,27 +51,27 @@ raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -f e -t /volumes/hd1/paprica/ref_genome_
 Model parameters (binary file format) written to: /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_binaryModelParameters.recalc.root.ref.tre
 
 
-Overall Time for Tree Evaluation 1.024624
-Final GAMMA  likelihood: -58935.684956
+Overall Time for Tree Evaluation 1.273489
+Final GAMMA  likelihood: -60695.295496
 
-Number of free parameters for AIC-TEST(BR-LEN): 470
+Number of free parameters for AIC-TEST(BR-LEN): 490
 Number of free parameters for AIC-TEST(NO-BR-LEN): 9
 
 
 Model Parameters of Partition 0, Name: No Name Provided, Type of Data: DNA
-alpha: 0.444660
-Tree-Length: 18.347246
-rate A <-> C: 0.998841
-rate A <-> G: 3.188115
-rate A <-> T: 1.958036
-rate C <-> G: 0.804469
-rate C <-> T: 5.907136
+alpha: 0.444954
+Tree-Length: 18.951175
+rate A <-> C: 1.021480
+rate A <-> G: 3.271814
+rate A <-> T: 2.003208
+rate C <-> G: 0.812613
+rate C <-> T: 6.021786
 rate G <-> T: 1.000000
 
-freq pi(A): 0.223701
-freq pi(C): 0.262991
-freq pi(G): 0.335264
-freq pi(T): 0.178043
+freq pi(A): 0.224188
+freq pi(C): 0.262854
+freq pi(G): 0.334863
+freq pi(T): 0.178095
 
 Final tree written to:                 /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_result.recalc.root.ref.tre
 Execution Log File written to:         /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_log.recalc.root.ref.tre
