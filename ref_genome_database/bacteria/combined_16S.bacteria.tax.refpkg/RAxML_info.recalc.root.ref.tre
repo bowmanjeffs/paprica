@@ -19,9 +19,9 @@ Akifumi S. Tanabe (NRIFS)
 Charlie Taylor    (UF)
 
 
-Alignment has 2375 distinct alignment patterns
+Alignment has 2429 distinct alignment patterns
 
-Proportion of gaps and completely undetermined characters in this alignment: 48.52%
+Proportion of gaps and completely undetermined characters in this alignment: 50.72%
 
 RAxML Model Optimization up to an accuracy of 0.100000 log likelihood units
 
@@ -34,7 +34,7 @@ GAMMA model of rate heteorgeneity, ML estimate of alpha-parameter
 GAMMA Model parameters will be estimated up to an accuracy of 0.1000000000 Log Likelihood units
 
 Partition: 0
-Alignment Patterns: 2375
+Alignment Patterns: 2429
 Name: No Name Provided
 DataType: DNA
 Substitution Matrix: GTR
@@ -44,34 +44,34 @@ Substitution Matrix: GTR
 
 RAxML was called as follows:
 
-raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -f e -t /volumes/hd1/paprica/ref_genome_database/bacteria/RAxML_rootedTree.root.ref.tre -n recalc.root.ref.tre -s /volumes/hd1/paprica/ref_genome_database/bacteria/combined_16S.bacteria.tax.clean.align.fasta -w /volumes/hd1/paprica/ref_genome_database/bacteria/ 
+raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -f e -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/RAxML_rootedTree.root.ref.tre -n recalc.root.ref.tre -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.bacteria.tax.clean.align.fasta -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/ 
 
 
 
-Model parameters (binary file format) written to: /volumes/hd1/paprica/ref_genome_database/bacteria/RAxML_binaryModelParameters.recalc.root.ref.tre
+Model parameters (binary file format) written to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/RAxML_binaryModelParameters.recalc.root.ref.tre
 
 
-Overall Time for Tree Evaluation 63.987893
-Final GAMMA  likelihood: -851493.150866
+Overall Time for Tree Evaluation 85.311289
+Final GAMMA  likelihood: -907380.538789
 
-Number of free parameters for AIC-TEST(BR-LEN): 12324
+Number of free parameters for AIC-TEST(BR-LEN): 13532
 Number of free parameters for AIC-TEST(NO-BR-LEN): 9
 
 
 Model Parameters of Partition 0, Name: No Name Provided, Type of Data: DNA
-alpha: 0.421849
-Tree-Length: 326.536902
-rate A <-> C: 0.788213
-rate A <-> G: 2.214760
-rate A <-> T: 1.397084
-rate C <-> G: 0.700807
-rate C <-> T: 3.527660
+alpha: 0.422242
+Tree-Length: 344.459647
+rate A <-> C: 0.785047
+rate A <-> G: 2.220828
+rate A <-> T: 1.409163
+rate C <-> G: 0.702148
+rate C <-> T: 3.528435
 rate G <-> T: 1.000000
 
-freq pi(A): 0.252035
-freq pi(C): 0.226829
-freq pi(G): 0.312837
-freq pi(T): 0.208299
+freq pi(A): 0.252201
+freq pi(C): 0.226764
+freq pi(G): 0.312563
+freq pi(T): 0.208472
 
-Final tree written to:                 /volumes/hd1/paprica/ref_genome_database/bacteria/RAxML_result.recalc.root.ref.tre
-Execution Log File written to:         /volumes/hd1/paprica/ref_genome_database/bacteria/RAxML_log.recalc.root.ref.tre
+Final tree written to:                 /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/RAxML_result.recalc.root.ref.tre
+Execution Log File written to:         /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/RAxML_log.recalc.root.ref.tre
