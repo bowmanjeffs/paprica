@@ -206,7 +206,7 @@ def create_euk_files(d):
 
 ## Read in the genome_data file.
 
-genome_data = pd.read_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
+genome_data = pd.read_csv(ref_dir_domain + 'genome_data.csv.gz', header = 0, index_col = 0)
 genome_data['clade'] = np.nan
 genome_data['tip_name'] = np.nan
 genome_data['npaths_actual'] = np.nan
@@ -763,22 +763,22 @@ for edge in terminal_paths.index:
    
 ## Write out ya database files.
             
-node_lineages.to_csv(ref_dir_domain + 'node_lineages.csv')      
-genome_data.to_csv(ref_dir_domain + 'genome_data.final.csv')
-terminal_paths.to_csv(ref_dir_domain + 'terminal_paths.csv')
-terminal_ec.to_csv(ref_dir_domain + 'terminal_ec.csv')
+node_lineages.to_csv(ref_dir_domain + 'node_lineages.csv.gz')      
+genome_data.to_csv(ref_dir_domain + 'genome_data.final.csv.gz')
+terminal_paths.to_csv(ref_dir_domain + 'terminal_paths.csv.gz')
+terminal_ec.to_csv(ref_dir_domain + 'terminal_ec.csv.gz')
 
 internal_data = pd.DataFrame(internal_data, index = int_nodes, columns = internal_data_columns)
-internal_data.to_csv(ref_dir_domain + 'internal_data.csv')
+internal_data.to_csv(ref_dir_domain + 'internal_data.csv.gz')
 
 internal_probs = pd.DataFrame(internal_probs, index = int_nodes, columns = internal_probs_columns)
-internal_probs.to_csv(ref_dir_domain + 'internal_probs.csv')
+internal_probs.to_csv(ref_dir_domain + 'internal_probs.csv.gz')
 
 internal_ec_probs = pd.DataFrame(internal_ec_probs, index = int_nodes, columns = internal_ec_probs_columns)
-internal_ec_probs.to_csv(ref_dir_domain + 'internal_ec_probs.csv')
+internal_ec_probs.to_csv(ref_dir_domain + 'internal_ec_probs.csv.gz')
 
 internal_ec_n = pd.DataFrame(internal_ec_n, index = int_nodes, columns = internal_ec_n_columns)
-internal_ec_n.to_csv(ref_dir_domain + 'internal_ec_n.csv')
+internal_ec_n.to_csv(ref_dir_domain + 'internal_ec_n.csv.gz')
 
 ## Clean up memory maps
 

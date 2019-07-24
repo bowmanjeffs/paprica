@@ -570,7 +570,7 @@ if download == 'F':
     
     new_genome_faa = []
     
-    summary_complete = pd.read_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
+    summary_complete = pd.read_csv(ref_dir_domain + 'genome_data.csv.gz', header = 0, index_col = 0)
     
     if domain != 'eukarya':
         summary_complete = summary_complete[summary_complete.assembly_level != 'Draft']
@@ -595,7 +595,7 @@ summary_complete['GC'] = np.nan
 
 ## Write out summary_complete.
 
-summary_complete.to_csv(ref_dir_domain + 'genome_data.csv')
+summary_complete.to_csv(ref_dir_domain + 'genome_data.csv.gz')
 
 #%% Get the 16S/18S rRNA genes for each assembly and genome parameters.  Eukarya
 ## are a special case and must be handled separate from bacteria and archaea.
@@ -639,7 +639,7 @@ if domain == 'eukarya':
     
     ## Write out summary_complete and exit.
     
-    summary_complete.to_csv(ref_dir_domain + 'genome_data.csv') 
+    summary_complete.to_csv(ref_dir_domain + 'genome_data.csv.gz') 
     quit()
        
 ## For bacteria and archaea, find 16S rRNA genes in fna files. Get some paramenters on the genome; number of
@@ -1022,6 +1022,6 @@ with open(ref_dir_domain + 'combined_16S.' + domain + '.tax.fasta', 'w') as tax_
         
 ## Write out the final summary_complete file.
 
-summary_complete.to_csv(ref_dir_domain + 'genome_data.csv')
+summary_complete.to_csv(ref_dir_domain + 'genome_data.csv.gz')
         
         
