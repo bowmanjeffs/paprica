@@ -379,7 +379,7 @@ def make_tax(bad_character):
 
     seq_info = pd.DataFrame(columns = ['seqname', 'accession', 'tax_id', 'species_name', 'is_type'])
     
-    summary_complete = pd.read_csv(ref_dir_domain + 'genome_data.csv', header = 0, index_col = 0)
+    summary_complete = pd.read_csv(ref_dir_domain + 'genome_data.csv.gz', header = 0, index_col = 0)
     
     ## Need filler taxid for entries that don't have one.
     
@@ -400,7 +400,7 @@ def make_tax(bad_character):
     ## downstream.  A better solution would be to find and add taxids for
     ## draft genomes.
         
-    summary_complete.to_csv(ref_dir_domain + 'genome_data.csv')
+    summary_complete.to_csv(ref_dir_domain + 'genome_data.csv.gz')
         
     ## Sequence names must be cleaned exactly as in clean_name.  Drop any entries
     ## that do not have a seqname.
