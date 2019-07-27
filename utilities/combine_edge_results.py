@@ -180,6 +180,6 @@ for f in os.listdir('.'):
         name = re.sub(unique_suffix, '', f)
         temp_unique = pd.read_csv(f, index_col = 0, usecols = ['identifier', 'abundance_corrected'])
         temp_unique.columns = [name]
-        unique_tally = pd.concat([unique_tally, temp_unique], axis = 1, sort = False)
+        unique_tally = pd.concat([unique_tally, temp_unique], axis = 1, sort = True)
     
 pd.DataFrame.to_csv(unique_tally.transpose(), prefix + '.unique_tally.csv') 
