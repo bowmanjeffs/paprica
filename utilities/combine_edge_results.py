@@ -47,7 +47,7 @@ if 'h' in list(command_args.keys()):
 try:
     domain = command_args['domain']
 except KeyError:
-    domain = 'bacteria'
+    domain = 'archaea'
     
 try:
     prefix = command_args['o']
