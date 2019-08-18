@@ -584,11 +584,11 @@ else:
     guppy_csv.loc[edpl_csv.index, 'edpl'] = edpl_csv.edpl
     guppy_csv.loc[unique_abund.index, 'abund'] = unique_abund.abundance
     
-    ## Add the hash of each unique read to the guppy csv file
+    ## Add the seq of each unique read to the guppy csv file
     
     for name in guppy_csv.index:
         row_seq = unique_seq_names[name]
-        guppy_csv.loc[name, 'hash'] = str(hash(row_seq))
+        guppy_csv.loc[name, 'seq'] = str(row_seq)
         
     guppy_csv.to_csv(cwd + query + '.' + ref + '.clean.unique.align.csv')
     

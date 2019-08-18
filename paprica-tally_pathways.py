@@ -384,9 +384,9 @@ edge_data = pd.concat([edge_data, lineages], axis = 1, join = 'inner')
 
 print('Normalizing abundance for unique sequences...')
 
-unique_csv = unique_csv[['hash', 'abund', 'edge_num', 'origin']]
+unique_csv = unique_csv[['seq', 'abund', 'edge_num', 'origin']]
 unique_csv.loc[unique_csv.index, 'name'] = unique_csv.index
-unique_csv.index = unique_csv.hash
+unique_csv.index = unique_csv.seq
 
 ## then you need abundance_corrected and taxon from edge_data
 
