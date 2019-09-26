@@ -106,11 +106,11 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'eukarya'
+    domain = 'bacteria'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
-    ref = 'combined_18S.eukarya.tax'
+    ref = 'combined_16S.bacteria.tax'
 
 ## If sys.argv == 1, you are probably running inside Python in testing mode.
 ## Provide some default values to make this possibe.  If > 1, parse command
@@ -120,7 +120,7 @@ except KeyError:
 if len(sys.argv) == 1:
     cpus = '8'
     splits = 1
-    query = 'test.eukarya'
+    query = 'test.bacteria'
     command_args['query'] = query
 
 else:
