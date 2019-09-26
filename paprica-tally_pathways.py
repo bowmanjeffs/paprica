@@ -181,7 +181,7 @@ for qname in query_csv.index:
             elif record.id == ref_genome:
                 ref_str = str(record.seq)
                 
-        ## Interate across the query alignment, ignoring gap characters, and tally
+        ## Iterate across the query alignment, ignoring gap characters, and tally
         ## up the number of positions that match to reference.
                         
         n_match = 0

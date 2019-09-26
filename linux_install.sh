@@ -35,7 +35,7 @@ mv infernal-1.1.2-linux-intel-gcc infernal
 
 ## Install pplacer
 wget https://github.com/matsen/pplacer/releases/download/v1.1.alpha19/pplacer-linux-v1.1.alpha19.zip
-unzip v1.1.alpha19/pplacer-linux-v1.1.alpha19.zip
+unzip pplacer-linux-v1.1.alpha19.zip
 mv pplacer-Linux-v1.1.alpha19 pplacer
 
 ## Install epa-ng
