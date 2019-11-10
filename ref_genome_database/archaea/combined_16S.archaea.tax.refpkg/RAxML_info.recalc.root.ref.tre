@@ -19,9 +19,9 @@ Akifumi S. Tanabe (NRIFS)
 Charlie Taylor    (UF)
 
 
-Alignment has 1154 distinct alignment patterns
+Alignment has 1282 distinct alignment patterns
 
-Proportion of gaps and completely undetermined characters in this alignment: 52.86%
+Proportion of gaps and completely undetermined characters in this alignment: 72.44%
 
 RAxML Model Optimization up to an accuracy of 0.100000 log likelihood units
 
@@ -34,7 +34,7 @@ GAMMA model of rate heteorgeneity, ML estimate of alpha-parameter
 GAMMA Model parameters will be estimated up to an accuracy of 0.1000000000 Log Likelihood units
 
 Partition: 0
-Alignment Patterns: 1154
+Alignment Patterns: 1282
 Name: No Name Provided
 DataType: DNA
 Substitution Matrix: GTR
@@ -44,34 +44,34 @@ Substitution Matrix: GTR
 
 RAxML was called as follows:
 
-raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -f e -t /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_rootedTree.root.ref.tre -n recalc.root.ref.tre -s /volumes/hd1/paprica/ref_genome_database/archaea/combined_16S.archaea.tax.clean.align.fasta -w /volumes/hd1/paprica/ref_genome_database/archaea/ 
+raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -f e -t /volumes/hd2/jeff/paprica/ref_genome_database/archaea/RAxML_rootedTree.root.ref.tre -n recalc.root.ref.tre -s /volumes/hd2/jeff/paprica/ref_genome_database/archaea/combined_16S.archaea.tax.clean.align.fasta -w /volumes/hd2/jeff/paprica/ref_genome_database/archaea/ 
 
 
 
-Model parameters (binary file format) written to: /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_binaryModelParameters.recalc.root.ref.tre
+Model parameters (binary file format) written to: /volumes/hd2/jeff/paprica/ref_genome_database/archaea/RAxML_binaryModelParameters.recalc.root.ref.tre
 
 
-Overall Time for Tree Evaluation 1.273489
-Final GAMMA  likelihood: -60695.295496
+Overall Time for Tree Evaluation 1.686318
+Final GAMMA  likelihood: -71158.177654
 
-Number of free parameters for AIC-TEST(BR-LEN): 490
+Number of free parameters for AIC-TEST(BR-LEN): 538
 Number of free parameters for AIC-TEST(NO-BR-LEN): 9
 
 
 Model Parameters of Partition 0, Name: No Name Provided, Type of Data: DNA
-alpha: 0.444954
-Tree-Length: 18.951175
-rate A <-> C: 1.021480
-rate A <-> G: 3.271814
-rate A <-> T: 2.003208
-rate C <-> G: 0.812613
-rate C <-> T: 6.021786
+alpha: 0.466072
+Tree-Length: 28.159282
+rate A <-> C: 1.015918
+rate A <-> G: 3.129261
+rate A <-> T: 2.006876
+rate C <-> G: 0.799922
+rate C <-> T: 5.898813
 rate G <-> T: 1.000000
 
-freq pi(A): 0.224188
-freq pi(C): 0.262854
-freq pi(G): 0.334863
-freq pi(T): 0.178095
+freq pi(A): 0.226953
+freq pi(C): 0.261860
+freq pi(G): 0.328291
+freq pi(T): 0.182896
 
-Final tree written to:                 /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_result.recalc.root.ref.tre
-Execution Log File written to:         /volumes/hd1/paprica/ref_genome_database/archaea/RAxML_log.recalc.root.ref.tre
+Final tree written to:                 /volumes/hd2/jeff/paprica/ref_genome_database/archaea/RAxML_result.recalc.root.ref.tre
+Execution Log File written to:         /volumes/hd2/jeff/paprica/ref_genome_database/archaea/RAxML_log.recalc.root.ref.tre
