@@ -1,6 +1,6 @@
 {
     "files": {
-        "phylo_model": "phylo_model5y_GWS.json", 
+        "phylo_model": "phylo_modelFgQvay.json", 
         "taxonomy": "taxa.csv", 
         "tree": "RAxML_result.recalc.root.ref.tre", 
         "aln_fasta": "combined_16S.bacteria.tax.clean.align.fasta", 
@@ -14,18 +14,18 @@
         "Loaded initial files into empty refpkg"
     ], 
     "metadata": {
-        "create_date": "2019-06-27 01:27:58", 
+        "create_date": "2019-11-09 13:59:04", 
         "format_version": "1.1", 
         "locus": "16S_rRNA"
     }, 
     "rollforward": null, 
     "md5": {
-        "phylo_model": "89a8cd951beee24990580ed1cdaace0f", 
-        "taxonomy": "048511fe5477aee30b51d821f27fe4c9", 
-        "tree": "5e16ad9ba3e259b7b74c4e47104ac341", 
-        "aln_fasta": "4e8fef6bbb45c89221a01748a4fd83af", 
-        "seq_info": "ad8ea5c9a4ccc5cbd219ac7314661e01", 
-        "aln_sto": "89fc660e7310c0ce6e908a76968c94c3", 
-        "tree_stats": "aeb39de4df739d43678f15ff047a728c"
+        "phylo_model": "709d283e1c30cb1eb33f60e8a8c2c0c8", 
+        "taxonomy": "fe0fa6d264bb8ee6f9852f64b7a1f205", 
+        "tree": "76b8b7d0c8d3d8c6aeb86b0d0914ef6f", 
+        "aln_fasta": "c976ec1703ef2c59bb2164f6a851c91b", 
+        "seq_info": "1bec693dfb4ab786b3070eb307b3ead4", 
+        "aln_sto": "974808ca45e84ef0c0e85ab76e5d5bdd", 
+        "tree_stats": "36aeccb86f2569820aef58df20c6db75"
     }
 }
