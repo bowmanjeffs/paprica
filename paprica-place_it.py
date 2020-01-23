@@ -257,7 +257,7 @@ def split_fasta(file_in, nsplits):
     
     return(splits)
     
-#%% Define a function to split a comined query and reference (such as one
+#%% Define a function to split a combined query and reference (such as one
 ## combined by a call to esl-alimerge).
     
 def split_query_ref(query, ref, combined):
