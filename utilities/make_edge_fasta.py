@@ -18,7 +18,6 @@ It probably has a name that follows the form [yoursample].[domain].unique_seqs.c
     
 """
 
-from Bio import SeqIO
 import sys
 import pandas as pd
 
@@ -35,21 +34,26 @@ for i,arg in enumerate(sys.argv):
 if 'h' in list(command_args.keys()):
     print(help_string)
     quit()
+    
+if len(command_args) == 0:
+    command_args['csv'] = 'B234-P_B31_18S.18S.exp.eukarya.combined_18S.eukarya.tax.clean.unique.align.csv'
+    command_args['start'] = 275
+    command_args['stop'] = 277
 
 csv = command_args['csv']
 start = int(command_args['start'])
 stop = int(command_args['stop'])
 
 csv_in = pd.read_csv(csv, header = 0, index_col = 0)
-select = set(csv_in.name[csv_in['edge_num'].between(start, stop)])
+select = set(csv_in.index[csv_in['edge_num'].between(start, stop)])
+select = csv_in.loc[csv_in['edge_num'].between(start, stop)]
 fasta = csv.split('.')
 fasta = fasta[:-3]
 fasta = '.'.join(fasta)
             
 with open(fasta + '_' + str(start) + '_' + str(stop) + '.clean.unique.fasta', 'w') as fasta_out:
-    for record in SeqIO.parse(fasta + '.fasta', 'fasta'):
-        if record.id in select:
-            print('found', record.id)
-            SeqIO.write(record, fasta_out, 'fasta')
+    for read in select.index:
+        print('>' + read, file = fasta_out)
+        print(select.loc[read, 'seq'], file = fasta_out)
         
         
