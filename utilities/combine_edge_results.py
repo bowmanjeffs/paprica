@@ -145,9 +145,9 @@ for f in os.listdir('.'):
             print(f, 'please note that summary edge_data files are not created for domain eukarya')
             
         if len(pd.isnull(pd.DataFrame(temp_edge['nedge_corrected'])) > 0):
-            temp_edge_abund = pd.DataFrame(temp_edge['nedge'])
-        else:
             temp_edge_abund = pd.DataFrame(temp_edge['nedge_corrected'])
+        else:
+            temp_edge_abund = pd.DataFrame(temp_edge['nedge'])
             
         temp_edge_abund.columns = [name]        
         edge_tally = pd.concat([edge_tally, temp_edge_abund], axis = 1)
