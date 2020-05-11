@@ -341,7 +341,7 @@ def guppy(query, ref):
     guppy3 = subprocess.Popen('guppy edpl --csv -o ' + query + '.' + ref + '.clean.unique.align.edpl.csv ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
     guppy3.communicate()
     
-#%% Define a function to classify read placements.
+#%% Define a function to classify read placements.  This is currently not used and can be removed.
     
 def classify():
     
@@ -593,8 +593,3 @@ else:
         guppy_csv.loc[name, 'seq'] = str(row_seq)
         
     guppy_csv.to_csv(cwd + query + '.' + ref + '.clean.unique.align.csv')
-    
-    ## Executing the classify function to add information to the taxonomy db,
-    ## but this information is not currently being used downstream.
-        
-    classify()
