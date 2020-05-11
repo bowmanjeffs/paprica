@@ -298,7 +298,7 @@ def place(query, ref, ref_dir_domain, cm):
     degap = subprocess.Popen('seqmagick mogrify --ungap ' + query + '.clean.unique.fasta', shell = True, executable = executable)
     degap.communicate()
     
-    ## Conduct alignment with Infernal (cmalign) against the bacteria profile
+    ## Conduct alignment with Infernal (cmalign) against the domain profile
     ## obtained from the Rfam website at http://rfam.xfam.org/family/RF00177/cm.
     
     if 'large' in list(command_args.keys()):
@@ -316,15 +316,18 @@ def place(query, ref, ref_dir_domain, cm):
     
     split_query_ref(query + '.clean.unique.align.sto', ref_dir_domain + ref + '.refpkg/' + ref + '.clean.align.sto', query + '.' + ref + '.clean.unique.align.sto')
     
-    os.system('rm epa_info.log')
+    #os.system('rm -f epa_info.log') ## can remove this
+    os.system('mkdir ' + query)
     
     epa_ng = subprocess.Popen('epa-ng -q ' + query + '.clean.unique.align.newlength.fasta \
     -s ' + ref + '.clean.align.newlength.fasta \
     -t ' + ref_dir_domain + ref + '.refpkg/RAxML_result.recalc.root.ref.tre \
+    -w ' + query + ' \
     --model ' + ref_dir_domain + ref + '.refpkg/RAxML_info.recalc.root.ref.tre', shell = True, executable = executable)
     epa_ng.communicate()
     
-    os.system('mv epa_result.jplace ' + query + '.' + ref + '.clean.unique.align.jplace')
+    os.system('mv ' + query + '/epa_result.jplace ' + query + '.' + ref + '.clean.unique.align.jplace')
+    os.system('rm -r ' + query)
     
 #%% Define function to generate csv file of placements and fat tree    
     
