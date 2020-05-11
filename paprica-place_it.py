@@ -316,7 +316,6 @@ def place(query, ref, ref_dir_domain, cm):
     
     split_query_ref(query + '.clean.unique.align.sto', ref_dir_domain + ref + '.refpkg/' + ref + '.clean.align.sto', query + '.' + ref + '.clean.unique.align.sto')
     
-    #os.system('rm -f epa_info.log') ## can remove this
     os.system('mkdir ' + query)
     
     epa_ng = subprocess.Popen('epa-ng -q ' + query + '.clean.unique.align.newlength.fasta \
