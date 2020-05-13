@@ -19,9 +19,9 @@ Akifumi S. Tanabe (NRIFS)
 Charlie Taylor    (UF)
 
 
-Alignment has 2535 distinct alignment patterns
+Alignment has 2586 distinct alignment patterns
 
-Proportion of gaps and completely undetermined characters in this alignment: 53.73%
+Proportion of gaps and completely undetermined characters in this alignment: 54.07%
 
 RAxML Model Optimization up to an accuracy of 0.100000 log likelihood units
 
@@ -34,7 +34,7 @@ GAMMA model of rate heteorgeneity, ML estimate of alpha-parameter
 GAMMA Model parameters will be estimated up to an accuracy of 0.1000000000 Log Likelihood units
 
 Partition: 0
-Alignment Patterns: 2535
+Alignment Patterns: 2586
 Name: No Name Provided
 DataType: DNA
 Substitution Matrix: GTR
@@ -51,27 +51,27 @@ raxmlHPC-PTHREADS-AVX2 -T 8 -m GTRGAMMA -f e -t /volumes/hd2/jeff/paprica/ref_ge
 Model parameters (binary file format) written to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/RAxML_binaryModelParameters.recalc.root.ref.tre
 
 
-Overall Time for Tree Evaluation 70.672692
-Final GAMMA  likelihood: -959512.999081
+Overall Time for Tree Evaluation 114.433567
+Final GAMMA  likelihood: -1039542.049055
 
-Number of free parameters for AIC-TEST(BR-LEN): 14496
+Number of free parameters for AIC-TEST(BR-LEN): 16086
 Number of free parameters for AIC-TEST(NO-BR-LEN): 9
 
 
 Model Parameters of Partition 0, Name: No Name Provided, Type of Data: DNA
-alpha: 0.422640
-Tree-Length: 362.807718
-rate A <-> C: 0.780100
-rate A <-> G: 2.219920
-rate A <-> T: 1.409548
-rate C <-> G: 0.698769
-rate C <-> T: 3.516620
+alpha: 0.407126
+Tree-Length: 542.897044
+rate A <-> C: 0.804976
+rate A <-> G: 2.231851
+rate A <-> T: 1.450586
+rate C <-> G: 0.697477
+rate C <-> T: 3.671387
 rate G <-> T: 1.000000
 
-freq pi(A): 0.252138
-freq pi(C): 0.226888
-freq pi(G): 0.312464
-freq pi(T): 0.208510
+freq pi(A): 0.252041
+freq pi(C): 0.226951
+freq pi(G): 0.312573
+freq pi(T): 0.208435
 
 Final tree written to:                 /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/RAxML_result.recalc.root.ref.tre
 Execution Log File written to:         /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/RAxML_log.recalc.root.ref.tre
