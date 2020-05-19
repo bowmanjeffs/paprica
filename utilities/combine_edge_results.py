@@ -165,13 +165,13 @@ for f in os.listdir('.'):
 ## Do some gap filling for taxon_map; where there is a missing level but the
 ## level is known, fill it.
             
-pd.DataFrame.to_csv(edge_tally.transpose(), prefix + '.edge_tally.csv') 
-pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.path_tally.csv') 
-pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.ec_tally.csv')
-pd.DataFrame.to_csv(taxon_map, prefix + '.taxon_map.csv') 
+pd.DataFrame.to_csv(edge_tally.transpose(), prefix + '.' + domain + '.edge_tally.csv') 
+pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.' + domain + '.path_tally.csv') 
+pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.' + domain + '.ec_tally.csv')
+pd.DataFrame.to_csv(taxon_map, prefix + '.' + domain + '.taxon_map.csv') 
 
 if domain != 'eukarya':
-    pd.DataFrame.to_csv(edge_data, prefix + '.edge_data.csv')
+    pd.DataFrame.to_csv(edge_data, prefix + '.' + domain + '.edge_data.csv')
 
 unique_tally = pd.DataFrame()
 
@@ -182,4 +182,4 @@ for f in os.listdir('.'):
         temp_unique.columns = [name]
         unique_tally = pd.concat([unique_tally, temp_unique], axis = 1, sort = True)
     
-pd.DataFrame.to_csv(unique_tally.transpose(), prefix + '.unique_tally.csv') 
+pd.DataFrame.to_csv(unique_tally.transpose(), prefix + '.' + domain + '.unique_tally.csv') 
