@@ -1,4 +1,6 @@
 ![GitHub stars](https://img.shields.io/github/stars/bowmanjeffs/paprica?style=social)
+![GitHub search hit counter](https://img.shields.io/github/search/bowmanjeffs/paprica/goto)
+![GitHub All Releases](https://img.shields.io/github/downloads/bowmanjeffs/paprica/total)
 ## Notice - If you've been redirected here from genome_finder you're in the right place!  Version 0.5 has a number of new features and improvements.  Please take a look at the [Wiki](https://github.com/bowmanjeffs/paprica/wiki) for further details.  There are also several tutorials available:
 [Installing paprica on Mac OSX](http://www.polarmicrobes.org/installing-paprica-on-mac-osx/)  
 [Basic analysis with paprica](http://www.polarmicrobes.org/analysis-with-paprica/)  
