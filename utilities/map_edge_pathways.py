@@ -10,9 +10,9 @@ in a directory.  For a target enzyme or pathway, it returns the number
 contributed by each edge.
 
 Run as:
-    ./map_edge_pathways.py -domain [bacteria | archaea | eukarya] -target [pathway or enzyme commission number]
+    ./map_edge_pathways.py -domain [bacteria | archaea | eukarya] -[pathway | enzyme] [pathway or enzyme commission number]
 Example:
-    ./map_edge_pathways.py -domain bacteria -target "2,4,6-trichlorophenol degradation"
+    ./map_edge_pathways.py -domain bacteria -pathway "2,4,6-trichlorophenol degradation"
     
 Note that many pathway names contain funny characters that may not behave well
 on the command line.  We have not made any effort to deal with these.
