@@ -36,6 +36,8 @@ OPTIONS:
     -pgdb_dir: The location where pathway-tools stores PGDBs
     -ref_dir: The directory containing the paprica database
     -tree: The phyloxml format tree that contains the clade numbers
+    -cpus: The number of parallel calls to make to pathologic.  Defaults to 4,
+        use -1 for all available.
 
 This script must be located in the 'paprica' directory as it makes use of relative
 paths.
@@ -91,13 +93,15 @@ if len(sys.argv) == 1:
     domain = 'archaea'
     tree_file = 'test.' + domain + '.combined_16S.' + domain + '.tax.clean.unique.align.phyloxml'
     ref_dir = 'ref_genome_database'
-    pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
+    pgdb_dir = '~/ptools-local/pgdbs/user/'
+    cpus = 4
     
 else:        
     domain = command_args['domain']
     tree_file = command_args['tree']
     ref_dir = command_args['ref_dir']
     pgdb_dir = command_args['pgdb_dir']
+    cpus = int(command_args['cpus'])
     
 ## Expand tilde manually.
     
@@ -324,7 +328,17 @@ for d in assemblies:
     ## repository (Genbank or MMETSP) and this fixes the problem.    
     
     try:
-        if 'pathways-report.txt' not in os.listdir(pgdb_dir + d.lower() + 'cyc/1.0/reports'):
+        
+        ## As of ptools v24 pathway-report.txt reformatted with date.  Need
+        ## to find name of this file.
+        
+        report_file = 'none'
+        
+        for f in os.listdir(pgdb_dir + d.lower() + 'cyc/1.0/reports'):
+            if f.startswith('pathways-report'):
+                report_file = f
+                
+        if report_file == 'none':
             
             clade = genome_data.loc[d, 'clade']
                 
@@ -413,7 +427,7 @@ for d in new_pgdbs:
 print(len(new_pgdbs), 'new pgdbs will be created')
 
 if __name__ == '__main__':  
-    Parallel(n_jobs = -1, verbose = 5)(delayed(make_pgdb)
+    Parallel(n_jobs = cpus, verbose = 5)(delayed(make_pgdb)
     (d, ref_dir_domain) for d in new_pgdbs)
     
 #%% For each PGDB add the pathways to a new data_frame.
@@ -423,10 +437,23 @@ terminal_paths = pd.DataFrame(index = assemblies)
 for i,d in enumerate(assemblies):
     n_paths = 0 # Number of pathways predicted.
     try:
-        with open(pgdb_dir + d.lower() + 'cyc/1.0/reports/pathways-report.txt', 'r') as report:            
+        
+        ## As of ptools v24 pathway-report.txt reformatted with date.  Need
+        ## to find name of this file.
+        
+        for f in os.listdir(pgdb_dir + d.lower() + 'cyc/1.0/reports'):
+            if f.startswith('pathways-report'):
+                report_file = f
+                
+        ## Now the report file can be parsed.
+        
+        with open(pgdb_dir + d.lower() + 'cyc/1.0/reports/' + report_file, 'r') as report:            
             for line in report:
                 if line.startswith('#') == False:
                     if line.startswith('Pathway Name') == False:
+                        
+                        ## PWY-WAS-NOT-DELETED no longer valid, but not doing any harm.
+                        
                         if 'PWY-WAS-NOT-DELETED' not in line:
                             line = line.rstrip()
                             if line != '':
