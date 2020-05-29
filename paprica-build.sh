@@ -28,8 +28,9 @@ paprica-make_ref.py -ref_dir $ref_dir -download T -domain $domain -cpus 8 &&
 
 paprica-place_it.py -ref_dir $ref_dir -ref combined_$gene.$domain.tax -domain $domain -cpus 8 &&
 
-## 3. run test.bacteria.fasta 
+## 3. run test.fasta for the indicated domain
 
+paprica-pick_domain.py -in test
 paprica-place_it.py -ref_dir $ref_dir -query test.$domain -ref combined_$gene.$domain.tax -domain $domain -splits 1 &&
 
 ## 4. build the reference database.
