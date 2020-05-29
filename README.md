@@ -1,3 +1,4 @@
+![GitHub repo size](https://img.shields.io/github/repo-size/bowmanjeffs/paprica)
 ![GitHub stars](https://img.shields.io/github/stars/bowmanjeffs/paprica?style=social)
 ![GitHub top language](https://img.shields.io/github/languages/top/bowmanjeffs/paprica)
 ## Notice - If you've been redirected here from genome_finder you're in the right place!  Version 0.5 has a number of new features and improvements.  Please take a look at the [Wiki](https://github.com/bowmanjeffs/paprica/wiki) for further details.  There are also several tutorials available:
