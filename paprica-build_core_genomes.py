@@ -93,8 +93,8 @@ if len(sys.argv) == 1:
     domain = 'archaea'
     tree_file = 'test.' + domain + '.combined_16S.' + domain + '.tax.clean.unique.align.phyloxml'
     ref_dir = 'ref_genome_database'
-    pgdb_dir = '~/ptools-local/pgdbs/user/'
-    cpus = 4
+    pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
+    cpus = 36
     
 else:        
     domain = command_args['domain']
@@ -335,8 +335,18 @@ for d in assemblies:
         report_file = 'none'
         
         for f in os.listdir(pgdb_dir + d.lower() + 'cyc/1.0/reports'):
-            if f.startswith('pathways-report'):
+            
+            ## If an old version of pathways-report.txt is present remove it.            
+            
+            if f == 'pathways-report.txt':
+                os.remove(pgdb_dir + d.lower() + 'cyc/1.0/reports/' + f)
+                report_file = 'none'
+                
+            elif f.startswith('pathways-report_'):
                 report_file = f
+                
+        ## If there was no pathways-report file, or it was the old format and deleted,
+        ## rewrite the files needed by pathologic.
                 
         if report_file == 'none':
             

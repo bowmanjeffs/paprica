@@ -58,7 +58,7 @@ paths.
 ## put them in the list 'bad' below.  Bedellvibrio, for example, causes
 ## errors for the placement of some reads.  For the eukarya, several of the
 ## 18S genes fall well outside the scope of the covariance model, presumably
-## due to limitations in the training set.  This all need to be excluded or
+## due to limitations in the training set.  They all need to be excluded or
 ## the tree is useless.
 
 bad_bacteria = ['GCF_000691605.1', \
@@ -280,18 +280,19 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
         ## because the http protocol will try to create the entire directory structure (grr!)
         
         base_name = strain_ftp.split('/')[-1]
-
-        mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
-        mkdir.communicate()
+        
+        if assembly_accession not in os.listdir(ref_dir_domain + 'refseq/'):
+            mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
+            mkdir.communicate()
         
         for extension in ['_genomic.fna.gz', '_genomic.gbff.gz', '_protein.faa.gz']:
             wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget \
-                                     --tries=10 -q -r -nd -T30 -e robots=off ' \
+                                     --tries=10 -N -q -r -nd -T30 -e robots=off ' \
                                      + strain_ftp + '/' + base_name + extension, \
                                      shell = True, executable = executable)
             wget0.communicate() 
         
-        gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*', shell = True, executable = executable)
+        gunzip = subprocess.Popen('gunzip -f ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
         gunzip.communicate()
         
         print(assembly_accession + ':' + strain_ftp)
@@ -512,17 +513,21 @@ if download in ['T', 'test']:
             elif domain == 'archaea':
                 summary_complete = summary_complete.drop(bad_archaea)
             
-        ## Determine which genomes need to be downloaded.
+        ## Determine which genomes are new.  This doesn't control which genomes are downloaded, but
+        ## it does control which compositional vectors need to be created, and which genomes need
+        ## the 16S rRNA gene search.
             
         new_genomes = summary_complete.index[summary_complete.index.isin(old_genomes) == False]
             
-        ## Download the good genomes.
+        ## Download the good genomes.  Use of the -N flag in wget allows timestamp comparison.
+        ## So now new annotation files are downloaded even for old genomes.  However, new PGDBs are
+        ## not automatically created!
         
         if download == 'T':
         
             if __name__ == '__main__':  
                 Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
-                (ref_dir_domain, executable, assembly_accession) for assembly_accession in new_genomes)
+                (ref_dir_domain, executable, assembly_accession) for assembly_accession in summary_complete.index)
             
         ## Sometime wget will fail to download a valid file.  This causes problems
         ## downstream.  Check that each directory has an faa and fna file, and remove
