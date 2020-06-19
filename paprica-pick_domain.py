@@ -34,7 +34,7 @@ REQUIRES:
         pandas
 
 CALL AS:
-    python pick_16S_domain.py -in [sample prefix]
+    python paprica-pick_domain.py -in [sample prefix] -min_score [min bit score]
 
     Note that [prefix] includes the entire file name without extension
     (which must be .fasta).
@@ -42,13 +42,10 @@ CALL AS:
 OPTIONS:
     -in:  The prefix of the query fasta (entire name without extension).
     -h:  Print this help message.
+    -min_score: The minimum bit score to keep a read.
 
 This script must be located in the 'paprica' directory as it makes use of relative
 paths.
-
-
-Call as:
-    pick_16S_domain.py -in [sample prefix]
 
 """
 
@@ -75,6 +72,10 @@ try:
     prefix = command_args['in']
 except KeyError:
     prefix = 'test'
+try:
+    min_score = command_args['min_score']
+except KeyError:
+    min_score = 1
     
 fasta_in = prefix + '.fasta'
     
@@ -247,19 +248,27 @@ with open(cwd + prefix + '.bacterial16S.reads.txt', 'w') as bacteria_out, open(c
         try:
             e_min = temp[temp['score'] == temp['score'].max()]
             domain = e_min.loc[index, 'target.name']
+            
+        ## If read returned a hit for only one domain you
+        ## will have a series and not a dataframe.
 
         except AttributeError:
-            domain = temp['target.name']           
-                    
-        if 'bacteria' in str(domain):
-            print(index, file=bacteria_out)
-            bacteria_set.append(index)
-        elif 'archaea' in str(domain):
-            print(index, file=archaea_out) 
-            archaea_set.append(index)
-        elif 'eukarya' in str(domain):
-            print(index, file=eukarya_out)
-            eukarya_set.append(index)
+            e_min = temp
+            domain = temp['target.name']  
+            
+        ## If the bit score exceeds the specified minimum add to appropriate
+        ## domain list.
+            
+        if float(e_min['score']) > min_score:
+            if 'bacteria' in str(domain):
+                print(index, file=bacteria_out)
+                bacteria_set.append(index)
+            elif 'archaea' in str(domain):
+                print(index, file=archaea_out) 
+                archaea_set.append(index)
+            elif 'eukarya' in str(domain):
+                print(index, file=eukarya_out)
+                eukarya_set.append(index)
             
 bacteria_set = set(bacteria_set)
 archaea_set = set(archaea_set)
