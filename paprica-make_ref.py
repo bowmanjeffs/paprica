@@ -36,6 +36,8 @@ REQUIRES:
         joblib
         Scipy
         Numpy
+        os
+        time
         
 RUN AS:
     python paprica-make_ref.py [options]
@@ -46,6 +48,7 @@ OPTIONS:
     -download: Initiate a fresh download from Genbank?  Either T, F, or test.  Test
     allows you to use the small test set of genomes provided here: http://www.polarmicrobes.org/extras/ref_genome_database.tgz.
     -ref_dir: The name for the database you are building.  The default is "ref_genome_database".
+    -pgdb_dir: The location where pathway-tools stores PGDBs.
 
 This script must be located in the 'paprica' directory as it makes use of relative
 paths.
@@ -102,6 +105,7 @@ import gzip
 import re
 import sys
 import shutil
+import time
 
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
@@ -149,6 +153,14 @@ try:
     ref_dir = command_args['ref_dir']
 except KeyError:
     ref_dir = 'ref_genome_database'
+try:
+    pgdb_dir = command_args['pgdb_dir']
+except KeyError:    
+    pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
+    
+## Expand tilde manually.
+    
+pgdb_dir = os.path.expanduser(pgdb_dir)
         
 ## Make sure that ref_dir ends with /.
     
@@ -284,7 +296,14 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
         if assembly_accession not in os.listdir(ref_dir_domain + 'refseq/'):
             mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
             mkdir.communicate()
-        
+                        
+        ## Get the current time since epoch.  After download check when the
+        ## directory was last modified.  If modified more recently than current
+        ## time, the PGDB should be deleted and replaced.  This works because
+        ## gunzip retains the attributes of the original file.
+            
+        time_check = time.time()
+                
         for extension in ['_genomic.fna.gz', '_genomic.gbff.gz', '_protein.faa.gz']:
             wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget \
                                      --tries=10 -N -q -r -nd -T30 -e robots=off ' \
@@ -295,7 +314,18 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
         gunzip = subprocess.Popen('gunzip -f ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
         gunzip.communicate()
         
-        print(assembly_accession + ':' + strain_ftp)
+        mod_time = os.path.getmtime(ref_dir_domain + 'refseq/' + assembly_accession)
+        
+        ## If directory now has more recent modified time than time check,
+        ## delete the corresponding PGDB.
+        
+        if mod_time > time_check:
+            shutil.rmtree(pgdb_dir + assembly_accession.lower() + 'cyc', ignore_errors = True)
+            assembly_accession
+            print(assembly_accession, 'data files not current, PGDB will be buit')
+        
+        else:
+            print(assembly_accession, 'data files are current')
         
     except KeyError:
         print('no', assembly_accession, 'path')

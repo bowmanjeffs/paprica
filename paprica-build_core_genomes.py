@@ -94,7 +94,7 @@ if len(sys.argv) == 1:
     tree_file = 'test.' + domain + '.combined_16S.' + domain + '.tax.clean.unique.align.phyloxml'
     ref_dir = 'ref_genome_database'
     pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
-    cpus = 36
+    cpus = 4
     
 else:        
     domain = command_args['domain']
@@ -325,7 +325,10 @@ for d in assemblies:
     
     ## If a previous build effort was unsuccessful rewrite the files needed by
     ## pathologic, in case the data files have been updatated in the public
-    ## repository (Genbank or MMETSP) and this fixes the problem.    
+    ## repository (Genbank or MMETSP) and this fixes the problem.  
+    
+    ## If an assembly was updated by NCBI the PGDB deleted by paprica-make_ref.py.
+    ## This will force recreation of data files here.
     
     try:
         
