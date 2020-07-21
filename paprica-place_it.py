@@ -189,7 +189,7 @@ def stop_here():
     
 from Bio import SeqIO
 
-def clean_name(prefix, bad_character):
+def clean_name(prefix):
     
     bad_character = re.compile('[\[\]\|\\=-@!%,;\(\):\'\"\s]')
         
