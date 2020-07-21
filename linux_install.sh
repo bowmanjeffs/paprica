@@ -46,6 +46,7 @@ mv pplacer-Linux-v1.1.alpha19 pplacer
 ## Double check that you have all dependencies as described here: https://github.com/Pbdas/epa-ng#installation.
 ## If the compiler yells at you about not having zlib, you will need to have zlib1g-dev installed, not just zlib1g!
 
+sudo apt-get install autotools-dev libtool flex bison cmake automake autoconf
 git clone https://github.com/Pbdas/epa-ng.git
 cd epa-ng;make
 
