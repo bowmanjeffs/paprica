@@ -22,10 +22,14 @@ pip3 install pandas
 pip3 install seqmagick
 
 ## Install RAxML
-git clone https://github.com/stamatak/standard-RAxML.git
-cd standard-RAxML
-sudo make -f Makefile.AVX2.PTHREADS.gcc
-rm -f *.o
+#git clone https://github.com/stamatak/standard-RAxML.git
+#cd standard-RAxML
+#sudo make -f Makefile.AVX2.PTHREADS.gcc
+#rm -f *.o
+
+## Install RAxML-ng
+wget https://github.com/amkozlov/raxml-ng/releases/download/0.9.0/raxml-ng_v0.9.0_linux_x86_64.zip
+unzip raxml-ng_v0.9.0_linux_x86_64.zip
 
 ## Install infernal
 cd ~
@@ -55,7 +59,7 @@ echo "PATH=/home/${TEMPNAME}/pplacer:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/.local/bin:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/infernal/binaries:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/infernal/easel:"'$PATH' >> .bashrc
-echo "PATH=/home/${TEMPNAME}/standard-RAxML:"'$PATH' >> .bashrc
+echo "PATH=/home/${TEMPNAME}/raxml-ng:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/paprica:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/epa-ng/bin:"'$PATH' >> .bashrc
 echo "export PATH" >> .bashrc
