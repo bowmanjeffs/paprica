@@ -311,10 +311,10 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
                                      shell = True, executable = executable)
             wget0.communicate() 
         
-        gunzip = subprocess.Popen('gunzip -f ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
-        gunzip.communicate()
-        
         mod_time = os.path.getmtime(ref_dir_domain + 'refseq/' + assembly_accession)
+        
+        gunzip = subprocess.Popen('gunzip -kf ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
+        gunzip.communicate()
         
         ## If directory now has more recent modified time than time check,
         ## delete the corresponding PGDB.
@@ -322,7 +322,7 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
         if mod_time > time_check:
             shutil.rmtree(pgdb_dir + assembly_accession.lower() + 'cyc', ignore_errors = True)
             assembly_accession
-            print(assembly_accession, 'data files not current, PGDB will be buit')
+            print(assembly_accession, 'data files not current, PGDB will be built')
         
         else:
             print(assembly_accession, 'data files are current')
@@ -777,7 +777,11 @@ align_16S.communicate()
 
 ## Use RAxML to calculate the ML-based distance between taxon pairs.  I thought
 ## RAxML could handle the sto format but it doesn't seem to like it, so convert
-## to fasta first. 
+## to fasta first.
+
+## !!! It would make sense to defer this calculation until build_core_genomes
+## !!! which would allow you to use the much more accurate tree produced by
+## !!! place_it. 
 
 convert = subprocess.Popen('seqmagick convert ' + ref_dir_domain + 'combined_16S.align.sto ' + ref_dir_domain + 'combined_16S.align.fasta', shell = True, executable = executable)
 convert.communicate()

@@ -237,10 +237,6 @@ edge_data['map_ratio'] = edge_map_ratio
 edge_data['map_overlap'] = edge_map_overlap
 edge_data['edpl'] = edge_edpl
 
-## Read in taxa.csv, which holds classification information for each node.
-
-node_classification = pd.read_csv(ref_dir_domain + 'taxa.csv', index_col = 0)
-
 ## Dataframe to hold the number of occurences of pathway in sample, by edge.
 
 sample_pathways = pd.DataFrame(index = sorted(terminal_paths.columns))
@@ -258,13 +254,7 @@ for edge in list(edge_tally.index):
         
         edge_taxid = list(query_csv[query_csv['edge_num'] == edge].classification)[0]
                 
-        ## Collect other information that you might want later. Classification
-        ## information currently not available due to shift to epa-ng
-        
-        try:
-            edge_data.loc[edge, 'taxon'] = node_classification.loc[edge_taxid, 'tax_name']
-        except TypeError:
-            pass
+        ## Collect other information that you might want later. 
         
         edge_data.loc[edge, 'genome_size'] = internal_data.loc[edge, 'genome_size']
         edge_data.loc[edge, 'clade_size'] = internal_data.loc[edge, 'clade_size']

@@ -90,11 +90,11 @@ if 'h' in list(command_args.keys()):
 ## set some default values.  This is useful for testing.
         
 if len(sys.argv) == 1:
-    domain = 'archaea'
+    domain = 'bacteria'
     tree_file = 'test.' + domain + '.combined_16S.' + domain + '.tax.clean.unique.align.phyloxml'
     ref_dir = 'ref_genome_database'
     pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
-    cpus = 4
+    cpus = 36
     
 else:        
     domain = command_args['domain']
@@ -394,6 +394,8 @@ for d in assemblies:
     ## os will throw an error.
             
     except FileNotFoundError:
+        
+        print('creating pathologic files for', d)
         
         clade = genome_data.loc[d, 'clade']
             
@@ -711,12 +713,13 @@ if __name__ == '__main__':
         
 #%% Collect taxonomy information for each of the nodes in the reference tree.
 
-lineage = pd.read_csv(ref_dir_domain + 'taxa.csv', index_col = 0)
-ref_taxa = pd.read_csv(ref_dir_domain + 'seq_info.updated.csv', index_col = 0)
+lineage = pd.read_csv(ref_dir_domain + 'edge_lineages.csv', index_col = 0)
 
-ranks = lineage.columns
+## data in seq_info should be present in genome_data.csv.gz
 
-node_lineages = pd.DataFrame(columns = lineage.columns)
+ranks = ['superkingdom', 'phylum', 'clade', 'class', 'order', 'family', 'genus', 'species', 'strain']
+
+node_lineages = pd.DataFrame(columns = ['consensus'] + ranks)
 node_lineages_index = []
     
 for clade in tree.get_nonterminals():
@@ -726,69 +729,75 @@ for clade in tree.get_nonterminals():
         terminals = []
         
         for terminal in clade.get_terminals():
-            terminals.append(terminal.name.strip('@'))
+            terminals.append(terminal.name)
             
-        temp_taxids = ref_taxa.loc[terminals, 'tax_id']
+        temp_taxids = genome_data.loc[genome_data.tip_name.isin(terminals), 'taxid']
         
-        temp_lineage = lineage.loc[temp_taxids]
-        temp_lineage = temp_lineage.dropna(1, thresh = 1)
-        temp_lineage.drop(['parent_id', 'rank', 'tax_name'], inplace = True, axis = 1)
+        temp_lineage = lineage.loc[temp_taxids]        
+        temp_lineage = temp_lineage[ranks]
         
-        ## Now iterate across columns, starting at root
+        ## Now iterate across columns, starting at superkingdom
         ## until you find the first mismatch.  The one
         ## before this is the consensus.
         
+        found_consensus = False
+        
         for i,rank in enumerate(temp_lineage.columns):
-            if i != 0:
-                if len(temp_lineage[rank].unique()) > 1:
-                    consensus_rank = temp_lineage.columns[i - 1]
-                    consensus_taxid = temp_lineage.loc[temp_lineage.index[0], consensus_rank]
-                    break
+            if len(temp_lineage[rank].unique()) > 1:
+                
+                ## Now look up the consensus taxonomy.
+                
+                consensus_rank = temp_lineage.columns[i - 1]
+                
+                try:
+                    consensus_taxa = temp_lineage.loc[temp_lineage.index[0], consensus_rank].unique()[0]
+                except AttributeError:
+                    consensus_taxa = temp_lineage.loc[temp_lineage.index[0], consensus_rank]
                     
-        ## Now look up the consensus taxonomy.
+                consensus_lineage = temp_lineage.iloc[0, 0:i] # Remember Python counting rules!
+                consensus_lineage['consensus'] = consensus_taxa
+                
+                found_consensus = True
+                break
             
-        consensus_taxa = lineage.loc[consensus_taxid, 'tax_name']
-        consensus_lineage = lineage.loc[consensus_taxid]
-        
-        if len(consensus_lineage.shape) > 1:
-            consensus_lineage = consensus_lineage.drop_duplicates()
-        
+        ## In some cases the nodes in the clade will be identical. Pull out the lowest
+        ## rank that is not NaN.
+            
+        if found_consensus == False:
+            consensus_lineage = temp_lineage.iloc[0, 0:i]
+            consensus_lineage['consensus'] = temp_lineage.iloc[0][temp_lineage.iloc[0].notnull()][-1]
+            
         ## Save consensus lineage.
         
         node_lineages = node_lineages.append(consensus_lineage)
         node_lineages_index.append(clade_number)
-
-    ## Error exception here is problematic, for some reason KeyError
-    ## exception does not catch error raised by temp_taxids not being present
-    ## in temp_lineage.  Works without being explicit on error type, but this
-    ## is bad.
-            
-    except:
-        print('none')
+    except TypeError:
+        continue
         
 for clade in tree.get_terminals():
+           
+    clade_number = int(clade.confidence)
+    print('getting lineage for', clade_number)
+    terminal = clade.name
+
+    temp_taxid = genome_data.loc[genome_data.tip_name == terminal, 'taxid']
+    temp_lineage = lineage.loc[temp_taxid]
     
-    try:        
-        clade_number = int(clade.confidence)
-        print('getting lineage for', clade_number)
-        terminal = clade.name.strip('@')
+    ## Identify a meaningful lowest rank.  This will become "consensus".
     
-        temp_taxid = ref_taxa.loc[terminal, 'tax_id']
-        temp_lineage = lineage.loc[temp_taxid]
-        node_lineages = node_lineages.append(temp_lineage)
-        node_lineages_index.append(clade_number)
+    if pd.notna(temp_lineage.strain.values[0]):
+        consensus_taxa = temp_lineage.strain
+    elif pd.notna(temp_lineage.species.values[0]):
+        consensus_taxa = temp_lineage.species
+    else:
+        consensus_taxa = temp_lineage.genus
+        
+    temp_lineage['consensus'] = consensus_taxa
     
-    except:
-        print('none')
+    node_lineages = node_lineages.append(temp_lineage)
+    node_lineages_index.append(clade_number)
            
 node_lineages.index = node_lineages_index
-    
-for rank in ranks:
-    for index in node_lineages.index:
-        temp = node_lineages.loc[index, rank]
-        
-        if temp in lineage.index:
-            node_lineages.loc[index, rank] = lineage.loc[temp, 'tax_name']
             
 ## Check that all edges have a minimal entry in lineages, this is important
 ## as the euks get a bit whonky and sometimes there's no tax info.
