@@ -4,7 +4,7 @@
 help_string = """
 Created on Sat Jan 03 08:59:11 2015
 
-@author: Jeff Bowman, bowmanjs@ldeo.columbia.edu
+@author: Jeff Bowman, jsbowman@ucsd.edu
 
 paprica is licensed under a Creative Commons Attribution-NonCommercial
 4.0 International License.  IF you use any portion of paprica in your
@@ -24,27 +24,24 @@ REQUIRES:
         
     Programs:
         infernal
-        taxtastic
         seqmagick
-        pplacer
-        raxmlHPC-PTHREADS-AVX2
+        pplacer (guppy)
+        raxml-ng
         
     Python modules:
         Bio
         joblib
+        ete3
+        pandas
 
 CALL AS:
     paprica-place_it.py -domain [domain] -query [query] -ref [ref] -splits [splits] -n [nseqs] for analysis or
-    paprica-place_it.py -domain [domain] -ref [ref] -cpus [ncpus] to generate a reference package.  
+    paprica-place_it.py -domain [domain] -ref [ref] to generate a reference package.  
 
     Note that [ref] or [query] includes the entire file name without extension
     (which must be .fasta).
     
-    It is not recommended to use more than 8 cpus for tree building (i.e. -cpus 8).
-    See the RAXML manual for guidance on this.
-    
 OPTIONS:
-    -cpus:  The number of cpus for RAxML to use.
     -domain: The domain (bacteria or archaea) you are analyzing for.
     -large: If included will increase the --mxsize flag in cmalign
         to 4000 Mb.  Note that this requires 4000 Mb per thread, so you
@@ -71,6 +68,13 @@ import multiprocessing
 import datetime
 import random
 import pandas as pd
+import json
+
+## Assume the system is using hyperthreading.
+
+hyperthreading = True
+
+## Determine path to paprica scripts.
 
 try:
     paprica_path = os.path.dirname(os.path.realpath(__file__)) + '/' # The location of the actual paprica scripts.
@@ -106,11 +110,11 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'bacteria'
+    domain = 'archaea'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
-    ref = 'combined_16S.bacteria.tax'
+    ref = 'combined_16S.' + domain +'.tax'
 
 ## If sys.argv == 1, you are probably running inside Python in testing mode.
 ## Provide some default values to make this possibe.  If > 1, parse command
@@ -118,17 +122,11 @@ except KeyError:
 ## No default is currently provided for query.
     
 if len(sys.argv) == 1:
-    cpus = '8'
     splits = 1
-    query = 'test.bacteria'
-    command_args['query'] = query
+#    query = 'test.' + domain
+#    command_args['query'] = query
 
 else:
-    
-    try:
-        cpus = str(command_args['cpus']) # The number of cpus for RAxML to use.
-    except KeyError:
-        cpus = '1'
     
     try:    
         splits = int(command_args['splits']) # The number of splits to make for pplacer parallel operation.
@@ -139,7 +137,7 @@ else:
         query = command_args['query']
         query = query.split('.')
         
-        ## Finally add some handling of extenstions!
+        ## Finally add some handling of extensions!
         
         if query[-1] in ['fasta', 'fna', 'fa']:
             query = query[0:-1]
@@ -153,6 +151,22 @@ else:
 
 system_cpus = multiprocessing.cpu_count()
 cmalign_cpus = str(int(system_cpus / splits))
+
+## Figure out an appropriate number of cores for building trees.
+
+if hyperthreading == True:
+    physical_cpus = system_cpus/2
+    
+if physical_cpus <= 24:
+    raxml_cpus = 1
+else:
+    raxml_cpus = int(physical_cpus / 24)
+    
+## Regardless of the number of cores available, should never use more than
+## 6 per tree.
+
+if raxml_cpus > 6:
+    raxml_cpus = 6
     
 ## Make sure that ref_dir ends with /.
     
@@ -169,20 +183,18 @@ def stop_here():
     print('Manually stopped!')
     print(stop[1])
     
-#%% Define function to clean record names.  Not that bad_character is also used
+#%% Define function to clean record names.  Note that bad_character is also used
 ## by make_tax, to insure that sequence names match between taxonomy database
 ## and tree.
     
-bad_character = '[\[\]\|\\=-@!%,;\(\):\'\"\s]'
-
 from Bio import SeqIO
 
-def clean_name(file_name, bad_character):
+def clean_name(prefix, bad_character):
     
-    bad_character = re.compile(bad_character)
+    bad_character = re.compile('[\[\]\|\\=-@!%,;\(\):\'\"\s]')
         
-    with open(file_name + '.clean.fasta', 'w') as fasta_out:
-        for record in SeqIO.parse(file_name + '.fasta', 'fasta'): 
+    with open(prefix + '.clean.fasta', 'w') as fasta_out:
+        for record in SeqIO.parse(prefix + '.fasta', 'fasta'): 
             record.name = re.sub(bad_character, '_', str(record.description))
             record.id = record.name
             record.description = ''
@@ -196,7 +208,7 @@ def make_unique(query):
     seq_names = {}
     name_seq = {}
     
-    clean_name(query, bad_character)
+    clean_name(query)
     
     for record in SeqIO.parse(query + '.clean.fasta', 'fasta'):
         name = str(record.id)
@@ -302,7 +314,7 @@ def place(query, ref, ref_dir_domain, cm):
     ## obtained from the Rfam website at http://rfam.xfam.org/family/RF00177/cm.
     
     if 'large' in list(command_args.keys()):
-        align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --mxsize 4000 --dna -o ' + query + '.clean.unique.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.unique.fasta', shell = True, executable = executable)
+        align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --mxsize 12000 --dna -o ' + query + '.clean.unique.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.unique.fasta', shell = True, executable = executable)
         align.communicate()
     else:
         align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --dna -o ' + query + '.clean.unique.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.unique.fasta', shell = True, executable = executable)
@@ -311,24 +323,41 @@ def place(query, ref, ref_dir_domain, cm):
     combine = subprocess.Popen('esl-alimerge --outformat Pfam --dna \
     -o ' + query + '.' + ref + '.clean.unique.align.sto \
     ' + query + '.clean.unique.align.sto \
-    ' + ref_dir_domain + ref + '.refpkg/' + ref + '.clean.align.sto', shell = True, executable = executable)
+    ' + ref_dir_domain + ref + '.clean.align.sto', shell = True, executable = executable)
     combine.communicate()
     
-    split_query_ref(query + '.clean.unique.align.sto', ref_dir_domain + ref + '.refpkg/' + ref + '.clean.align.sto', query + '.' + ref + '.clean.unique.align.sto')
+    split_query_ref(query + '.clean.unique.align.sto', ref_dir_domain + ref + '.clean.align.sto', query + '.' + ref + '.clean.unique.align.sto')
+    
+    ## Create a specific working directory in case multiple instances are
+    ## being run at same time.
     
     os.system('mkdir ' + query)
     
     epa_ng = subprocess.Popen('epa-ng -q ' + query + '.clean.unique.align.newlength.fasta \
+    --model ' + ref_dir_domain + ref + '.final.bestModel \
     -s ' + ref + '.clean.align.newlength.fasta \
-    -t ' + ref_dir_domain + ref + '.refpkg/RAxML_result.recalc.root.ref.tre \
-    -w ' + query + ' \
-    --model ' + ref_dir_domain + ref + '.refpkg/RAxML_info.recalc.root.ref.tre', shell = True, executable = executable)
+    -t ' + ref_dir_domain + ref + '.final.bestTree \
+    -w ' + query, shell = True, executable = executable)
     epa_ng.communicate()
+    
+    ## Move final files to primary working directory, and delete subdirectory.
     
     os.system('mv ' + query + '/epa_result.jplace ' + query + '.' + ref + '.clean.unique.align.jplace')
     os.system('rm -r ' + query)
     
-#%% Define function to generate csv file of placements and fat tree    
+#%% Define function to generate csv file of placements and fat tree 
+    
+def json_to_csv(query, ref):
+    with open(query + '.' + ref + '.clean.unique.align.jplace', 'r') as jfile:
+        data = json.load(jfile)
+        colnames = data['fields']
+  
+    placements = pd.DataFrame(columns = colnames)
+
+    for placement in data['placements']:
+        placements.loc[placement['n'][0]] = placement['p'][0]
+        
+    placements.to_csv(query + '.' + ref + '.clean.unique.align.csv')
     
 def guppy(query, ref):
     
@@ -341,174 +370,127 @@ def guppy(query, ref):
     guppy3 = subprocess.Popen('guppy edpl --csv -o ' + query + '.' + ref + '.clean.unique.align.edpl.csv ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
     guppy3.communicate()
     
-#%% Define a function to classify read placements.  This is currently not used and can be removed.
+#%% Define function to execute a single raxml-ng run
     
-def classify():
+def run_raxml(i, prefix, msa, raxml_cpus):
     
-    ## Prep sqlite database for classification.  Would be great not to have to do
-    ## this, but classification command requires sqlite output.
+    ## Create trees with parsimony starts.
     
-    prep_database = subprocess.Popen('rppr prep_db -c ' + ref_dir_domain + ref + '.refpkg \
-    --sqlite ' + query + '.' + ref + '.clean.unique.align.db',
-    shell = True,
-    executable = executable)
+    subprocess.run('raxml-ng \
+                   --redo \
+                   --search \
+                   --msa ' + msa + ' \
+                   --tree pars{1} \
+                   --prefix ' + prefix + str(i) + ' \
+                   --seed ' + str(i) + ' \
+                   --threads ' + str(raxml_cpus), shell = True, executable = '/bin/bash')
     
-    prep_database.communicate()
-    
-    ## Now execute guppy classification command.
-    
-    guppy_classify = subprocess.Popen('guppy classify \
-    -c ' + ref_dir_domain + ref + '.refpkg \
-    --sqlite ' + query + '.' + ref + '.clean.unique.align.db '+ query + '.' + ref + '.clean.unique.align.jplace',
-    shell = True,
-    executable = executable)
-    
-    guppy_classify.communicate()    
-    
-#%% Define function to generate taxonomic information for ref package.
+#%% Replacement for make_tax, based on ete3.  Build a table of lineages for each
+    ## reference.
+                   
+def classify_ref():
 
-def make_tax(bad_character):
-        
-    ## Output taxon_id to tax_ids.txt, and other information to seq_info.csv for taxit.
-    ## See http://fhcrc.github.io/taxtastic/quickstart.html for more information.
-    ## Note that taxon_id or taxid are floating numbers, where they should be integers.
-    ## Because there are NaN values, must remove before conversion to integers.
-        
-    ## Blank tax_id would be better than removing whole line, but not clear
-    ## how to do this for now.
-        
-    ## Create csv file holding all information required for seq_info.csv.
-
-    seq_info = pd.DataFrame(columns = ['seqname', 'accession', 'tax_id', 'species_name', 'is_type'])
+    from ete3 import NCBITaxa
     
+    ncbi = NCBITaxa()
+    ncbi.update_taxonomy_database() 
     summary_complete = pd.read_csv(ref_dir_domain + 'genome_data.csv.gz', header = 0, index_col = 0)
     
-    ## Need filler taxid for entries that don't have one.
+    ref_lineage = pd.DataFrame()
     
-    taxid = {'eukarya':2759, 'bacteria':2, 'archaea':2157}
-    
-    if domain == 'eukarya':
-        summary_complete.taxon_id = summary_complete.taxon_id.fillna(value = taxid[domain])
-        summary_complete.taxon_id = summary_complete.taxon_id.astype(dtype = 'uint64')
-        seq_info['tax_id'] = summary_complete['taxon_id']
-
-    else:
-        summary_complete.taxid = summary_complete.taxid.fillna(value = taxid[domain])
-        summary_complete.taxid = summary_complete.taxid.astype(dtype = 'uint64')
-        seq_info['tax_id'] = summary_complete['taxid']
+    for strain in summary_complete['taxid']:
+        lineage = ncbi.get_lineage(strain)
+        lineage_ranks = ncbi.get_rank(lineage)
+        names = ncbi.get_taxid_translator(lineage)
         
-    ## Writing out genome_data.csv here allows the placeholder taxids
-    ## for draft genomes, or other genomes without taxid, to be used
-    ## downstream.  A better solution would be to find and add taxids for
-    ## draft genomes.
-        
-    summary_complete.to_csv(ref_dir_domain + 'genome_data.csv.gz')
-        
-    ## Sequence names must be cleaned exactly as in clean_name.  Drop any entries
-    ## that do not have a seqname.
+        for taxid in lineage_ranks.keys():
+            rank = lineage_ranks[taxid]
+            ref_lineage.loc[strain, rank] = names[taxid]
+            
+    ref_lineage.to_csv(ref_dir_domain + 'edge_lineages.csv')
     
-    seq_info['seqname'] = summary_complete.tax_name.str.replace(bad_character, '_')
-    seq_info.dropna(subset = ['seqname'], inplace = True)
-        
-    ## Write out the seq_info.csv file.
-        
-    seq_info.to_csv(ref_dir_domain + 'seq_info.csv', index = False)
-        
-    ## Download NCBI taxonomy database and load into sqlite database.  In case
-    ## the taxonomy database has been updated, delete the old one.  Rebuilding
-    ## the database takes a bit, however.
-        
-    taxtable_1 = subprocess.Popen('rm -f ' + ref_dir + 'taxonomy.db;\
-    rm -f ' + ref_dir + 'taxdmp.zip;\
-    taxit new_database ' + ref_dir + 'taxonomy.db', shell = True, executable = executable)
-    taxtable_1.communicate()
+#%% Define function to run infernal and return a fasta format file.
     
-    ## Probably some of your taxids are old.  Update them.
+def infernal_align(prefix, cm):
     
-    taxtable_2 = subprocess.Popen('taxit update_taxids \
-    -o ' + ref_dir_domain + 'seq_info.updated.csv \
-    ' + ref_dir_domain + 'seq_info.csv \
-    ' + ref_dir + 'taxonomy.db', shell = True, executable = executable)
-    taxtable_2.communicate()
+    ## Make sure input is unaligned.  Input file must end with ".clean.fasta".
     
-    ## Generate the file tax_ids.txt based on the newly generated seq_info.updates.csv.
+    degap = subprocess.Popen('seqmagick mogrify --ungap ' + prefix + '.clean.fasta', shell = True, executable = executable)
+    degap.communicate()
     
-    seq_info = pd.read_csv(ref_dir_domain + 'seq_info.updated.csv', header = 0)
-    seq_info.to_csv(ref_dir_domain + 'tax_ids.txt', columns = ['tax_id'], header = False, index = False)
+    infernal_commands = 'cmalign --dna -o ' + prefix + '.clean.align.sto --outformat Pfam ' + cm + ' ' + prefix + '.clean.fasta'    
     
-    taxtable_3 = subprocess.Popen('taxit taxtable \
-    ' + ref_dir + 'taxonomy.db \
-    -f ' + ref_dir_domain + 'tax_ids.txt \
-    -o ' + ref_dir_domain + 'taxa.csv', shell = True, executable = executable)
-    taxtable_3.communicate()
+    infernal = subprocess.Popen(infernal_commands, shell = True, executable = executable)
+    infernal.communicate()
+    
+    convert = subprocess.Popen('seqmagick convert ' + prefix + '.clean.align.sto ' + prefix + '.clean.align.fasta', shell = True, executable = executable)
+    convert.communicate()  
 
 #%% Execute main program.
 
 if 'query' not in list(command_args.keys()):
     
     ## If the query flag is not given this is taken as instruction to build
-    ## the reference package.  
+    ## the reference package. 
     
-    clean_name(ref_dir_domain + ref, bad_character)
+    classify_ref()
     
-    degap = subprocess.Popen('seqmagick mogrify --ungap ' + ref_dir_domain + ref + '.clean.fasta', shell = True, executable = executable)
-    degap.communicate()
-        
+    clean_name(ref_dir_domain + ref)
+    
     ## If cmalign returns an error complaining about the size of the DP matrix, there are probably
     ## reference 16S or 18S sequences that fall outside the bounds of the covariance model.
     ## These need to be removed (add to the appropriate bad_genomes list in paprica-make_ref.py)
     ## as they will result in a malformed tree.
     
-    infernal_commands = 'cmalign --dna -o ' + ref_dir_domain + ref + '.clean.align.sto --outformat Pfam ' + cm + ' ' + ref_dir_domain + ref + '.clean.fasta'    
+    infernal_align(ref_dir_domain + ref, cm)
     
-    infernal = subprocess.Popen(infernal_commands, shell = True, executable = executable)
-    infernal.communicate()
+    ## Check the input alignment, this identifies the optimal number of threads,
+    ## eliminates duplicates, and converts to binary format. Alignment file with
+    ## no duplicates is identified by *.reduced.phy.
     
-    convert = subprocess.Popen('seqmagick convert ' + ref_dir_domain + ref + '.clean.align.sto ' + ref_dir_domain + ref + '.clean.align.fasta', shell = True, executable = executable)
-    convert.communicate()   
+    rm = subprocess.call('rm -f ' + ref_dir_domain + '*raxml*', shell = True, executable = executable)
     
-    # Construct an initial tree using the GTRGAMMA model and the user provided
-    # number of cpus.
+    raxml0 = subprocess.call('raxml-ng \
+    --parse \
+    --msa ' + ref_dir_domain + ref + '.clean.align.fasta \
+    --model GTR+G \
+    --prefix ' + ref_dir_domain + ref, shell = True, executable = executable)
     
-    rm = subprocess.call('rm -f ' + ref_dir_domain + '*ref.tre', shell = True, executable = executable)
-    raxml1 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T ' + cpus + ' -m GTRGAMMA -s ' + ref_dir_domain + ref + '.clean.align.fasta -n ref.tre -f d -p 12345 -w ' + ref_dir_domain, shell = True, executable = executable)
-    raxml1.communicate()
+    ## Use the coarse-grained parallelization scheme outlined in the RAxML
+    ## manual to create 24 trees from parsimony starts.  This takes a long
+    ## time for the domain Bacteria.
     
-    ## Root the tree.
+    if __name__ == '__main__':  
+        Parallel(n_jobs = 24, verbose = 5)(delayed(run_raxml)
+        (i, ref_dir_domain + ref, ref_dir_domain + ref + '.raxml.rba', raxml_cpus) for i in range(1, 25))
+        
+    ## Parse the log files and find the tree with the highest maximum likelihood.
+        
+    final_lls = pd.Series(dtype = 'float64')
+        
+    for f in os.listdir(ref_dir_domain):
+        if f.endswith('raxml.log'):
+            with open(ref_dir_domain + f, 'r') as raxml_log:
+                for line in raxml_log:
+                    if line.startswith('Final LogLikelihood'):
+                        line = line.rstrip()
+                        line = line.split()
+                        final_ll = float(line[-1])
+                        final_lls[f] = final_ll
+                        
+    besttree = final_lls.idxmax()
+    besttree_base = '.'.join(besttree.split('.')[0:-1])
+    besttree_name = besttree_base + '.bestTree'
+    besttree_log = besttree_base + '.log'
+    besttree_model = besttree_base + '.bestModel'
     
-    raxml2 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T 2 -m GTRGAMMA -f I -t ' + ref_dir_domain + 'RAxML_bestTree.ref.tre -n root.ref.tre -w ' + ref_dir_domain, shell = True, executable = executable)  
-    raxml2.communicate()
+    ## now delete the other trees and rename the winning
     
-    ## Generate SH-like support values for the tree.
+    os.rename(ref_dir_domain + besttree_name, ref_dir_domain + ref + '.final.bestTree')
+    os.rename(ref_dir_domain + besttree_log, ref_dir_domain + ref + '.final.log')
+    os.rename(ref_dir_domain + besttree_model, ref_dir_domain + ref + '.final.bestModel')
     
-#    raxml3 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T ' + cpus + ' -m GTRGAMMA -f J -p 12345 -t ' + ref_dir_domain + 'RAxML_rootedTree.root.ref.tre -n conf.root.ref.tre -s ' + ref_dir_domain + ref + '.clean.align.fasta -w ' + ref_dir_domain, shell = True, executable = executable)   
-#    raxml3.communicate()
-    
-    ## Generate info file according the epa-ng instructions.
-    
-    raxml4 = subprocess.Popen('raxmlHPC-PTHREADS-AVX2 -T ' + cpus + ' -m GTRGAMMA -f e -t ' + ref_dir_domain + 'RAxML_rootedTree.root.ref.tre -n recalc.root.ref.tre -s ' + ref_dir_domain + ref + '.clean.align.fasta -w ' + ref_dir_domain, shell = True, executable = executable)   
-    raxml4.communicate()
-    
-    ## Generate taxonomy information for the reference package.
-    
-    make_tax(bad_character)
-     
-    ## Generate the reference package using the rooted tree with SH-like support values and a log file.
-    ## Will not overwrite existing reference package, so delete if present.
-    
-    rm = subprocess.call('rm -rf ' + ref_dir_domain + ref + '.refpkg', shell = True, executable = executable)
-    
-    taxit = subprocess.Popen('taxit create -l 16S_rRNA -P ' + ref_dir_domain + ref + '.refpkg \
-    --aln-fasta ' + ref_dir_domain + ref + '.clean.align.fasta \
-    --tree-stats ' + ref_dir_domain + 'RAxML_info.recalc.root.ref.tre \
-    --tree-file ' + ref_dir_domain + 'RAxML_result.recalc.root.ref.tre \
-    --aln-sto ' + ref_dir_domain + ref + '.clean.align.sto \
-    --seq-info ' + ref_dir_domain + 'seq_info.updated.csv \
-    --taxonomy ' + ref_dir_domain + 'taxa.csv \
-    --no-reroot \
-    ', shell = True, executable = executable)
-    
-    taxit.communicate()
+    subprocess.run('rm ' + ref_dir_domain + '*raxml*', shell = True, executable = '/bin/bash')
     
     ## Create a file with the date/time of database creation.
 
@@ -516,8 +498,8 @@ if 'query' not in list(command_args.keys()):
     n_aseqs = len(re.findall('>', open(ref_dir_domain + '/' + ref + '.fasta', 'r').read()))
     
     with open(ref_dir_domain + '/' + ref + '.database_info.txt', 'w') as database_info:
-        print('ref tree built at:', current_time, file=database_info)
-        print('nseqs in reference alignment:', n_aseqs, file=database_info) 
+        print('ref tree built at:', current_time, file = database_info)
+        print('nseqs in reference alignment:', n_aseqs, file = database_info) 
             
 else:
         
