@@ -10,6 +10,15 @@
 
 ## Please go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
+## To run paprica you will need:
+* [epa-ng](https://github.com/Pbdas/epa-ng)
+* [pplacer](https://github.com/matsen/pplacer/releases/tag/v1.1.alpha19) (for just a little longer...)
+* [infernal](http://eddylab.org/infernal/)
+* [seqmagick](https://fhcrc.github.io/seqmagick/)
+* python 3.6 or higher, with pandas, biopython, and joblib
+
+Paprica can be run on OSX (see tutorial linked above), or preferably, on Linux or Windows using the Windows Subsystem for Linux (see the linux_install.sh script as a guide).
+
 ## If you'd like to try paprica without downloading the dependencies you have two options.
 Option 1: We've created a Virtualbox appliance [here](http://www.polarmicrobes.org/extras/paprica-demo.ova) running Ubuntu.  You will need to download the (free) Oracle Virtualbox software and then import the appliance. The appliance isn't updated every time we make an improvement to paprica, so you'll probably want to re-clone the Github repository once you've got the VB up and running.  The log-in information for the VB machine is user: tester, pass: paprica (naturally).
 
