@@ -1,0 +1,15 @@
+{
+  "tree": "((((AJ564770.1.1795_U|Telonemia-Group-1_X_sp.:0.0070020000{0},AM418563.1.1798_U|Telonemia-Group-2_X_sp.:0.0145880000{1}):0.0016820000{2},EU162631.1.1798_U|Telonemia-Group-2_X_sp.:0.0331260000{3}):0.0087560000{4},(((EU371332.1.1743_U|Telonemia-Group-2_X_sp.:0.0162990000{5},((EU371379.1.1764_U|Telonemia-Group-2_X_sp.:0.0006050000{6},EU371378.1.1762_U|Telonemia-Group-2_X_sp.:0.0000010000{7}):0.0293550000{8},((EU371360.1.1763_U|Telonemia-Group-2_X_sp.:0.0000010000{9},EU371359.1.1765_U|Telonemia-Group-2_X_sp.:0.0000010000{10}):0.0000010000{11},EU371358.1.1763_U|Telonemia-Group-2_X_sp.:0.0006030000{12}):0.0000010000{13}):0.0186610000{14}):0.0057510000{15},(EU371188.1.1770_U|Telonemia-Group-2_X_sp.:0.0407480000{16},AJ564773.1.1787_U|Telonema_antarcticum:0.0329690000{17}):0.0205660000{18}):0.0047640000{19},AY665037.1.1751_U|Telonemia-Group-2_X_sp.:0.0259070000{20}):0.0024450000{21}):0.0025240000{22},((((EF526892.1.1811_U|Telonemia-Group-1_X_sp.:0.0066780000{23},DQ103867.1.1801_U|Telonemia-Group-1_X_sp.:0.0067330000{24}):0.0043110000{25},EU050980.1.1768_U|Telonemia-Group-1_X_sp.:0.0102960000{26}):0.0073870000{27},AJ564771.1.1831_U|Telonema_subtile:0.0173510000{28}):0.0612670000{29},AM418562.1.1795_U|Telonemia-Group-2_X_sp.:0.0308150000{30}):0.0151750000{31},(((AY665042.1.1751_U|Telonemia-Group-2_X_sp.:0.0005930000{32},AY665041.1.1751_U|Telonemia-Group-2_X_sp.:0.0000010000{33}):0.0005880000{34},AY665043.1.1751_U|Telonemia-Group-2_X_sp.:0.0017900000{35}):0.0020720000{36},AY665040.1.1753_U|Telonemia-Group-2_X_sp.:0.0082050000{37}):0.0073200000{38});",
+  "placements": 
+  [
+    {"p": [
+      [30, -7063.8896415500, 0.5132243089, 0.0147679001, 0.3192263108],
+      [29, -7063.9425511251, 0.4867756911, 0.0325924309, 0.3063721432]
+      ],
+    "n": ["test_Dinoflagellata"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp67cx6zg4/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Telonemia.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp67cx6zg4/combined_18S.eukarya.tax.Telonemia.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Telonemia.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp67cx6zg4/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

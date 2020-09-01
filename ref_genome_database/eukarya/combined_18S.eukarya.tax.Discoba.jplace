@@ -1,0 +1,14 @@
+{
+  "tree": "(((((DQ504351.1.1895_U|Prokinetoplastidae_X_sp.:0.1563000000{0},AY224689.1.1842_U|Ichthyobodo_sp.:0.2701050000{1}):0.2702190000{2},(AJ620545.1.1828_U|Trypanosoma_sp.:0.2575880000{3},((EF100238.1.1717_U|Eubodonid_X_sp.:0.0026440000{4},EF100234.1.1717_U|Eubodonid_X_sp.:0.0069360000{5}):0.2307730000{6},AY998647.1.1742_U|Neobodo_designis:0.4781510000{7}):0.1282740000{8}):0.7265540000{9}):0.8789970000{10},AY180037.1.1743_U|Diplonemea_XX_sp.:0.6975920000{11}):0.2149930000{12},(DQ249874.1.1899_U|Colacium_vesiculosum:1.6434090000{13},AY821958.1.1839_U|Petalomonadales_X_sp.:1.4611290000{14}):0.1076720000{15}):0.5855180000{16},(AF011461.1.1875_U|Stachyamoeba_sp.:1.1956680000{17},(AJ224891.1.1843_U|Neovahlkampfia_damariscottae:0.9153740000{18},(AF439350.1.1785_U|Heteramoeba_clara:1.4108570000{19},(AJ224887.1.1767_U|Vahlkampfia_inornata:0.4502880000{20},AJ224886.1.1784_U|Vahlkampfia_avara:0.1607270000{21}):0.5731040000{22}):0.2272460000{23}):0.0733250000{24}):0.8683130000{25},((((AY117418.1.1844_U|Jakoba_libera:0.0564400000{26},AF411288.1.1838_U|Jakoba_libera:0.0447150000{27}):0.1209540000{28},DQ190541.1.1842_U|Seculamonas_ecuadoriensis:0.4138950000{29}):0.0415070000{30},AF053089.1.1843_U|Reclinomonas_americana:0.4760440000{31}):0.4230680000{32},AY965870.1.1850_U|Andalucia_godoyi:0.2840790000{33}):0.0927790000{34});",
+  "placements": 
+  [
+    {"p": [
+      [32, -21448.8205271718, 1.0000000000, 0.2518157909, 0.3959798635]
+      ],
+    "n": ["test_Dinoflagellata"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmppannwach/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Discoba.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmppannwach/combined_18S.eukarya.tax.Discoba.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Discoba.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmppannwach/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

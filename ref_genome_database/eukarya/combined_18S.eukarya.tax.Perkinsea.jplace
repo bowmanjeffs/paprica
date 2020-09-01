@@ -1,0 +1,14 @@
+{
+  "tree": "((X75762.1.1793_U|Perkinsus_marinus:0.0171160000{0},(((AF042707.1.1803_U|Perkinsus_chesapeaki:0.0047080000{1},AY305326.1543.3351_U|Perkinsus_chesapeaki:0.0000010000{2}):0.0006170000{3},(AF102171.1575.3382_U|Perkinsus_chesapeaki:0.0013740000{4},AF252288.1443.3250_U|Perkinsus_chesapeaki:0.0019730000{5}):0.0062040000{6}):0.0081540000{7},(((((AY487831.1.1786_U|Perkinsus_mediterraneus:0.0000010000{8},AY487832.1.1786_U|Perkinsus_mediterraneus:0.0013360000{9}):0.0006670000{10},AY487833.1.1772_U|Perkinsus_mediterraneus:0.0013350000{11}):0.0000010000{12},AF140295.1171.2979_U|Perkinsus_olseni:0.0000010000{13}):0.0000010000{14},AF509333.1271.3078_U|Perkinsus_olseni:0.0000010000{15}):0.0000010000{16},(AY486141.1.1786_U|Perkinsus_mediterraneus:0.0013360000{17},AY486140.1.1786_U|Perkinsus_mediterraneus:0.0013360000{18}):0.0000010000{19}):0.0000010000{20}):0.0055610000{21}):0.0005000000{22},((((AY919821.1.1744_U|Perkinsida_XXX_sp.:0.0048030000{23},AY919720.1.1738_U|Perkinsida_XXX_sp.:0.0000010000{24}):0.0059710000{25},AY919809.1.1738_U|Perkinsida_XXX_sp.:0.0151720000{26}):0.0696980000{27},(((DQ244020.1.1732_U|Parvilucifera-group_X_sp.:0.0038120000{28},((DQ244021.1.1733_U|Parvilucifera-group_X_sp.:0.0045760000{29},DQ244035.1.1731_U|Parvilucifera-group_X_sp.:0.0022860000{30}):0.0007650000{31},DQ244037.1.1726_U|Parvilucifera-group_X_sp.:0.0000010000{32}):0.0000010000{33}):0.1552110000{34},DQ244034.1.1712_U|Parvilucifera-group_X_sp.:0.2318970000{35}):0.1150560000{36},(FJ424512.1.1801_U|Parvilucifera_prorocentri:0.1256090000{37},(EU502912.1.1780_U|Parvilucifera_sinerae:0.1778210000{38},EU502912.1.1724_U|Parvilucifera_sinerae:0.0445580000{39}):0.2337320000{40}):0.0458370000{41}):0.0124090000{42}):0.0649400000{43},DQ244038.1.1775_U|Perkinsida_XXX_sp.:0.1191050000{44}):0.1023090000{45},((AF530535.1.1715_U|Perkinsus_marinus:0.0000010000{46},(AF042708.1.1806_U|Perkinsus_marinus:0.0013340000{47},AF126013.1.1805_U|Perkinsus_marinus:0.0013340000{48}):0.0000010000{49}):0.0000010000{50},AF497479.1251.3059_U|Perkinsus_marinus:0.0020030000{51}):0.0000010000{52});",
+  "placements": 
+  [
+    {"p": [
+      [43, -9231.2632248019, 0.9995336556, 0.0266438523, 0.1489511839]
+      ],
+    "n": ["test_Dinoflagellata"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp8nafyne8/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Perkinsea.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp8nafyne8/combined_18S.eukarya.tax.Perkinsea.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Perkinsea.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp8nafyne8/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

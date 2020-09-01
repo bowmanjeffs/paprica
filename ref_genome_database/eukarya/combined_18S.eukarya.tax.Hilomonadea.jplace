@@ -1,0 +1,14 @@
+{
+  "tree": "((((AF174363.1.1717_U|Ancyromonas_sigmoides:0.0037080000{0},(EU349230.1.1799_U|Ancyromonas_micra:0.0000010000{1},EF455780.1.1753_U|Ancyromonas_micra:0.0000010000{2}):0.0000010000{3}):0.0592160000{4},AY268038.1.1731_U|Micronuclearia_podoventralis:0.2472680000{5}):0.0330840000{6},(DQ207565.1.1764_U|Ancyromonas_sigmoides:0.0000010000{7},DQ207566.1.1746_U|Ancyromonas_sigmoides:0.0030210000{8}):0.3516990000{9}):0.0444560000{10},((AY827844.1.1766_U|Ancyromonas_sigmoides:0.0000010000{11},AY827845.1.1765_U|Ancyromonas_sigmoides:0.0000010000{12}):0.0011830000{13},AY882531.1.1817_U|Planomonas_sp.:0.0018180000{14}):0.0007140000{15},(AY827843.1.1780_U|Ancyromonas_sigmoides:0.0000010000{16},AY827846.1.1767_U|Ancyromonas_sigmoides:0.0054910000{17}):0.0198790000{18});",
+  "placements": 
+  [
+    {"p": [
+      [5, -6285.1560579424, 1.0000000000, 0.1834328216, 0.1784303483]
+      ],
+    "n": ["test_Dinoflagellata"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp0m34yql0/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Hilomonadea.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp0m34yql0/combined_18S.eukarya.tax.Hilomonadea.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Hilomonadea.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp0m34yql0/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

@@ -206,9 +206,13 @@ def make_unique(query):
 
 seq_count, seq_names, name_seq = make_unique(cwd + prefix)
 
-## Determine number of processors
+## Determine number of processors, but don't let the number of splits
+## exceed the number of sequences.
     
 nsplits = multiprocessing.cpu_count()
+
+if nsplits > len(name_seq):
+    nsplits = len(name_seq)
     
 split_list = split_fasta(cwd + prefix + '.unique', nsplits)
 
@@ -250,9 +254,10 @@ with open(cwd + prefix + '.bacterial16S.reads.txt', 'w') as bacteria_out, open(c
             domain = e_min.loc[index, 'target.name']
             
         ## If read returned a hit for only one domain you
-        ## will have a series and not a dataframe.
+        ## will have a series and not a dataframe.  For some reason different
+        ## pandas versions return a different error, need to pass both here.
 
-        except AttributeError:
+        except (AttributeError, KeyError):
             e_min = temp
             domain = temp['target.name']  
             

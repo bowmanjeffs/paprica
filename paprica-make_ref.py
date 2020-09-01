@@ -68,6 +68,17 @@ bad_bacteria = ['GCF_000691605.1', \
 'GCF_000348725.1', \
 'GCF_000525675.1', \
 'GCF_000317895.1']
+    
+## These have Genbank files that can't be parsed by pathway-tools. I have no
+## idea why!
+    
+bad_bacteria = bad_bacteria + ['GCF_000158275.2', \
+'GCF_000163915.2', \
+'GCF_003855175.1', \
+'GCF_900660545.1', \
+'GCF_001038625.1', \
+'GCF_000156855.2', \
+'GCF_000156855.2']
 
 bad_archaea = []
 
@@ -140,7 +151,7 @@ if 'h' in list(command_args.keys()):
 try:        
     domain = command_args['domain']
 except KeyError:
-    domain = 'archaea'
+    domain = 'bacteria'
 try:
     cpus = str(command_args['cpus'])
 except KeyError:
@@ -157,6 +168,11 @@ try:
     pgdb_dir = command_args['pgdb_dir']
 except KeyError:    
     pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
+    
+## Script not required for eukarya.
+    
+if domain == 'eukarya':
+    quit()
     
 ## Expand tilde manually.
     
@@ -175,8 +191,10 @@ ref_dir_domain = paprica_path + ref_dir + domain + '/'
     
 if domain == 'bacteria':
     cm = paprica_path + 'models/bacteria_ssu.cm'
+    cm_23s = paprica_path + 'models/bacteria_lsu.cm'
 elif domain == 'archaea':
     cm = paprica_path + 'models/archaea_ssu.cm'
+    cm_23s = paprica_path + 'models/archaea_lsu.cm'
 elif domain == 'eukarya':
     cm = paprica_path + 'models/eukarya_ssu.cm'
 else:
@@ -269,13 +287,16 @@ def calc_vector(path, bins):
 def search_16S(directory, d):
     for f in os.listdir(directory + '/' + d):
         if f.endswith('fna'):
-            print(f) ## testing
             
-            find_16S = subprocess.Popen('cmsearch --cpu 1 --tblout ' + directory + '/' + d + '/' + d + '.16S.hits -A ' + directory + '/' + d + '/' + d + '.16S.sto ' + cm + ' ' + directory + '/' + d + '/' + f, shell = True, executable = executable)
-            find_16S.communicate()
-                        
-            convert = subprocess.Popen('seqmagick convert ' + directory + '/' + d + '/' + d + '.16S.sto ' + directory + '/' + d + '/' + d + '.16S.fasta', shell = True, executable = executable)
-            convert.communicate()
+            subprocess.call('cmsearch --cpu 1 --tblout ' + directory + '/' + d + '/' + d + '.16S.hits -A ' + directory + '/' + d + '/' + d + '.16S.sto ' + cm + ' ' + directory + '/' + d + '/' + f, shell = True, executable = executable)
+            subprocess.call('seqmagick convert ' + directory + '/' + d + '/' + d + '.16S.sto ' + directory + '/' + d + '/' + d + '.16S.fasta', shell = True, executable = executable)
+            
+def search_23S(directory, d):
+    for f in os.listdir(directory + '/' + d):
+        if f.endswith('fna'):
+            
+            subprocess.call('cmsearch --cpu 1 --tblout ' + directory + '/' + d + '/' + d + '.23S.hits -A ' + directory + '/' + d + '/' + d + '.23S.sto ' + cm_23s + ' ' + directory + '/' + d + '/' + f, shell = True, executable = executable)
+            subprocess.call('seqmagick convert ' + directory + '/' + d + '/' + d + '.23S.sto ' + directory + '/' + d + '/' + d + '.23S.fasta', shell = True, executable = executable)
 
 ## Define a function so that the download of assemblies, if desired, can be parallelized.
 ## This should reduce a major bottleneck, as I don't think connection speed is the limiting
@@ -294,8 +315,7 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
         base_name = strain_ftp.split('/')[-1]
         
         if assembly_accession not in os.listdir(ref_dir_domain + 'refseq/'):
-            mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
-            mkdir.communicate()
+            subprocess.call('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
                         
         ## Get the current time since epoch.  After download check when the
         ## directory was last modified.  If modified more recently than current
@@ -305,17 +325,15 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
         time_check = time.time()
                 
         for extension in ['_genomic.fna.gz', '_genomic.gbff.gz', '_protein.faa.gz']:
-            wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget \
-                                     --tries=10 -N -q -r -nd -T30 -e robots=off ' \
-                                     + strain_ftp + '/' + base_name + extension, \
-                                     shell = True, executable = executable)
-            wget0.communicate() 
+            subprocess.call('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget \
+                             --tries=10 -N -q -r -nd -T30 -e robots=off ' \
+                             + strain_ftp + '/' + base_name + extension, \
+                             shell = True, executable = executable) 
         
         mod_time = os.path.getmtime(ref_dir_domain + 'refseq/' + assembly_accession)
         
-        gunzip = subprocess.Popen('gunzip -kf ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
-        gunzip.communicate()
-        
+        subprocess.call('gunzip -kf ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*gz', shell = True, executable = executable)
+       
         ## If directory now has more recent modified time than time check,
         ## delete the corresponding PGDB.
         
@@ -338,15 +356,11 @@ def download_euks(online_directory):
         strain_nt = assembly_accession + '.nt.fa'
         strain_fa = assembly_accession + '.pep.fa'
         
-        mkdir = subprocess.Popen('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
-        mkdir.communicate()
+        subprocess.call('mkdir ' + ref_dir_domain + 'refseq/' + assembly_accession, shell = True, executable = executable)
         
         for f in [strain_nt, strain_fa]:
-            wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/' + f, shell = True, executable = executable)
-            wget0.communicate() 
-        
-        wget1 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/annot/swissprot.gff3', shell = True, executable = executable)
-        wget1.communicate() 
+            subprocess.call('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/' + f, shell = True, executable = executable)
+            subprocess.call('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -T30 -q ' + strain_ftp + '/annot/swissprot.gff3', shell = True, executable = executable)
         
         print(assembly_accession + ':' + ref_dir_domain + 'refseq/' + assembly_accession)
         
@@ -370,6 +384,8 @@ def check_directory(ref_dir_domain, genome):
             file_count = file_count + 1
         elif f.endswith('16S.fasta'):
             file_count = file_count + 1
+        elif f.endswith('23S.fasta'):
+            file_count = file_count + 1
         elif f.endswith('bins.txt.gz'):
             file_count = file_count + 1
         
@@ -380,7 +396,7 @@ def check_directory(ref_dir_domain, genome):
             if len(test_bins) != 1e5:
                 file_count = file_count - 1
             
-    if file_count != 5:
+    if file_count != 6:
         shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
 
 ## The download and parsing of eukaryotic genomes is very different from bacterial and archaeal
@@ -391,8 +407,7 @@ def get_eukaryotes():
     ## Get eukaryote sample data from MMETSP.
     
     if 'sample-attr.tab' not in os.listdir(ref_dir_domain):
-        wget0 = subprocess.Popen('cd ' + ref_dir_domain + ';wget --tries=10 -T30 -q https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/sample-attr.tab', shell = True, executable = executable)
-        wget0.communicate()
+        subprocess.call('cd ' + ref_dir_domain + ';wget --tries=10 -T30 -q https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/sample-attr.tab', shell = True, executable = executable)
     
     ## Parse this file into a dataframe.
     
@@ -411,8 +426,7 @@ def get_eukaryotes():
     ## Get the 18S sequences.
 
     if 'combined_18S.fasta' not in os.listdir(ref_dir_domain):
-        wget_18S = subprocess.Popen('cd ' + ref_dir_domain + ';wget https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/18s/18s.fa', shell = True, executable = executable)
-        wget_18S.communicate()
+        subprocess.call('cd ' + ref_dir_domain + ';wget https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/18s/18s.fa', shell = True, executable = executable)
         
         ## For some reason the 18S.fa file is malformed, need to remove space
         ## from infront of all lines with space.  Easiest way to do this is
@@ -474,9 +488,8 @@ if download in ['T', 'test']:
         ## Execute the download function.  You can't do this from inside the function
         ## because parallel requires input variables to be global.
         
-        if __name__ == '__main__':  
-            Parallel(n_jobs = -1, verbose = 5)(delayed(download_euks)
-            (online_directory) for online_directory in summary_complete.index)
+        Parallel(n_jobs = -1, verbose = 5)(delayed(download_euks)
+        (online_directory) for online_directory in summary_complete.index)
             
         ## Check to make sure that each downloaded directory has a .fa, .nt, and .gff3 file
         ## extension.  Remove if it does not, and add to bad_eukarya.  The .nt
@@ -519,10 +532,9 @@ if download in ['T', 'test']:
             
         ## Identify which genomes are already contained in the database.  Confirm that these
         ## genome directories have the necessary files and eliminate if they do not.
-            
-        if __name__ == '__main__':  
-            Parallel(n_jobs = -1, verbose = 5)(delayed(check_directory)
-            (ref_dir_domain, genome) for genome in os.listdir(ref_dir_domain + 'refseq/'))
+             
+        Parallel(n_jobs = -1, verbose = 5)(delayed(check_directory)
+        (ref_dir_domain, genome) for genome in os.listdir(ref_dir_domain + 'refseq/'))
                 
         old_genomes = pd.Series(os.listdir(ref_dir_domain + 'refseq/'))
         
@@ -554,10 +566,9 @@ if download in ['T', 'test']:
         ## not automatically created!
         
         if download == 'T':
-        
-            if __name__ == '__main__':  
-                Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
-                (ref_dir_domain, executable, assembly_accession) for assembly_accession in summary_complete.index)
+
+            Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
+            (ref_dir_domain, executable, assembly_accession) for assembly_accession in summary_complete.index)
             
         ## Sometime wget will fail to download a valid file.  This causes problems
         ## downstream.  Check that each directory has an faa and fna file, and remove
@@ -649,9 +660,7 @@ if domain == 'eukarya':
     ## phylogenetic placement, and shouldn't really be used for building trees
     ## anyway.  Remove these.
     
-    unique = subprocess.Popen('seqmagick convert --deduplicate-sequences ' + ref_dir_domain + 'combined_18S.fasta ' + ref_dir_domain + 'combined_18S.unique.fasta', shell = True, executable = executable)
-    unique.communicate()
-    
+    unique = subprocess.call('seqmagick convert --deduplicate-sequences ' + ref_dir_domain + 'combined_18S.fasta ' + ref_dir_domain + 'combined_18S.unique.fasta', shell = True, executable = executable)
     kept_genomes = [] # This will hold the names of genomes with unique 18S and correct data files (identified earlier).
     
     ## Check to make sure that each sequence in combined_18S.unique.fasta is
@@ -684,15 +693,17 @@ if domain == 'eukarya':
 ## the phi values and is named by assembly.
 
 ## Execute the 16S search function.
-            
-if __name__ == '__main__':  
-    Parallel(n_jobs = -1, verbose = 5)(delayed(search_16S)
-    (ref_dir_domain + 'refseq', d) for d in new_genomes)
+             
+Parallel(n_jobs = -1, verbose = 5)(delayed(search_16S)
+(ref_dir_domain + 'refseq', d) for d in new_genomes)
+
+Parallel(n_jobs = -1, verbose = 5)(delayed(search_23S)
+(ref_dir_domain + 'refseq', d) for d in new_genomes)
 
 ## Iterating by summary_complete.index should eliminate issues with adding 16S
 ## rRNA sequences for genomes that don't have an faa file.
 
-with open(ref_dir_domain + 'combined_16S.fasta', 'w') as fasta_out:
+with open(ref_dir_domain + 'combined_16S.fasta', 'w') as fasta_out, open(ref_dir_domain + 'combined_23S.fasta', 'w') as fasta_out_23s:
     for d in summary_complete.index:
         for f in os.listdir(ref_dir_domain + 'refseq/' + d):
             if f.endswith('fna'):
@@ -704,7 +715,7 @@ with open(ref_dir_domain + 'combined_16S.fasta', 'w') as fasta_out:
                 n16S = n16S.rstrip()
                 n16S = int(n16S)
                 
-                ## Print one of the 16S rRNA genes to combined_16.
+                ## Print one of the 16S rRNA genes to combined_16S.
                                 
                 keep = True
                 for record in SeqIO.parse(ref_dir_domain + 'refseq/' + d + '/' + d + '.16S.fasta', 'fasta'):
@@ -716,7 +727,21 @@ with open(ref_dir_domain + 'combined_16S.fasta', 'w') as fasta_out:
                         SeqIO.write(new_record, fasta_out, 'fasta')                        
                         keep = False
                     else:
-                        continue
+                        break
+                    
+                ## Print one of the 23S rRNA genes to combined_23S.
+                    
+                keep = True
+                for record in SeqIO.parse(ref_dir_domain + 'refseq/' + d + '/' + d + '.23S.fasta', 'fasta'):
+                    if keep == True:
+                        new_record = SeqRecord(record.seq)                        
+                        new_record.id = d                        
+                        new_record.description = ''
+                        
+                        SeqIO.write(new_record, fasta_out_23s, 'fasta')                        
+                        keep = False
+                    else:
+                        break
                         
                 ## Count the number of genetic elements.
             
@@ -762,19 +787,18 @@ with open(ref_dir_domain + 'combined_16S.fasta', 'w') as fasta_out:
 
 #%% Generate a distance matrix for the extracted 16S rRNA genes.
 ## Align the 16S rRNA genes, first remove existing gaps as the "aligned" sequences
-## are not of the same length.
+## are not of the same length.  The 23S file isn't needed here for this operation,
+## but it needs to be degapped later so you might as well do it.
 
-degap = subprocess.Popen('seqmagick mogrify --ungap ' + ref_dir_domain + 'combined_16S.fasta', shell = True, executable = executable)
-degap.communicate()
+subprocess.call('seqmagick mogrify --ungap ' + ref_dir_domain + 'combined_16S.fasta', shell = True, executable = executable)
+subprocess.call('seqmagick mogrify --ungap ' + ref_dir_domain + 'combined_23S.fasta', shell = True, executable = executable)
 
 ## Duplicate sequences are removed before alignment, may make more sense to remove after.
+## Sometime there are, inexplicably a few gaps that re-emerge after sequences are de-duplicated.
 
-unique = subprocess.Popen('seqmagick convert --deduplicate-sequences ' + ref_dir_domain + 'combined_16S.fasta ' + ref_dir_domain + 'combined_16S.unique.fasta', shell = True, executable = executable)
-unique.communicate()
-
-align_16S = subprocess.Popen('cmalign --outformat Pfam -o ' + ref_dir_domain + 'combined_16S.align.sto ' + cm + ' ' + ref_dir_domain + 'combined_16S.unique.fasta', shell = True, executable = executable)        
-align_16S.communicate() 
-
+subprocess.call('seqmagick convert --deduplicate-sequences ' + ref_dir_domain + 'combined_16S.fasta ' + ref_dir_domain + 'combined_16S.unique.fasta', shell = True, executable = executable)
+subprocess.call('cmalign --outformat Pfam -o ' + ref_dir_domain + 'combined_16S.align.sto ' + cm + ' ' + ref_dir_domain + 'combined_16S.unique.fasta', shell = True, executable = executable)        
+ 
 ## Use RAxML to calculate the ML-based distance between taxon pairs.  I thought
 ## RAxML could handle the sto format but it doesn't seem to like it, so convert
 ## to fasta first.
@@ -783,14 +807,9 @@ align_16S.communicate()
 ## !!! which would allow you to use the much more accurate tree produced by
 ## !!! place_it. 
 
-convert = subprocess.Popen('seqmagick convert ' + ref_dir_domain + 'combined_16S.align.sto ' + ref_dir_domain + 'combined_16S.align.fasta', shell = True, executable = executable)
-convert.communicate()
-
-remove_dist = subprocess.Popen('rm ' + ref_dir_domain + '*dist', shell = True, executable = executable)
-remove_dist.communicate()
-
-dist = subprocess.Popen('cd ' + ref_dir_domain + ';raxmlHPC-PTHREADS-AVX2 -T ' + cpus + ' -f x -p 12345 -s ' + ref_dir_domain + 'combined_16S.align.fasta -m GTRGAMMA -n dist', shell = True, executable = executable)
-dist.communicate()
+subprocess.call('seqmagick convert ' + ref_dir_domain + 'combined_16S.align.sto ' + ref_dir_domain + 'combined_16S.align.fasta', shell = True, executable = executable)
+subprocess.call('rm ' + ref_dir_domain + '*dist', shell = True, executable = executable)
+subprocess.call('cd ' + ref_dir_domain + ';raxmlHPC-PTHREADS-AVX2 -T ' + cpus + ' -f x -p 12345 -s ' + ref_dir_domain + 'combined_16S.align.fasta -m GTRGAMMA -n dist', shell = True, executable = executable)
 
 #%% Calculate the compositional vectors.
 ## Calculate the compositional vectors for the faa files.  Start by reading in
@@ -805,9 +824,8 @@ with open(paprica_path + 'models/kmer_top_1e5.txt', 'r') as top_kmers:
     
 ## Run the composition vector function in parallel.
       
-if __name__ == '__main__':  
-    Parallel(n_jobs = -1, verbose = 5)(delayed(calc_vector)
-    (genome_path, bins) for genome_path in new_genome_faa)
+Parallel(n_jobs = -1, verbose = 5)(delayed(calc_vector)
+(genome_path, bins) for genome_path in new_genome_faa)
 
 #%% Generate symmetrical 16S and cv matrices.
 ## All the output was saved as a seperate file to facilitate parallel computation.
@@ -960,12 +978,15 @@ if len(os.listdir(ref_dir + 'user/' + domain)) > 0:
 ## to use the draft values for any predictions.
             
 if len(list(good_drafts.keys())) > 0:
-        
-    if __name__ == '__main__':  
-        Parallel(n_jobs = -1, verbose = 5)(delayed(search_16S)
-        (ref_dir + 'user/' + domain, d) for d in list(good_drafts.keys()))
+         
+    Parallel(n_jobs = -1, verbose = 5)(delayed(search_16S)
+    (ref_dir + 'user/' + domain, d) for d in list(good_drafts.keys()))
+    
+    Parallel(n_jobs = -1, verbose = 5)(delayed(search_23S)
+    (ref_dir + 'user/' + domain, d) for d in list(good_drafts.keys()))
 
-with open(ref_dir + 'user/' + domain + '/' + 'draft.combined_16S.fasta', 'w') as draft_fasta_out:        
+with open(ref_dir + 'user/' + domain + '/' + 'draft.combined_16S.fasta', 'w') as draft_fasta_out, open(ref_dir + 'user/' + domain + '/' + 'draft.combined_23S.fasta', 'w') as draft_fasta_out_23S:   
+            
         for d in list(good_drafts.keys()):
             
             count_16S = subprocess.Popen('grep -c \'>\' ' + ref_dir + 'user/' + domain + '/' + d + '/' + d + '.16S.fasta', shell = True, executable = executable, stdout = subprocess.PIPE)
@@ -973,9 +994,14 @@ with open(ref_dir + 'user/' + domain + '/' + 'draft.combined_16S.fasta', 'w') as
             n16S = n16S.rstrip()
             n16S = int(n16S)
             
-            ## Were any 16S rRNA genes found in the draft assembly?
+            count_23S = subprocess.Popen('grep -c \'>\' ' + ref_dir + 'user/' + domain + '/' + d + '/' + d + '.23S.fasta', shell = True, executable = executable, stdout = subprocess.PIPE)
+            n23S = count_16S.communicate()[0]
+            n23S = n23S.rstrip()
+            n23S = int(n23S)
             
-            if n16S > 0:
+            ## Were any 16S and 23S rRNA genes found in the draft assembly?
+            
+            if n16S > 0 and n23S > 0:
                 
                 ## Make an entry for the draft in summary_complete
                 
@@ -1002,7 +1028,7 @@ with open(ref_dir + 'user/' + domain + '/' + 'draft.combined_16S.fasta', 'w') as
                 
                 ## Copy the directory to refseq so that pathway-tools can find it.
                 
-                cp = subprocess.Popen('cp -r ' + ref_dir + 'user/' + domain + '/' + d + ' ' + ref_dir_domain + 'refseq/', shell = True, executable = executable)
+                subprocess.call('cp -r ' + ref_dir + 'user/' + domain + '/' + d + ' ' + ref_dir_domain + 'refseq/', shell = True, executable = executable)
                 
                 ## Print one of the 16S rRNA genes to combined_16.
                 
@@ -1022,44 +1048,81 @@ with open(ref_dir + 'user/' + domain + '/' + 'draft.combined_16S.fasta', 'w') as
                         continue
                     
             else:
-                print('sorry, no 16S rRNA genes found in draft assembly', d)
+                print('sorry, no 16S rRNA genes or 23S rRNA genes found in draft assembly', d)
          
 ## Generate a fasta file with meaningful taxonomic names consisting of only
 ## those 16S rRNA genes used in the final alignment.
          
 unique_16S = set()
+unique_16S_names = set()
         
 print('writing out data files')
+
+final_genes = pd.DataFrame(columns = ['16S', '23S'])
         
-with open(ref_dir_domain + 'combined_16S.' + domain + '.tax.fasta', 'w') as tax_fasta_out:
-    for record in SeqIO.parse(ref_dir_domain + 'combined_16S.unique.fasta', 'fasta'):
         
-        try:
-            tax_name = record.id + '_' + summary_complete.loc[record.id, 'organism_name'] + '_' + summary_complete.loc[record.id, 'infraspecific_name']
-        except TypeError:
-            tax_name = record.id + '_' + summary_complete.loc[record.id, 'organism_name']
+## 16S rRNA genes.
+    
+for record in SeqIO.parse(ref_dir_domain + 'combined_16S.unique.fasta', 'fasta'):
+    
+    try:
+        tax_name = record.id + '|' + summary_complete.loc[record.id, 'organism_name'] + '_' + summary_complete.loc[record.id, 'infraspecific_name']
+    except TypeError:
+        tax_name = record.id + '|' + summary_complete.loc[record.id, 'organism_name']
+        
+    tax_name = re.sub('\[', '', tax_name)
+    tax_name = re.sub('\]', '', tax_name)
+    
+    final_genes.loc[tax_name, '16S'] = str(record.seq)
+    summary_complete.loc[record.id, 'tax_name'] = tax_name
+    
+## 23S rRNA genes. Note that it's not necessary for the 23S gene to be unique,
+## so we just use combined_23S.fasta here.
+    
+for record in SeqIO.parse(ref_dir_domain + 'combined_23S.fasta', 'fasta'):
+    
+    try:
+        tax_name = record.id + '|' + summary_complete.loc[record.id, 'organism_name'] + '_' + summary_complete.loc[record.id, 'infraspecific_name']
+    except TypeError:
+        tax_name = record.id + '|' + summary_complete.loc[record.id, 'organism_name']
+        
+    tax_name = re.sub('\[', '', tax_name)
+    tax_name = re.sub('\]', '', tax_name)
+    
+    final_genes.loc[tax_name, '23S'] = str(record.seq)
+    
+## Draft 16S rRNA genes.
+    
+for record in SeqIO.parse(ref_dir + 'user/' + domain + '/' + 'draft.combined_16S.fasta', 'fasta'):        
+    if str(record.seq) not in final_genes['16S']:
+        final_genes.loc[str(record.id), '16S'] = str(record.seq)
+#            SeqIO.write(record, tax_fasta_out, 'fasta')
+#            unique_16S.add(str(record.seq))
+#            unique_16S_names.add(str(record.id))
+    else:
+        print('sorry, a 16S rRNA gene sequence identical to', record.id, 'is already in use, not including')
+        summary_complete = summary_complete[summary_complete.organism_name != record.id]
+        
+## Draft 23S rRNA genes
+
+for record in SeqIO.parse(ref_dir + 'user/' + domain + '/' + 'draft.combined_23S.fasta', 'fasta'): 
+    if pd.notnull(final_genes[str(record.id)]):
+        final_genes.loc[str(record.id), '23S'] = str(record.seq)
+        
+final_genes.dropna(inplace = True)
             
-        tax_name = re.sub('\[', '', tax_name)
-        tax_name = re.sub('\]', '', tax_name)
+with open(ref_dir_domain + 'combined_16S.' + domain + '.tax.fasta', 'w') as tax_fasta_out, open(ref_dir_domain + 'combined_23S.' + domain + '.tax.fasta', 'w') as tax_fasta_out_23S:            
         
-        new_record_tax = SeqRecord(record.seq)        
-        new_record_tax.id = tax_name
-        new_record_tax.description = ''
+    for index, row in final_genes.iterrows():
+        print('>' + index, file = tax_fasta_out)
+        print('>' + index, file = tax_fasta_out_23S)
         
-        SeqIO.write(new_record_tax, tax_fasta_out, 'fasta')
-        summary_complete.loc[record.id, 'tax_name'] = tax_name
-        
-        unique_16S.add(str(record.seq))
-        
-    for record in SeqIO.parse(ref_dir + 'user/' + domain + '/' + 'draft.combined_16S.fasta', 'fasta'):        
-        if str(record.seq) not in unique_16S:
-            SeqIO.write(record, tax_fasta_out, 'fasta')
-            unique_16S.add(str(record.seq))
-        else:
-            print('sorry, a 16S rRNA gene sequence identical to', record.id, 'is already in use, not including')
-            summary_complete = summary_complete[summary_complete.organism_name != record.id]
+        print(row['16S'], file = tax_fasta_out)
+        print(row['23S'], file = tax_fasta_out_23S)
         
 ## Write out the final summary_complete file.
+#!!! it would make sense to check and make sure that all entries in summary_complete
+#!!! are represented in final_genes
 
 summary_complete.to_csv(ref_dir_domain + 'genome_data.csv.gz')
         

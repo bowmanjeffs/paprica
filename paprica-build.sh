@@ -9,6 +9,7 @@
 #### The PGDBs take up about 100 Gb of space.
 
 pgdb_dir=~/ptools-local/pgdbs/user/
+#pgdb_dir=/volumes/hd2/ptools-local/pgdbs/user/
 domain=$1
 ref_dir=ref_genome_database
 
@@ -22,19 +23,14 @@ fi
 
 ## 1. download genomes, combine elements, extract 16S
 
-paprica-make_ref.py -ref_dir $ref_dir -download T -domain $domain -cpus 8 &&
+#paprica-make_ref.py -ref_dir $ref_dir -download T -domain $domain -cpus 8 - pgbd_dir $pgdb_dir &&
 
 ## 2. make a reference package from 16S or 18S
 
 paprica-place_it.py -ref_dir $ref_dir -ref combined_$gene.$domain.tax -domain $domain &&
 
-## 3. run test.fasta for the indicated domain
+## 3. build the reference database.
 
-paprica-pick_domain.py -in test
-paprica-place_it.py -ref_dir $ref_dir -query test.$domain -ref combined_$gene.$domain.tax -domain $domain -splits 1 &&
-
-## 4. build the reference database.
-
-paprica-build_core_genomes.py -ref_dir $ref_dir -pgdb_dir $pgdb_dir -tree test.$domain.combined_$gene.$domain.tax.clean.unique.align.phyloxml -domain $domain &&
+paprica-build_core_genomes.py -ref_dir $ref_dir -pgdb_dir $pgdb_dir -domain $domain -cpus 36 -database_info combined_$gene.$domain.tax.database_info.txt &&
 
 echo "Thanks for using paprica!  Please be sure to read through the manual, and check out the tutorials at www.polarmicrobes.org"

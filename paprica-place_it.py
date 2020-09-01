@@ -57,8 +57,6 @@ This script must be located in the 'paprica' directory as it makes use of relati
 paths.
 
 """
-executable = '/bin/bash' # shell for executing commands
-
 import re
 import subprocess
 import sys
@@ -69,6 +67,13 @@ import datetime
 import random
 import pandas as pd
 import json
+from Bio import Phylo, SeqIO, Seq
+from io import StringIO
+import tempfile
+import shutil
+
+executable = '/bin/bash' # shell for executing commands
+random.seed(1)
 
 ## Assume the system is using hyperthreading.
 
@@ -110,11 +115,18 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'archaea'
+    domain = 'bacteria'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
-    ref = 'combined_16S.' + domain +'.tax'
+    if domain == 'eukarya':
+        ref = 'combined_18S.' + domain +'.tax'
+    else:
+        ref = 'combined_16S.' + domain +'.tax'
+try:
+    query = command_args['query']
+except KeyError:
+    pass
 
 ## If sys.argv == 1, you are probably running inside Python in testing mode.
 ## Provide some default values to make this possibe.  If > 1, parse command
@@ -122,37 +134,12 @@ except KeyError:
 ## No default is currently provided for query.
     
 if len(sys.argv) == 1:
-    splits = 1
-#    query = 'test.' + domain
-#    command_args['query'] = query
-
-else:
-    
-    try:    
-        splits = int(command_args['splits']) # The number of splits to make for pplacer parallel operation.
-    except KeyError:
-        splits = 1
-        
-    try:
-        query = command_args['query']
-        query = query.split('.')
-        
-        ## Finally add some handling of extensions!
-        
-        if query[-1] in ['fasta', 'fna', 'fa']:
-            query = query[0:-1]
-        query = '.'.join(query)
-        
-    except KeyError:
-        pass
-    
-## Count the system cpus, and divide by number of splits to determine cpus
-## that should be used by cmalign
-
-system_cpus = multiprocessing.cpu_count()
-cmalign_cpus = str(int(system_cpus / splits))
+    query = 'big_test_16S.' + domain
+    command_args['query'] = query
 
 ## Figure out an appropriate number of cores for building trees.
+
+system_cpus = multiprocessing.cpu_count()
 
 if hyperthreading == True:
     physical_cpus = system_cpus/2
@@ -174,7 +161,8 @@ if ref_dir.endswith('/') == False:
     ref_dir = ref_dir + '/'
     
 ref_dir_domain = ref_dir + domain + '/' # Complete path to the domain subdirectory within the reference directory.
-cm = paprica_path + 'models/' + domain + '_ssu.cm' # Domain specific covariance model used by infernal.
+cm16S = paprica_path + 'models/' + domain + '_ssu.cm' # Domain specific covariance model used by infernal.
+cm23S = paprica_path + 'models/' + domain + '_lsu.cm'
 
 #%% Define a stop function for diagnostic use only.
 
@@ -187,14 +175,16 @@ def stop_here():
 ## by make_tax, to insure that sequence names match between taxonomy database
 ## and tree.
     
-from Bio import SeqIO
-
-def clean_name(prefix):
+def clean_name(query):
     
-    bad_character = re.compile('[\[\]\|\\=-@!%,;\(\):\'\"\s]')
+    bad_character = re.compile('[\[\]\\=-@!%,;\(\):\'\"\s]')
+    
+    basename = query.split('.')[0:-1]
+    basename = '.'.join(basename)
+    name_out = basename + '.clean.fasta'
         
-    with open(prefix + '.clean.fasta', 'w') as fasta_out:
-        for record in SeqIO.parse(prefix + '.fasta', 'fasta'): 
+    with open(name_out, 'w') as fasta_out:
+        for record in SeqIO.parse(query, 'fasta'): 
             record.name = re.sub(bad_character, '_', str(record.description))
             record.id = record.name
             record.description = ''
@@ -208,9 +198,12 @@ def make_unique(query):
     seq_names = {}
     name_seq = {}
     
-    clean_name(query)
+    basename = query.split('.')[0:-1]
+    basename = '.'.join(basename)
+    fasta_out_name = basename + '.unique.fasta'
+    count_out_name = basename + '.unique.count'
     
-    for record in SeqIO.parse(query + '.clean.fasta', 'fasta'):
+    for record in SeqIO.parse(query, 'fasta'):
         name = str(record.id)
         seq = str(record.seq)
         
@@ -223,10 +216,10 @@ def make_unique(query):
             seq_count[seq] = 1
             seq_names[seq] = [name]
             
-    with open(query + '.clean.unique.fasta', 'w') as fasta_out, open(query + '.clean.unique.count', 'w') as count_out:
+    with open(fasta_out_name, 'w') as fasta_out, open(count_out_name, 'w') as count_out:
         print('rep_name' + ',' + 'abundance', file = count_out)
         for seq in list(seq_names.keys()):
-            print('>' + seq_names[seq][0], file=fasta_out)
+            print('>' + seq_names[seq][0], file = fasta_out)
             print(seq, file=fasta_out)
             
             print(seq_names[seq][0] + ',' + str(seq_count[seq]), file=count_out)
@@ -238,6 +231,8 @@ def make_unique(query):
 ## improves the speed of paprica_run.sh, but at the cost of memory overhead.
 ## Users need to be cautious of memory limits when considering the number of
 ## splits to make.
+    
+## Currently this function is not used.
             
 def split_fasta(file_in, nsplits):
     
@@ -272,103 +267,69 @@ def split_fasta(file_in, nsplits):
 #%% Define a function to split a combined query and reference (such as one
 ## combined by a call to esl-alimerge).
     
-def split_query_ref(query, ref, combined):
+def split_query_ref(query_alignment, ref_alignment, combined, temp_dir, part_file = None):
     
-    ref_out_name = ref.split('/')[-1]
-    ref_out_name = '.'.join(ref_out_name.split('.')[0:-1])
-    ref_out_name = ref_out_name + '.newlength.fasta'
+    ## We assume that reads are placing to the first partition. Right now this
+    ## only works for a 2-partition alignment, but could be easily expanded to
+    ## accomodate additional partitions.
+
+    if part_file != None:  
+        i = 0
+        with open(part_file) as part:
+            for line in part:
+                if i == 1:
+                    line = line.rstrip()
+                    line = line.split(',')[1]
+                    needed_gaps = int(line.split('-')[1])
+                i += 1
+    else:
+        needed_gaps = 0
+        
+    ## turn off the extensioning for now
+        
+    needed_gaps = 0
+        
+    query_basename = query_alignment.split('/')[-1]
+    query_basename = query_basename.split('.')[0:-1]
+    query_basename = '.'.join(query_basename)
     
-    query_out_name = '.'.join(query.split('.')[0:-1])
-    query_out_name = query_out_name + '.newlength.fasta'
+    ref_basename = ref_alignment.split('/')[-1]
+    ref_basename = ref_basename.split('.')[0:-1]
+    ref_basename = '.'.join(ref_basename)
+    query_out = query_basename + '.newlength.fasta'
+    ref_out = ref_basename + '.newlength.fasta'
     
     query_names = []
     ref_names = []
     
-    for record in SeqIO.parse(query, 'stockholm'):
+    for record in SeqIO.parse(query_alignment, 'stockholm'):
         query_names.append(record.id)
         
-    for record in SeqIO.parse(ref, 'stockholm'):
+    for record in SeqIO.parse(ref_alignment, 'stockholm'):
         ref_names.append(record.id)
         
     query_names = set(query_names)
     ref_names = set(ref_names)
     
-    with open(ref_out_name, 'w') as ref_out, open(query_out_name, 'w') as query_out:
-        for record in SeqIO.parse(combined, 'stockholm'):
-            if record.id in query_names:
-                SeqIO.write(record, query_out, 'fasta')
-            elif record.id in ref_names:
-                SeqIO.write(record, ref_out, 'fasta')
-            else:
-                print('Error, record.id not in query or ref!')
-                break
-
-#%% Define function to execute phylogenetic placement on a query fasta, or split query fasta
-    
-def place(query, ref, ref_dir_domain, cm):
-            
-    degap = subprocess.Popen('seqmagick mogrify --ungap ' + query + '.clean.unique.fasta', shell = True, executable = executable)
-    degap.communicate()
-    
-    ## Conduct alignment with Infernal (cmalign) against the domain profile
-    ## obtained from the Rfam website at http://rfam.xfam.org/family/RF00177/cm.
-    
-    if 'large' in list(command_args.keys()):
-        align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --mxsize 12000 --dna -o ' + query + '.clean.unique.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.unique.fasta', shell = True, executable = executable)
-        align.communicate()
-    else:
-        align = subprocess.Popen('cmalign --cpu ' + cmalign_cpus + ' --dna -o ' + query + '.clean.unique.align.sto --outformat Pfam ' + cm + ' ' + query + '.clean.unique.fasta', shell = True, executable = executable)
-        align.communicate()    
-    
-    combine = subprocess.Popen('esl-alimerge --outformat Pfam --dna \
-    -o ' + query + '.' + ref + '.clean.unique.align.sto \
-    ' + query + '.clean.unique.align.sto \
-    ' + ref_dir_domain + ref + '.clean.align.sto', shell = True, executable = executable)
-    combine.communicate()
-    
-    split_query_ref(query + '.clean.unique.align.sto', ref_dir_domain + ref + '.clean.align.sto', query + '.' + ref + '.clean.unique.align.sto')
-    
     ## Create a specific working directory in case multiple instances are
     ## being run at same time.
     
-    os.system('mkdir ' + query)
-    
-    epa_ng = subprocess.Popen('epa-ng -q ' + query + '.clean.unique.align.newlength.fasta \
-    --model ' + ref_dir_domain + ref + '.final.bestModel \
-    -s ' + ref + '.clean.align.newlength.fasta \
-    -t ' + ref_dir_domain + ref + '.final.bestTree \
-    -w ' + query, shell = True, executable = executable)
-    epa_ng.communicate()
-    
-    ## Move final files to primary working directory, and delete subdirectory.
-    
-    os.system('mv ' + query + '/epa_result.jplace ' + query + '.' + ref + '.clean.unique.align.jplace')
-    os.system('rm -r ' + query)
-    
-#%% Define function to generate csv file of placements and fat tree 
-    
-def json_to_csv(query, ref):
-    with open(query + '.' + ref + '.clean.unique.align.jplace', 'r') as jfile:
-        data = json.load(jfile)
-        colnames = data['fields']
-  
-    placements = pd.DataFrame(columns = colnames)
-
-    for placement in data['placements']:
-        placements.loc[placement['n'][0]] = placement['p'][0]
-        
-    placements.to_csv(query + '.' + ref + '.clean.unique.align.csv')
-    
-def guppy(query, ref):
-    
-    guppy1 = subprocess.Popen('guppy to_csv --point-mass -o ' + query + '.' + ref + '.clean.unique.align.csv ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
-    guppy1.communicate()
-    
-    guppy2 = subprocess.Popen('guppy fat --node-numbers --point-mass -o ' + query + '.' + ref + '.clean.unique.align.phyloxml ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
-    guppy2.communicate()
-    
-    guppy3 = subprocess.Popen('guppy edpl --csv -o ' + query + '.' + ref + '.clean.unique.align.edpl.csv ' + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
-    guppy3.communicate()
+    with open(temp_dir + ref_out, 'w') as ref_out, open( temp_dir + query_out, 'w') as query_out:
+        for record in SeqIO.parse(combined, 'stockholm'):
+            
+            record.letter_annotations = {}
+            
+            if record.id in query_names:
+                temp_seq = str(record.seq) + '-' * needed_gaps
+                record.seq = Seq.Seq(temp_seq)
+                SeqIO.write(record, query_out, 'fasta')
+            elif record.id in ref_names:
+                temp_seq = str(record.seq) + '-' * needed_gaps
+                record.seq = Seq.Seq(temp_seq)
+                SeqIO.write(record, ref_out, 'fasta')
+            else:
+                print('Error, record.id not in query or ref!')
+                break    
     
 #%% Define function to execute a single raxml-ng run
     
@@ -388,9 +349,10 @@ def run_raxml(i, prefix, msa, raxml_cpus):
 #%% Replacement for make_tax, based on ete3.  Build a table of lineages for each
     ## reference.
                    
-def classify_ref():
+def classify_ref(ref_dir_domain):
 
     from ete3 import NCBITaxa
+    import numpy as np
     
     ncbi = NCBITaxa()
     ncbi.update_taxonomy_database() 
@@ -399,19 +361,36 @@ def classify_ref():
     ref_lineage = pd.DataFrame()
     
     for strain in summary_complete['taxid']:
-        lineage = ncbi.get_lineage(strain)
-        lineage_ranks = ncbi.get_rank(lineage)
-        names = ncbi.get_taxid_translator(lineage)
         
-        for taxid in lineage_ranks.keys():
-            rank = lineage_ranks[taxid]
-            ref_lineage.loc[strain, rank] = names[taxid]
+        #!!! In theory a try clause shouldn't be necessary here, as there really
+        ## isn't a reason this should fail.  At the moment ete3 is failing on
+        ## the most recent version of the NCBI taxonomy, so this is necessary.
+        ## Solved by inserting NA values for taxids with missing lineage, however,
+        ## this will probably break the determination of consensus lineages
+        ## in build_core_genomes.
+        
+        ## ete3 can be fixed by modifying line 805 of ncbiquery.py to
+        ## CREATE TABLE synonym (taxid INT,spname VARCHAR(50), PRIMARY KEY (spname, taxid));
+        
+        try:
+            lineage = ncbi.get_lineage(strain)
+            lineage_ranks = ncbi.get_rank(lineage)
+            names = ncbi.get_taxid_translator(lineage)
+            
+            for taxid in lineage_ranks.keys():
+                rank = lineage_ranks[taxid]
+                ref_lineage.loc[strain, rank] = names[taxid]
+        
+        except ValueError:
+            ref_lineage.loc[strain, 'no rank'] = np.nan
             
     ref_lineage.to_csv(ref_dir_domain + 'edge_lineages.csv')
     
+    return(ref_lineage, summary_complete)
+    
 #%% Define function to run infernal and return a fasta format file.
     
-def infernal_align(prefix, cm):
+def reference_align(prefix, cm):
     
     ## Make sure input is unaligned.  Input file must end with ".clean.fasta".
     
@@ -424,154 +403,790 @@ def infernal_align(prefix, cm):
     infernal.communicate()
     
     convert = subprocess.Popen('seqmagick convert ' + prefix + '.clean.align.sto ' + prefix + '.clean.align.fasta', shell = True, executable = executable)
-    convert.communicate()  
-
-#%% Execute main program.
-
-if 'query' not in list(command_args.keys()):
+    convert.communicate()
     
-    ## If the query flag is not given this is taken as instruction to build
-    ## the reference package. 
+def concatenate_alignments(align1, align2, partition_file, file_out):
     
-    classify_ref()
+    alignments = pd.DataFrame()
     
-    clean_name(ref_dir_domain + ref)
-    
-    ## If cmalign returns an error complaining about the size of the DP matrix, there are probably
-    ## reference 16S or 18S sequences that fall outside the bounds of the covariance model.
-    ## These need to be removed (add to the appropriate bad_genomes list in paprica-make_ref.py)
-    ## as they will result in a malformed tree.
-    
-    infernal_align(ref_dir_domain + ref, cm)
-    
-    ## Check the input alignment, this identifies the optimal number of threads,
-    ## eliminates duplicates, and converts to binary format. Alignment file with
-    ## no duplicates is identified by *.reduced.phy.
-    
-    rm = subprocess.call('rm -f ' + ref_dir_domain + '*raxml*', shell = True, executable = executable)
-    
-    raxml0 = subprocess.call('raxml-ng \
-    --parse \
-    --msa ' + ref_dir_domain + ref + '.clean.align.fasta \
-    --model GTR+G \
-    --prefix ' + ref_dir_domain + ref, shell = True, executable = executable)
-    
-    ## Use the coarse-grained parallelization scheme outlined in the RAxML
-    ## manual to create 24 trees from parsimony starts.  This takes a long
-    ## time for the domain Bacteria.
-    
-    if __name__ == '__main__':  
-        Parallel(n_jobs = 24, verbose = 5)(delayed(run_raxml)
-        (i, ref_dir_domain + ref, ref_dir_domain + ref + '.raxml.rba', raxml_cpus) for i in range(1, 25))
+    for record in SeqIO.parse(align1, 'fasta'):
+        alignments.loc[str(record.id), 'align1'] = str(record.seq)
+    for record in SeqIO.parse(align2, 'fasta'):
+        alignments.loc[str(record.id), 'align2'] = str(record.seq)
         
+    alignments.dropna(inplace = True)
+    part1_len = len(alignments.iloc[0]['align1'])
+    part2_len = len(alignments.iloc[0]['align2'])
+    
+    with open(partition_file, 'w') as part_out:
+        print('GTR+G+FO,', '16S=1-' + str(part1_len), file = part_out)
+        print('GTR+G+FO,', '23S=' + str(part1_len + 1) + '-' + str(part1_len + part2_len), file = part_out)
+
+    with open(file_out, 'w') as concat_out:                    
+        for index, row in alignments.iterrows():
+            print('>' + index, file = concat_out)            
+            print(row['align1'] + row['align2'], file = concat_out) 
+    
+def trim_alignment(prefix):
+    
+    bases = re.compile('[AGCTagct]')
+    first_positions = []
+    last_positions = []
+        
+    for record in SeqIO.parse(prefix + '.clean.align.fasta', 'fasta'):
+        
+        seq = str(record.seq)
+        i_front = re.search(bases, seq).span()[0]
+        i_back = re.search(bases, seq[::-1]).span()[0]
+        
+        first_positions.append(i_front)
+        last_positions.append(i_back)
+        
+    first_position = max(first_positions)
+    last_position = max(last_positions)
+    
+    ## If all sequences spanned the full length of the alignment last_position
+    ## will be nonsensical.  In this case the full sequence should be retained.
+    
+    if last_position == 0:
+        last_position = 1
+    
+    i = 0
+    
+    with open(prefix + '.clean.align.trimmed.fasta', 'w') as trimmed_fasta:
+        for record in SeqIO.parse(prefix + '.clean.align.fasta', 'fasta'):
+            record.seq = record.seq[first_position:(-1 * last_position)]
+            SeqIO.write(record, trimmed_fasta, 'fasta')
+            i = i + 1
+            
+    return(i)
+
+def parse_alignment(prefix, part):
+    
+    if part  != None:
+        subprocess.call('raxml-ng \
+        --parse \
+        --msa ' + prefix + '.clean.align.trimmed.fasta \
+        --model ' + part + ' \
+        --prefix ' + prefix, shell = True, executable = executable)
+        
+    else:
+        subprocess.call('raxml-ng \
+        --parse \
+        --msa ' + prefix + '.clean.align.trimmed.fasta \
+        --model GTR+G+FO \
+        --prefix ' + prefix, shell = True, executable = executable)        
+    
+def best_tree(prefix, n_trees, partition):
+    
     ## Parse the log files and find the tree with the highest maximum likelihood.
         
     final_lls = pd.Series(dtype = 'float64')
         
-    for f in os.listdir(ref_dir_domain):
-        if f.endswith('raxml.log'):
-            with open(ref_dir_domain + f, 'r') as raxml_log:
-                for line in raxml_log:
-                    if line.startswith('Final LogLikelihood'):
-                        line = line.rstrip()
-                        line = line.split()
-                        final_ll = float(line[-1])
-                        final_lls[f] = final_ll
+    for i in range(1, n_trees + 1):
+        with open(prefix + str(i) + '.raxml.log', 'r') as raxml_log:
+            for line in raxml_log:
+                if line.startswith('Final LogLikelihood'):
+                    line = line.rstrip()
+                    line = line.split()
+                    final_ll = float(line[-1])
+                    final_lls[prefix + str(i)] = final_ll
                         
     besttree = final_lls.idxmax()
-    besttree_base = '.'.join(besttree.split('.')[0:-1])
-    besttree_name = besttree_base + '.bestTree'
-    besttree_log = besttree_base + '.log'
-    besttree_model = besttree_base + '.bestModel'
+    besttree_name = besttree + '.raxml.bestTree'
+    besttree_log = besttree + '.raxml.log'
+    besttree_model = besttree + '.raxml.bestModel'
     
     ## now delete the other trees and rename the winning
     
-    os.rename(ref_dir_domain + besttree_name, ref_dir_domain + ref + '.final.bestTree')
-    os.rename(ref_dir_domain + besttree_log, ref_dir_domain + ref + '.final.log')
-    os.rename(ref_dir_domain + besttree_model, ref_dir_domain + ref + '.final.bestModel')
+    os.rename(besttree_name, prefix + '.final.bestTree')
+    os.rename(besttree_log, prefix + '.final.log')
     
-    subprocess.run('rm ' + ref_dir_domain + '*raxml*', shell = True, executable = '/bin/bash')
+    ## if a multi-partition alignment, need to create a model
+    ## that is useable with epa-ng.
     
-    ## Create a file with the date/time of database creation.
+    if partition == False:
+        os.rename(besttree_model, prefix + '.final.bestModel')
+    else:
+        with open(besttree_model, 'r') as best_model, open(prefix + '.final.bestModel', 'w') as model_out:
+            
+            ## Assumes desired partition is in line 1
+            
+            for line in best_model:
+                line = re.sub('\+BU\{\d*\.\d*\}', '', line)
+                break
+            print(line, file = model_out)
+            
+            shutil.copyfile(besttree_model, prefix + '.original.bestModel')
+                    
+    subprocess.run('rm ' + prefix + '*raxml*', shell = True, executable = '/bin/bash')
+
+#%% Define function to execute phylogenetic placement on a query fasta, or split query fasta
+    
+def query_align(query, ref, combined, cm):
+    
+    ## combined is the desired name of the combined sto file
+    ## ref is the sto file for the reference sequences
+    ## query is the query fasta
+    
+    basename = query.split('.')[0:-1]
+    basename = '.'.join(basename)
+        
+    subprocess.call('seqmagick mogrify --ungap ' + query, shell = True, executable = executable)
+    
+    ## Conduct alignment with Infernal (cmalign) against the domain profile
+    ## obtained from the Rfam website at http://rfam.xfam.org/family/RF00177/cm.
+    
+    subprocess.call('cmalign --dna -o ' + basename + '.align.sto --outformat Pfam ' + cm + ' ' + query, shell = True, executable = executable)   
+
+    subprocess.call('esl-alimerge --outformat Pfam --dna \
+    -o ' + combined + ' \
+    ' + basename + '.align.sto \
+    ' + ref, shell = True, executable = executable)
+    
+def place(query_alignment, ref_alignment, model, tree, temp_dir):
+    
+    ## model: *bestModel
+    ## tree: *final.bestTree
+    ## file_out: name for final jplace file, traditionally query + '.' + ref + '.clean.unique.align.jplace'
+    
+    subprocess.call('epa-ng --redo -q ' + temp_dir + query_alignment + ' \
+    --model ' + model + ' \
+    -s ' + temp_dir + ref_alignment + ' \
+    -t ' + tree + ' \
+    -w ' + temp_dir, shell = True, executable = executable)
+
+def gappa(jplace, cwd):
+    
+    subprocess.call('gappa examine edpl \
+                    --allow-file-overwriting \
+                    --out-dir ' + cwd + ' \
+                    --file-prefix temp.edpl \
+                    --jplace-path ' + cwd + jplace, shell = True, executable = executable)
+                    
+    subprocess.call('gappa examine heat-tree \
+                    --allow-file-overwriting \
+                    --out-dir ' + cwd + ' \
+                    --write-phyloxml-tree \
+                    --tree-file-prefix temp \
+                    --jplace-path ' + cwd + jplace, shell = True, executable = executable)
+
+#%% Define function to convert json to csv.
+    
+def json_to_csv(jplace, subtree_ref):
+    with open(jplace, 'r') as jfile:
+        data = json.load(jfile)
+        colnames = data['fields']
+        
+    ## Parse the tree and exchange curly brackets for brackets.
+        
+    tree = data['tree']
+    tree = re.sub('{', '[', tree)
+    tree = re.sub('}', ']', tree)
+    tree = Phylo.read(StringIO(tree), 'newick') 
+    
+    ref_seqs = pd.DataFrame(columns = ['ref_name'])
+    subtree = subtree_ref
+    
+    for clade in tree.get_terminals():
+    	ref_name = clade.name
+    	ref_seqs.loc[int(clade.comment)] = [ref_name]
+        
+    ## Parse placements.
+  
+    placements = pd.DataFrame(columns = colnames)
+
+    for placement in data['placements']:
+        if len(placement['p']) == 1:
+            placements.loc[placement['n'][0]] = placement['p'][0]
+        else:
+            
+            ## Pick the edge that has the highest ML value.
+            
+            edge_ml = []
+            for pp in placement['p']:
+                edge_ml.append(pp[1])
+            
+            edge_i = edge_ml.index(max(edge_ml))
+            placements.loc[placement['n'][0]] = placement['p'][edge_i]
+            
+    placements = placements.astype({'edge_num': 'int32'})
+    placements['subtree'] = subtree
+    
+    ## Parsing subtree to get a reasonable prefix for the global edge number
+    ## isn't super robust, but should work so long as the subtree name doesn't
+    ## have "." in it.  The global edge number must exactly reflect the indices
+    ## of the database files, as this is how query reads are connected to 
+    ## that information.
+    
+    subtree_suffix = subtree.split('.')[-1]
+    placements['global_edge_num'] = subtree_suffix + '_' + placements.edge_num.astype('str') 
+    
+    ## Add ref seqs.
+        
+    ref_names = ref_seqs.reindex(placements.edge_num).ref_name
+    ref_names.index = placements.index       
+    placements['ref_name'] = ref_names   
+        
+    return(placements)
+
+#%% Define function to calculate map_ratio.
+    
+def get_map_ratio(query_alignment, ref_alignment, placements):
+    
+    ## query and ref alignment should be *.newlength.fasta
+    
+    ref_names = set()
+    ref_seqs = {}
+    
+    for ref_name in placements.ref_name.unique():
+        ref_names.add(ref_name)
+        
+    ## Find all the reference seqs that had hits.
+        
+    for record in SeqIO.parse(ref_alignment, 'fasta'):
+        if record.id in ref_names:
+            ref_seqs[record.id] = str(record.seq)
+            
+    for record in SeqIO.parse(query_alignment, 'fasta'):
+        ref_name = placements.loc[record.id, 'ref_name']
+        if pd.notnull(ref_name):
+            ref_seq = ref_seqs[ref_name]
+            
+            n_total = 0
+            n_match = 0
+            
+            for i,j in enumerate(str(record.seq)):
+                if j not in ['-', '.']:
+                    n_total = n_total + 1
+                    if j.capitalize() == ref_seq[i].capitalize():
+                        n_match = n_match + 1
+                        
+            unaligned = str(record.seq).replace('-', '')
+            unaligned = unaligned.replace('.', '').upper()
+                        
+            map_ratio = round(float(n_match) / n_total, 2)
+            placements.loc[record.id, 'map_ratio'] = map_ratio
+            placements.loc[record.id, 'map_id'] = n_match
+            placements.loc[record.id, 'seq'] = unaligned
+            placements.loc[record.id, 'origin'] = query_alignment
+        
+    return(placements)
+            
+#%% Execute main program.
+    
+if domain != 'eukarya':
+    prefix_16S = ref_dir_domain + 'combined_16S.' + domain + '.tax'
+    prefix_23S = ref_dir_domain + 'combined_23S.' + domain + '.tax'
+    prefix_combined = ref_dir_domain + 'combined_16S.23S.' + domain + '.tax'
+else:
+    
+    #!!! For eukarya prefix_16S and prefix_combined are the same.  To make this
+    ## cleaner could change _16S to _ssu in future version, also for cm16S.
+    
+    prefix_16S = ref_dir_domain + 'combined_18S.eukarya.tax'
+    prefix_combined = ref_dir_domain + 'combined_18S.eukarya.tax'
+        
+top_level_names = {'bacteria':'phylum_reps',
+           'archaea':'archaea',
+           'eukarya':'div_reps'}
+    
+## If the query flag is not given this is taken as instruction to build
+## the reference package.
+    
+#!!! you need to eliminate "ref" from the command line options and all references to it
+
+if 'query' not in list(command_args.keys()):
+    
+    if domain == 'archaea':
+        
+        ## For domain archaea it is not necessary (yet) to subdivide below the
+        ## level of domain. However, to keep things consistent for downstream
+        ## scripts, it shoud be named as though it's a subtree.
+        
+        ref_lineages, genome_data = classify_ref(ref_dir_domain)
+        
+        ## Make a copy of the reference file which will serve as the "subtree"
+        ## file for domain archaea.
+        
+        shutil.copyfile(prefix_16S + '.fasta', prefix_16S + '.archaea.fasta')
+        shutil.copyfile(prefix_23S + '.fasta', prefix_23S + '.archaea.fasta')
+        
+        fasta = 'archaea'
+        
+        clean_name(prefix_16S + '.' + fasta + '.fasta')
+        clean_name(prefix_23S + '.' + fasta + '.fasta')
+        
+        reference_align(prefix_16S + '.' + fasta, cm16S)
+        reference_align(prefix_23S + '.' + fasta, cm23S)
+                
+        nseqs16S = trim_alignment(prefix_16S + '.' + fasta)
+        nseqs23S = trim_alignment(prefix_23S + '.' + fasta)
+        
+        if nseqs16S != nseqs23S:
+            print('You have different numbers of 16S and 23S rRNA genes!  Check \
+                  your input files!')
+                  
+            quit()
+        
+        subprocess.call('rm -f ' + ref_dir_domain + '*raxml*', shell = True, executable = executable)
+        
+        concatenate_alignments(prefix_16S + '.' + fasta + '.clean.align.trimmed.fasta',
+                               prefix_23S + '.' + fasta + '.clean.align.trimmed.fasta',
+                               prefix_combined + '.' + fasta + '.part',
+                               prefix_combined + '.' + fasta + '.clean.align.trimmed.fasta')
+
+        parse_alignment(prefix_combined + '.' + fasta, part = prefix_combined + '.' + fasta + '.part')
+        
+        Parallel(n_jobs = 24, verbose = 5)(delayed(run_raxml)
+                                            (i, prefix_combined + '.' + fasta,
+                                            prefix_combined + '.' + fasta + '.raxml.rba', 1) for i in range(1, 25))
+        
+        best_tree(prefix_combined + '.' + fasta, 24, partition = True)
+        
+        genome_data['subtree'] = domain        
+        fastas = {fasta:nseqs16S}       
+        n_aseqs = genome_data.shape[0]
+        genome_data.to_csv(ref_dir_domain + 'genome_data.csv.gz')
+        
+    elif domain == 'bacteria':
+    
+        ## The reference taxonomy is used to subdivide the reference into phyla.
+        ## Not all phyla have sufficient sequences to build a tree, however, 
+        ## at this level there are several phyla that already have too many
+        ## taxa per alignment. This level is a good compromise.
+        
+        ## ref_lineages is indexed by taxid, so need to map phylum to
+        ## reference strains using taxid.
+        
+        ref_lineages, genome_data = classify_ref(ref_dir_domain)
+        
+        fastas = {'phylum_reps':0}
+                
+        with open(prefix_16S + '.phylum_reps.fasta', 'w') as reps_out_16S, open(prefix_23S + '.phylum_reps.fasta', 'w') as reps_out_23S:  
+            i  = 0
+            
+            for phylum in ref_lineages.phylum.unique():
+                if pd.notnull(phylum):
+                    j = 0
+                    phylum_taxids = set(ref_lineages.index[ref_lineages.phylum == phylum])
+                    phylum_seqids = genome_data.loc[genome_data['taxid'].isin(phylum_taxids)].tax_name
+                    
+                    rep_seq = phylum_seqids[random.randrange(len(phylum_seqids))]                
+                    phylum_seqids = set(phylum_seqids)
+                                    
+                    ## Now iterate across combined_16S.fasta and create phylum level
+                    ## fastas and fasta of representatives. It's inefficient to iterate 
+                    ## over combined_16S.fasta for each phylum, but this works fine
+                    ## for now. The alternative would involve a lot of opening/closing
+                    ## files, or having one file open for each phylum.
+                    
+                    phylum = re.sub(' ', '_', phylum)
+                    genome_data.loc[genome_data['taxid'].isin(phylum_taxids), 'subtree'] = phylum
+                    
+                    with open(prefix_16S + '.' + phylum + '.fasta', 'w') as fasta_out_16S:
+                        for record in SeqIO.parse(prefix_16S + '.fasta', 'fasta'):
+                            if record.description in phylum_seqids:
+                                j += 1
+                                SeqIO.write(record, fasta_out_16S, 'fasta')
+                            if record.description == rep_seq:
+                                record.id = phylum
+                                record.description = ''
+                                i += 1
+                                SeqIO.write(record, reps_out_16S, 'fasta')
+                                
+                    with open(prefix_23S + '.' + phylum + '.fasta', 'w') as fasta_out_23S:
+                        for record in SeqIO.parse(prefix_23S + '.fasta', 'fasta'):
+                            if record.description in phylum_seqids:
+                                SeqIO.write(record, fasta_out_23S, 'fasta')
+                            if record.description == rep_seq:
+                                record.id = phylum
+                                record.description = ''
+                                SeqIO.write(record, reps_out_23S, 'fasta')
+                                                            
+                    fastas[phylum] = j                    
+        fastas['phylum_reps'] = i
+        
+        ## Sorting fastas.keys just to get Proteobacteria out of the #2 slot
+        ## which makes troubleshooting easier.
+                                                        
+        for fasta in sorted(fastas.keys()): 
+            nseqs = fastas[fasta]
+            clean_name(prefix_16S + '.' + fasta + '.fasta')
+            clean_name(prefix_23S + '.' + fasta + '.fasta')
+            
+            reference_align(prefix_16S + '.' + fasta, cm16S)
+            reference_align(prefix_23S + '.' + fasta, cm23S)
+            
+            trim_alignment(prefix_16S + '.' + fasta)
+            trim_alignment(prefix_23S + '.' + fasta)
+        
+            subprocess.call('rm -f ' + ref_dir_domain + '*raxml*', shell = True, executable = executable)
+            
+            concatenate_alignments(prefix_16S + '.' + fasta + '.clean.align.trimmed.fasta',
+                                   prefix_23S + '.' + fasta + '.clean.align.trimmed.fasta',
+                                   prefix_combined + '.' + fasta + '.part',
+                                   prefix_combined + '.' + fasta + '.clean.align.trimmed.fasta')
+        
+            if nseqs > 3:
+     
+            ## build trees
+            
+                parse_alignment(prefix_combined + '.' + fasta, part = prefix_combined + '.' + fasta + '.part')   
+                Parallel(n_jobs = 24, verbose = 5)(delayed(run_raxml)
+                  (i, prefix_combined + '.' + fasta, prefix_combined + '.' + fasta + '.raxml.rba', 1) for i in range(1, 25))                
+                best_tree(prefix_combined + '.' + fasta, 24, partition = True)
+                
+        n_aseqs = genome_data.shape[0]
+        genome_data.to_csv(ref_dir_domain + 'genome_data.csv.gz')
+                
+    elif domain == 'eukarya':
+        
+        ## The PR2 database is used for the eukarya reference tree. The
+        ## merged file found on the PR2 Github repository has carriage returns
+        ## in some fields. These need to be purged before the merged file
+        ## can be used here.
+        
+        pr2 = pd.read_csv(ref_dir_domain + 'pr2_version_4.12.0_merged_nocarriage.tsv', sep = '\t')
+        pr2 = pr2[pr2.supergroup != 'Opisthokonta']
+        pr2 = pr2[pr2.sequence_length > 1700]
+        pr2 = pr2[pr2.sequence_length < 1900] 
+        pr2 = pr2[pr2.label != 'G']
+        pr2 = pr2[pr2.gene == '18S_rRNA']
+        pr2 = pr2[pr2.organelle == 'nucleus']
+        pr2 = pr2[pr2.chimera != 1]
+        pr2 = pr2[pr2.ambiguities == 0]               
+        pr2.drop_duplicates(subset = ['sequence'], inplace = True)
+        pr2 = pr2[pr2.reference_sequence == 1]
+        pr2.dropna(subset = ['pr2_accession'], inplace = True)
+        pr2['subtree'] = pr2.division
+
+        ## create a fasta file for each target clade
+
+        fastas = {'div_reps':0}
+
+        with open(prefix_16S + '.div_reps.fasta', 'w') as rep_out:
+            i = 0
+            
+            for tc in pr2.division.unique():
+                j = 0
+                
+                temp = pr2[pr2.division == tc]
+                rep_seq_i = random.randrange(temp.shape[0])
+                rep_seq = temp.iloc[rep_seq_i,:]
+                
+                print('>' + tc, file = rep_out)
+                print(rep_seq.sequence, file = rep_out)
+                i += 1
+                
+                with(open(prefix_16S + '.' + tc + '.fasta', 'w')) as fasta_out:
+                    for index, row in temp.iterrows():
+                        pr2.loc[index, 'tax_name'] = row.pr2_accession + '|' + row.species
+                        print('>' + row.pr2_accession + '|' + row.species, file = fasta_out)
+                        print(row.sequence, file = fasta_out)
+                        j += 1
+                        
+                fastas[tc] = j
+        fastas['div_reps'] = i
+        
+        for fasta in fastas.keys():
+            clean_name(prefix_16S + '.' + fasta + '.fasta')
+            reference_align(prefix_16S + '.' + fasta, cm16S)
+            trim_alignment(prefix_16S + '.' + fasta)
+            
+            # subprocess.call('seqmagick mogrify --deduplicate-sequences ' + ref_dir_domain + fasta + '.fasta',
+            #                 shell = True,
+            #                 executable = executable)
+            
+            nseqs = len(re.findall('>', open(prefix_16S + '.' + fasta + '.fasta', 'r').read()))
+            fastas[fasta] = nseqs
+            
+            subprocess.call('rm -f ' + ref_dir_domain + '*raxml*', shell = True, executable = executable)
+            
+            if nseqs > 3:
+     
+            ## build trees
+            
+                parse_alignment(prefix_16S + '.' + fasta, None)   
+                Parallel(n_jobs = 12, verbose = 5)(delayed(run_raxml)
+                  (i, prefix_16S + '.' + fasta, prefix_16S + '.' + fasta + '.raxml.rba', 1) for i in range(1, 25))                
+                best_tree(prefix_16S + '.' + fasta, 24, partition = False)
+                
+        ## edge_lineages.csv and genome_data.csv need to be compatble with
+        ## paprica-build_core_genomes.py.  The classify_ref function is not used
+        ## for PR2 because not all entries have an NCBI taxid.
+                
+        ref_lineages = pr2[['kingdom', 'supergroup', 'division', 'class',
+                            'order', 'family','genus', 'species', 'taxo_id']]
+        ref_lineages.index = ref_lineages.taxo_id
+        ref_lineages = ref_lineages.drop_duplicates()
+        ref_lineages.to_csv(ref_dir_domain + 'edge_lineages.csv')
+        
+        pr2.rename(columns={'taxo_id':'taxid'}, inplace = True)
+        pr2.index = pr2.pr2_accession
+        pr2.to_csv(ref_dir_domain + 'genome_data.csv.gz')
+        
+        n_aseqs = pr2.shape[0]
+        
+    ## Because you're no longer using test.fasta to create a single reference 
+    ## tree there is no way to get all the edge names from a single run with
+    ## test.fasta. Best way to deal with this is to run the reps fasta file
+    ## against all of the reference trees.  This is done for all domains.
+        
+    ## For archaea the ref sequences have the same name when being placed
+    ## against themselves. This is a problem because easel adds a prefix to the
+    ## sequence names when combining alignments. It's necessary to create a
+    ## junk fasta to use for this purpose.
+        
+    query = ref + '.single'
+    
+    i = 0
+    with open(ref_dir_domain + query + '.clean.fasta', 'w') as seq_out:
+        for record in SeqIO.parse(prefix_16S + '.' + top_level_names[domain] + '.clean.fasta', 'fasta'):
+            i += 1
+            if i == 1:
+                record.id = 'test_' + str(record.id)
+                record.description = ''
+                SeqIO.write(record, seq_out, 'fasta')
+        
+    for sub in fastas.keys():
+        if fastas[sub] > 3:
+            
+            ## For 16S.23S you would need to align the query to a 16S alignment
+            ## only.
+        
+            query_align(query = ref_dir_domain + query + '.clean.fasta',
+                ref = prefix_16S + '.' + sub + '.clean.align.sto',
+                combined = ref_dir_domain + query + '.' + sub + '.clean.align.sto',
+                cm = cm16S)
+            
+            temp_dir = tempfile.mkdtemp(dir = ref_dir_domain) + '/'
+            
+            ## Eukara is not a partitioned alignment.
+            
+            if domain == 'eukarya':
+                part_file = None
+            else:
+                part_file = prefix_combined + '.' + sub + '.part'
+            
+            split_query_ref(query_alignment = ref_dir_domain + query + '.clean.align.sto',
+                ref_alignment = prefix_16S + '.' + sub + '.clean.align.sto',
+                combined = ref_dir_domain + query + '.' + sub + '.clean.align.sto',
+                temp_dir = temp_dir,
+                part_file = part_file)
+            
+            ## But then placement needs to be to 16S.23S tree, so sub_ref is not
+            ## consistent.
+            
+            place(query + '.clean.align.newlength.fasta',
+                ref + '.' + sub + '.clean.align.newlength.fasta',
+                prefix_combined + '.' + sub + '.final.bestModel',
+                prefix_combined + '.' + sub + '.final.bestTree',
+                temp_dir)
+            
+            shutil.copyfile(temp_dir + 'epa_result.jplace',
+                             prefix_combined + '.' + sub + '.jplace')
+            
+            shutil.rmtree(temp_dir)
+        
+    ## For all domains, create a file with the date/time of database creation.
+    #!!! n_aseqs value not correct for all domains
 
     current_time = datetime.datetime.now().isoformat()
-    n_aseqs = len(re.findall('>', open(ref_dir_domain + '/' + ref + '.fasta', 'r').read()))
     
-    with open(ref_dir_domain + '/' + ref + '.database_info.txt', 'w') as database_info:
+    with open(prefix_16S + '.database_info.txt', 'w') as database_info:
         print('ref tree built at:', current_time, file = database_info)
         print('nseqs in reference alignment:', n_aseqs, file = database_info) 
+        
+        for sub_ref in fastas.keys():
+            print('*' + sub_ref + '\t' + str(fastas[sub_ref]), file = database_info)
             
 else:
-        
-    clear_wspace = subprocess.call('rm -f ' + cwd + query + '.' + ref + '*', shell = True, executable = executable)
-    clear_wspace = subprocess.call('rm -f ' + cwd + query + '.sub*', shell = True, executable = executable)
     
-    ## Select a random subset of reads, if this option is specified.  This is useful for
-    ## normalizing the number of sampled reads across different samples.    
+    ## If the query flag is give you are placing reads on the existing reference tree.
+    ## Two features have been deprecated as they are no longer particularly relevant:
+    ## the -n subsampling option and -splits.  It's recommended that subsampling
+    ## be performed on the final output files in R or whatever software you're
+    ## using for statistical analysis.  -splits does not offer a significant
+    ## performance gain on unique input reads.
     
-    if 'n' in list(command_args.keys()):
-        
-        nseqs = command_args['n']
-        tseqs = len(re.findall('>', open(cwd + query + '.fasta', 'r').read()))
-        nseqs_get = random.sample(list(range(1, tseqs)), int(nseqs))
-        
-        seq_i = 0
+    ## Parse the database file to get the list of reference clades for which
+    ## there should be subtrees.
+    
+    available_trees = set()
+    
+    with open(ref_dir_domain + ref + '.database_info.txt', 'r') as database_info:
+        for line in database_info:
+            line = line.rstrip()
+            if line.startswith('*'):
+                line = line.split('\t')
+                if int(line[1]) > 3:
+                    subtree = line[0]
+                    subtree = subtree.strip('*')
+                    available_trees.add(subtree)
+                    
+    ## Chose an appropriate name for top level reference tree based on
+    ## domain.  phylum_ref is really only an appropriate variable name
+    ## for domain Bacteria, but it does no harm.
+                    
+    #!!! to store the database files in subtree directories (ideal for organization)
+    ## you simply need add the directory name (phylum_ref or subtree) after prefix_16S,
+    ## then use ref or 16S.23S to point to file name.
+    
+    phylum_ref = top_level_names[domain]
+            
+    clear_wspace = subprocess.call('rm -f ' + query + '.' + phylum_ref + '*',
+                                   shell = True,
+                                   executable = executable)
+    
+    clean_name(cwd + query + '.fasta')
+    make_unique(cwd + query + '.clean.fasta')
+    
+    temp_dir = tempfile.mkdtemp(dir = cwd)
+    temp_dir = temp_dir + '/'
 
-        with open(cwd + query + '.sub.fasta', 'w') as fasta_sub:
-            for record in SeqIO.parse(cwd + query + '.fasta', 'fasta'):
-                seq_i = seq_i + 1
-                if seq_i in nseqs_get:
-                    SeqIO.write(record, fasta_sub, 'fasta')
-        
-        ## All downstream operations now need to take place on the subsampled
-        ## query, easiest way to do this is to just change the query variable.
-            
-        query = query + '.sub'
-        
-    ## Make a unique fasta file.
+    query_align(cwd + query + '.clean.unique.fasta',
+          prefix_16S + '.' + phylum_ref + '.clean.align.sto',
+          temp_dir + query + '.' + ref + '.' + phylum_ref + '.clean.unique.align.sto',
+          cm16S)
     
-    unique_count, unique_names, unique_seq_names = make_unique(cwd + query)
-                            
-    ## Create splits, if splits > 1
-    
-    if splits > 1:        
-        split_list = split_fasta(cwd + query, splits)
+    ## Eukara is not a partitioned alignment.
             
-        if __name__ == '__main__':  
-            Parallel(n_jobs = splits, verbose = 5)(delayed(place)
-            (split_query, ref, ref_dir_domain, cm) for split_query in split_list)
-            
-        guppy_merge = subprocess.Popen('guppy merge ' + cwd + query + '*' + domain + '*' + '.jplace -o ' + cwd + query + '.' + ref + '.clean.unique.align.jplace', shell = True, executable = executable)
-        guppy_merge.communicate()
-        guppy(cwd + query, ref)
-        
-        ## Note that the below merge command sloppily adds the reference sequences
-        ## for each of the split files, those this doesn't have any negative impact
-        ## other than space.
-        
-        merge = subprocess.Popen('cat ' + cwd + query + '.temp*.' + ref + '.clean.unique.align.fasta > ' + cwd + query + '.' + ref + '.clean.unique.align.fasta', shell = True, executable = executable)
-        merge.communicate()
-                
-        cleanup = subprocess.Popen('rm -f ' + cwd + query + '.temp*', shell = True, executable = executable)
-        cleanup.communicate()
-        
+    if domain == 'eukarya':
+        part_file = None
     else:
-        place(cwd + query, ref, ref_dir_domain, cm)
-        guppy(cwd + query, ref)
+        part_file = prefix_combined + '.' + phylum_ref + '.part'
+
+    split_query_ref(cwd + query + '.clean.unique.align.sto',
+          prefix_16S + '.' + phylum_ref + '.clean.align.sto',
+          temp_dir + query + '.' + ref + '.' + phylum_ref + '.clean.unique.align.sto',
+          temp_dir,
+          part_file)
+
+    place(query + '.clean.unique.align.newlength.fasta',
+          ref + '.' + phylum_ref + '.clean.align.newlength.fasta',
+          prefix_combined + '.' + phylum_ref + '.final.bestModel',
+          prefix_combined + '.' + phylum_ref + '.final.bestTree',
+          temp_dir)
+    
+    placements = json_to_csv(temp_dir + 'epa_result.jplace', phylum_ref)
         
-    ## Add the abundance of each unique read to the guppy csv file and the edpl value.
+    placements = get_map_ratio(temp_dir + query + '.clean.unique.align.newlength.fasta',
+        temp_dir + ref + '.' + phylum_ref + '.clean.align.newlength.fasta',
+        placements)
+                    
+    gappa('/epa_result.jplace', temp_dir)  
+    edpl = pd.read_csv(temp_dir + 'temp.edpllist.csv', index_col = 1)
+    placements = pd.concat([placements, edpl['EDPL']], axis = 1, sort = False)
     
-    guppy_csv = pd.read_csv(cwd + query + '.' + ref + '.clean.unique.align.csv', header = 0, index_col = 'name')
-    edpl_csv = pd.read_csv(cwd + query + '.' + ref + '.clean.unique.align.edpl.csv', header = None, names = ['edpl'])
-    unique_abund = pd.read_csv(cwd + query + '.clean.unique.count', header = 0, index_col = 'rep_name')
+    shutil.rmtree(temp_dir)
     
-    guppy_csv.loc[edpl_csv.index, 'edpl'] = edpl_csv.edpl
-    guppy_csv.loc[unique_abund.index, 'abund'] = unique_abund.abundance
+    ## Add the count data.  This should also add all unique reads that didn't
+    ## place to the original reference tree.
     
-    ## Add the seq of each unique read to the guppy csv file
+    if domain == 'archaea':
+        combined_subtrees = placements
     
-    for name in guppy_csv.index:
-        row_seq = unique_seq_names[name]
-        guppy_csv.loc[name, 'seq'] = str(row_seq)
+    else:
         
-    guppy_csv.to_csv(cwd + query + '.' + ref + '.clean.unique.align.csv')
+        ## If the domain is either bacteria or eukarya then placement to
+        ## subtrees is necessary.
+        
+        ## 
+        
+        for subtree in placements.ref_name.unique():
+            if pd.notnull(subtree):
+                
+                with open(cwd + subtree + '_' + query + '.clean.unique.fasta', 'w') as subtree_out:
+                    for record in SeqIO.parse(query + '.clean.unique.fasta', 'fasta'):
+                        if placements.loc[record.id, 'ref_name'] == subtree:
+                            SeqIO.write(record, subtree_out, 'fasta')  
+            else:
+                with open(cwd + 'nosubtree_' + query + '.clean.unique.fasta', 'w') as subtree_out:
+                    for record in SeqIO.parse(query + '.clean.unique.fasta', 'fasta'):
+                        if pd.isnull(placements.loc[record.id, 'ref_name']):
+                            SeqIO.write(record, subtree_out, 'fasta') 
+                            
+        combined_subtrees = pd.DataFrame()
+                        
+        for subtree in placements.ref_name.unique():
+            if subtree in available_trees:
+                if pd.notnull(subtree):
+                    
+                    temp_dir = tempfile.mkdtemp(dir = cwd)
+                    temp_dir = temp_dir + '/'
+                    
+                    query_align(cwd + subtree + '_' + query + '.clean.unique.fasta',
+                          prefix_16S + '.' + subtree + '.clean.align.sto',
+                          temp_dir + query + '.' + ref + '.' + subtree + '.clean.unique.align.sto',
+                          cm16S)
+                    
+                    ## Eukara is not a partitioned alignment.
+                            
+                    if domain == 'eukarya':
+                        part_file = None
+                    else:
+                        part_file = prefix_combined + '.' + subtree + '.part'
+                
+                    split_query_ref(cwd + subtree + '_' + query + '.clean.unique.align.sto',
+                          prefix_16S + '.' + subtree + '.clean.align.sto',
+                          temp_dir + query + '.' + ref + '.' + subtree + '.clean.unique.align.sto',
+                          temp_dir,
+                          part_file)
+                
+                    place(subtree + '_' + query + '.clean.unique.align.newlength.fasta',
+                          ref + '.' + subtree + '.clean.align.newlength.fasta',
+                          prefix_combined + '.' + subtree + '.final.bestModel',
+                          prefix_combined + '.' + subtree + '.final.bestTree',
+                          temp_dir)
+                    
+                    subtree_csv = json_to_csv(temp_dir + 'epa_result.jplace', subtree)
+                        
+                    subtree_csv = get_map_ratio(temp_dir + subtree + '_' + query + '.clean.unique.align.newlength.fasta',
+                        temp_dir + ref + '.' + subtree + '.clean.align.newlength.fasta',
+                        subtree_csv)
+                                
+                    gappa('/epa_result.jplace', temp_dir)
+                    edpl = pd.read_csv(temp_dir + 'temp.edpllist.csv', index_col = 1)
+                    subtree_csv = pd.concat([subtree_csv, edpl['EDPL']], axis = 1, sort = False)
+                    subtree_csv['subtree'] = subtree
+                    
+                    combined_subtrees = pd.concat([combined_subtrees, subtree_csv])
+                    subtree_csv.to_csv(cwd + query + '.' + ref + '.placements.csv') 
+              
+                    shutil.rmtree(temp_dir)
+                    
+                    ## This is a pretty harsh purge of the intermediate files, but it works.
+                    
+                    subprocess.call('rm -rf ' + cwd + subtree + '*' + query + '*', shell = True, executable = executable)
+        
+        subprocess.call('rm -rf ' + cwd + 'nosubtree*' + query + '*', shell = True, executable = executable)
+                    
+        ## Identify all unique reads that were assigned to a clade that didn't
+        ## have > 3 reference sequences, meaning that there is not reference tree.
+                    
+        no_subtrees = placements.index.difference(combined_subtrees.index)
+        combined_subtrees = pd.concat([combined_subtrees, placements.loc[no_subtrees]], sort = False)               
+        
+    ## Add the count data.  This should also add all unique reads that didn't
+    ## place to the original reference tree.  At this point you have three
+    ## types of reads. 1) reads that did not place to the refernce tree, 2) reads
+    ## that placed to the refernce tree but not a subtree, 3) reads that placed
+    ## to the subtree.  All should be accounted for in the final placements.csv
+    ## file.
+            
+    count = pd.read_csv(cwd + query + '.clean.unique.count', index_col = 0)
+    combined_subtrees = pd.concat([combined_subtrees, count], axis = 1, sort = False)
+    
+    ## Then you need to add the sequences for those reads that did not place
+    ## to the original reference tree.
+    
+    needed_seqs = list(combined_subtrees.index[pd.isnull(combined_subtrees.seq)])
+    needed_seqs = set(needed_seqs)
+    
+    for record in SeqIO.parse(query + '.clean.unique.fasta', 'fasta'):
+        if record.id in needed_seqs:
+            combined_subtrees.loc[record.id, 'seq'] = str(record.seq)
+    
+    combined_subtrees.index.rename('Pquery', inplace = True)
+    combined_subtrees.to_csv(cwd + query + '.' + ref + '.placements.csv', index = 'Pquery')

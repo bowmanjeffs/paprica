@@ -44,10 +44,6 @@ paths.
 
 """
 from Bio import SeqIO
-from Bio.SeqRecord import SeqRecord
-from Bio.Seq import Seq
-from Bio.Alphabet import IUPAC
-from Bio import SeqFeature
 from Bio import Phylo
 
 import subprocess
@@ -56,7 +52,8 @@ import re
 import sys
 import shutil
 from joblib import Parallel, delayed
-import urllib.request, urllib.error, urllib.parse
+import json
+from io import StringIO
 
 import pandas as pd
 import numpy as np
@@ -91,17 +88,17 @@ if 'h' in list(command_args.keys()):
         
 if len(sys.argv) == 1:
     domain = 'bacteria'
-    tree_file = 'test.' + domain + '.combined_16S.' + domain + '.tax.clean.unique.align.phyloxml'
     ref_dir = 'ref_genome_database'
     pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
     cpus = 36
+    database_info = 'combined_16S.bacteria.tax.database_info.txt'
     
 else:        
     domain = command_args['domain']
-    tree_file = command_args['tree']
     ref_dir = command_args['ref_dir']
     pgdb_dir = command_args['pgdb_dir']
     cpus = int(command_args['cpus'])
+    database_info = command_args['database_info']
     
 ## Expand tilde manually.
     
@@ -117,6 +114,90 @@ ref_dir_domain = paprica_path + ref_dir + domain + '/'
 
 #%% Define some functions.
 
+## Define a function to classify each node in a reference tree. Lineage is the
+## df containing the edge_lineage data.  Tree is the tree object for the
+## reference tree for which lineage is needed.  Ranks are the ranks desired
+## for the domain.
+
+def get_lineages_terminal(lineage, ranks,
+                          genome_data, clade_number,
+                          assembly):
+    
+    temp_lineages = pd.DataFrame(columns = ['consensus'] + ranks)
+           
+    print('getting lineage for', clade_number)
+
+    temp_taxid = genome_data.loc[assembly, 'taxid']
+    temp_lineage = lineage.loc[temp_taxid]
+    
+    ## Identify a meaningful lowest rank.  This will become "consensus".
+    
+    for i in range(1, len(ranks)):
+        rank = ranks[-1 * i]
+        consensus_taxa = temp_lineage[rank]
+        if pd.notnull(consensus_taxa):
+            break
+        
+    ##consensus_lineage['consensus'] = consensus_lineage[consensus_lineage.notnull()][-1]
+        
+    temp_lineages.loc[clade_number, 'consensus'] = consensus_taxa
+    temp_lineages.loc[clade_number, ranks] = temp_lineage[ranks]
+    
+    return(temp_lineages)
+
+def get_lineages_nonterminal(clade, subtree, genome_data, ranks, lineage):
+            
+    clade_number = subtree + '_' + clade.comment
+    print('getting lineage for', clade_number)
+    terminals = []
+    
+    ## Extract branch length here so that you don't have to loop
+    ## over tree later in get_internals
+    
+    branch_length = clade.branch_length
+    
+    for terminal in clade.get_terminals():
+        assembly = terminal.name.split('|')[0]
+        terminals.append(assembly)
+        
+    temp_taxids = genome_data.loc[terminals, 'taxid']       
+    temp_lineage = lineage.loc[temp_taxids]        
+    
+    ## Now iterate across columns, starting at superkingdom
+    ## until you find the first mismatch.  The one
+    ## before this is the consensus.
+    
+    found_nonconsensus = False
+    consensus_lineage = pd.Series(index = ranks, name = clade_number)
+    
+    for i,rank in enumerate(temp_lineage.columns):
+        
+        if len(temp_lineage[rank].unique()) == 1:
+            
+            ## There is consensus at this level. Record the taxon name
+            ## associated with this rank.
+            
+            consensus_lineage[rank] = temp_lineage[rank].unique()[0]
+            
+        else:
+            
+            ## There is not consensus at this level. Look up consensus
+            ## taxonomy from previous level.
+            
+            consensus_rank = consensus_lineage.index[i - 1]
+            consensus_lineage['consensus'] = consensus_lineage[consensus_rank]
+            found_nonconsensus = True
+            
+            break
+        
+    ## In some cases the nodes in the clade will be identical. Pull out the lowest
+    ## rank that is not NaN.
+        
+    if found_nonconsensus == False:
+        consensus_lineage['consensus'] = consensus_lineage[consensus_lineage.notnull()][-1]
+        
+    return consensus_lineage, terminals, clade_number, branch_length
+    
 ## Define a function to use pathway-tools to predict the metabolic pathways for
 ## each genome downloaded from Genbank, or transcriptome downloaded from MMTSP.
 ## The PGDBs are now named by assembly so that they can be re-used for each new
@@ -126,87 +207,86 @@ def make_pgdb(d, ref_dir_domain):
     
     print(d, 'start prediction')
     
-    predict_pathways = subprocess.Popen('pathway-tools \
+    subprocess.call('pathway-tools \
     -lisp \
     -no-cel-overview \
     -patho ' + ref_dir_domain + 'refseq/' + d + '/ \
     -disable-metadata-saving \
     &> ' + ref_dir_domain + 'pathos_' + d + '.log', shell = True, executable = executable)
+     
+    print(d, 'prediction complete')  
     
-    predict_pathways.communicate()   
-    print(d, 'prediction complete')
+def parse_pwy_inference(pwy_inference_report, pathway_definitions):
     
-## The directory structure for the domain eukaryote does not come automatically
-## with Genbank format files.  Define a function that uses the pep.fa and
-## swissprot.gff3 files to create a Genbank format file that can be read by
-## pathologic during pgdb creation.
+    path = pwy_inference_report.split('/')[0:-1]
+    path = '/'.join(path)
+    keep = False
+    pathways_found = []
     
-def create_euk_files(d):
-    
-    ## First create a df mapping protein id to SwissProt accession number.
-    
-    columns = ['prot_id', 'swissprot', 'description']
-    spt = pd.read_csv(ref_dir_domain + 'refseq/' + d + '/swissprot.gff3', index_col = 0, comment = '#', names = columns, usecols = [0,8,10], sep = ';|\t', engine = 'python')
-    spt['swissprot'] = spt['swissprot'].str.replace('Name=Swiss-Prot:', '')
-    spt['description'] = spt['description'].str.replace('Description=Swiss-Prot:', '')
-    
-    ## Create empty list to hold gene features pulled from cds.fa.
-    
-    features = []
-    
-    ## Artificial start, stops are needed.
-    
-    combined_length = 1
-    
-    print('generating genbank format files for', d + '...')
-    
-    ## Some directory names differ from the accession number.  Rename these
-    ## directories to match the accession number.
-    
-    for f in os.listdir(ref_dir_domain + 'refseq/' + d):
-        if f.endswith('.pep.fa'):
-            a = f.split('.pep.fa')[0]
+    with open(pwy_inference_report, 'r') as report_in:
+        for line in report_in:
+            if keep == True:
+                line = line.rstrip()
+                
+                if line.endswith(')'):
+                    ## That means it's the ends of the pathways kept block.
+                    keep = False
+                    
+                line = line.strip('(')
+                line = line.rstrip(')')
+                line = line.rstrip()
+                line = line.split()
+                pathways_found = pathways_found + line
+            elif line.startswith('List of pathways kept'):
+                keep = True
             
-    if a != d:
-        os.rename(ref_dir_domain + 'refseq/' + d, ref_dir_domain + 'refseq/' + a)
-        print('directory', d, 'is now', a)
-    
-    for record in SeqIO.parse(ref_dir_domain + 'refseq/' + a + '/' + a + '.pep.fa', 'fasta'):
-            
-        ## The swissprot annotations are indexed by MMETSP record locator, not
-        ## by the actual record.id.
-        
-        sprot_name = str(record.description).split('NCGR_PEP_ID=')[1]
-        sprot_name = sprot_name.split(' /')[0]
-        	
-        try:
-            temp_spt = spt.loc[sprot_name, 'swissprot']
-        except KeyError:
-            continue
-        		
-        temp_sprot = sprot_df[sprot_df.index.isin(list(temp_spt))]
-        	
-        ecs = list(set(temp_sprot.ec))
-        descriptions = list(set(temp_sprot.name))
-        	
-        ## Embed all information necessary to create the Genbank file as qualifiers, then
-        ## append to this list of records for that genome.
-        	
-        qualifiers = {'protein_id':sprot_name, 'locus_tag':str(record.id), 'EC_number':ecs, 'product':descriptions, 'translation':str(record.seq)}
-        new_feature = SeqFeature.SeqFeature(type = 'CDS', qualifiers = qualifiers)
-        new_feature.location = SeqFeature.FeatureLocation(combined_length, combined_length + len(str(record.seq)))
-        features.append(new_feature)
-        
-        combined_length = combined_length + len(str(record.seq))
-        
-    ## Write the records in Genbank format.  Even though you will ultimately
-    ## want to use the gbk extension, to match the (silly) Genbank convention
-    ## use gbff.
-        
-    new_record = SeqRecord(Seq('nnnn', alphabet = IUPAC.ambiguous_dna), id = a, name = a, features = features)   
-    SeqIO.write(new_record, open(ref_dir_domain + 'refseq/' + a + '/' + a + '.gbff', 'w'), 'genbank')
-    
+    with open(path + '/pathways-report.txt', 'w') as report_out:
+        print('Pathway Name | Pathway Frame-id', file = report_out)
+        for pathway in pathways_found:
+            print(pathway_definitions.loc[pathway, 'NAME'] + '|' + pathway, file = report_out)
+             
 #%% Preparatory file generation and organization.
+    
+if domain == 'eukarya':
+    ref = 'combined_18S.eukarya.tax'
+else:
+    ref = 'combined_16S.23S.' + domain + '.tax'
+    
+## Read in database information, this will indicate which subtrees need
+## to be evaluated. 
+    
+available_trees = []
+
+with open(ref_dir_domain + database_info, 'r') as database_file:
+    for line in database_file:
+        line = line.rstrip()
+        if line.startswith('*'):
+            line = line.strip('*')
+            line = line.split('\t')
+            if int(line[1]) > 3:
+                available_trees.append(line[0])
+                
+## The top level tree should be excluded from this list
+## for the bacteria and eukarya. Here we presume that the first entry is
+## the top level tree which is suboptimal.
+                
+if domain in ['bacteria', 'eukarya']:
+    available_trees = available_trees[1:-1]
+                
+## Collect information for determining lineage of each node in the reference
+## tree.
+
+if domain == 'eukarya':
+    ranks = ['kingdom', 'supergroup', 'division', 'class', 'order', 'family',
+             'genus', 'species']
+else:
+    ranks = ['superkingdom', 'phylum', 'clade', 'class',
+         'order', 'family', 'genus', 'species', 'strain']
+    
+lineage = pd.read_csv(ref_dir_domain + 'edge_lineages.csv', index_col = 0)
+lineage = lineage[ranks]
+    
+node_lineages = pd.DataFrame(columns = ['consensus'] + ranks)
 
 ## Read in the genome_data file.
 
@@ -215,111 +295,74 @@ genome_data['clade'] = np.nan
 genome_data['tip_name'] = np.nan
 genome_data['npaths_actual'] = np.nan
 genome_data['branch_length'] = np.nan
-    
-## Get the clade number of each assembly and add this information to 
-## genome_data.
-    
-tree = Phylo.read(tree_file, 'phyloxml')
-    
+
+## Iterate across jplace files here.  These come from available_trees.
+
 assemblies = []
-    
-for clade in tree.get_terminals():
-    clade_number = int(clade.confidence)
-    print(clade_number)
-    
-    assembly = clade.name
-    assembly = assembly.strip('@')
-    
-    if domain == 'eukarya':
-        assembly = re.split('_', assembly)[0]
+internal_terminals = {}
+internal_branch_length = {}
 
-    else:        
-        assembly = re.split('_', assembly)
-        assembly = assembly[0] + '_' + assembly[1]
+for jplace in available_trees:
     
-    genome_data.loc[assembly, 'clade'] = clade_number
-    genome_data.loc[assembly, 'tip_name'] = clade.name
-    genome_data.loc[assembly, 'branch_length'] = clade.branch_length
+    ## Get the clade number of each assembly and add this information to 
+    ## genome_data.
     
-    assemblies.append(assembly)
+    with open(ref_dir_domain + ref + '.' + jplace + '.jplace', 'r') as jfile:
+        data = json.load(jfile)
+        colnames = data['fields']
     
-## For eukaryotes, the EC number associated with reads from the MMETSP database
-## comes from mapping the swissprot hits for each read to the annotation file
-## for the swissprot database.  To conduct this mapping, if domain == eukaryotes
-## download and parse enzyme.dat from ftp://ftp.expasy.org/databases/enzyme/enzyme.dat.
+    tree = data['tree']
+    tree = re.sub('{', '[', tree)
+    tree = re.sub('}', ']', tree)
+    tree = Phylo.read(StringIO(tree), 'newick') 
     
-if domain == 'eukarya':
-    print('Downloading enzyme.dat from ftp.expasy.org...')
-    enzyme = urllib.request.urlopen('ftp://ftp.expasy.org/databases/enzyme/enzyme.dat').read()
-    
-    wget0 = subprocess.Popen('cd ' + ref_dir_domain + ';wget ftp://ftp.expasy.org/databases/enzyme/enzyme.dat', shell = True, executable = executable)
-    wget0.communicate()
-    
-    print('Parsing enzyme.dat to enzyme_table.dat...')
-    with open(ref_dir_domain + 'enzyme.dat', 'r') as enzyme, open('enzyme_table.dat', 'w') as enzyme_out:
-        for line in enzyme:
-            print('accession', 'ec', 'name', file=enzyme_out)
+    for clade in tree.get_terminals():
+        ref_name = clade.name
+        assembly = clade.name.split('|')[0]
+        assemblies.append(assembly)
+        
+        subtree = genome_data.loc[assembly, 'subtree']       
+        clade_number = subtree + '_' + clade.comment
+        
+        genome_data.loc[assembly, 'clade'] = clade_number
+        genome_data.loc[assembly, 'tip_name'] = clade.name
+        genome_data.loc[assembly, 'branch_length'] = clade.branch_length
+        
+        terminal_lineages = get_lineages_terminal(lineage = lineage, ranks = ranks,
+                          genome_data = genome_data, clade_number = clade_number,
+                          assembly = assembly)
+        
+        node_lineages = pd.concat([node_lineages, terminal_lineages])
+        
+    for clade in tree.get_nonterminals():
+        if clade.comment != None:
+            internal_lineages, clade_terminals, clade_number, branch_length = get_lineages_nonterminal(clade = clade,
+                                                                                        subtree = subtree,
+                                                                                        genome_data = genome_data,
+                                                                                        ranks = ranks,
+                                                                                        lineage = lineage)
             
-            for line in enzyme:
-                if line.startswith('ID'):
-                    ec = line.split()[1]
-                    ec = ec.rstrip()
-                    
-                if line.startswith('DE'):
-                    name = line.split()[1]
-                    name = name.rstrip()
-                    
-                if line.startswith('DR'):
-                    line = line.strip('DR')
-                    line = line.strip()
-                    line = line.rstrip()
-                    line = line.rstrip(';')
-                    line = line.split(';')
-                    
-                    for sprot in line:
-                        sprot = sprot.split(',')[0]
-                        sprot = sprot.strip()
-                        sprot = sprot.rstrip()
-                        
-                        print(sprot, ec, name, file=enzyme_out)
-
-    print('Reading enzyme_table.dat...')
-    sprot_df = pd.read_csv('enzyme_table.dat', header = 0, index_col = 0, sep = ' ')
-
-    ## For eukarya, generate gbff files from pep.fa.  This takes a long time, so
-    ## only do this for directories that don't already have this file.  This should
-    ## only happen if something went wrong on a previous build, or you deleted some
-    ## or all of the Genbank files.
-    
-    ## !!! For eukarya paprica-make_ref.py always deletes the database and
-    ## !!! downloads everything from scratch, the gbff files will always need
-    ## !!! to be rebuilt.  This needs to be fixed.
-    
-    ## Determine which directories need the gbff file.
-    
-    gbff_needed = []
-    
-    for d in os.listdir(ref_dir_domain + 'refseq'):
-        need = True
-        for f in os.listdir(ref_dir_domain + 'refseq/' + d):
-            if f.endswith('gbff'):
-                need = False
-                
-        if need == True:
-            gbff_needed.append(d)
+            node_lineages = node_lineages.append(internal_lineages)
+            internal_terminals[clade_number] = clade_terminals
+            internal_branch_length[clade_number] = branch_length
         
-    ## Execute create_euk_files on those directories that need gbff.
+## Write out lineage files, then exit if eukarya.
         
-    if __name__ == '__main__':  
-        Parallel(n_jobs = -1, verbose = 5)(delayed(create_euk_files)
-        (d) for d in gbff_needed)
+node_lineages.to_csv(ref_dir_domain + 'node_lineages.csv.gz') 
+
+if domain == 'eukarya':
+    genome_data.to_csv(ref_dir_domain + 'genome_data.final.csv.gz')
+    quit()
     
+#%% Prep for building PGDBs.
+        
 ## For every existing PGDB directory (which might be none), determing if the
 ## pathways-report.txt file is present.  If it is not this means the previous
 ## pathway-tools pathologic run was incorrect.  In that case delete the
 ## directory and try again.
     
 new_pgdbs = []
+pathway_definitions = pd.read_csv(ref_dir + 'pathways.col', comment = '#', sep = '\t', index_col = 0)
 
 for d in assemblies:
     
@@ -335,26 +378,29 @@ for d in assemblies:
         ## As of ptools v24 pathway-report.txt reformatted with date.  Need
         ## to find name of this file.
         
-        report_file = 'none'
+        report_file = False
         
         for f in os.listdir(pgdb_dir + d.lower() + 'cyc/1.0/reports'):
             
-            ## If an old version of pathways-report.txt is present remove it.            
+            ## If an old version of pathways-report.txt is present remove it.
+            ## This applies also to ad-hoc reports created by this script while
+            ## we wait for a realistic solution to the pathologic errors. 
             
-            if f == 'pathways-report.txt':
-                os.remove(pgdb_dir + d.lower() + 'cyc/1.0/reports/' + f)
-                report_file = 'none'
+            #!!! currently the "old" style pathways-report file is not deleted.
+            ## This is to prevent the current issue with pathologic.
+            
+            # if f == 'pathways-report.txt':
+            #     os.remove(pgdb_dir + d.lower() + 'cyc/1.0/reports/' + f)
+            #     report_file = True
                 
-            elif f.startswith('pathways-report_'):
-                report_file = f
-                
+            if f.startswith('pathways-report'):
+                report_file = True
+                                
         ## If there was no pathways-report file, or it was the old format and deleted,
         ## rewrite the files needed by pathologic.
                 
-        if report_file == 'none':
-            
-            clade = genome_data.loc[d, 'clade']
-                
+        if report_file == False:
+                            
             with open(ref_dir_domain + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(ref_dir_domain + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
                 
                 print('recreating pathologic files for', d)
@@ -369,23 +415,30 @@ for d in assemblies:
                 g = 0
                 
                 for gbk in os.listdir(ref_dir_domain + 'refseq/' + d):
-                    if gbk.endswith('gbff'):
-                        g = g + 1
+                    if gbk.endswith('genomic.gbk'):
                         
-                        basename = re.split('gbff', gbk)[0]
-                        subprocess.call('cd ' + ref_dir_domain + 'refseq/' + d + ';cp ' + gbk + ' ' + basename + 'gbk', shell = True, executable = executable)
+                        ## NCBI PGAP packages genetic elements in a single
+                        ## genbank file which ptools doesn't like.  Split the
+                        ## file.
                         
-                        print('ID' + '\t' + d + '.' + str(g), file=genetic_elements)
-                        print('NAME' + '\t' + d + '.' + str(g), file=genetic_elements)
-                        print('TYPE' + '\t' + ':CHRSM', file=genetic_elements)
-                        
-                        if domain == 'eukarya':
-                            print('CIRCULAR?' + '\t' + 'Y', file=genetic_elements)
-                        else:
-                            print('CIRCULAR?' + '\t' + 'N', file=genetic_elements)
+                        for record in SeqIO.parse(ref_dir_domain + 'refseq/' + d + '/' + gbk, 'genbank'):
                             
-                        print('ANNOT-FILE' + '\t' + basename + 'gbk', file=genetic_elements)
-                        print('//', file=genetic_elements)
+                            g = g + 1
+                            basename = re.split('gbk', gbk)[0]
+                            with open(ref_dir_domain + 'refseq/' + d + '/' + basename + str(g) + '.gbk', 'w') as seq_out:
+                                SeqIO.write(record, seq_out, 'genbank')
+                        
+                            print('ID' + '\t' + d + '.' + str(g), file=genetic_elements)
+                            print('NAME' + '\t' + d + '.' + str(g), file=genetic_elements)
+                            print('TYPE' + '\t' + ':CHRSM', file=genetic_elements)
+                            
+                            if domain == 'eukarya':
+                                print('CIRCULAR?' + '\t' + 'Y', file=genetic_elements)
+                            else:
+                                print('CIRCULAR?' + '\t' + 'N', file=genetic_elements)
+                                
+                            print('ANNOT-FILE' + '\t' + basename + str(g) + '.gbk', file=genetic_elements)
+                            print('//', file=genetic_elements)
                         
             if g > 0:
                 new_pgdbs.append(d)
@@ -396,11 +449,11 @@ for d in assemblies:
     except FileNotFoundError:
         
         print('creating pathologic files for', d)
-        
-        clade = genome_data.loc[d, 'clade']
-            
+                    
         with open(ref_dir_domain + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(ref_dir_domain + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
-    
+            
+            print('recreating pathologic files for', d)
+            
             print('ID' + '\t' + d, file=organism_params)
             print('Storage' + '\t' + 'File', file=organism_params)
             print('Name' + '\t' + d, file=organism_params)
@@ -411,21 +464,33 @@ for d in assemblies:
             g = 0
             
             for gbk in os.listdir(ref_dir_domain + 'refseq/' + d):
-                if gbk.endswith('gbff'):
-                    g = g + 1
+                if gbk.endswith('genomic.gbk'):
                     
-                    basename = re.split('gbff', gbk)[0]
-                    subprocess.call('cd ' + ref_dir_domain + 'refseq/' + d + ';cp ' + gbk + ' ' + basename + 'gbk', shell = True, executable = executable)
+                    ## NCBI PGAP packages genetic elements in a single
+                    ## genbank file which ptools doesn't like.  Split the
+                    ## file.
                     
-                    print('ID' + '\t' + d + '.' + str(g), file=genetic_elements)
-                    print('NAME' + '\t' + d + '.' + str(g), file=genetic_elements)
-                    print('TYPE' + '\t' + ':CHRSM', file=genetic_elements)
-                    print('CIRCULAR?' + '\t' + 'Y', file=genetic_elements)
-                    print('ANNOT-FILE' + '\t' + basename + 'gbk', file=genetic_elements)
-                    print('//', file=genetic_elements)
+                    for record in SeqIO.parse(ref_dir_domain + 'refseq/' + d + '/' + gbk, 'genbank'):
+                        
+                        g = g + 1
+                        basename = re.split('gbk', gbk)[0]
+                        with open(ref_dir_domain + 'refseq/' + d + '/' + basename + str(g) + '.gbk', 'w') as seq_out:
+                            SeqIO.write(record, seq_out, 'genbank')
                     
-            if g > 0:
-                new_pgdbs.append(d)
+                        print('ID' + '\t' + d + '.' + str(g), file=genetic_elements)
+                        print('NAME' + '\t' + d + '.' + str(g), file=genetic_elements)
+                        print('TYPE' + '\t' + ':CHRSM', file=genetic_elements)
+                        
+                        if domain == 'eukarya':
+                            print('CIRCULAR?' + '\t' + 'Y', file=genetic_elements)
+                        else:
+                            print('CIRCULAR?' + '\t' + 'N', file=genetic_elements)
+                            
+                        print('ANNOT-FILE' + '\t' + basename + str(g) + '.gbk', file=genetic_elements)
+                        print('//', file=genetic_elements)
+                    
+        if g > 0:
+            new_pgdbs.append(d)
                 
 ## Previous failed builds confuse pathway-tools.  Remove the directory.
 
@@ -436,14 +501,10 @@ for d in new_pgdbs:
     
 #%% Generate the PGDBs for each assembly that does not have one.
 
-## Previously this was done externally with Gnu Parallel. Switched to using joblib
-## to reduce the number of dependencies.
-
 print(len(new_pgdbs), 'new pgdbs will be created')
 
-if __name__ == '__main__':  
-    Parallel(n_jobs = cpus, verbose = 5)(delayed(make_pgdb)
-    (d, ref_dir_domain) for d in new_pgdbs)
+Parallel(n_jobs = cpus, verbose = 5)(delayed(make_pgdb)
+(d, ref_dir_domain) for d in new_pgdbs)
     
 #%% For each PGDB add the pathways to a new data_frame.
 
@@ -456,9 +517,25 @@ for i,d in enumerate(assemblies):
         ## As of ptools v24 pathway-report.txt reformatted with date.  Need
         ## to find name of this file.
         
+        report_file = None
+        
         for f in os.listdir(pgdb_dir + d.lower() + 'cyc/1.0/reports'):
-            if f.startswith('pathways-report'):
+            if f.startswith('pathways-report_'):
                 report_file = f
+                print(f)
+            elif f.startswith('pwy-inference-report'):
+                inference_file = f
+                
+        #!!! For reasons that aren't clear, pathway-tools is failing at the
+        ## end of the prediction, so the pathways-report file isn't being
+        ## created.  However, the pwy-inference-report is created, and
+        ## this can be parsed to create the pathways-report. This pathway
+        ## report has the old-style name, so it is deleted each time, in the
+        ## hope that eventually pathologic works correctly.
+                
+        if report_file == None:
+            parse_pwy_inference(pgdb_dir + d.lower() + 'cyc/1.0/reports/' + inference_file, pathway_definitions)
+            report_file = 'pathways-report.txt'
                 
         ## Now the report file can be parsed.
         
@@ -487,7 +564,7 @@ for i,d in enumerate(assemblies):
                                     
         genome_data.loc[d, 'npaths_actual'] = n_paths
         
-    except IOError:
+    except (NameError, IOError):
         print(d, 'has no pathway report')
         
 #%% Collect EC_numbers for each terminal node
@@ -585,16 +662,7 @@ for i,d in enumerate(assemblies):
 #%% Collect pathway and other data for internal nodes.
 ## Make an initial pass over the tree to collect all the internal node numbers.
 
-int_nodes = set()
-
-for clade in tree.get_nonterminals():
-    try:
-        edge = int(clade.confidence)
-        int_nodes.add(edge)
-    except TypeError:
-        continue
-    
-int_nodes = sorted(int_nodes)
+int_nodes = sorted(set(internal_terminals.keys()))
 n_clades = len(int_nodes)
 
 ## Create a new dataframes to store pathway data, the fraction of daughters
@@ -611,11 +679,13 @@ internal_data = np.memmap(open('internal_data.mmap', 'w+b'), shape = (n_clades, 
 internal_ec_probs = np.memmap(open('internal_ec_probs.mmap', 'w+b'), shape = (n_clades, len(internal_ec_probs_columns)), dtype = 'f8')
 internal_ec_n = np.memmap(open('internal_ec_n.mmap', 'w+b'), shape = (n_clades, len(internal_ec_n_columns)), dtype = 'f8')
 
-## Define a funciton to iterate across all subtrees and collect information that will be saved in
+## Define a function to iterate across all subtrees and collect information that will be saved in
 ## the "internal" memory-mapped arrays. Remember that these are not dataframes
 ## and cannot be indexed by column/row names!
 
-def get_internals(clade,
+def get_internals(clade_number,
+                  internal_terminals,
+                  internal_branch_length,
                   int_nodes,
                   genome_data,
                   terminal_paths,
@@ -628,72 +698,48 @@ def get_internals(clade,
                   internal_data,
                   internal_ec_probs,
                   internal_ec_n):
-
-    try:
-        int(clade.confidence)
-    except TypeError:
-        return
-           
-    if clade.confidence > 0:
         
-        edge = int(clade.confidence)
-        print('collecting data for internal node', str(edge))
+    print('collecting data for internal node', clade_number)
+    
+    ## Data on the clade that you want later.
+    
+    clade_members = internal_terminals[clade_number]
+    edge_i = int_nodes.index(clade_number)
+    internal_data[edge_i, internal_data_columns.index('branch_length')] = internal_branch_length[clade_number]
+    ntip = len(clade_members)
         
-        ## Data on the clade that you want later.
+    ## Get data for all clade members.
         
-        edge_i = int_nodes.index(edge)
-        internal_data[edge_i, internal_data_columns.index('branch_length')] = clade.branch_length
+    clade_data = genome_data.loc[clade_members]
+    clade_paths = terminal_paths.loc[clade_members]
+    clade_ec = terminal_ec.loc[clade_members]
         
-        ## Iterate across all terminal nodes in clades to get the corresponding
-        ## assemblies.
+    npaths = clade_paths.count(axis = 0, numeric_only = True)
+    rpaths = npaths.div(ntip)
+    internal_probs[edge_i, :] = rpaths
+    
+    nec = clade_ec.count(axis = 0, numeric_only = True)
+    rec = nec.div(ntip)
+    internal_ec_probs[edge_i, :] = rec
+    
+    ## The mean number of occurrences of EC_numbers are calculated for clade
+    ## so that later on an estimate can be given of the number that will appear
+    ## in an internal node.
+    
+    mec = clade_ec.mean(axis = 0, numeric_only = True)
+    internal_ec_n[edge_i, :] = mec
+    
+    ## Calculate values for this edge.
         
-        ntip = len(clade.get_terminals())
-        clade_members = []
-        
-        for tip in clade.get_terminals():
-
-            assembly = genome_data[genome_data['tip_name'] == tip.name].index.tolist()[0]        
-            clade_members.append(assembly)
-            
-        ## Get data for all clade members.
-            
-        clade_data = genome_data.loc[clade_members]
-        clade_paths = terminal_paths.loc[clade_members]
-        clade_ec = terminal_ec.loc[clade_members]
-            
-        npaths = clade_paths.count(axis = 0, numeric_only = True)
-        rpaths = npaths.div(ntip)
-        internal_probs[edge_i, :] = rpaths
-        
-        nec = clade_ec.count(axis = 0, numeric_only = True)
-        rec = nec.div(ntip)
-        internal_ec_probs[edge_i, :] = rec
-        
-        ## The mean number of occurrences of EC_numbers are calculated for clade
-        ## so that later on an estimate can be given of the number that will appear
-        ## in an internal node.
-        
-        mec = clade_ec.mean(axis = 0, numeric_only = True)
-        internal_ec_n[edge_i, :] = mec
-        
-        ## Calculate values for this edge.
-        
-        if domain != 'eukarya':
-            
-            ## These parameters cannot be calculated from transcriptomes.
-            
-            internal_data[edge_i, internal_data_columns.index('n16S')] = clade_data['n16S'].dropna().mean()
-            internal_data[edge_i, internal_data_columns.index('nge')] = clade_data['nge'].dropna().mean()
-            internal_data[edge_i, internal_data_columns.index('ncds')] = clade_data['ncds'].dropna().mean()
-            internal_data[edge_i, internal_data_columns.index('genome_size')] = clade_data['genome_size'].dropna().mean()
-            internal_data[edge_i, internal_data_columns.index('phi')] = clade_data['phi'].dropna().mean()
-            internal_data[edge_i, internal_data_columns.index('GC')] = clade_data['GC'].dropna().mean()
-            
-        ## These parameters are relevant to all domains.
-        
-        internal_data[edge_i, internal_data_columns.index('clade_size')] = ntip
-        internal_data[edge_i, internal_data_columns.index('npaths_terminal')] = clade_data['npaths_actual'].dropna().mean()
-        internal_data[edge_i, internal_data_columns.index('nec_terminal')] = clade_data['nec_actual'].dropna().mean()
+    internal_data[edge_i, internal_data_columns.index('n16S')] = clade_data['n16S'].dropna().mean()
+    internal_data[edge_i, internal_data_columns.index('nge')] = clade_data['nge'].dropna().mean()
+    internal_data[edge_i, internal_data_columns.index('ncds')] = clade_data['ncds'].dropna().mean()
+    internal_data[edge_i, internal_data_columns.index('genome_size')] = clade_data['genome_size'].dropna().mean()
+    internal_data[edge_i, internal_data_columns.index('phi')] = clade_data['phi'].dropna().mean()
+    internal_data[edge_i, internal_data_columns.index('GC')] = clade_data['GC'].dropna().mean()
+    internal_data[edge_i, internal_data_columns.index('clade_size')] = ntip
+    internal_data[edge_i, internal_data_columns.index('npaths_terminal')] = clade_data['npaths_actual'].dropna().mean()
+    internal_data[edge_i, internal_data_columns.index('nec_terminal')] = clade_data['nec_actual'].dropna().mean()
         
 #%% Execute the get_internals function in parallel, this massively speeds up
 ## the database build.
@@ -703,116 +749,32 @@ def get_internals(clade,
 ## bacteria database is the one that takes a long time to build...
         
 if domain == 'bacteria':
-    njobs = 1
+    njobs = -1
 else:
     njobs = -1
-
-if __name__ == '__main__':         
-    Parallel(n_jobs = njobs)(delayed(get_internals)(clade, int_nodes, genome_data, terminal_paths, terminal_ec, internal_probs_columns, internal_data_columns, internal_ec_probs_columns, internal_ec_n_columns, internal_probs, internal_data, internal_ec_probs, internal_ec_n)
-    for clade in tree.get_nonterminals())
-        
-#%% Collect taxonomy information for each of the nodes in the reference tree.
-
-lineage = pd.read_csv(ref_dir_domain + 'edge_lineages.csv', index_col = 0)
-
-## data in seq_info should be present in genome_data.csv.gz
-
-ranks = ['superkingdom', 'phylum', 'clade', 'class', 'order', 'family', 'genus', 'species', 'strain']
-
-node_lineages = pd.DataFrame(columns = ['consensus'] + ranks)
-node_lineages_index = []
     
-for clade in tree.get_nonterminals():
-    try:
-        clade_number = int(clade.confidence)
-        print('getting lineage for', clade_number)
-        terminals = []
-        
-        for terminal in clade.get_terminals():
-            terminals.append(terminal.name)
-            
-        temp_taxids = genome_data.loc[genome_data.tip_name.isin(terminals), 'taxid']
-        
-        temp_lineage = lineage.loc[temp_taxids]        
-        temp_lineage = temp_lineage[ranks]
-        
-        ## Now iterate across columns, starting at superkingdom
-        ## until you find the first mismatch.  The one
-        ## before this is the consensus.
-        
-        found_consensus = False
-        
-        for i,rank in enumerate(temp_lineage.columns):
-            if len(temp_lineage[rank].unique()) > 1:
-                
-                ## Now look up the consensus taxonomy.
-                
-                consensus_rank = temp_lineage.columns[i - 1]
-                
-                try:
-                    consensus_taxa = temp_lineage.loc[temp_lineage.index[0], consensus_rank].unique()[0]
-                except AttributeError:
-                    consensus_taxa = temp_lineage.loc[temp_lineage.index[0], consensus_rank]
-                    
-                consensus_lineage = temp_lineage.iloc[0, 0:i] # Remember Python counting rules!
-                consensus_lineage['consensus'] = consensus_taxa
-                
-                found_consensus = True
-                break
-            
-        ## In some cases the nodes in the clade will be identical. Pull out the lowest
-        ## rank that is not NaN.
-            
-        if found_consensus == False:
-            consensus_lineage = temp_lineage.iloc[0, 0:i]
-            consensus_lineage['consensus'] = temp_lineage.iloc[0][temp_lineage.iloc[0].notnull()][-1]
-            
-        ## Save consensus lineage.
-        
-        node_lineages = node_lineages.append(consensus_lineage)
-        node_lineages_index.append(clade_number)
-    except TypeError:
-        continue
-        
-for clade in tree.get_terminals():
-           
-    clade_number = int(clade.confidence)
-    print('getting lineage for', clade_number)
-    terminal = clade.name
-
-    temp_taxid = genome_data.loc[genome_data.tip_name == terminal, 'taxid']
-    temp_lineage = lineage.loc[temp_taxid]
-    
-    ## Identify a meaningful lowest rank.  This will become "consensus".
-    
-    if pd.notna(temp_lineage.strain.values[0]):
-        consensus_taxa = temp_lineage.strain
-    elif pd.notna(temp_lineage.species.values[0]):
-        consensus_taxa = temp_lineage.species
-    else:
-        consensus_taxa = temp_lineage.genus
-        
-    temp_lineage['consensus'] = consensus_taxa
-    
-    node_lineages = node_lineages.append(temp_lineage)
-    node_lineages_index.append(clade_number)
-           
-node_lineages.index = node_lineages_index
-            
-## Check that all edges have a minimal entry in lineages, this is important
-## as the euks get a bit whonky and sometimes there's no tax info.
-            
-for edge in int_nodes:
-    if edge not in node_lineages.index:
-        node_lineages.loc[edge, 'parent_id'] = 1
-        
-for edge in terminal_paths.index:
-    if edge not in genome_data.clade:
-        node_lineages.loc[edge, 'parent_id'] = 1
+## now iterating across internal_terminals.keys()
+      
+Parallel(n_jobs = njobs)(delayed(get_internals)
+                         (clade_number,
+                          internal_terminals,
+                          internal_branch_length,
+                          int_nodes,
+                          genome_data,
+                          terminal_paths,
+                          terminal_ec,
+                          internal_probs_columns,
+                          internal_data_columns,
+                          internal_ec_probs_columns,
+                          internal_ec_n_columns,
+                          internal_probs,
+                          internal_data,
+                          internal_ec_probs,
+                          internal_ec_n)
+for clade_number in internal_terminals.keys())
    
 ## Write out ya database files.
             
-node_lineages.to_csv(ref_dir_domain + 'node_lineages.csv.gz')      
 genome_data.to_csv(ref_dir_domain + 'genome_data.final.csv.gz')
 terminal_paths.to_csv(ref_dir_domain + 'terminal_paths.csv.gz')
 terminal_ec.to_csv(ref_dir_domain + 'terminal_ec.csv.gz')

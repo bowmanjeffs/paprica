@@ -1,0 +1,14 @@
+{
+  "tree": "((AY823716.1.1717_U|Cyanophora_paradoxa:0.0000010000{0},X68483.12.1770_U|Cyanophora_paradoxa:0.0024090000{1}):0.0239420000{2},(X70803.22.1792_U|Glaucocystis_nostochinearum:0.0282340000{3},X81901.1.1801_U|Gloeochaete_wittrockiana:0.1194710000{4}):0.0114520000{5},AJ007275.1.1766_U|Cyanoptyche_gloeocystis:0.1011830000{6});",
+  "placements": 
+  [
+    {"p": [
+      [4, -4954.8121163276, 1.0000000000, 0.0584149979, 0.3228152935]
+      ],
+    "n": ["test_Dinoflagellata"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpa_kvcby3/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Glaucophyta.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpa_kvcby3/combined_18S.eukarya.tax.Glaucophyta.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Glaucophyta.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpa_kvcby3/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

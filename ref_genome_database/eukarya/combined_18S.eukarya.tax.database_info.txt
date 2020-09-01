@@ -1,2 +1,33 @@
-ref tree built at: 2019-02-05T09:18:36.838356
-nseqs in reference alignment: 305
+ref tree built at: 2020-08-21T05:30:22.700185
+nseqs in reference alignment: 5086
+*div_reps	30
+*Dinoflagellata	1008
+*Ochrophyta	605
+*Ciliophora	825
+*Discoba	19
+*Cercozoa	221
+*Streptophyta	284
+*Apusomonadidae	9
+*Conosa	103
+*Rhodophyta	564
+*Cryptophyta	61
+*Apicomplexa	297
+*Radiolaria	60
+*Perkinsea	28
+*Lobosa	38
+*Opalozoa	106
+*Picozoa	11
+*Pseudofungi	89
+*Sagenista	122
+*Telonemia	21
+*Hilomonadea	11
+*Malawimonadidae	2
+*Metamonada	21
+*Katablepharidophyta	6
+*Glaucophyta	5
+*Centroheliozoa	6
+*Hacrobia_X	1
+*Alveolata_X	3
+*Breviatea	2
+*Chlorophyta	437
+*Haptophyta	121
