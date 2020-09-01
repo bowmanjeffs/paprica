@@ -1,0 +1,14 @@
+{
+  "tree": "(((((Candidatus_Gracilibacteria:0.6419020000{0},Elusimicrobia:0.3893370000{1}):0.0670410000{2},((Synergistetes:0.4184930000{3},(((((Thermodesulfobacteria:0.2192490000{4},Thermotogae:0.1841810000{5}):0.0297350000{6},Candidatus_Bipolaricaulota:0.3369250000{7}):0.0360210000{8},(Coprothermobacterota:0.3481120000{9},Dictyoglomi:0.2081650000{10}):0.0565750000{11}):0.0458660000{12},Caldiserica:0.3209180000{13}):0.0272970000{14},(Armatimonadetes:0.4558780000{15},Chloroflexi:0.2596210000{16}):0.0467120000{17}):0.0166910000{18}):0.0094730000{19},(((Deinococcus-Thermus:0.4019520000{20},Cyanobacteria:0.2951750000{21}):0.0267360000{22},(Fusobacteria:0.3646540000{23},Tenericutes:0.3467910000{24}):0.0537990000{25}):0.0195130000{26},Actinobacteria:0.2905220000{27}):0.0283760000{28}):0.0066790000{29}):0.0153860000{30},((Nitrospirae:0.2866840000{31},Acidobacteria:0.3044670000{32}):0.0527470000{33},(Chrysiogenetes:0.2644980000{34},Deferribacteres:0.2008680000{35}):0.0561680000{36}):0.0118500000{37}):0.0216160000{38},(Planctomycetes:0.5731320000{39},(Chlamydiae:0.4150520000{40},(Lentisphaerae:0.2408480000{41},Kiritimatiellaeota:0.2240310000{42}):0.0612630000{43}):0.0457300000{44}):0.0450420000{45}):0.0310520000{46},(Fibrobacteres:0.3455330000{47},Gemmatimonadetes:0.3756480000{48}):0.0780850000{49},(Candidatus_Cloacimonetes:0.4127130000{50},(((Bacteroidetes:0.5323330000{51},Balneolaeota:0.2028240000{52}):0.0991810000{53},(Ignavibacteriae:0.1706650000{54},Chlorobi:0.2177800000{55}):0.0421680000{56}):0.0609820000{57},Calditrichaeota:0.1908480000{58}):0.0390230000{59}):0.0251140000{60});",
+  "placements": 
+  [
+    {"p": [
+      [27, -27212.7687659169, 1.0000000000, 0.0000500000, 0.0001000000]
+      ],
+    "n": ["test_Actinobacteria"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpdlrgjrh2/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.phylum_reps.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpdlrgjrh2/combined_16S.bacteria.tax.phylum_reps.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.phylum_reps.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpdlrgjrh2/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

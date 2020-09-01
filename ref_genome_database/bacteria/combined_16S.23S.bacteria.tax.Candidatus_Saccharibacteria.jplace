@@ -1,0 +1,14 @@
+{
+  "tree": "((GCF_013100845.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_488_strain_AC002:0.0004440000{0},(GCF_005697215.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_488_strain_AC001:0.0004760000{1},(((GCF_010202265.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_955_strain_FS14P:0.0000010000{2},GCF_013098655.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_488_strain_CM009:0.0019660000{3}):0.1784580000{4},(GCF_002952755.1|Candidatus_Saccharibacteria_bacterium_YM_S32_TM7_50_20_strain_YM_S32_TM7_50_20:2.7712260000{5},GCF_000392435.1|Candidatus_Saccharimonas_aalborgensis:0.2848210000{6}):0.0444320000{7}):0.3730100000{8},GCF_010202645.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_488_strain_FS07P:0.0000010000{9}):0.0306630000{10}):0.0009520000{11}):0.0343210000{12},((GCF_010202115.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_488_strain_FS15P:0.0027680000{13},(GCF_010202465.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_488_strain_FS13P:0.0000010000{14},(GCF_013099195.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_488_strain_CM001:0.0022910000{15},(GCF_013098515.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_488_strain_CM010:0.0020880000{16},GCF_013100825.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_488_strain_CM006:0.0000010000{17}):0.0031760000{18}):0.0068810000{19}):0.0261590000{20}):0.0049480000{21},((GCF_000803625.1|Candidatus_Saccharibacteria_oral_taxon_TM7x_strain_TM7x:0.0042940000{22},GCF_010202845.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_488_strain_FS05P-B:0.0533490000{23}):0.0123490000{24},(GCF_005697565.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_957_strain_BB001:0.0052910000{25},GCF_013100805.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_488_strain_FS03P:0.0305500000{26}):0.0096450000{27}):0.0132540000{28}):0.0101030000{29},GCF_013099015.1|Candidatus_Saccharibacteria_bacterium_oral_taxon_488_strain_CM002:0.0033540000{30});",
+  "placements": 
+  [
+    {"p": [
+      [5, -5231.3388202496, 1.0000000000, 2.7712210000, 12.8411397141]
+      ],
+    "n": ["test_Actinobacteria"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmprr_8_z3l/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmprr_8_z3l/combined_16S.bacteria.tax.Candidatus_Saccharibacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmprr_8_z3l/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

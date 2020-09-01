@@ -1,0 +1,14 @@
+{
+  "tree": "((GCF_001027545.1|Endomicrobium_proavitum_strain_Rsa215:0.0255610000{0},GCF_000020145.1|Elusimicrobium_minutum_Pei191_strain_Pei191:0.3279200000{1}):0.0482710000{2},GCF_000146025.2|Candidatus_Endomicrobium_trichonymphae_strain_Rs-D17_genomovar_Ri2008:0.0009260000{3},GCF_002355835.1|Candidatus_Endomicrobium_trichonymphae:0.0004470000{4});",
+  "placements": 
+  [
+    {"p": [
+      [1, -4404.2009200076, 1.0000000000, 0.1433562446, 0.2238003133]
+      ],
+    "n": ["test_Actinobacteria"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpzgd0vtda/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Elusimicrobia.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpzgd0vtda/combined_16S.bacteria.tax.Elusimicrobia.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Elusimicrobia.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpzgd0vtda/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}
