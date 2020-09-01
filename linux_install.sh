@@ -37,10 +37,10 @@ wget http://eddylab.org/infernal/infernal-1.1.2-linux-intel-gcc.tar.gz
 tar -xzvf infernal-1.1.2-linux-intel-gcc.tar.gz
 mv infernal-1.1.2-linux-intel-gcc infernal
 
-## Install pplacer
-wget https://github.com/matsen/pplacer/releases/download/v1.1.alpha19/pplacer-linux-v1.1.alpha19.zip
-unzip pplacer-linux-v1.1.alpha19.zip
-mv pplacer-Linux-v1.1.alpha19 pplacer
+## Install gappa
+git clone --recursive https://github.com/lczech/gappa.git
+cd gappa
+make
 
 ## Install epa-ng
 ## Double check that you have all dependencies as described here: https://github.com/Pbdas/epa-ng#installation.
@@ -63,6 +63,7 @@ echo "PATH=/home/${TEMPNAME}/infernal/easel:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/raxml-ng:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/paprica:"'$PATH' >> .bashrc
 echo "PATH=/home/${TEMPNAME}/epa-ng/bin:"'$PATH' >> .bashrc
+echo "PATH=/home/${TEMPNAME}/gappa/bin:"'$PATH' >> .bashrc
 echo "export PATH" >> .bashrc
 source .bashrc
 

@@ -71,6 +71,7 @@ from Bio import Phylo, SeqIO, Seq
 from io import StringIO
 import tempfile
 import shutil
+import numpy as np
 
 executable = '/bin/bash' # shell for executing commands
 random.seed(1)
@@ -1181,7 +1182,16 @@ else:
     ## Then you need to add the sequences for those reads that did not place
     ## to the original reference tree.
     
-    needed_seqs = list(combined_subtrees.index[pd.isnull(combined_subtrees.seq)])
+    try:
+        needed_seqs = list(combined_subtrees.index[pd.isnull(combined_subtrees.seq)])
+    except AttributeError:
+        
+        ## This failure occurres on the test file, where no seq is ever defined
+        ## for combined_subtrees.
+        
+        combined_subtrees.seq = np.nan
+        needed_seqs = list(combined_subtrees.index[pd.isnull(combined_subtrees.seq)])
+        
     needed_seqs = set(needed_seqs)
     
     for record in SeqIO.parse(query + '.clean.unique.fasta', 'fasta'):
