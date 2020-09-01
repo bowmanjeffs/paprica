@@ -116,7 +116,7 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'bacteria'
+    domain = 'archaea'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
@@ -135,7 +135,7 @@ except KeyError:
 ## No default is currently provided for query.
     
 if len(sys.argv) == 1:
-    query = 'big_test_16S.' + domain
+    query = 'test.' + domain
     command_args['query'] = query
 
 ## Figure out an appropriate number of cores for building trees.
@@ -1190,7 +1190,7 @@ else:
         ## for combined_subtrees.
         
         combined_subtrees.seq = np.nan
-        needed_seqs = list(combined_subtrees.index[pd.isnull(combined_subtrees.seq)])
+        needed_seqs = combined_subtrees.index[pd.isnull(combined_subtrees.seq)][0].tolist()
         
     needed_seqs = set(needed_seqs)
     

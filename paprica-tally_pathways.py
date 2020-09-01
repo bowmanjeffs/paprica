@@ -95,10 +95,10 @@ if len(sys.argv) > 2:
         omit = ''
     
 else:
-    query = 'big_test_16S.bacteria.combined_16S.bacteria.tax.placements.csv'
-    name = 'big_test_bacteria'
+    query = 'test.eukarya.combined_18S.eukarya.tax.placements.csv'
+    name = 'test_eukarya'
     cutoff = 0.5  # The cutoff value used to determine pathways to include for internal nodes.
-    domain = 'bacteria'  # The domain (bacteria or archaea) for analysis.
+    domain = 'eukarya'  # The domain (bacteria or archaea) for analysis.
     ref_dir = paprica_path + 'ref_genome_database'  # The complete path to the reference directory being used for analysis.        
     #omit = '674:818'
     #overrides = '5804|93,4619|4571'
@@ -171,11 +171,18 @@ for edge in list(override_dic.keys()):
 ## Tally the number of occurences of each edge in the sample and
 ## get the mean posterior probability, overlap, and map ratio for each edge.
 
+## If all placements are to internal edges there will be no map_id and map_ratio.
+    
+try:
+    edge_map_id = query_csv.groupby('global_edge_num').map_id.mean()
+    edge_map_ratio = query_csv.groupby('global_edge_num').map_ratio.mean()
+except AttributeError:
+    edge_map_id = np.nan
+    edge_map_ratio = np.nan
+
 edge_tally = query_csv.groupby('global_edge_num').size()
 edge_lwr = query_csv.groupby('global_edge_num').like_weight_ratio.mean()
 edge_l = query_csv.groupby('global_edge_num').likelihood.mean()
-edge_map_id = query_csv.groupby('global_edge_num').map_id.mean()
-edge_map_ratio = query_csv.groupby('global_edge_num').map_ratio.mean()
 edge_edpl = query_csv.groupby('global_edge_num').EDPL.mean()
 
 ## Omit undesired edges.
@@ -197,7 +204,7 @@ edge_data['map_id'] = edge_map_id
 edge_data['EDPL'] = edge_edpl
 
 if domain == 'eukarya':
-    edge_data['taxon'] = lineages.loc.reindex(edge_data.index).consensus
+    edge_data['taxon'] = lineages.reindex(edge_data.index).consensus
 
 ## Dataframe to hold the number of occurences of pathway in sample, by edge.
 
@@ -333,7 +340,7 @@ edge_data = pd.concat([edge_data, lineages], axis = 1, join = 'inner')
 
 print('Normalizing abundance for unique sequences...')
 
-unique_csv = unique_csv[['seq', 'abundance', 'global_edge_num', 'origin']]
+unique_csv = unique_csv[['seq', 'abundance', 'global_edge_num']]
 unique_csv.loc[unique_csv.index, 'name'] = unique_csv.index
 unique_csv.index = unique_csv.seq
 
