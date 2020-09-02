@@ -116,7 +116,7 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'archaea'
+    domain = 'bacteria'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
@@ -312,8 +312,7 @@ def split_query_ref(query_alignment, ref_alignment, combined, temp_dir, part_fil
     query_names = set(query_names)
     ref_names = set(ref_names)
     
-    ## Create a specific working directory in case multiple instances are
-    ## being run at same time.
+    ## Outputs saved in query specific results directory.
     
     with open(temp_dir + ref_out, 'w') as ref_out, open( temp_dir + query_out, 'w') as query_out:
         for record in SeqIO.parse(combined, 'stockholm'):
@@ -559,17 +558,20 @@ def place(query_alignment, ref_alignment, model, tree, temp_dir):
 
 def gappa(jplace, cwd):
     
+    basename = jplace.split('.')[0:-1]
+    basename = '.'.join(basename)
+    
     subprocess.call('gappa examine edpl \
                     --allow-file-overwriting \
                     --out-dir ' + cwd + ' \
-                    --file-prefix temp.edpl \
+                    --file-prefix ' + basename + '.edpl \
                     --jplace-path ' + cwd + jplace, shell = True, executable = executable)
                     
     subprocess.call('gappa examine heat-tree \
                     --allow-file-overwriting \
                     --out-dir ' + cwd + ' \
                     --write-phyloxml-tree \
-                    --tree-file-prefix temp \
+                    --tree-file-prefix ' + basename + ' \
                     --jplace-path ' + cwd + jplace, shell = True, executable = executable)
 
 #%% Define function to convert json to csv.
@@ -1040,11 +1042,21 @@ else:
                                    shell = True,
                                    executable = executable)
     
+    ## reasonable name for results directory
+    
+    temp_dir = cwd + query
+    temp_dir = temp_dir + '/'
+    
+    ## remove the previous results directory, if it exists
+    
+    shutil.rmtree(temp_dir, ignore_errors = True)
+    
+    ## create the new results directory
+    
+    os.makedirs(temp_dir, exist_ok = True)
+    
     clean_name(cwd + query + '.fasta')
     make_unique(cwd + query + '.clean.fasta')
-    
-    temp_dir = tempfile.mkdtemp(dir = cwd)
-    temp_dir = temp_dir + '/'
 
     query_align(cwd + query + '.clean.unique.fasta',
           prefix_16S + '.' + phylum_ref + '.clean.align.sto',
@@ -1070,17 +1082,17 @@ else:
           prefix_combined + '.' + phylum_ref + '.final.bestTree',
           temp_dir)
     
-    placements = json_to_csv(temp_dir + 'epa_result.jplace', phylum_ref)
+    os.rename(temp_dir + 'epa_result.jplace', temp_dir + query + '.' + phylum_ref + '.jplace')
+    
+    placements = json_to_csv(temp_dir + query + '.' + phylum_ref + '.jplace', phylum_ref)
         
     placements = get_map_ratio(temp_dir + query + '.clean.unique.align.newlength.fasta',
         temp_dir + ref + '.' + phylum_ref + '.clean.align.newlength.fasta',
         placements)
                     
-    gappa('/epa_result.jplace', temp_dir)  
-    edpl = pd.read_csv(temp_dir + 'temp.edpllist.csv', index_col = 1)
+    gappa(query + '.' + phylum_ref + '.jplace', temp_dir)  
+    edpl = pd.read_csv(temp_dir + query + '.' + phylum_ref + '.edpllist.csv', index_col = 1)
     placements = pd.concat([placements, edpl['EDPL']], axis = 1, sort = False)
-    
-    shutil.rmtree(temp_dir)
     
     ## Add the count data.  This should also add all unique reads that didn't
     ## place to the original reference tree.
@@ -1114,9 +1126,6 @@ else:
             if subtree in available_trees:
                 if pd.notnull(subtree):
                     
-                    temp_dir = tempfile.mkdtemp(dir = cwd)
-                    temp_dir = temp_dir + '/'
-                    
                     query_align(cwd + subtree + '_' + query + '.clean.unique.fasta',
                           prefix_16S + '.' + subtree + '.clean.align.sto',
                           temp_dir + query + '.' + ref + '.' + subtree + '.clean.unique.align.sto',
@@ -1141,21 +1150,21 @@ else:
                           prefix_combined + '.' + subtree + '.final.bestTree',
                           temp_dir)
                     
-                    subtree_csv = json_to_csv(temp_dir + 'epa_result.jplace', subtree)
+                    os.rename(temp_dir + 'epa_result.jplace', temp_dir + query + '.' + subtree + '.jplace')
+                    
+                    subtree_csv = json_to_csv(temp_dir + query + '.' + subtree + '.jplace', subtree)
                         
-                    subtree_csv = get_map_ratio(temp_dir + subtree + '_' + query + '.clean.unique.align.newlength.fasta',
+                    subtree_csv = get_map_ratio(temp_dir + query + '.clean.unique.align.newlength.fasta',
                         temp_dir + ref + '.' + subtree + '.clean.align.newlength.fasta',
                         subtree_csv)
-                                
-                    gappa('/epa_result.jplace', temp_dir)
-                    edpl = pd.read_csv(temp_dir + 'temp.edpllist.csv', index_col = 1)
+                    
+                    gappa(query + '.' + subtree + '.jplace', temp_dir)  
+                    edpl = pd.read_csv(temp_dir + query + '.' + subtree + '.edpllist.csv', index_col = 1)
                     subtree_csv = pd.concat([subtree_csv, edpl['EDPL']], axis = 1, sort = False)
                     subtree_csv['subtree'] = subtree
                     
                     combined_subtrees = pd.concat([combined_subtrees, subtree_csv])
                     subtree_csv.to_csv(cwd + query + '.' + ref + '.placements.csv') 
-              
-                    shutil.rmtree(temp_dir)
                     
                     ## This is a pretty harsh purge of the intermediate files, but it works.
                     
