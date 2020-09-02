@@ -1,28 +1,25 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/bowmanjeffs/paprica)
 ![GitHub top language](https://img.shields.io/github/languages/top/bowmanjeffs/paprica)
 ![GitHub stars](https://img.shields.io/github/stars/bowmanjeffs/paprica?style=social)
-## Notice - If you've been redirected here from genome_finder you're in the right place!  Version 0.5 has a number of new features and improvements.  Please take a look at the [Wiki](https://github.com/bowmanjeffs/paprica/wiki) for further details.  There are also several tutorials available:
+## Notice - If you've been redirected here from genome_finder you're in the right place!  Please take a look at the [Wiki](https://github.com/bowmanjeffs/paprica/wiki) for documentation.  There are also several tutorials available:
 [Installing paprica on Mac OSX](http://www.polarmicrobes.org/installing-paprica-on-mac-osx/)  
 [Basic analysis with paprica](http://www.polarmicrobes.org/analysis-with-paprica/)  
 [Heatmaps and ordination with paprica output](https://www.polarmicrobes.org/tutorial-basic-heatmaps-and-ordination-with-paprica-output)  
 [Annotating metagenomes with paprica-mg](http://www.polarmicrobes.org/tutorial-annotating-metagenomes-with-paprica-mg/)  
 [Building the paprica database](http://www.polarmicrobes.org/building-the-paprica-database/)  
 
-## Please go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
+## We are in the midst of a major update to paprica that will provide a number of improvements.  The documentation and tutorials will lag the code development, but the basic commands and structure of the output are similar.  I encourage you to try the latest code by cloning the repository, and to create an issue if you encounter any problems.
+
+## Alternatively you can go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
 ## To run paprica you will need:
 * [epa-ng](https://github.com/Pbdas/epa-ng)
-* [pplacer](https://github.com/matsen/pplacer/releases/tag/v1.1.alpha19) (for just a little longer...)
+* [gappa](https://github.com/lczech/gappa)
 * [infernal](http://eddylab.org/infernal/)
 * [seqmagick](https://fhcrc.github.io/seqmagick/)
-* python 3.6 or higher, with pandas, biopython, and joblib
+* python 3.6 or higher, with numpy, pandas, biopython, and joblib
 
 Paprica can be run on OSX (see tutorial linked above), or preferably, on Linux or Windows using the Windows Subsystem for Linux (see the linux_install.sh script as a guide).
-
-## If you'd like to try paprica without downloading the dependencies you have two options.
-Option 1: We've created a Virtualbox appliance [here](http://www.polarmicrobes.org/extras/paprica-demo.ova) running Ubuntu.  You will need to download the (free) Oracle Virtualbox software and then import the appliance. The appliance isn't updated every time we make an improvement to paprica, so you'll probably want to re-clone the Github repository once you've got the VB up and running.  The log-in information for the VB machine is user: tester, pass: paprica (naturally).
-
-Option 2: We've also created an Amazon Web Service machine instance.  Please read the tutorial located [here](http://www.polarmicrobes.org/paprica-on-the-cloud/).  NOTE: the AWS machine instance is no longer supported, but could be on request.
 
 ## paprica
 PAthway PRediction by phylogenetIC plAcement
@@ -46,7 +43,7 @@ chmod a+x *py
 chmod a+x *sh
 ./paprica-run.sh test bacteria
 ```
-...where XX is the paprica version should get you going and execute a run on the file test.fasta for the domain Bacteria.
+...where XX is the paprica version should get you going and execute a run on the provided file test.fasta for the domain Bacteria.
 
 ## Citation
 

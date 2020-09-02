@@ -39,8 +39,8 @@ mv infernal-1.1.2-linux-intel-gcc infernal
 
 ## Install gappa
 git clone --recursive https://github.com/lczech/gappa.git
-cd gappa
-make
+cd gappa;make
+cd ~
 
 ## Install epa-ng
 ## Double check that you have all dependencies as described here: https://github.com/Pbdas/epa-ng#installation.
@@ -49,10 +49,9 @@ make
 sudo apt-get install autotools-dev libtool flex bison cmake automake autoconf
 git clone https://github.com/Pbdas/epa-ng.git
 cd epa-ng;make
+cd ~
 
 ## Modify PATH in .bashrc
-
-cd ~
 
 TEMPNAME=`whoami`
 echo "## added by paprica installer" >> .bashrc
