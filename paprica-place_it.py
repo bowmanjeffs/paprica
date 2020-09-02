@@ -116,7 +116,7 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'bacteria'
+    domain = 'eukarya'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
@@ -1154,7 +1154,7 @@ else:
                     
                     subtree_csv = json_to_csv(temp_dir + query + '.' + subtree + '.jplace', subtree)
                         
-                    subtree_csv = get_map_ratio(temp_dir + query + '.clean.unique.align.newlength.fasta',
+                    subtree_csv = get_map_ratio(temp_dir + subtree + '_' + query + '.clean.unique.align.newlength.fasta',
                         temp_dir + ref + '.' + subtree + '.clean.align.newlength.fasta',
                         subtree_csv)
                     
