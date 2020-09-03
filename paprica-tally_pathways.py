@@ -203,6 +203,11 @@ edge_data['map_ratio'] = edge_map_ratio
 edge_data['map_id'] = edge_map_id
 edge_data['EDPL'] = edge_edpl
 
+## This makes sure that there is an nedge_corrected entry for eukarya.
+## Will be overwritten for bacteria and archaea.
+
+edge_data['nedge_corrected'] = edge_data['nedge']
+
 if domain == 'eukarya':
     edge_data['taxon'] = lineages.reindex(edge_data.index).consensus
 
@@ -226,7 +231,6 @@ if domain != 'eukarya':
             edge_data.loc[edge, 'npaths_terminal'] = internal_data.loc[edge, 'npaths_terminal']
             edge_data.loc[edge, 'nec_terminal'] = internal_data.loc[edge, 'nec_terminal']
             edge_data.loc[edge, 'branch_length'] = internal_data.loc[edge, 'branch_length']
-            edge_data.loc[edge, 'nedge_corrected'] = edge_data.loc[edge, 'nedge']
             edge_data.loc[edge, 'taxon'] = lineages.loc[edge, 'consensus']
             
             edge_data.loc[edge, 'n16S'] = internal_data.loc[edge, 'n16S']

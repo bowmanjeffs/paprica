@@ -11,7 +11,7 @@ produces by running paprica on multiple samples.  It produces a matrix of edges
 by sample, and a matrix of mean edge parameters, by sample.
 
 For simple execution (works in most user cases) run as:
-    ./combine_edge_results.py -domain [domain] -o [prefix for output]
+    ./combine_edge_results.py -domain [domain] -o [prefix for output] -d [analysis directory]
     
 If your file names don't follow the default suffix pattern of (e.g.)
 [domain].edge_data.csv, you will need to specify the suffix pattern like this:
@@ -53,6 +53,11 @@ try:
     prefix = command_args['o']
 except KeyError:
     prefix = 'test.' + domain
+    
+try:
+    unique_suffix = command_args['unique_in']
+except KeyError:
+    unique_suffix = domain + '.unique_seqs.csv'
 
 try:
     edge_suffix = command_args['edge_in']
@@ -60,19 +65,24 @@ except KeyError:
     edge_suffix = domain + '.edge_data.csv'
     
 try:
-    path_suffix = command_args['path_in']
+    cwd = command_args['d']
 except KeyError:
-    path_suffix = domain + '.sum_pathways.csv'
+    cwd = '.'
     
-try:
-    ec_suffix = command_args['ec_in']
-except KeyError:
-    ec_suffix = domain + '.sum_ec.csv'
+if domain != 'eukarya':
     
-try:
-    unique_suffix = command_args['unique_in']
-except KeyError:
-    unique_suffix = domain + '.unique_seqs.csv'
+    try:
+        path_suffix = command_args['path_in']
+    except KeyError:
+        path_suffix = domain + '.sum_pathways.csv'
+        
+    try:
+        ec_suffix = command_args['ec_in']
+    except KeyError:
+        ec_suffix = domain + '.sum_ec.csv'
+        
+cwd = cwd + '/'
+prefix = cwd + prefix
             
 ## Delete old combined files, so that
 ## the script doesn't try to include them.
@@ -115,16 +125,23 @@ def fill_edge_data(param, name, df_in):
     print(name, param, mean, sd)
     return mean, sd
 
-taxon_map = pd.DataFrame(columns = ['phylum', 'class', 'order', 'family', 'genus', 'species', 'taxon'])
+if domain == 'eukarya':
+    ranks = ['kingdom', 'supergroup', 'division', 'class', 'order', 'family',
+             'genus', 'species', 'taxon']
+else:
+    ranks = ['superkingdom', 'phylum', 'clade', 'class',
+         'order', 'family', 'genus', 'species', 'strain', 'taxon']
+
+taxon_map = pd.DataFrame(columns = ranks)
         
-for f in os.listdir('.'):
+for f in os.listdir(cwd):
     if f.endswith(edge_suffix):
         
-        temp_edge = pd.read_csv(f, index_col = 0)
+        temp_edge = pd.read_csv(cwd + f, index_col = 0)
         name = re.sub(edge_suffix, '', f)
         
         for edge in temp_edge.index:            
-            for rank in ['phylum', 'class', 'order', 'family', 'genus', 'species', 'taxon', 'tax_name']:
+            for rank in ranks:
                 try:
                     temp_rank = temp_edge.loc[edge, rank]
                     
@@ -151,34 +168,38 @@ for f in os.listdir('.'):
             
         temp_edge_abund.columns = [name]        
         edge_tally = pd.concat([edge_tally, temp_edge_abund], axis = 1)
+        
+if domain != 'eukarya':
+    for f in os.listdir(cwd):
             
-    elif f.endswith(path_suffix):
-        name = re.sub(path_suffix, '', f)
-        temp_path = pd.read_csv(f, index_col = 0, names = [name])
-        path_tally = pd.concat([path_tally, temp_path], axis = 1)
+        if f.endswith(path_suffix):
+            name = re.sub(path_suffix, '', f)
+            temp_path = pd.read_csv(cwd + f, index_col = 0, names = [name])
+            path_tally = pd.concat([path_tally, temp_path], axis = 1)
+            
+        elif f.endswith(ec_suffix):
+            name = re.sub(ec_suffix, '', f)
+            temp_ec = pd.read_csv(cwd + f, index_col = 0, names = [name])
+            ec_tally = pd.concat([ec_tally, temp_ec], axis = 1)
         
-    elif f.endswith(ec_suffix):
-        name = re.sub(ec_suffix, '', f)
-        temp_ec = pd.read_csv(f, index_col = 0, names = [name])
-        ec_tally = pd.concat([ec_tally, temp_ec], axis = 1)
-        
-## Do some gap filling for taxon_map; where there is a missing level but the
-## level is known, fill it.
+## Write out datafiles
             
 pd.DataFrame.to_csv(edge_tally.transpose(), prefix + '.' + domain + '.edge_tally.csv') 
-pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.' + domain + '.path_tally.csv') 
-pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.' + domain + '.ec_tally.csv')
 pd.DataFrame.to_csv(taxon_map, prefix + '.' + domain + '.taxon_map.csv') 
 
 if domain != 'eukarya':
     pd.DataFrame.to_csv(edge_data, prefix + '.' + domain + '.edge_data.csv')
+    pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.' + domain + '.path_tally.csv') 
+    pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.' + domain + '.ec_tally.csv')
+    
+## Make combined unique file
 
 unique_tally = pd.DataFrame()
 
-for f in os.listdir('.'):
+for f in os.listdir(cwd):
     if f.endswith(unique_suffix):
         name = re.sub(unique_suffix, '', f)
-        temp_unique = pd.read_csv(f, index_col = 0, usecols = ['identifier', 'abundance_corrected'])
+        temp_unique = pd.read_csv(cwd + f, index_col = 0, usecols = ['identifier', 'abundance_corrected'])
         temp_unique.columns = [name]
         unique_tally = pd.concat([unique_tally, temp_unique], axis = 1, sort = True)
     
