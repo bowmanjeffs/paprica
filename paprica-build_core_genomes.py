@@ -451,9 +451,7 @@ for d in assemblies:
         print('creating pathologic files for', d)
                     
         with open(ref_dir_domain + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(ref_dir_domain + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
-            
-            print('recreating pathologic files for', d)
-            
+                        
             print('ID' + '\t' + d, file=organism_params)
             print('Storage' + '\t' + 'File', file=organism_params)
             print('Name' + '\t' + d, file=organism_params)
