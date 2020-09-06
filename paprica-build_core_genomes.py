@@ -364,7 +364,9 @@ if domain == 'eukarya':
 new_pgdbs = []
 pathway_definitions = pd.read_csv(ref_dir + 'pathways.col', comment = '#', sep = '\t', index_col = 0)
 
-for d in assemblies:
+#!!! This loop does take a long time and would be easy to parallelize
+
+for i, d in enumerate(assemblies):
     
     ## If a previous build effort was unsuccessful rewrite the files needed by
     ## pathologic, in case the data files have been updatated in the public
@@ -373,12 +375,9 @@ for d in assemblies:
     ## If an assembly was updated by NCBI the PGDB deleted by paprica-make_ref.py.
     ## This will force recreation of data files here.
     
+    report_file = False
+    
     try:
-        
-        ## As of ptools v24 pathway-report.txt reformatted with date.  Need
-        ## to find name of this file.
-        
-        report_file = False
         
         for f in os.listdir(pgdb_dir + d.lower() + 'cyc/1.0/reports'):
             
@@ -403,7 +402,7 @@ for d in assemblies:
                             
             with open(ref_dir_domain + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(ref_dir_domain + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
                 
-                print('recreating pathologic files for', d)
+                print('recreating pathologic files for', d, i, 'of', len(assemblies))
                 
                 print('ID' + '\t' + d, file=organism_params)
                 print('Storage' + '\t' + 'File', file=organism_params)
@@ -448,7 +447,7 @@ for d in assemblies:
             
     except FileNotFoundError:
         
-        print('creating pathologic files for', d)
+        print('creating pathologic files for', d, i, 'of', len(assemblies))
                     
         with open(ref_dir_domain + 'refseq/' + d  + '/organism-params.dat', 'w') as organism_params, open(ref_dir_domain + 'refseq/' + d  + '/genetic-elements.dat', 'w') as genetic_elements:                
                         
