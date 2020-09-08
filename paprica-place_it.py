@@ -116,7 +116,7 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'eukarya'
+    domain = 'bacteria'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
@@ -136,7 +136,7 @@ except KeyError:
     
 if len(sys.argv) == 1:
     query = 'test.' + domain
-    command_args['query'] = query
+    #command_args['query'] = query
 
 ## Figure out an appropriate number of cores for building trees.
 
@@ -357,6 +357,11 @@ def classify_ref(ref_dir_domain):
     ncbi = NCBITaxa()
     ncbi.update_taxonomy_database() 
     summary_complete = pd.read_csv(ref_dir_domain + 'genome_data.csv.gz', header = 0, index_col = 0)
+    
+    #!!! This statement will be unnecessary after checking that summary-complete
+    ## and final_genes are reconciled at end of paprica-make_ref
+    
+    summary_complete.dropna(subset = ['tax_name'], inplace = True)
     
     ref_lineage = pd.DataFrame()
     
@@ -771,6 +776,7 @@ if 'query' not in list(command_args.keys()):
             
             for phylum in ref_lineages.phylum.unique():
                 if pd.notnull(phylum):
+                    print(phylum)
                     j = 0
                     phylum_taxids = set(ref_lineages.index[ref_lineages.phylum == phylum])
                     phylum_seqids = genome_data.loc[genome_data['taxid'].isin(phylum_taxids)].tax_name
@@ -807,7 +813,8 @@ if 'query' not in list(command_args.keys()):
                                 record.description = ''
                                 SeqIO.write(record, reps_out_23S, 'fasta')
                                                             
-                    fastas[phylum] = j                    
+                    fastas[phylum] = j  
+                    
         fastas['phylum_reps'] = i
         
         ## Sorting fastas.keys just to get Proteobacteria out of the #2 slot
@@ -915,7 +922,7 @@ if 'query' not in list(command_args.keys()):
                   (i, prefix_16S + '.' + fasta, prefix_16S + '.' + fasta + '.raxml.rba', 1) for i in range(1, 25))                
                 best_tree(prefix_16S + '.' + fasta, 24, partition = False)
                 
-        ## edge_lineages.csv and genome_data.csv need to be compatble with
+        ## edge_lineages.csv and genome_data.csv need to be compatible with
         ## paprica-build_core_genomes.py.  The classify_ref function is not used
         ## for PR2 because not all entries have an NCBI taxid.
                 
