@@ -1,12 +1,11 @@
-ref tree built at: 2020-08-21T05:30:22.700185
+ref tree built at: 2020-09-11T12:17:36.757570
 nseqs in reference alignment: 5086
-*div_reps	30
+*div_reps	29
 *Dinoflagellata	1008
 *Ochrophyta	605
 *Ciliophora	825
 *Discoba	19
 *Cercozoa	221
-*Streptophyta	284
 *Apusomonadidae	9
 *Conosa	103
 *Rhodophyta	564
@@ -29,5 +28,5 @@ nseqs in reference alignment: 5086
 *Hacrobia_X	1
 *Alveolata_X	3
 *Breviatea	2
-*Chlorophyta	437
 *Haptophyta	121
+*Chlorophyta_Streptophyta	721

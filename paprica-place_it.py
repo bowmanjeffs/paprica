@@ -116,7 +116,7 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'bacteria'
+    domain = 'eukarya'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
@@ -681,6 +681,10 @@ def get_map_ratio(query_alignment, ref_alignment, placements):
         
     return(placements)
             
+#%% Define euk refs as needed.
+    
+euk_reps = {'Ochrophyta':'AY485452.1.1771_U'}
+
 #%% Execute main program.
     
 if domain != 'eukarya':
@@ -857,7 +861,7 @@ if 'query' not in list(command_args.keys()):
         ## in some fields. These need to be purged before the merged file
         ## can be used here.
         
-        pr2 = pd.read_csv(ref_dir_domain + 'pr2_version_4.12.0_merged_nocarriage.tsv', sep = '\t')
+        pr2 = pd.read_csv(ref_dir_domain + 'pr2_version_4.12.0_merged_nocarriage.tsv', sep = '\t', index_col = 0)
         pr2 = pr2[pr2.supergroup != 'Opisthokonta']
         pr2 = pr2[pr2.sequence_length > 1700]
         pr2 = pr2[pr2.sequence_length < 1900] 
@@ -869,7 +873,14 @@ if 'query' not in list(command_args.keys()):
         pr2.drop_duplicates(subset = ['sequence'], inplace = True)
         pr2 = pr2[pr2.reference_sequence == 1]
         pr2.dropna(subset = ['pr2_accession'], inplace = True)
-        pr2['subtree'] = pr2.division
+        
+        ## customize the divisions
+        
+        pr2_divisions = pr2.division.unique()
+        pr2_divisions = np.array_split(pr2_divisions, len(pr2_divisions))
+        pr2_divisions.remove('Chlorophyta')
+        pr2_divisions.remove('Streptophyta')
+        pr2_divisions.append(['Chlorophyta', 'Streptophyta'])
 
         ## create a fasta file for each target clade
 
@@ -878,25 +889,36 @@ if 'query' not in list(command_args.keys()):
         with open(prefix_16S + '.div_reps.fasta', 'w') as rep_out:
             i = 0
             
-            for tc in pr2.division.unique():
+            for tc in pr2_divisions:
                 j = 0
                 
-                temp = pr2[pr2.division == tc]
-                rep_seq_i = random.randrange(temp.shape[0])
-                rep_seq = temp.iloc[rep_seq_i,:]
+                temp = pr2[pr2.division.isin(tc)]
                 
-                print('>' + tc, file = rep_out)
+                ## If euk rep is pre-determined for a given clade, identify
+                ## here.
+                
+                tc_name = '_'.join(tc)
+                pr2.loc[pr2.division.isin(tc), 'subtree'] = tc_name
+                
+                try:
+                    rep_seq_id = euk_reps[tc_name]
+                    rep_seq = temp.loc[temp['pr2_accession'] == rep_seq_id,:].iloc[0]
+                except KeyError:
+                    rep_seq_i = random.randrange(temp.shape[0])
+                    rep_seq = temp.iloc[rep_seq_i,:]
+                
+                print('>' + tc_name, file = rep_out)
                 print(rep_seq.sequence, file = rep_out)
                 i += 1
                 
-                with(open(prefix_16S + '.' + tc + '.fasta', 'w')) as fasta_out:
+                with(open(prefix_16S + '.' + tc_name + '.fasta', 'w')) as fasta_out:
                     for index, row in temp.iterrows():
                         pr2.loc[index, 'tax_name'] = row.pr2_accession + '|' + row.species
                         print('>' + row.pr2_accession + '|' + row.species, file = fasta_out)
                         print(row.sequence, file = fasta_out)
                         j += 1
                         
-                fastas[tc] = j
+                fastas[tc_name] = j
         fastas['div_reps'] = i
         
         for fasta in fastas.keys():

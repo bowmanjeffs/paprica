@@ -87,11 +87,11 @@ if 'h' in list(command_args.keys()):
 ## set some default values.  This is useful for testing.
         
 if len(sys.argv) == 1:
-    domain = 'bacteria'
+    domain = 'eukarya'
     ref_dir = 'ref_genome_database'
     pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
     cpus = 36
-    database_info = 'combined_16S.bacteria.tax.database_info.txt'
+    database_info = 'combined_18S.eukarya.tax.database_info.txt'
     
 else:        
     domain = command_args['domain']
@@ -271,7 +271,7 @@ with open(ref_dir_domain + database_info, 'r') as database_file:
 ## the top level tree which is suboptimal.
                 
 if domain in ['bacteria', 'eukarya']:
-    available_trees = available_trees[1:-1]
+    available_trees = available_trees[1:]
                 
 ## Collect information for determining lineage of each node in the reference
 ## tree.
