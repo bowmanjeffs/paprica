@@ -1,6 +1,6 @@
-ref tree built at: 2020-08-30T21:38:38.204821
-nseqs in reference alignment: 18334
-*phylum_reps	32
+ref tree built at: 2020-09-08T11:08:07.592292
+nseqs in reference alignment: 8748
+*phylum_reps	38
 *Proteobacteria	4552
 *Actinobacteria	1072
 *Dictyoglomi	2

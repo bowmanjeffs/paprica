@@ -683,7 +683,8 @@ def get_map_ratio(query_alignment, ref_alignment, placements):
             
 #%% Define euk refs as needed.
     
-euk_reps = {'Ochrophyta':'AY485452.1.1771_U'}
+euk_reps = {'Ochrophyta':'EU247834.1.1720_U',
+            'Dinoflagellata':'FJ549370.1.1796_U'}
 
 #%% Execute main program.
     
@@ -935,7 +936,11 @@ if 'query' not in list(command_args.keys()):
             
             subprocess.call('rm -f ' + ref_dir_domain + '*raxml*', shell = True, executable = executable)
             
-            if nseqs > 3:
+            #if nseqs > 3:
+                
+            ## This option is for optimizing specific trees.
+            
+            if fasta == 'div_reps':
      
             ## build trees
             
