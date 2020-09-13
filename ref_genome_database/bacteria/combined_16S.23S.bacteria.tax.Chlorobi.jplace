@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [1, -5849.1084804057, 1.0000000000, 0.1033375585, 14.6235791338]
+      [1, -6064.0627305591, 1.0000000000, 0.1200069261, 21.4668037608]
       ],
-    "n": ["test_Actinobacteria"]
+    "n": ["test_Proteobacteria"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp17u7apqs/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Chlorobi.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp17u7apqs/combined_16S.bacteria.tax.Chlorobi.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Chlorobi.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp17u7apqs/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp50way40l/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Chlorobi.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp50way40l/combined_16S.bacteria.tax.Chlorobi.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Chlorobi.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp50way40l/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

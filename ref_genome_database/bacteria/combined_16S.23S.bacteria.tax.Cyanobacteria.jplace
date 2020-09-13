@@ -3,13 +3,13 @@
   "placements": 
   [
     {"p": [
-      [139, -25630.7073182240, 0.6953824007, 0.0363448665, 1.5352186802],
-      [135, -25631.5608238806, 0.2961767056, 0.1736493828, 1.5373283971]
+      [138, -25947.7610651547, 0.9477042512, 0.0607708888, 2.0489236782],
+      [135, -25950.6581925536, 0.0522957488, 0.1701147708, 2.1314104237]
       ],
-    "n": ["test_Actinobacteria"]
+    "n": ["test_Proteobacteria"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp1qkshww2/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Cyanobacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp1qkshww2/combined_16S.bacteria.tax.Cyanobacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Cyanobacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp1qkshww2/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpb4o5d2r9/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Cyanobacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpb4o5d2r9/combined_16S.bacteria.tax.Cyanobacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Cyanobacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpb4o5d2r9/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

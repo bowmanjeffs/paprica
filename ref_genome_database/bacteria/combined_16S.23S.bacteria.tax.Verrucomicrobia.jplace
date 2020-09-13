@@ -3,13 +3,12 @@
   "placements": 
   [
     {"p": [
-      [30, -9666.1846698610, 0.8178943124, 0.0494702571, 0.5547446814],
-      [29, -9667.6868157671, 0.1821056876, 0.4002699590, 0.5475640306]
+      [29, -10260.4813992843, 1.0000000000, 0.3188706029, 0.7538672834]
       ],
-    "n": ["test_Actinobacteria"]
+    "n": ["test_Proteobacteria"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp_qyi1m4p/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Verrucomicrobia.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp_qyi1m4p/combined_16S.bacteria.tax.Verrucomicrobia.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Verrucomicrobia.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp_qyi1m4p/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpv0yxsrwq/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Verrucomicrobia.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpv0yxsrwq/combined_16S.bacteria.tax.Verrucomicrobia.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Verrucomicrobia.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpv0yxsrwq/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }
