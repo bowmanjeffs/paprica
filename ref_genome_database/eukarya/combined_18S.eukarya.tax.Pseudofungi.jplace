@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [143, -21783.8628877477, 1.0000000000, 2.4904290000, 0.1053605157]
+      [143, -22164.2315266888, 1.0000000000, 2.4904290000, 0.1053605157]
       ],
-    "n": ["test_Dinoflagellata"]
+    "n": ["test_Chlorophyta__Streptophyta"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpleml896j/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pseudofungi.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpleml896j/combined_18S.eukarya.tax.Pseudofungi.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pseudofungi.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpleml896j/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpvcp7sxpc/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pseudofungi.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpvcp7sxpc/combined_18S.eukarya.tax.Pseudofungi.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pseudofungi.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpvcp7sxpc/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

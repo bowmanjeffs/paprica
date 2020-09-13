@@ -1,0 +1,16 @@
+{
+  "tree": "(((U41050.1.1792_U|Nannochloropsis_CCMP505:0.0101090000{0},DQ977726.1.1796_U|Nannochloropsis_limnetica:0.0007250000{1}):0.0023000000{2},(((U41052.1.1798_U|Pseudocharaciopsis_minuta:0.0190810000{3},U41051.1.1796_U|Eustigmatos_magnus:0.0313070000{4}):0.0321560000{5},EF044311.1.1761_U|Pseudotetraedriella_kamillae:0.0147580000{6}):0.0271520000{7},(((EF044312.1.1767_U|Pseudostaurastrum_enorme:0.0316730000{8},EF044313.1.1767_U|Pseudostaurastrum_limneticum:0.0254360000{9}):0.0607840000{10},FJ858970.1.1806_U|Goniochloris_sculpta:0.0115360000{11}):0.0987220000{12},(AF067957.1.1797_U|Nannochloropsis_gaditana:0.0006470000{13},((AF045037.1.1790_U|Nannochloropsis_gaditana:0.0000010000{14},AB052270.1.1750_U|Nannochloropsis_gaditana:0.0000010000{15}):0.0000010000{16},M87328.22.1770_U|Nannochloropsis_salina:0.0006470000{17}):0.0000010000{18}):0.0096180000{19}):0.0240360000{20}):0.0132570000{21}):0.0003160000{22},U38903.1.1788_U|Nannochloropsis_granulata:0.0020180000{23},((AF045044.1.1791_U|Nannochloropsis_oculata:0.0000010000{24},U38902.1.1789_U|Nannochloropsis_oculata:0.0000010000{25}):0.0026530000{26},(AY680703.1.1788_U|Nannochloropsis_maritima:0.0013200000{27},((AB025533.1.1788_U|Nannochloropsis_sp.:0.0000010000{28},AB052273.1.1752_U|Nannochloropsis_oceanica:0.0000010000{29}):0.0000010000{30},AF067956.1.1799_U|Nannochloropsis_sp.:0.0013170000{31}):0.0006600000{32}):0.0013220000{33}):0.0040280000{34});",
+  "placements": 
+  [
+    {"p": [
+      [7, -6336.0067242950, 0.7091743217, 0.0043285607, 0.3818514526],
+      [5, -6336.9828478754, 0.2671947480, 0.0079240640, 0.3829312820],
+      [12, -6339.4082691998, 0.0236309303, 0.0216432349, 0.3811315867]
+      ],
+    "n": ["test_Chlorophyta__Streptophyta"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpahdtebvc/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Eustigmatophyceae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpahdtebvc/combined_18S.eukarya.tax.Eustigmatophyceae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Eustigmatophyceae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpahdtebvc/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

@@ -1,0 +1,14 @@
+{
+  "tree": "((AB183614.1.1768_U|Polypodochrysis_teissieri:0.0000010000{0},(AB058925.1.1804_U|Polypodochrysis_teissieri:0.0000010000{1},AF438322.1.1771_U|Polypodochrysis_teissieri:0.0000010000{2}):0.0000010000{3}):0.0717560000{4},(U40929.1.1768_U|Pinguiochrysidaceae_X_sp.:0.0005750000{5},AF438324.1.1768_U|Pinguiococcus_pyrenoidosus:0.0000010000{6}):0.0769030000{7},AF438325.1.1776_U|Glossomastix_chrysoplasta:0.0264210000{8});",
+  "placements": 
+  [
+    {"p": [
+      [4, -4672.4896200377, 1.0000000000, 0.0185395933, 0.3767796741]
+      ],
+    "n": ["test_Chlorophyta__Streptophyta"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp2z7fhxpo/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pinguiophyceae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp2z7fhxpo/combined_18S.eukarya.tax.Pinguiophyceae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pinguiophyceae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp2z7fhxpo/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

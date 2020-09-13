@@ -1,8 +1,28 @@
-ref tree built at: 2020-09-11T12:17:36.757570
+ref tree built at: 2020-09-13T05:40:33.570001
 nseqs in reference alignment: 5086
-*div_reps	29
-*Dinoflagellata	1008
-*Ochrophyta	605
+*div_reps	48
+*Chlorophyta__Streptophyta	721
+*Dinophyceae	914
+*Syndiniales	91
+*Oxyrrhea	2
+*Noctilucophyceae	1
+*Phaeophyceae	114
+*Chrysophyceae	129
+*Pelagophyceae	13
+*Bacillariophyta	209
+*Bolidophyceae	9
+*Synurophyceae	28
+*Ochrophyta_X	2
+*Raphidophyceae	27
+*Chrysomerophyceae	1
+*Eustigmatophyceae	19
+*Xanthophyceae	27
+*Dictyochophyceae	14
+*Pinguiophyceae	6
+*Aurearenophyceae	2
+*MOCH-2	1
+*Phaeothamniophyceae	3
+*Picophagea	1
 *Ciliophora	825
 *Discoba	19
 *Cercozoa	221
@@ -29,4 +49,3 @@ nseqs in reference alignment: 5086
 *Alveolata_X	3
 *Breviatea	2
 *Haptophyta	121
-*Chlorophyta_Streptophyta	721

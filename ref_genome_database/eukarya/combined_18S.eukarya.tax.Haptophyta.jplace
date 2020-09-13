@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [192, -19990.0589906167, 1.0000000000, 0.0951425636, 0.7160578030]
+      [192, -20352.2921957123, 1.0000000000, 0.0730165708, 0.7238217486]
       ],
-    "n": ["test_Dinoflagellata"]
+    "n": ["test_Chlorophyta__Streptophyta"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp_n4h7eus/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Haptophyta.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp_n4h7eus/combined_18S.eukarya.tax.Haptophyta.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Haptophyta.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp_n4h7eus/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp6fborqs4/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Haptophyta.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp6fborqs4/combined_18S.eukarya.tax.Haptophyta.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Haptophyta.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp6fborqs4/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

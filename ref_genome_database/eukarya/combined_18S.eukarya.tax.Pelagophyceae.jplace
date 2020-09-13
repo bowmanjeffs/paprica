@@ -1,0 +1,20 @@
+{
+  "tree": "((((EU247837.1.1791_U|Pelagophyceae_XXX_sp.:0.0000010000{0},EU050970.1.1767_U|Pelagophyceae_XXX_sp.:0.0152740000{1}):0.0096710000{2},((U78032.1.1815_U|Pulvinaria_sp.:0.0197180000{3},U78033.1.1815_U|Sarcinochrysis_marina:0.0163160000{4}):0.0228090000{5},U40926.1.1807_U|Sarcinochrysidaceae_X_sp.:0.0278120000{6}):0.0171970000{7}):0.0059320000{8},(AF118443.1.1814_U|Aureococcus_anophagefferens:0.0000010000{9},(AF117777.1.1816_U|Aureococcus_anophagefferens:0.0000010000{10},(AF119119.1.1799_U|Aureococcus_anophagefferens:0.0000010000{11},AF117779.1.1802_U|Aureococcus_anophagefferens:0.0000010000{12}):0.0000010000{13}):0.0000010000{14}):0.0158850000{15}):0.0063200000{16},(U14386.1.1816_U|Pelagococcus_subviridis:0.0046720000{17},U40927.1.1792_U|Pelagomonadaceae_X_sp.:0.0016390000{18}):0.0038360000{19},(AJ402341.1.1758_U|Pelagomonas_calceolata:0.0035260000{20},U14389.1.1816_U|Pelagomonas_calceolata:0.0000010000{21}):0.0074360000{22});",
+  "placements": 
+  [
+    {"p": [
+      [15, -5260.6897849262, 0.1182717559, 0.0010875467, 0.3782673093],
+      [11, -5260.6973137586, 0.1173846513, 0.0000005000, 0.3819387224],
+      [12, -5260.6973138120, 0.1173846450, 0.0000005000, 0.3819387227],
+      [10, -5260.6973160148, 0.1173843865, 0.0000005000, 0.3819387414],
+      [13, -5260.6973160148, 0.1173843865, 0.0000005000, 0.3819387414],
+      [9, -5260.6973182711, 0.1173841216, 0.0000005000, 0.3819387604],
+      [14, -5260.6973182711, 0.1173841216, 0.0000005000, 0.3819387604]
+      ],
+    "n": ["test_Chlorophyta__Streptophyta"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpjier4y_8/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pelagophyceae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpjier4y_8/combined_18S.eukarya.tax.Pelagophyceae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pelagophyceae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpjier4y_8/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

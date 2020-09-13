@@ -683,7 +683,7 @@ def get_map_ratio(query_alignment, ref_alignment, placements):
             
 #%% Define euk refs as needed.
     
-euk_reps = {'Ochrophyta':'EU247834.1.1720_U',
+euk_reps = {'Ochrophyta':'AY229897.1.1739_U',
             'Dinoflagellata':'FJ549370.1.1796_U'}
 
 #%% Execute main program.
@@ -875,13 +875,57 @@ if 'query' not in list(command_args.keys()):
         pr2 = pr2[pr2.reference_sequence == 1]
         pr2.dropna(subset = ['pr2_accession'], inplace = True)
         
-        ## customize the divisions
+        ## Selecting different taxonomic levels to include. Taxonomic levels
+        ## can be grouped where necessary using "|"
         
-        pr2_divisions = pr2.division.unique()
-        pr2_divisions = np.array_split(pr2_divisions, len(pr2_divisions))
-        pr2_divisions.remove('Chlorophyta')
-        pr2_divisions.remove('Streptophyta')
-        pr2_divisions.append(['Chlorophyta', 'Streptophyta'])
+        pr2_units = {'Chlorophyta__Streptophyta':'division',
+                     'Dinophyceae':'class',
+                     'Syndiniales':'class',
+                     'Oxyrrhea':'class',
+                     'Noctilucophyceae':'class',
+                     'Phaeophyceae':'class',
+                     'Chrysophyceae':'class',
+                     'Pelagophyceae':'class',
+                     'Bacillariophyta':'class',
+                     'Bolidophyceae':'class',
+                     'Synurophyceae':'class',
+                     'Ochrophyta_X':'class',
+                     'Raphidophyceae':'class',
+                     'Chrysomerophyceae':'class',
+                     'Eustigmatophyceae':'class',
+                     'Xanthophyceae':'class',
+                     'Dictyochophyceae':'class',
+                     'Pinguiophyceae':'class',
+                     'Aurearenophyceae':'class',
+                     'MOCH-2':'class',
+                     'Phaeothamniophyceae':'class',
+                     'Picophagea':'class',
+                     'Ciliophora':'division',
+                     'Discoba':'division',
+                     'Cercozoa':'division',
+                     'Apusomonadidae':'division',
+                     'Conosa':'division',
+                     'Rhodophyta':'division',
+                     'Cryptophyta':'division',
+                     'Apicomplexa':'division',
+                     'Radiolaria':'division',
+                     'Perkinsea':'division',
+                     'Lobosa':'division',
+                     'Opalozoa':'division',
+                     'Picozoa':'division',
+                     'Pseudofungi':'division',
+                     'Sagenista':'division',
+                     'Telonemia':'division',
+                     'Hilomonadea':'division',
+                     'Malawimonadidae':'division',
+                     'Metamonada':'division',
+                     'Katablepharidophyta':'division',
+                     'Glaucophyta':'division',
+                     'Centroheliozoa':'division',
+                     'Hacrobia_X':'division',
+                     'Alveolata_X':'division',
+                     'Breviatea':'division',
+                     'Haptophyta':'division'}
 
         ## create a fasta file for each target clade
 
@@ -890,16 +934,18 @@ if 'query' not in list(command_args.keys()):
         with open(prefix_16S + '.div_reps.fasta', 'w') as rep_out:
             i = 0
             
-            for tc in pr2_divisions:
+            for tc_name in pr2_units.keys():
+                
+                tax_level = pr2_units[tc_name]
+                tc = tc_name.split('__')
                 j = 0
                 
-                temp = pr2[pr2.division.isin(tc)]
+                temp = pr2[pr2[tax_level].isin(tc)]
                 
                 ## If euk rep is pre-determined for a given clade, identify
                 ## here.
                 
-                tc_name = '_'.join(tc)
-                pr2.loc[pr2.division.isin(tc), 'subtree'] = tc_name
+                pr2.loc[pr2[tax_level].isin(tc), 'subtree'] = tc_name
                 
                 try:
                     rep_seq_id = euk_reps[tc_name]
@@ -936,11 +982,11 @@ if 'query' not in list(command_args.keys()):
             
             subprocess.call('rm -f ' + ref_dir_domain + '*raxml*', shell = True, executable = executable)
             
-            #if nseqs > 3:
+            if nseqs > 3:
                 
             ## This option is for optimizing specific trees.
             
-            if fasta == 'div_reps':
+            #if fasta == 'div_reps':
      
             ## build trees
             

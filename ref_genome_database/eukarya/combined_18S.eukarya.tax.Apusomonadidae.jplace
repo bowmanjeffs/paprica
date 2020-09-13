@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [13, -9109.6395613640, 1.0000000000, 0.3232361675, 0.1598922541]
+      [3, -9215.9160724421, 0.9996140070, 0.0159717916, 0.2754665786]
       ],
-    "n": ["test_Dinoflagellata"]
+    "n": ["test_Chlorophyta__Streptophyta"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp1foabtn3/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Apusomonadidae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp1foabtn3/combined_18S.eukarya.tax.Apusomonadidae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Apusomonadidae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp1foabtn3/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpkhcmfmyy/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Apusomonadidae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpkhcmfmyy/combined_18S.eukarya.tax.Apusomonadidae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Apusomonadidae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpkhcmfmyy/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

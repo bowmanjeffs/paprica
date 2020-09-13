@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [1206, -224524.7274615648, 1.0000000000, 0.1661505222, 0.5065512465]
+      [1206, -224449.4192698956, 1.0000000000, 0.1514574359, 0.8067951113]
       ],
-    "n": ["test_Dinoflagellata"]
+    "n": ["test_Chlorophyta__Streptophyta"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpdptq_xud/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Ciliophora.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpdptq_xud/combined_18S.eukarya.tax.Ciliophora.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Ciliophora.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpdptq_xud/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp_vn5vmm2/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Ciliophora.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp_vn5vmm2/combined_18S.eukarya.tax.Ciliophora.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Ciliophora.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp_vn5vmm2/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }
