@@ -684,7 +684,8 @@ def get_map_ratio(query_alignment, ref_alignment, placements):
 #%% Define euk refs as needed.
     
 euk_reps = {'Ochrophyta':'AY229897.1.1739_U',
-            'Dinoflagellata':'FJ549370.1.1796_U'}
+            'Dinoflagellata':'FJ549370.1.1796_U',
+            'Chlorophyta__Streptophyta':'AF506698.1.1787_U'}
 
 #%% Execute main program.
     

@@ -165,7 +165,7 @@ def split_fasta(file_in, nsplits):
 #%% Define a function to run cmscan
 
 def run_cmscan(split_in):   
-    os.system('cmscan --cpu 1 --tblout ' + split_in + '.txt ' + paprica_path + 'models/all_domains.cm ' + split_in + '.fasta > /dev/null')
+    os.system('cmscan --toponly --cpu 1 --tblout ' + split_in + '.txt ' + paprica_path + 'models/all_domains.cm ' + split_in + '.fasta > /dev/null')
     
 #%% Define a function to create a unique fasta file from the input.
             
