@@ -8,7 +8,7 @@
 [Annotating metagenomes with paprica-mg](http://www.polarmicrobes.org/tutorial-annotating-metagenomes-with-paprica-mg/) (not yet updated)
 [Building the paprica database](http://www.polarmicrobes.org/building-the-paprica-database/) (not yet updated)
 
-## We are in the midst of a major update to paprica that will provide a number of improvements.  The documentation and tutorials will lag the code development, but the basic commands and structure of the output are similar.  I encourage you to try the latest code by cloning the repository, and to create an issue if you encounter any problems.
+## We just completed a major update to paprica that provided a number of improvements.  The documentation and tutorials will lag the code development, but the basic commands and structure of the output are similar.  I encourage you to try the latest code by cloning the repository, and to create an issue if you encounter any problems.
 
 ## Alternatively you can go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
