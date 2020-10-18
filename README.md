@@ -4,7 +4,7 @@
 ## Notice - If you've been redirected here from genome_finder you're in the right place!  Please take a look at the [Wiki](https://github.com/bowmanjeffs/paprica/wiki) for documentation.  There are also several tutorials available:
 [Installing paprica on Mac OSX](http://www.polarmicrobes.org/installing-paprica-on-mac-osx/) (updated) 
 [Basic analysis with paprica](http://www.polarmicrobes.org/analysis-with-paprica/) (updated)
-[Heatmaps and ordination with paprica output](https://www.polarmicrobes.org/tutorial-basic-heatmaps-and-ordination-with-paprica-output) (not yet updated)
+[Heatmaps and ordination with paprica output](https://www.polarmicrobes.org/tutorial-basic-heatmaps-and-ordination-with-paprica-output) (updated)
 [Annotating metagenomes with paprica-mg](http://www.polarmicrobes.org/tutorial-annotating-metagenomes-with-paprica-mg/) (not yet updated)
 [Building the paprica database](http://www.polarmicrobes.org/building-the-paprica-database/) (not yet updated)
 
