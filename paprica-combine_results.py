@@ -64,11 +64,6 @@ try:
 except KeyError:
     edge_suffix = domain + '.edge_data.csv'
     
-try:
-    cwd = command_args['d']
-except KeyError:
-    cwd = '.'
-    
 if domain != 'eukarya':
     
     try:
@@ -81,16 +76,16 @@ if domain != 'eukarya':
     except KeyError:
         ec_suffix = domain + '.sum_ec.csv'
         
-cwd = cwd + '/'
+cwd = os.getcwd() + '/'
 prefix = cwd + prefix
             
 ## Delete old combined files, so that
 ## the script doesn't try to include them.
 
-os.system('rm -f ' + prefix + '.edge_tally.csv')
-os.system('rm -f ' + prefix + '.edge_data.csv')
-os.system('rm -f ' + prefix + '.path_tally.csv')
-os.system('rm -f ' + prefix + '.ec_tally.csv')
+os.system('rm -f ' + prefix + '.' + domain + '.edge_tally.csv')
+os.system('rm -f ' + prefix + '.' + domain + '.edge_data.csv')
+os.system('rm -f ' + prefix + '.' + domain + '.path_tally.csv')
+os.system('rm -f ' + prefix + '.' + domain + '.ec_tally.csv')
     
 def stop_here():
     stop = []
@@ -195,12 +190,39 @@ if domain != 'eukarya':
 ## Make combined unique file
 
 unique_tally = pd.DataFrame()
+unique_edge_num = {}
 
 for f in os.listdir(cwd):
     if f.endswith(unique_suffix):
         name = re.sub(unique_suffix, '', f)
-        temp_unique = pd.read_csv(cwd + f, index_col = 0, usecols = ['identifier', 'abundance_corrected'])
-        temp_unique.columns = [name]
-        unique_tally = pd.concat([unique_tally, temp_unique], axis = 1, sort = True)
+        temp_unique = pd.read_csv(cwd + f, index_col = None)
+        temp_unique['seq'] = temp_unique['identifier'].str.split('|', expand = True).iloc[:,0]
+        temp_unique.set_index('seq', inplace = True)
+        
+        for seq in temp_unique.index:
+            try:
+                temp_edge = unique_edge_num[seq]
+                if temp_unique.loc[seq, 'global_edge_num'] not in temp_edge:
+                    temp_edge.append(temp_unique.loc[seq, 'global_edge_num'])
+            except KeyError:
+                unique_edge_num[seq] = [temp_unique.loc[seq, 'global_edge_num']]
+        
+        unique_tally = pd.concat([unique_tally, temp_unique.abundance_corrected], axis = 1, sort = True)
+        unique_tally.rename({'abundance_corrected':name})
     
-pd.DataFrame.to_csv(unique_tally.transpose(), prefix + '.' + domain + '.unique_tally.csv') 
+pd.DataFrame.to_csv(unique_tally.transpose(), prefix + '.' + domain + '.unique_tally.csv')
+
+## Write out a file mapping unique sequences to edges.  This is useful for identifying those sequences that
+## placed to different edges in different samples.  These sequences should be manually curated for correct
+## taxonomy.  Those sequences that placed to multiple edges will be listed first to make them easy to find.
+
+with open(prefix + '.' + domain + '.seq_edge_map.csv', 'w') as seq_edge_out:
+    for key in unique_edge_num.keys():
+        if len(unique_edge_num[key]) > 1:
+            temp_str = key + ',' + str(unique_edge_num[key]).strip('[]')
+            print(temp_str, file = seq_edge_out)
+    for key in unique_edge_num.keys():
+        if len(unique_edge_num[key]) == 1:
+            temp_str = key + ',' + str(unique_edge_num[key]).strip('[]')
+            print(temp_str, file = seq_edge_out)                
+        
