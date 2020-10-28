@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [879, -185377.1414553123, 1.0000000000, 0.7409544802, 1.5395078625]
+      [879, -185955.7580955022, 1.0000000000, 0.7294010742, 1.5492718738]
       ],
-    "n": ["test_Proteobacteria"]
+    "n": ["test_Proteobacteria_9"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpohqmys8b/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Firmicutes.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpohqmys8b/combined_16S.bacteria.tax.Firmicutes.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Firmicutes.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpohqmys8b/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpe_9qtji7/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Firmicutes.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpe_9qtji7/combined_16S.bacteria.tax.Firmicutes.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Firmicutes.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpe_9qtji7/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

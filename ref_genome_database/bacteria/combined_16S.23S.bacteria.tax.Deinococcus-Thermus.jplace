@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [49, -12823.4945704869, 1.0000000000, 0.1378678345, 1.4847302208]
+      [49, -12830.9881068019, 1.0000000000, 0.1302756619, 1.4869518947]
       ],
-    "n": ["test_Proteobacteria"]
+    "n": ["test_Proteobacteria_9"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpj35halnx/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Deinococcus-Thermus.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpj35halnx/combined_16S.bacteria.tax.Deinococcus-Thermus.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Deinococcus-Thermus.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpj35halnx/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpasq4mnlg/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Deinococcus-Thermus.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpasq4mnlg/combined_16S.bacteria.tax.Deinococcus-Thermus.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Deinococcus-Thermus.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpasq4mnlg/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

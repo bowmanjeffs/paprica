@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [5, -5421.0637526520, 1.0000000000, 2.7712210000, 18.1138785746]
+      [5, -5434.8776620211, 1.0000000000, 2.7712210000, 19.1267200352]
       ],
-    "n": ["test_Proteobacteria"]
+    "n": ["test_Proteobacteria_9"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp09a7fu81/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp09a7fu81/combined_16S.bacteria.tax.Candidatus_Saccharibacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp09a7fu81/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp1cqxcmyr/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp1cqxcmyr/combined_16S.bacteria.tax.Candidatus_Saccharibacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp1cqxcmyr/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

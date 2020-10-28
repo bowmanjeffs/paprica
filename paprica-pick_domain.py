@@ -261,20 +261,24 @@ with open(cwd + prefix + '.bacterial16S.reads.txt', 'w') as bacteria_out, open(c
             e_min = temp
             domain = temp['target.name']  
             
-        ## If the bit score exceeds the specified minimum add to appropriate
-        ## domain list.
+        ## If the bit score exceeds the specified minimum, add to appropriate
+        ## domain list.  The try clause is necessary because very rarely a 
+        ## read wil fail and NAs will be present in all columns of scan
             
-        if float(e_min['score']) > min_score:
-            if 'bacteria' in str(domain):
-                print(index, file=bacteria_out)
-                bacteria_set.append(index)
-            elif 'archaea' in str(domain):
-                print(index, file=archaea_out) 
-                archaea_set.append(index)
-            elif 'eukarya' in str(domain):
-                print(index, file=eukarya_out)
-                eukarya_set.append(index)
-            
+        try:
+            if float(e_min['score']) > min_score:
+                if 'bacteria' in str(domain):
+                    print(index, file=bacteria_out)
+                    bacteria_set.append(index)
+                elif 'archaea' in str(domain):
+                    print(index, file=archaea_out) 
+                    archaea_set.append(index)
+                elif 'eukarya' in str(domain):
+                    print(index, file=eukarya_out)
+                    eukarya_set.append(index)
+        except TypeError:
+            continue
+                                
 bacteria_set = set(bacteria_set)
 archaea_set = set(archaea_set)
 eukarya_set = set(eukarya_set)

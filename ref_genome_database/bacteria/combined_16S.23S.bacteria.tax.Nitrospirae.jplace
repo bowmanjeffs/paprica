@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [5, -6174.8125502198, 1.0000000000, 0.1758583102, 0.5999019806]
+      [5, -6190.3131527063, 1.0000000000, 0.1784615823, 0.5987239316]
       ],
-    "n": ["test_Proteobacteria"]
+    "n": ["test_Proteobacteria_9"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmppfl1pisx/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Nitrospirae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmppfl1pisx/combined_16S.bacteria.tax.Nitrospirae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Nitrospirae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmppfl1pisx/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpir07ds2k/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Nitrospirae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpir07ds2k/combined_16S.bacteria.tax.Nitrospirae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Nitrospirae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpir07ds2k/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

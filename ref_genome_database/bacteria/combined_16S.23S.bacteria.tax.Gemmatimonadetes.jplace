@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [0, -4306.8009800145, 1.0000000000, 0.0000500000, 0.5956616264]
+      [0, -4331.5404941581, 1.0000000000, 0.0000500000, 0.6506248419]
       ],
-    "n": ["test_Proteobacteria"]
+    "n": ["test_Proteobacteria_9"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmphhyhvbc4/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Gemmatimonadetes.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmphhyhvbc4/combined_16S.bacteria.tax.Gemmatimonadetes.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Gemmatimonadetes.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmphhyhvbc4/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpq6dhqyye/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Gemmatimonadetes.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpq6dhqyye/combined_16S.bacteria.tax.Gemmatimonadetes.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Gemmatimonadetes.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpq6dhqyye/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

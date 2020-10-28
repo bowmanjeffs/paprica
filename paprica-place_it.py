@@ -116,7 +116,7 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'eukarya'
+    domain = 'bacteria'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
@@ -135,8 +135,8 @@ except KeyError:
 ## No default is currently provided for query.
     
 if len(sys.argv) == 1:
-    query = 'test.' + domain
-    #command_args['query'] = query
+    query = 'big_test_16S.' + domain
+    command_args['query'] = query
 
 ## Figure out an appropriate number of cores for building trees.
 
@@ -355,7 +355,8 @@ def classify_ref(ref_dir_domain):
     import numpy as np
     
     ncbi = NCBITaxa()
-    ncbi.update_taxonomy_database() 
+    #!!! uncomment this line when done!
+    #ncbi.update_taxonomy_database() 
     summary_complete = pd.read_csv(ref_dir_domain + 'genome_data.csv.gz', header = 0, index_col = 0)
     
     #!!! This statement will be unnecessary after checking that summary-complete
@@ -592,7 +593,7 @@ def json_to_csv(jplace, subtree_ref):
     tree = re.sub('{', '[', tree)
     tree = re.sub('}', ']', tree)
     tree = Phylo.read(StringIO(tree), 'newick') 
-    
+        
     ref_seqs = pd.DataFrame(columns = ['ref_name'])
     subtree = subtree_ref
     
@@ -680,6 +681,40 @@ def get_map_ratio(query_alignment, ref_alignment, placements):
             placements.loc[record.id, 'origin'] = query_alignment
         
     return(placements)
+
+## Define function to map nodes to subtrees in the master tree.
+    
+def map_master_tree(jplace):
+    
+    master_map = {}
+    
+    with open(jplace, 'r') as jfile:
+        data = json.load(jfile)
+        
+    tree = data['tree']
+    tree = re.sub('{', '[', tree)
+    tree = re.sub('}', ']', tree)
+    tree = Phylo.read(StringIO(tree), 'newick') 
+        
+    for clade in tree.get_terminals():
+        clade_name = ''.join(clade.name.split('_')[:-1])
+        master_map[clade.comment] = clade_name
+            
+    for clade in tree.get_nonterminals():
+        temp_subtrees = set()
+        
+        for terminal in clade.get_terminals():
+            terminal_name = ''.join(terminal.name.split('_')[:-1])
+            temp_subtrees.add(terminal_name)
+        
+        if len(temp_subtrees) == 1:
+            
+            ## Then all terminal edges in clade belong to same subtree.
+            
+            clade_name = list(temp_subtrees)[0]
+            master_map[clade.comment] = clade_name
+
+    return(master_map)
             
 #%% Define euk refs as needed.
     
@@ -787,8 +822,14 @@ if 'query' not in list(command_args.keys()):
                     phylum_taxids = set(ref_lineages.index[ref_lineages.phylum == phylum])
                     phylum_seqids = genome_data.loc[genome_data['taxid'].isin(phylum_taxids)].tax_name
                     
-                    rep_seq = phylum_seqids[random.randrange(len(phylum_seqids))]                
+                    ## Select at most 10 random sequences for each phyla.
+                    
                     phylum_seqids = set(phylum_seqids)
+                    
+                    try:
+                        rep_seqs = random.sample(phylum_seqids, 10)
+                    except ValueError:
+                        rep_seqs = random.sample(phylum_seqids, len(phylum_seqids))
                                     
                     ## Now iterate across combined_16S.fasta and create phylum level
                     ## fastas and fasta of representatives. It's inefficient to iterate 
@@ -799,13 +840,16 @@ if 'query' not in list(command_args.keys()):
                     phylum = re.sub(' ', '_', phylum)
                     genome_data.loc[genome_data['taxid'].isin(phylum_taxids), 'subtree'] = phylum
                     
+                    #!!! would write out multiple reps here.  would want to
+                    #!!! label reps as phylum_1, phylum_2...
+                    
                     with open(prefix_16S + '.' + phylum + '.fasta', 'w') as fasta_out_16S:
                         for record in SeqIO.parse(prefix_16S + '.fasta', 'fasta'):
                             if record.description in phylum_seqids:
                                 j += 1
                                 SeqIO.write(record, fasta_out_16S, 'fasta')
-                            if record.description == rep_seq:
-                                record.id = phylum
+                            if record.description in rep_seqs:
+                                record.id = phylum + '_' + str(rep_seqs.index(record.description))
                                 record.description = ''
                                 i += 1
                                 SeqIO.write(record, reps_out_16S, 'fasta')
@@ -814,8 +858,8 @@ if 'query' not in list(command_args.keys()):
                         for record in SeqIO.parse(prefix_23S + '.fasta', 'fasta'):
                             if record.description in phylum_seqids:
                                 SeqIO.write(record, fasta_out_23S, 'fasta')
-                            if record.description == rep_seq:
-                                record.id = phylum
+                            if record.description in rep_seqs:
+                                record.id = phylum + '_' + str(rep_seqs.index(record.description))
                                 record.description = ''
                                 SeqIO.write(record, reps_out_23S, 'fasta')
                                                             
@@ -1186,24 +1230,56 @@ else:
         ## If the domain is either bacteria or eukarya then placement to
         ## subtrees is necessary.
         
-        ## 
+        ## First parse the master tree, mapping nodes to subtrees.
+    
+        master_map = map_master_tree(temp_dir + query + '.' + phylum_ref + '.jplace')
         
-        for subtree in placements.ref_name.unique():
+        ## Then create a fasta file of query reads for each subtree.
+        
+        subtrees = set()
+        
+        for ref_name in placements.ref_name.unique():
+            if pd.notnull(ref_name):
+                ref_name = ''.join(str.split(ref_name, '_')[:-1])
+            subtrees.add(ref_name)
+        
+        for subtree in subtrees:
             if pd.notnull(subtree):
                 
                 with open(cwd + subtree + '_' + query + '.clean.unique.fasta', 'w') as subtree_out:
                     for record in SeqIO.parse(query + '.clean.unique.fasta', 'fasta'):
-                        if placements.loc[record.id, 'ref_name'] == subtree:
-                            SeqIO.write(record, subtree_out, 'fasta')  
+                        try:
+                            edge_num = placements.loc[record.id, 'global_edge_num']
+                            edge_num = edge_num.split('_')[-1]
+                            edge_subtree = master_map[edge_num]
+                            
+                            if subtree == edge_subtree:
+                                SeqIO.write(record, subtree_out, 'fasta')
+                                
+                        except KeyError:
+                            
+                            ## This happens when placements.ref_name == nan,
+                            ## indicating internal placement on master tree.
+                            ## No action to be taken here, as those reads will
+                            ## be captured with the subtree == nan iteration.
+                            
+                            continue
             else:
                 with open(cwd + 'nosubtree_' + query + '.clean.unique.fasta', 'w') as subtree_out:
                     for record in SeqIO.parse(query + '.clean.unique.fasta', 'fasta'):
-                        if pd.isnull(placements.loc[record.id, 'ref_name']):
+                        try:
+                            edge_num = placements.loc[record.id, 'global_edge_num']
+                            edge_num = edge_num.split('_')[-1]
+                            edge_subtree = master_map[edge_num]
+                            
+                        except KeyError:
                             SeqIO.write(record, subtree_out, 'fasta') 
+                            
+        ## Then carry out the subtree analysis.
                             
         combined_subtrees = pd.DataFrame()
                         
-        for subtree in placements.ref_name.unique():
+        for subtree in subtrees:
             if subtree in available_trees:
                 if pd.notnull(subtree):
                     
