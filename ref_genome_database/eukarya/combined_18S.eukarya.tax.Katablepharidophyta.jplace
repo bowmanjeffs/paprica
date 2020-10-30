@@ -6,10 +6,10 @@
       [0, -4543.6406957381, 0.8586080447, 0.0197360630, 0.2779663185],
       [3, -4545.4444724045, 0.1413919553, 0.0180844636, 0.2852999058]
       ],
-    "n": ["test_Chlorophyta__Streptophyta"]
+    "n": ["test_Chlorophyta__Streptophyta_0"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpjrcknc1q/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Katablepharidophyta.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpjrcknc1q/combined_18S.eukarya.tax.Katablepharidophyta.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Katablepharidophyta.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpjrcknc1q/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpx306tizd/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Katablepharidophyta.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpx306tizd/combined_18S.eukarya.tax.Katablepharidophyta.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Katablepharidophyta.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpx306tizd/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

@@ -116,7 +116,7 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'bacteria'
+    domain = 'eukarya'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
@@ -135,7 +135,7 @@ except KeyError:
 ## No default is currently provided for query.
     
 if len(sys.argv) == 1:
-    query = 'big_test_16S.' + domain
+    query = 'big_test_18S.' + domain
     command_args['query'] = query
 
 ## Figure out an appropriate number of cores for building trees.
@@ -987,21 +987,32 @@ if 'query' not in list(command_args.keys()):
                 
                 temp = pr2[pr2[tax_level].isin(tc)]
                 
-                ## If euk rep is pre-determined for a given clade, identify
-                ## here.
-                
                 pr2.loc[pr2[tax_level].isin(tc), 'subtree'] = tc_name
                 
+                ## Identify 10 representatives for this clade, or if < 10 members
+                ## in clade select all members.
+                
+                try:
+                    rep_seqs = temp.iloc[random.sample(range(0, temp.shape[0]), 10),:]
+                except ValueError:
+                    rep_seqs = temp  
+                    
+                ## If euk rep is pre-determined for this clade, identify
+                ## here.
+                    
                 try:
                     rep_seq_id = euk_reps[tc_name]
-                    rep_seq = temp.loc[temp['pr2_accession'] == rep_seq_id,:].iloc[0]
+                    
+                    if rep_seq_id not in rep_seqs['pr2_accession']:
+                        rep_seqs = pd.concat([rep_seqs, temp.loc[temp['pr2_accession'] == rep_seq_id]])
+
                 except KeyError:
-                    rep_seq_i = random.randrange(temp.shape[0])
-                    rep_seq = temp.iloc[rep_seq_i,:]
+                    rep_seq_id = None
                 
-                print('>' + tc_name, file = rep_out)
-                print(rep_seq.sequence, file = rep_out)
-                i += 1
+                for index, row in rep_seqs.iterrows():
+                    print('>' + tc_name + '_' + str(i), file = rep_out)
+                    print(row.sequence, file = rep_out)
+                    i += 1
                 
                 with(open(prefix_16S + '.' + tc_name + '.fasta', 'w')) as fasta_out:
                     for index, row in temp.iterrows():
@@ -1027,16 +1038,16 @@ if 'query' not in list(command_args.keys()):
             
             subprocess.call('rm -f ' + ref_dir_domain + '*raxml*', shell = True, executable = executable)
             
-            if nseqs > 3:
+            #if nseqs > 3:
                 
             ## This option is for optimizing specific trees.
             
-            #if fasta == 'div_reps':
+            if fasta == 'div_reps':
      
             ## build trees
             
                 parse_alignment(prefix_16S + '.' + fasta, None)   
-                Parallel(n_jobs = 12, verbose = 5)(delayed(run_raxml)
+                Parallel(n_jobs = 24, verbose = 5)(delayed(run_raxml)
                   (i, prefix_16S + '.' + fasta, prefix_16S + '.' + fasta + '.raxml.rba', 1) for i in range(1, 25))                
                 best_tree(prefix_16S + '.' + fasta, 24, partition = False)
                 
@@ -1188,7 +1199,7 @@ else:
           temp_dir + query + '.' + ref + '.' + phylum_ref + '.clean.unique.align.sto',
           cm16S)
     
-    ## Eukara is not a partitioned alignment.
+    ## Eukarya is not a partitioned alignment.
             
     if domain == 'eukarya':
         part_file = None
