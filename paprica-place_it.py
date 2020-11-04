@@ -555,7 +555,7 @@ def place(query_alignment, ref_alignment, model, tree, temp_dir):
     ## model: *bestModel
     ## tree: *final.bestTree
     ## file_out: name for final jplace file, traditionally query + '.' + ref + '.clean.unique.align.jplace'
-    
+        
     subprocess.call('epa-ng --redo -q ' + temp_dir + query_alignment + ' \
     --model ' + model + ' \
     -s ' + temp_dir + ref_alignment + ' \
