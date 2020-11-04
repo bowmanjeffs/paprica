@@ -190,7 +190,7 @@ if domain != 'eukarya':
 ## Make combined unique file
 
 unique_tally = pd.DataFrame()
-unique_edge_num = {}
+unique_edge_abund = pd.DataFrame() # index = seqs, cols = edges
 
 for f in os.listdir(cwd):
     if f.endswith(unique_suffix):
@@ -200,29 +200,29 @@ for f in os.listdir(cwd):
         temp_unique.set_index('seq', inplace = True)
         
         for seq in temp_unique.index:
+                
             try:
-                temp_edge = unique_edge_num[seq]
-                if temp_unique.loc[seq, 'global_edge_num'] not in temp_edge:
-                    temp_edge.append(temp_unique.loc[seq, 'global_edge_num'])
+                unique_edge_abund.loc[seq,  temp_unique.loc[seq, 'global_edge_num']] += temp_unique.loc[seq, 'abundance_corrected']
             except KeyError:
-                unique_edge_num[seq] = [temp_unique.loc[seq, 'global_edge_num']]
-        
+                unique_edge_abund.loc[seq,  temp_unique.loc[seq, 'global_edge_num']] = temp_unique.loc[seq, 'abundance_corrected']
+                        
         unique_tally = pd.concat([unique_tally, temp_unique.abundance_corrected], axis = 1, sort = True)
         unique_tally.rename(columns = {'abundance_corrected':name}, inplace = True)
     
 pd.DataFrame.to_csv(unique_tally.transpose(), prefix + '.' + domain + '.unique_tally.csv')
+pd.DataFrame.to_csv(unique_edge_abund, prefix + '.' + domain + '.unique_edge_abund.csv')
 
 ## Write out a file mapping unique sequences to edges.  This is useful for identifying those sequences that
-## placed to different edges in different samples.  These sequences should be manually curated for correct
-## taxonomy.  Those sequences that placed to multiple edges will be listed first to make them easy to find.
+## placed to different edges in different samples.  
 
-with open(prefix + '.' + domain + '.seq_edge_map.csv', 'w') as seq_edge_out:
-    for key in unique_edge_num.keys():
-        if len(unique_edge_num[key]) > 1:
-            temp_str = key + ',' + str(unique_edge_num[key]).strip('[]')
-            print(temp_str, file = seq_edge_out)
-    for key in unique_edge_num.keys():
-        if len(unique_edge_num[key]) == 1:
-            temp_str = key + ',' + str(unique_edge_num[key]).strip('[]')
-            print(temp_str, file = seq_edge_out)                
+seq_edge_map = pd.DataFrame()
+
+for i,r in unique_edge_abund.iterrows():
+    seq_edge_map.loc[r.name, 'global_edge_num'] =  r.idxmax(skipna = True)
+    seq_edge_map.loc[r.name, 'proportion_placed'] = r.max() / r.sum()
+
+pd.DataFrame.to_csv(seq_edge_map, prefix + '.' + domain + '.seq_edge_map.csv')
+
+#!!! excellent, working!  but can you add this information to more useful location? 
+#!!! a very useful diagnostic would be to have the proportion of reads mapped to this edge            
         
