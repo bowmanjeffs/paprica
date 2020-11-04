@@ -208,7 +208,7 @@ for f in os.listdir(cwd):
                 unique_edge_num[seq] = [temp_unique.loc[seq, 'global_edge_num']]
         
         unique_tally = pd.concat([unique_tally, temp_unique.abundance_corrected], axis = 1, sort = True)
-        unique_tally.rename({'abundance_corrected':name}, inplace = True)
+        unique_tally.rename(columns = {'abundance_corrected':name}, inplace = True)
     
 pd.DataFrame.to_csv(unique_tally.transpose(), prefix + '.' + domain + '.unique_tally.csv')
 
