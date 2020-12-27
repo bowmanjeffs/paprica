@@ -1,0 +1,14 @@
+{
+  "tree": "((GCF_000266925.1|Acetomicrobium_mobile_DSM_13181_strain_DSM_13181:0.1917220000{0},GCF_000233775.1|Thermovirga_lienii_DSM_17291_strain_DSM_17291:0.0969540000{1}):0.0387240000{2},(GCF_001701045.1|Cloacibacillus_porcorum_strain_CL-84__T_:0.2349130000{3},GCF_000024905.1|Thermanaerovibrio_acidaminovorans_DSM_6589_strain_DSM_6589:0.1154450000{4}):0.0599380000{5},GCF_000025885.1|Aminobacterium_colombiense_DSM_12261_strain_DSM_12261:0.1459850000{6});",
+  "placements": 
+  [
+    {"p": [
+      [3, -5626.6933181711, 1.0000000000, 0.0911929090, 1.6731985981]
+      ],
+    "n": ["test_Proteobacteria_6"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpvnxigk8e/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Synergistetes/combined_16S.23S.bacteria.tax.Synergistetes.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpvnxigk8e/combined_16S.bacteria.tax.Synergistetes.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Synergistetes/combined_16S.23S.bacteria.tax.Synergistetes.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpvnxigk8e/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

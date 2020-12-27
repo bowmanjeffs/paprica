@@ -1,0 +1,123 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 26-Dec-2020 22:01:48 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.div_reps.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.div_reps --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1609048908
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.div_reps.raxml.rba
+[00:00:00] Alignment comprises 630 taxa, 1 partitions and 1717 patterns
+
+Partition 0: noname
+Model: GTR+FO+G4m
+Alignment sites / patterns: 1957 / 1717
+Gaps: 45.08 %
+Invariant sites: 21.10 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 630 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 630 taxa
+[00:00:02] Data distribution: max. partitions/sites/weight per thread: 1 / 859 / 13744
+[00:00:02] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:04 -355413.832516] Initial branch length optimization
+[00:00:06 -314348.462749] Model parameter optimization (eps = 10.000000)
+[00:00:42 -298860.201298] AUTODETECT spr round 1 (radius: 5)
+[00:01:13 -261415.866333] AUTODETECT spr round 2 (radius: 10)
+[00:01:56 -209606.777280] AUTODETECT spr round 3 (radius: 15)
+[00:02:49 -182804.833320] AUTODETECT spr round 4 (radius: 20)
+[00:04:31 -175701.496300] AUTODETECT spr round 5 (radius: 25)
+[00:06:30 -175667.310707] SPR radius for FAST iterations: 25 (autodetect)
+[00:06:30 -175667.310707] Model parameter optimization (eps = 3.000000)
+[00:06:38 -175393.678430] FAST spr round 1 (radius: 25)
+[00:07:46 -162420.160814] FAST spr round 2 (radius: 25)
+[00:08:37 -161850.864657] FAST spr round 3 (radius: 25)
+[00:09:11 -161801.226465] FAST spr round 4 (radius: 25)
+[00:09:38 -161788.415586] FAST spr round 5 (radius: 25)
+[00:10:02 -161788.414929] Model parameter optimization (eps = 1.000000)
+[00:10:08 -161768.710499] SLOW spr round 1 (radius: 5)
+[00:11:01 -161708.680246] SLOW spr round 2 (radius: 5)
+[00:11:50 -161684.358820] SLOW spr round 3 (radius: 5)
+[00:12:39 -161684.358529] SLOW spr round 4 (radius: 10)
+[00:13:33 -161678.726808] SLOW spr round 5 (radius: 5)
+[00:14:43 -161674.448609] SLOW spr round 6 (radius: 5)
+[00:15:37 -161674.448099] SLOW spr round 7 (radius: 10)
+[00:16:36 -161674.415633] SLOW spr round 8 (radius: 15)
+[00:19:51 -161674.415250] SLOW spr round 9 (radius: 20)
+[00:24:17] [worker #4] ML tree search #5, logLikelihood: -161725.193034
+[00:24:24 -161674.415220] SLOW spr round 10 (radius: 25)
+[00:24:32] [worker #11] ML tree search #12, logLikelihood: -161665.460288
+[00:26:29] [worker #1] ML tree search #2, logLikelihood: -161653.784394
+[00:28:09 -161674.415218] Model parameter optimization (eps = 0.100000)
+
+[00:28:11] [worker #0] ML tree search #1, logLikelihood: -161674.297086
+
+[00:28:34] [worker #16] ML tree search #17, logLikelihood: -161661.146699
+[00:29:02] [worker #17] ML tree search #18, logLikelihood: -161672.766613
+[00:29:04] [worker #10] ML tree search #11, logLikelihood: -161677.218653
+[00:29:52] [worker #2] ML tree search #3, logLikelihood: -161661.637533
+[00:29:56] [worker #13] ML tree search #14, logLikelihood: -161686.350710
+[00:30:56] [worker #8] ML tree search #9, logLikelihood: -161692.132467
+[00:31:22] [worker #15] ML tree search #16, logLikelihood: -161662.471967
+[00:31:28] [worker #9] ML tree search #10, logLikelihood: -161669.458730
+[00:32:33] [worker #5] ML tree search #6, logLikelihood: -161661.325233
+[00:33:33] [worker #6] ML tree search #7, logLikelihood: -161701.478299
+[00:34:45] [worker #7] ML tree search #8, logLikelihood: -161686.029652
+[00:35:01] [worker #3] ML tree search #4, logLikelihood: -161670.042877
+[00:35:44] [worker #12] ML tree search #13, logLikelihood: -161671.385124
+[00:39:47] [worker #14] ML tree search #15, logLikelihood: -161673.675235
+
+Optimized model parameters:
+
+   Partition 0: noname
+   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.425718 (ML),  weights&rates: (0.250000,0.020593) (0.250000,0.200693) (0.250000,0.757675) (0.250000,3.021039) 
+   Base frequencies (ML): 0.204769 0.215601 0.272473 0.307157 
+   Substitution rates (ML): 1.036854 2.293632 1.279149 0.920385 2.755706 1.000000 
+
+
+Final LogLikelihood: -161653.784394
+
+AIC score: 325839.568788 / AICc score: 330488.907918 / BIC score: 332902.795434
+Free parameters (model + branch lengths): 1266
+
+WARNING: Best ML tree contains 50 near-zero branches!
+
+Best ML tree with collapsed near-zero branches saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.div_reps.raxml.bestTreeCollapsed
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.div_reps.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.div_reps.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.div_reps.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.div_reps.raxml.log
+
+Analysis started: 26-Dec-2020 22:01:48 / finished: 26-Dec-2020 22:41:35
+
+Elapsed time: 2387.058 seconds
+
+Consumed energy: 119.285 Wh
+

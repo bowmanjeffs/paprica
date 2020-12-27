@@ -1,0 +1,117 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 27-Dec-2020 02:49:05 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Haptophyta.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Haptophyta --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1609066145
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Haptophyta.raxml.rba
+[00:00:00] Alignment comprises 121 taxa, 1 partitions and 710 patterns
+
+Partition 0: noname
+Model: GTR+FO+G4m
+Alignment sites / patterns: 1772 / 710
+Gaps: 4.66 %
+Invariant sites: 61.23 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 121 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 121 taxa
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 1 / 355 / 5680
+[00:00:00] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:00 -52520.622496] Initial branch length optimization
+[00:00:00 -45382.977053] Model parameter optimization (eps = 10.000000)
+[00:00:01 -41517.386426] AUTODETECT spr round 1 (radius: 5)
+[00:00:02 -27686.208714] AUTODETECT spr round 2 (radius: 10)
+[00:00:03 -21381.181500] AUTODETECT spr round 3 (radius: 15)
+[00:00:05 -21123.816993] AUTODETECT spr round 4 (radius: 20)
+[00:00:07 -21123.807761] SPR radius for FAST iterations: 15 (autodetect)
+[00:00:07 -21123.807761] Model parameter optimization (eps = 3.000000)
+[00:00:08 -21097.047596] FAST spr round 1 (radius: 15)
+[00:00:10 -19636.814782] FAST spr round 2 (radius: 15)
+[00:00:11 -19527.486442] FAST spr round 3 (radius: 15)
+[00:00:12 -19526.340064] FAST spr round 4 (radius: 15)
+[00:00:12 -19526.339947] Model parameter optimization (eps = 1.000000)
+[00:00:13 -19524.771898] SLOW spr round 1 (radius: 5)
+[00:00:16 -19523.700706] SLOW spr round 2 (radius: 5)
+[00:00:19 -19523.700668] SLOW spr round 3 (radius: 10)
+[00:00:20] [worker #10] ML tree search #11, logLikelihood: -19522.785378
+[00:00:20] [worker #17] ML tree search #18, logLikelihood: -19522.790942
+[00:00:20] [worker #14] ML tree search #15, logLikelihood: -19545.492220
+[00:00:20] [worker #16] ML tree search #17, logLikelihood: -19527.160066
+[00:00:21] [worker #13] ML tree search #14, logLikelihood: -19548.416535
+[00:00:21] [worker #9] ML tree search #10, logLikelihood: -19525.375870
+[00:00:22 -19523.700668] SLOW spr round 4 (radius: 15)
+[00:00:22] [worker #11] ML tree search #12, logLikelihood: -19525.666279
+[00:00:23] [worker #12] ML tree search #13, logLikelihood: -19536.824502
+[00:00:23] [worker #15] ML tree search #16, logLikelihood: -19526.922928
+[00:00:25] [worker #1] ML tree search #2, logLikelihood: -19525.373823
+[00:00:26] [worker #3] ML tree search #4, logLikelihood: -19535.505029
+[00:00:27 -19523.700668] SLOW spr round 5 (radius: 20)
+[00:00:28] [worker #2] ML tree search #3, logLikelihood: -19535.471047
+[00:00:28] [worker #4] ML tree search #5, logLikelihood: -19539.840864
+[00:00:28] [worker #8] ML tree search #9, logLikelihood: -19545.290768
+[00:00:28] [worker #6] ML tree search #7, logLikelihood: -19522.561205
+[00:00:30 -19523.700668] SLOW spr round 6 (radius: 25)
+[00:00:30] [worker #5] ML tree search #6, logLikelihood: -19522.801996
+[00:00:31] [worker #7] ML tree search #8, logLikelihood: -19535.324560
+[00:00:31 -19523.700668] Model parameter optimization (eps = 0.100000)
+
+[00:00:31] [worker #0] ML tree search #1, logLikelihood: -19523.631559
+
+
+Optimized model parameters:
+
+   Partition 0: noname
+   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.220736 (ML),  weights&rates: (0.250000,0.001016) (0.250000,0.046529) (0.250000,0.435587) (0.250000,3.516868) 
+   Base frequencies (ML): 0.219197 0.225100 0.277331 0.278373 
+   Substitution rates (ML): 0.660498 1.072548 0.597898 1.160049 2.381469 1.000000 
+
+
+Final LogLikelihood: -19522.561205
+
+AIC score: 39541.122409 / AICc score: 39622.214990 / BIC score: 40900.128714
+Free parameters (model + branch lengths): 248
+
+WARNING: Best ML tree contains 8 near-zero branches!
+
+Best ML tree with collapsed near-zero branches saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Haptophyta.raxml.bestTreeCollapsed
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Haptophyta.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Haptophyta.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Haptophyta.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Haptophyta.raxml.log
+
+Analysis started: 27-Dec-2020 02:49:05 / finished: 27-Dec-2020 02:49:37
+
+Elapsed time: 31.955 seconds
+
+Consumed energy: 1.522 Wh
+

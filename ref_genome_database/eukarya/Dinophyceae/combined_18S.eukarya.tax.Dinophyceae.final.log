@@ -1,0 +1,140 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 26-Dec-2020 23:16:40 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Dinophyceae.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Dinophyceae --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1609053400
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Dinophyceae.raxml.rba
+[00:00:00] Alignment comprises 914 taxa, 1 partitions and 1576 patterns
+
+Partition 0: noname
+Model: GTR+FO+G4m
+Alignment sites / patterns: 1874 / 1576
+Gaps: 14.93 %
+Invariant sites: 23.64 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 914 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 914 taxa
+[00:00:04] Data distribution: max. partitions/sites/weight per thread: 1 / 788 / 12608
+[00:00:04] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:07 -470532.832311] Initial branch length optimization
+[00:00:09 -386299.512173] Model parameter optimization (eps = 10.000000)
+[00:00:56 -346547.793800] AUTODETECT spr round 1 (radius: 5)
+[00:02:00 -282007.915407] AUTODETECT spr round 2 (radius: 10)
+[00:03:02 -217791.369015] AUTODETECT spr round 3 (radius: 15)
+[00:04:24 -163296.344823] AUTODETECT spr round 4 (radius: 20)
+[00:06:23 -139933.972530] AUTODETECT spr round 5 (radius: 25)
+[00:09:18 -131671.846648] SPR radius for FAST iterations: 25 (autodetect)
+[00:09:18 -131671.846648] Model parameter optimization (eps = 3.000000)
+[00:09:36 -130692.888857] FAST spr round 1 (radius: 25)
+[00:11:10 -102302.201980] FAST spr round 2 (radius: 25)
+[00:12:18 -100648.391527] FAST spr round 3 (radius: 25)
+[00:13:10 -100525.488862] FAST spr round 4 (radius: 25)
+[00:13:59 -100493.593761] FAST spr round 5 (radius: 25)
+[00:14:38 -100484.499083] FAST spr round 6 (radius: 25)
+[00:15:17 -100480.535156] FAST spr round 7 (radius: 25)
+[00:15:50 -100480.535050] Model parameter optimization (eps = 1.000000)
+[00:15:58 -100460.119683] SLOW spr round 1 (radius: 5)
+[00:16:59 -100441.073314] SLOW spr round 2 (radius: 5)
+[00:17:56 -100440.368714] SLOW spr round 3 (radius: 5)
+[00:18:52 -100440.368683] SLOW spr round 4 (radius: 10)
+[00:19:57 -100434.630642] SLOW spr round 5 (radius: 5)
+[00:21:16 -100429.737041] SLOW spr round 6 (radius: 5)
+[00:22:19 -100428.907562] SLOW spr round 7 (radius: 5)
+[00:23:18 -100428.907261] SLOW spr round 8 (radius: 10)
+[00:24:26 -100428.907254] SLOW spr round 9 (radius: 15)
+[00:28:06 -100423.766344] SLOW spr round 10 (radius: 5)
+[00:29:23 -100417.834538] SLOW spr round 11 (radius: 5)
+[00:30:30 -100417.834368] SLOW spr round 12 (radius: 10)
+[00:30:50] [worker #16] ML tree search #17, logLikelihood: -100288.952098
+[00:31:43 -100417.834364] SLOW spr round 13 (radius: 15)
+[00:35:05 -100417.834363] SLOW spr round 14 (radius: 20)
+[00:40:07] [worker #13] ML tree search #14, logLikelihood: -100306.286396
+[00:40:16 -100393.990731] SLOW spr round 15 (radius: 5)
+[00:41:02] [worker #11] ML tree search #12, logLikelihood: -100372.737845
+[00:41:34 -100393.990700] SLOW spr round 16 (radius: 10)
+[00:43:12 -100393.990699] SLOW spr round 17 (radius: 15)
+[00:46:11 -100393.990698] SLOW spr round 18 (radius: 20)
+[00:49:57] [worker #12] ML tree search #13, logLikelihood: -100358.992234
+[00:50:23] [worker #5] ML tree search #6, logLikelihood: -100311.391163
+[00:50:25] [worker #15] ML tree search #16, logLikelihood: -100314.791130
+[00:51:25 -100328.822971] SLOW spr round 19 (radius: 5)
+[00:52:44 -100289.361765] SLOW spr round 20 (radius: 5)
+[00:53:48 -100288.029503] SLOW spr round 21 (radius: 5)
+[00:54:42 -100288.029499] SLOW spr round 22 (radius: 10)
+[00:55:44 -100288.029499] SLOW spr round 23 (radius: 15)
+[00:56:08] [worker #14] ML tree search #15, logLikelihood: -100366.011528
+[00:56:12] [worker #2] ML tree search #3, logLikelihood: -100318.727106
+[00:56:41] [worker #8] ML tree search #9, logLikelihood: -100277.217670
+[00:56:47] [worker #1] ML tree search #2, logLikelihood: -100359.400027
+[00:59:02 -100288.029499] SLOW spr round 24 (radius: 20)
+[01:03:09] [worker #9] ML tree search #10, logLikelihood: -100286.346366
+[01:03:50 -100288.029499] SLOW spr round 25 (radius: 25)
+[01:04:03] [worker #6] ML tree search #7, logLikelihood: -100290.480424
+[01:08:53] [worker #10] ML tree search #11, logLikelihood: -100297.245297
+[01:09:00 -100288.029499] Model parameter optimization (eps = 0.100000)
+
+[01:09:04] [worker #0] ML tree search #1, logLikelihood: -100287.214534
+
+[01:15:07] [worker #17] ML tree search #18, logLikelihood: -100345.189934
+[01:15:13] [worker #3] ML tree search #4, logLikelihood: -100280.852933
+[01:25:37] [worker #4] ML tree search #5, logLikelihood: -100309.570933
+[01:25:38] [worker #7] ML tree search #8, logLikelihood: -100298.402026
+
+Optimized model parameters:
+
+   Partition 0: noname
+   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.544992 (ML),  weights&rates: (0.250000,0.042000) (0.250000,0.280277) (0.250000,0.850433) (0.250000,2.827290) 
+   Base frequencies (ML): 0.241322 0.203326 0.232059 0.323294 
+   Substitution rates (ML): 1.187459 3.060519 0.892215 0.724986 4.339132 1.000000 
+
+
+Final LogLikelihood: -100277.217670
+
+AIC score: 204222.435340 / AICc score: 376806.537904 / BIC score: 214375.148408
+Free parameters (model + branch lengths): 1834
+
+WARNING: Best ML tree contains 266 near-zero branches!
+
+Best ML tree with collapsed near-zero branches saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Dinophyceae.raxml.bestTreeCollapsed
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Dinophyceae.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Dinophyceae.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Dinophyceae.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Dinophyceae.raxml.log
+
+Analysis started: 26-Dec-2020 23:16:40 / finished: 27-Dec-2020 00:42:19
+
+Elapsed time: 5138.578 seconds
+
+Consumed energy: 256.382 Wh (= 1 km in an electric car, or 6 km with an e-scooter!)
+

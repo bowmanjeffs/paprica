@@ -1,0 +1,119 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 26-Dec-2020 14:51:20 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/archaea/combined_16S.23S.archaea.tax.archaea.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/archaea/combined_16S.23S.archaea.tax.archaea --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1609023080
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/archaea/combined_16S.23S.archaea.tax.archaea.raxml.rba
+[00:00:00] Alignment comprises 304 taxa, 2 partitions and 3583 patterns
+
+Partition 0: 16S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 5578 / 1317
+Gaps: 73.11 %
+Invariant sites: 63.61 %
+
+Partition 1: 23S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 5354 / 2266
+Gaps: 61.04 %
+Invariant sites: 52.30 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 304 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 304 taxa
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 2 / 1792 / 28672
+[00:00:00] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:02 -699966.933131] Initial branch length optimization
+[00:00:03 -619316.168761] Model parameter optimization (eps = 10.000000)
+[00:01:42 -595774.489396] AUTODETECT spr round 1 (radius: 5)
+[00:02:02 -406518.484030] AUTODETECT spr round 2 (radius: 10)
+[00:02:34 -310083.742932] AUTODETECT spr round 3 (radius: 15)
+[00:03:10 -276042.367320] AUTODETECT spr round 4 (radius: 20)
+[00:04:08 -265651.316887] AUTODETECT spr round 5 (radius: 25)
+[00:05:09 -265489.700042] SPR radius for FAST iterations: 25 (autodetect)
+[00:05:09 -265489.700042] Model parameter optimization (eps = 3.000000)
+[00:05:22 -264367.665690] FAST spr round 1 (radius: 25)
+[00:05:49 -234928.110568] FAST spr round 2 (radius: 25)
+[00:06:12 -232996.278971] FAST spr round 3 (radius: 25)
+[00:06:32 -232946.285455] FAST spr round 4 (radius: 25)
+[00:06:47 -232928.582731] FAST spr round 5 (radius: 25)
+[00:07:00 -232925.224669] FAST spr round 6 (radius: 25)
+[00:07:21 -232922.126484] FAST spr round 7 (radius: 25)
+[00:07:42 -232919.261955] FAST spr round 8 (radius: 25)
+[00:08:01 -232916.325219] FAST spr round 9 (radius: 25)
+[00:08:17 -232916.322560] Model parameter optimization (eps = 1.000000)
+[00:08:26 -232840.540902] SLOW spr round 1 (radius: 5)
+[00:09:17 -232798.612527] SLOW spr round 2 (radius: 5)
+[00:09:38] [worker #13] ML tree search #14, logLikelihood: -232808.822982
+[00:10:10 -232798.589054] SLOW spr round 3 (radius: 10)
+[00:10:42] [worker #11] ML tree search #12, logLikelihood: -232803.386099
+[00:10:53 -232798.588814] SLOW spr round 4 (radius: 15)
+[00:12:17] [worker #10] ML tree search #11, logLikelihood: -232807.793131
+[00:12:27] [worker #15] ML tree search #16, logLikelihood: -232793.204550
+[00:12:44 -232798.588789] SLOW spr round 5 (radius: 20)
+[00:13:10] [worker #17] ML tree search #18, logLikelihood: -232803.740363
+[00:13:13] [worker #9] ML tree search #10, logLikelihood: -232800.523872
+[00:13:31] [worker #8] ML tree search #9, logLikelihood: -232798.958051
+[00:13:41] [worker #14] ML tree search #15, logLikelihood: -232796.326503
+[00:14:02] [worker #2] ML tree search #3, logLikelihood: -232820.061300
+[00:14:06] [worker #3] ML tree search #4, logLikelihood: -232806.515048
+[00:14:10] [worker #12] ML tree search #13, logLikelihood: -232803.660410
+[00:14:12] [worker #16] ML tree search #17, logLikelihood: -232795.095772
+[00:14:25] [worker #7] ML tree search #8, logLikelihood: -232805.439297
+[00:14:31] [worker #6] ML tree search #7, logLikelihood: -232799.156937
+[00:14:31 -232798.588786] SLOW spr round 6 (radius: 25)
+[00:14:34] [worker #1] ML tree search #2, logLikelihood: -232799.799770
+[00:15:10] [worker #4] ML tree search #5, logLikelihood: -232800.496428
+[00:15:56 -232798.588785] Model parameter optimization (eps = 0.100000)
+
+[00:15:58] [worker #0] ML tree search #1, logLikelihood: -232798.214677
+
+[00:17:01] [worker #5] ML tree search #6, logLikelihood: -232796.256172
+
+
+Final LogLikelihood: -232793.204550
+
+AIC score: 466834.409101 / AICc score: 466910.085825 / BIC score: 471389.265618
+Free parameters (model + branch lengths): 624
+
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/archaea/combined_16S.23S.archaea.tax.archaea.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/archaea/combined_16S.23S.archaea.tax.archaea.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/archaea/combined_16S.23S.archaea.tax.archaea.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/archaea/combined_16S.23S.archaea.tax.archaea.raxml.log
+
+Analysis started: 26-Dec-2020 14:51:20 / finished: 26-Dec-2020 15:08:21
+
+Elapsed time: 1021.425 seconds
+
+Consumed energy: 54.418 Wh
+

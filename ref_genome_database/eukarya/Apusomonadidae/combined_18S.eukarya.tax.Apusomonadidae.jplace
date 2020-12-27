@@ -1,0 +1,14 @@
+{
+  "tree": "(((DQ207568.1.1733_U|Apusomonas_proboscidea:0.0228990000{0},DQ207567.1.1776_U|Apusomonas_proboscidea:0.0123360000{1}):0.0254010000{2},AY050178.1.1805_U|Amastigomonas_bermudensis:0.0836510000{3}):0.0276100000{4},AF530544.1.1713_U|Apusomonadidae_Group-1_XXX_sp.:0.2681580000{5},(AF420478.1.1737_U|Diphylleia_rotans:0.4390360000{6},(((AY050180.1.1846_U|Amastigomonas_debruynei:0.5307120000{7},AY050179.1.1803_U|Amastigomonas_sp.:0.0851880000{8}):0.0318960000{9},AY050182.1.1804_U|Amastigomonas_mutabilis:0.0679270000{10}):0.0206880000{11},AY050181.1.1870_U|Amastigomonas_sp.:0.2118730000{12}):0.0126920000{13}):0.0065780000{14});",
+  "placements": 
+  [
+    {"p": [
+      [9, -9215.9226255021, 0.9996141551, 0.0159777982, 0.2754256431]
+      ],
+    "n": ["test_Chlorophyta__Streptophyta_0"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpz1tqsk2d/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Apusomonadidae/combined_18S.eukarya.tax.Apusomonadidae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpz1tqsk2d/combined_18S.eukarya.tax.Apusomonadidae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Apusomonadidae/combined_18S.eukarya.tax.Apusomonadidae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpz1tqsk2d/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

@@ -1,0 +1,106 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 27-Dec-2020 02:46:07 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Picozoa.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Picozoa --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1609065967
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Picozoa.raxml.rba
+[00:00:00] Alignment comprises 11 taxa, 1 partitions and 199 patterns
+
+Partition 0: noname
+Model: GTR+FO+G4m
+Alignment sites / patterns: 1795 / 199
+Gaps: 0.96 %
+Invariant sites: 83.96 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 11 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 11 taxa
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 1 / 100 / 1600
+[00:00:00] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:00 -7033.491512] Initial branch length optimization
+[00:00:00 -6040.140784] Model parameter optimization (eps = 10.000000)
+[00:00:00 -5540.528350] AUTODETECT spr round 1 (radius: 5)
+[00:00:00 -4718.993069] AUTODETECT spr round 2 (radius: 10)
+[00:00:00 -4718.993041] SPR radius for FAST iterations: 5 (autodetect)
+[00:00:00 -4718.993041] Model parameter optimization (eps = 3.000000)
+[00:00:00 -4718.417295] FAST spr round 1 (radius: 5)
+[00:00:00 -4718.403361] Model parameter optimization (eps = 1.000000)
+[00:00:00 -4718.382129] SLOW spr round 1 (radius: 5)
+[00:00:00] [worker #14] ML tree search #15, logLikelihood: -4718.384034
+[00:00:00] [worker #12] ML tree search #13, logLikelihood: -4718.384051
+[00:00:00] [worker #13] ML tree search #14, logLikelihood: -4718.381757
+[00:00:00] [worker #16] ML tree search #17, logLikelihood: -4718.384037
+[00:00:00] [worker #11] ML tree search #12, logLikelihood: -4718.384039
+[00:00:00] [worker #2] ML tree search #3, logLikelihood: -4718.384051
+[00:00:00] [worker #9] ML tree search #10, logLikelihood: -4718.381757
+[00:00:00] [worker #10] ML tree search #11, logLikelihood: -4718.381766
+[00:00:00] [worker #4] ML tree search #5, logLikelihood: -4718.384033
+[00:00:00] [worker #5] ML tree search #6, logLikelihood: -4718.381771
+[00:00:00] [worker #1] ML tree search #2, logLikelihood: -4718.381807
+[00:00:00] [worker #17] ML tree search #18, logLikelihood: -4718.384046
+[00:00:00] [worker #8] ML tree search #9, logLikelihood: -4718.384084
+[00:00:00] [worker #15] ML tree search #16, logLikelihood: -4718.381763
+[00:00:00] [worker #7] ML tree search #8, logLikelihood: -4718.381768
+[00:00:00 -4718.382106] SLOW spr round 2 (radius: 10)
+[00:00:00] [worker #6] ML tree search #7, logLikelihood: -4718.384035
+[00:00:00] [worker #3] ML tree search #4, logLikelihood: -4718.381749
+[00:00:00 -4718.382106] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] [worker #0] ML tree search #1, logLikelihood: -4718.381803
+
+
+Optimized model parameters:
+
+   Partition 0: noname
+   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.038830 (ML),  weights&rates: (0.250000,0.000000) (0.250000,0.000000) (0.250000,0.001014) (0.250000,3.998986) 
+   Base frequencies (ML): 0.257641 0.202814 0.253191 0.286354 
+   Substitution rates (ML): 0.867868 1.572832 0.739495 0.805323 3.400037 1.000000 
+
+
+Final LogLikelihood: -4718.381749
+
+AIC score: 9492.763497 / AICc score: 9493.683089 / BIC score: 9646.560786
+Free parameters (model + branch lengths): 28
+
+WARNING: Best ML tree contains 1 near-zero branches!
+
+Best ML tree with collapsed near-zero branches saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Picozoa.raxml.bestTreeCollapsed
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Picozoa.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Picozoa.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Picozoa.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Picozoa.raxml.log
+
+Analysis started: 27-Dec-2020 02:46:07 / finished: 27-Dec-2020 02:46:07
+
+Elapsed time: 0.249 seconds
+

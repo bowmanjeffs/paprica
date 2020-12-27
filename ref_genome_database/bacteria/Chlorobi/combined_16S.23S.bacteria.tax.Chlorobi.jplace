@@ -1,0 +1,14 @@
+{
+  "tree": "(((GCF_000006985.1|Chlorobaculum_tepidum_TLS_strain_TLS:0.0155580000{0},GCF_001747405.1|Chlorobaculum_limnaeum_strain_DSM_1677:0.0151150000{1}):0.0136080000{2},GCF_000020505.1|Chlorobaculum_parvum_NCIB_8327_strain_NCIB_8327:0.0202890000{3}):0.0399780000{4},(GCF_000012485.1|Pelodictyon_luteolum_DSM_273_strain_DSM_273:0.0140150000{5},(GCF_000016085.1|Chlorobium_phaeovibrioides_DSM_265_strain_DSM_265:0.0007170000{6},GCF_008586845.1|Chlorobium_phaeovibrioides_strain_PhvTcv-s14:0.0004270000{7}):0.0123030000{8}):0.0141370000{9},(GCF_000020465.1|Chlorobium_limicola_DSM_245_strain_DSM_245:0.0198780000{10},((GCF_000015125.1|Chlorobium_phaeobacteroides_DSM_266_strain_DSM_266:0.0246270000{11},GCF_000020645.1|Pelodictyon_phaeoclathratiforme_BU-1_strain_BU-1:0.0261910000{12}):0.0085520000{13},((GCF_000020525.1|Chloroherpeton_thalassium_ATCC_35110_strain_ATCC_35110:0.1587930000{14},(GCF_000020625.1|Prosthecochloris_aestuarii_DSM_271_strain_DSM_271:0.0153500000{15},((GCF_000020545.1|Chlorobium_phaeobacteroides_BS1_strain_BS1:0.0359270000{16},(GCF_002113825.1|Prosthecochloris_sp._HL-130-GSB_strain_HL-130-GSB:0.0177380000{17},GCF_002240205.1|Prosthecochloris_sp._GSB1_strain_TY_Vent___GSB1___Ty-1:0.0146400000{18}):0.0057220000{19}):0.0052360000{20},GCF_001687065.1|Prosthecochloris_sp._CIB_2401_strain_CIB2401:0.0213330000{21}):0.0072770000{22}):0.0361960000{23}):0.0274050000{24},GCF_000012585.1|Chlorobium_chlorochromatii_CaD3_strain_CaD3:0.0463080000{25}):0.0103920000{26}):0.0050620000{27}):0.0119290000{28});",
+  "placements": 
+  [
+    {"p": [
+      [14, -5905.0252485013, 1.0000000000, 0.1008257634, 13.7558864836]
+      ],
+    "n": ["test_Proteobacteria_6"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpkvc1aclb/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Chlorobi/combined_16S.23S.bacteria.tax.Chlorobi.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpkvc1aclb/combined_16S.bacteria.tax.Chlorobi.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Chlorobi/combined_16S.23S.bacteria.tax.Chlorobi.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpkvc1aclb/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

@@ -307,7 +307,7 @@ for jplace in available_trees:
     ## Get the clade number of each assembly and add this information to 
     ## genome_data.
     
-    with open(ref_dir_domain + ref + '.' + jplace + '.jplace', 'r') as jfile:
+    with open(ref_dir_domain + jplace + '/' + ref + '.' + jplace + '.jplace', 'r') as jfile:
         data = json.load(jfile)
         colnames = data['fields']
     
@@ -362,6 +362,11 @@ if domain == 'eukarya':
 ## directory and try again.
     
 new_pgdbs = []
+
+## The pathways.col file in included in pathway-tools and can be found at
+## pgdbs/tier1/metacyc/24.0/data/pathways.col.  Included in the paprica
+## database for convenience.
+
 pathway_definitions = pd.read_csv(ref_dir + 'pathways.col', comment = '#', sep = '\t', index_col = 0)
 
 #!!! This loop does take a long time and would be easy to parallelize

@@ -1,0 +1,121 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 27-Dec-2020 00:42:27 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Syndiniales.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Syndiniales --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1609058547
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Syndiniales.raxml.rba
+[00:00:00] Alignment comprises 91 taxa, 1 partitions and 1114 patterns
+
+Partition 0: noname
+Model: GTR+FO+G4m
+Alignment sites / patterns: 1887 / 1114
+Gaps: 12.54 %
+Invariant sites: 41.87 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 91 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 91 taxa
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 1 / 557 / 8912
+[00:00:00] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:00 -67566.291181] Initial branch length optimization
+[00:00:00 -60547.207238] Model parameter optimization (eps = 10.000000)
+[00:00:02 -57541.096447] AUTODETECT spr round 1 (radius: 5)
+[00:00:03 -46724.598007] AUTODETECT spr round 2 (radius: 10)
+[00:00:04 -42032.801528] AUTODETECT spr round 3 (radius: 15)
+[00:00:06 -41406.776862] AUTODETECT spr round 4 (radius: 20)
+[00:00:07 -41406.732562] SPR radius for FAST iterations: 15 (autodetect)
+[00:00:07 -41406.732562] Model parameter optimization (eps = 3.000000)
+[00:00:08 -41365.178683] FAST spr round 1 (radius: 15)
+[00:00:10 -38968.619895] FAST spr round 2 (radius: 15)
+[00:00:12 -38871.507477] FAST spr round 3 (radius: 15)
+[00:00:13 -38867.991906] FAST spr round 4 (radius: 15)
+[00:00:14 -38861.475925] FAST spr round 5 (radius: 15)
+[00:00:15 -38858.912590] FAST spr round 6 (radius: 15)
+[00:00:16 -38855.858361] FAST spr round 7 (radius: 15)
+[00:00:17 -38853.266977] FAST spr round 8 (radius: 15)
+[00:00:18 -38853.266949] Model parameter optimization (eps = 1.000000)
+[00:00:18 -38852.575839] SLOW spr round 1 (radius: 5)
+[00:00:22 -38852.340900] SLOW spr round 2 (radius: 5)
+[00:00:26 -38852.340830] SLOW spr round 3 (radius: 10)
+[00:00:27] [worker #13] ML tree search #14, logLikelihood: -38850.901641
+[00:00:28] [worker #12] ML tree search #13, logLikelihood: -38850.946931
+[00:00:28] [worker #9] ML tree search #10, logLikelihood: -38850.877647
+[00:00:29 -38852.340829] SLOW spr round 4 (radius: 15)
+[00:00:29] [worker #10] ML tree search #11, logLikelihood: -38851.396644
+[00:00:29] [worker #3] ML tree search #4, logLikelihood: -38852.154114
+[00:00:29] [worker #1] ML tree search #2, logLikelihood: -38852.205304
+[00:00:29] [worker #16] ML tree search #17, logLikelihood: -38850.926446
+[00:00:30] [worker #17] ML tree search #18, logLikelihood: -38850.887332
+[00:00:31] [worker #8] ML tree search #9, logLikelihood: -38852.389110
+[00:00:31] [worker #11] ML tree search #12, logLikelihood: -38851.410145
+[00:00:31] [worker #7] ML tree search #8, logLikelihood: -38852.482846
+[00:00:32] [worker #2] ML tree search #3, logLikelihood: -38852.662777
+[00:00:32] [worker #4] ML tree search #5, logLikelihood: -38850.882274
+[00:00:33 -38852.340829] SLOW spr round 5 (radius: 20)
+[00:00:33] [worker #6] ML tree search #7, logLikelihood: -38852.480252
+[00:00:35] [worker #5] ML tree search #6, logLikelihood: -38850.305908
+[00:00:35 -38852.340829] SLOW spr round 6 (radius: 25)
+[00:00:36 -38852.340829] Model parameter optimization (eps = 0.100000)
+
+[00:00:37] [worker #0] ML tree search #1, logLikelihood: -38852.285117
+
+[00:00:38] [worker #14] ML tree search #15, logLikelihood: -38851.397876
+[00:00:44] [worker #15] ML tree search #16, logLikelihood: -38850.865783
+
+Optimized model parameters:
+
+   Partition 0: noname
+   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.388556 (ML),  weights&rates: (0.250000,0.015099) (0.250000,0.173157) (0.250000,0.718594) (0.250000,3.093151) 
+   Base frequencies (ML): 0.231954 0.203574 0.268176 0.296296 
+   Substitution rates (ML): 1.348164 2.696485 1.406501 1.088291 3.875218 1.000000 
+
+
+Final LogLikelihood: -38850.305908
+
+AIC score: 78076.611815 / AICc score: 78118.463405 / BIC score: 79118.647602
+Free parameters (model + branch lengths): 188
+
+WARNING: Best ML tree contains 3 near-zero branches!
+
+Best ML tree with collapsed near-zero branches saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Syndiniales.raxml.bestTreeCollapsed
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Syndiniales.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Syndiniales.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Syndiniales.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Syndiniales.raxml.log
+
+Analysis started: 27-Dec-2020 00:42:27 / finished: 27-Dec-2020 00:43:12
+
+Elapsed time: 44.888 seconds
+
+Consumed energy: 2.164 Wh
+

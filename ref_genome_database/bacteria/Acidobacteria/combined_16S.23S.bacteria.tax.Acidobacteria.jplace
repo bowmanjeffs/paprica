@@ -1,0 +1,14 @@
+{
+  "tree": "(((((GCF_000179915.2|Terriglobus_saanensis_SP1PR4_strain_SP1PR4:0.0148380000{0},GCF_000265425.1|Terriglobus_roseus_DSM_18391_strain_DSM_18391:0.0320080000{1}):0.0148610000{2},(((((GCF_015277775.1|Paludibaculum_fermentans_strain_P105:0.1576950000{3},GCF_000014905.1|Candidatus_Solibacter_usitatus_Ellin6076_strain_Ellin6076:0.0967830000{4}):0.1546030000{5},(GCF_001618865.1|Luteitalea_pratensis_strain_DSM_100886:0.2616000000{6},GCF_000226295.1|Chloracidobacterium_thermophilum_B_strain_B:0.5105230000{7}):0.1144440000{8}):0.1218570000{9},GCF_000014005.1|Candidatus_Koribacter_versatilis_Ellin345_strain_Ellin345:0.0854570000{10}):0.0373900000{11},((GCF_000022565.1|Acidobacterium_capsulatum_ATCC_51196_strain_ATCC_51196:0.0352680000{12},GCF_014274465.1|Acidobacterium_sp._4Y35:0.0308590000{13}):0.0170460000{14},GCF_003330725.1|Acidisarcina_polymorpha_strain_SBC82:0.0296520000{15}):0.0142990000{16}):0.0283170000{17},GCF_008000815.1|Terriglobus_albidus_strain_ORNL:0.0292870000{18}):0.0141080000{19}):0.0084240000{20},(GCF_014274685.1|Edaphobacter_sp._4G125:0.0189160000{21},GCF_010093025.1|Edaphobacter_sp._12200R-103_strain_12200R-103:0.0099850000{22}):0.0222870000{23}):0.0182370000{24},(GCF_014083945.1|Granulicella_sp._5B5_strain_5B5:0.0336960000{25},GCF_000178955.2|Granulicella_mallensis_MP5ACTX8_strain_MP5ACTX8:0.0215530000{26}):0.0195780000{27}):0.0171700000{28},GCF_000178975.2|Granulicella_tundricola_MP5ACTX9_strain_MP5ACTX9:0.0220560000{29},GCF_009914315.1|Granulicella_sp._WH15_strain_WH15:0.0133320000{30});",
+  "placements": 
+  [
+    {"p": [
+      [7, -8254.6520009457, 1.0000000000, 0.2624641280, 1.2754683681]
+      ],
+    "n": ["test_Proteobacteria_6"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpabxgtwgi/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Acidobacteria/combined_16S.23S.bacteria.tax.Acidobacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpabxgtwgi/combined_16S.bacteria.tax.Acidobacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Acidobacteria/combined_16S.23S.bacteria.tax.Acidobacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpabxgtwgi/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

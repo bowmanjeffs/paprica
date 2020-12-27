@@ -1,0 +1,14 @@
+{
+  "tree": "((U14387.1.1810_U|Pseudopedinella_elastica:0.0503050000{0},((AB275088.1.1729_U|Pedinellales_X_sp.:0.0428290000{1},U14384.1.1808_U|Apedinella_radians:0.0571680000{2}):0.0289900000{3},DQ647512.1.1779_U|Pedinellales_X_sp.:0.0159220000{4}):0.0175610000{5}):0.0087100000{6},((((AY254857.1.1771_U|Florenciella_parvula:0.0197150000{7},AY129059.1.1813_U|Florenciellales_X_sp.:0.0516490000{8}):0.0019170000{9},(AY788948.1.1774_U|Pseudochattonella_verruculosa:0.0026830000{10},AB217629.1.1814_U|Pseudochattonella_verruculosa:0.0011120000{11}):0.0543750000{12}):0.0258800000{13},U14385.1.1818_U|Dictyocha_speculum:0.1155240000{14}):0.0870850000{15},((U14388.1.1839_U|Rhizochromulina_marina:0.0373580000{16},AJ402337.1.1758_U|Rhizochromulina_sp.:0.1059320000{17}):0.0388550000{18},L37205.1.1863_U|Ciliophrys_infusionum:0.1510820000{19}):0.0522770000{20}):0.0448310000{21},(AB275087.1.1720_U|Pedinellales_X_sp.:0.0034820000{22},EF527119.1.1787_U|Pedinellales_X_sp.:0.0028540000{23}):0.0405180000{24});",
+  "placements": 
+  [
+    {"p": [
+      [14, -8139.5685602589, 1.0000000000, 0.1094569510, 1.3672254091]
+      ],
+    "n": ["test_Chlorophyta__Streptophyta_0"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp30dzk42_/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Dictyochophyceae/combined_18S.eukarya.tax.Dictyochophyceae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp30dzk42_/combined_18S.eukarya.tax.Dictyochophyceae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Dictyochophyceae/combined_18S.eukarya.tax.Dictyochophyceae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp30dzk42_/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

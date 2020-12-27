@@ -95,10 +95,10 @@ if len(sys.argv) > 2:
         omit = ''
     
 else:
-    query = 'test.eukarya.combined_18S.eukarya.tax.placements.csv'
-    name = 'test_eukarya'
+    query = 'big_test_16S.archaea.combined_16S.archaea.tax.placements.csv'
+    name = 'big_test_archaea'
     cutoff = 0.5  # The cutoff value used to determine pathways to include for internal nodes.
-    domain = 'eukarya'  # The domain (bacteria or archaea) for analysis.
+    domain = 'archaea'  # The domain (bacteria or archaea) for analysis.
     ref_dir = paprica_path + 'ref_genome_database'  # The complete path to the reference directory being used for analysis.        
     #omit = '674:818'
     #overrides = '5804|93,4619|4571'

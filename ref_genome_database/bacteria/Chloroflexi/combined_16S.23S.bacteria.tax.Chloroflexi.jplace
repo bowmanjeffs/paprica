@@ -1,0 +1,15 @@
+{
+  "tree": "(((GCF_000025025.1|Dehalococcoides_mccartyi_VS_strain_VS:0.0009620000{0},(GCF_000499365.1|Dehalococcoides_mccartyi_GY50_strain_GY50:0.0004520000{1},GCF_001010485.1|Dehalococcoides_sp._UCH007_strain_UCH007:0.0002260000{2}):0.0006230000{3}):0.0023640000{4},GCF_000011905.1|Dehalococcoides_mccartyi_195_strain_195:0.0006760000{5}):0.0080130000{6},(((((((GCF_000021685.1|Thermomicrobium_roseum_DSM_5159_strain_DSM_5159:0.2104750000{7},GCF_000024985.1|Sphaerobacter_thermophilus_DSM_20745_strain_DSM_20745:0.0733420000{8}):0.0932970000{9},((GCF_000017805.1|Roseiflexus_castenholzii_DSM_13941_strain_DSM_13941:0.0483830000{10},GCF_000016665.1|Roseiflexus_sp._RS-1_strain_RS-1:0.0293370000{11}):0.1178850000{12},(GCF_000021945.1|Chloroflexus_aggregans_DSM_9485_strain_DSM_9485:0.0537740000{13},GCF_000018865.1|Chloroflexus_aurantiacus_J-10-fl_strain_J-10-fl:0.0467980000{14}):0.1575550000{15}):0.2008820000{16}):0.0824610000{17},GCF_004208415.1|Ktedonosporobacter_rubrisoli_strain_SCAWS-G2:0.3367800000{18}):0.0477570000{19},((GCF_900066015.1|Candidatus_Promineofilum_breve_strain_Cfx-K:0.1518330000{20},((GCF_003966975.1|Pelolinea_submarina_strain_MO-CFX1:0.0618210000{21},GCF_900184705.1|Brevefilum_fermentans:0.0807450000{22}):0.0302270000{23},GCF_000199675.1|Anaerolinea_thermophila_UNI-1_strain_UNI-1:0.1234550000{24}):0.0709460000{25}):0.0594820000{26},GCF_000281175.1|Caldilinea_aerophila_DSM_14535___NBRC_104270_strain_DSM_14535:0.1600480000{27}):0.0575560000{28}):0.0604110000{29},GCF_008838325.1|Tepidiforma_bonchosmolovskayae_strain_3753O:0.1450320000{30}):0.1278480000{31},(GCF_000143165.1|Dehalogenimonas_lykanthroporepellens_BL-DC-9_strain_BL-DC-9:0.0323630000{32},(GCF_001953175.1|Dehalogenimonas_formicexedens_strain_NSZ-14:0.0038430000{33},GCF_014672715.2|Dehalogenimonas_sp._GP_strain_GP:0.0062840000{34}):0.0419220000{35}):0.0672650000{36}):0.0813540000{37},(GCF_000009025.1|Dehalococcoides_mccartyi_CBDB1_strain_CBDB1:0.0000010000{38},GCF_000016705.1|Dehalococcoides_mccartyi_BAV1_strain_BAV1:0.0002260000{39}):0.0031780000{40}):0.0021600000{41},GCF_002007825.1|Dehalococcoides_mccartyi_strain_KBTCE2:0.0028960000{42});",
+  "placements": 
+  [
+    {"p": [
+      [16, -12232.3876013677, 0.8512245206, 0.1512874518, 0.6495462557],
+      [18, -12234.1318389730, 0.1487754794, 0.1685872985, 0.6408250832]
+      ],
+    "n": ["test_Proteobacteria_6"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpp3i2zf1t/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Chloroflexi/combined_16S.23S.bacteria.tax.Chloroflexi.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpp3i2zf1t/combined_16S.bacteria.tax.Chloroflexi.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Chloroflexi/combined_16S.23S.bacteria.tax.Chloroflexi.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpp3i2zf1t/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

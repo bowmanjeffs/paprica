@@ -1,0 +1,15 @@
+{
+  "tree": "((AY665084.1.1750_U|Katablepharidales_XX_sp.:0.0030190000{0},AY665083.1.1750_U|Katablepharidales_XX_sp.:0.0000010000{1}):0.0000010000{2},((AY919689.1.1707_U|Katablepharidales_XX_sp.:0.0056890000{3},AY642702.1.1764_U|Katablepharidales_XX_sp.:0.0106000000{4}):0.0515300000{5},AB231617.1.1710_U|Katablepharis_japonica:0.0539050000{6}):0.0460520000{7},AY665082.1.1749_U|Katablepharidales_XX_sp.:0.0012050000{8});",
+  "placements": 
+  [
+    {"p": [
+      [6, -4543.6417615387, 0.8586295418, 0.0197357700, 0.2779636341],
+      [5, -4545.4457152928, 0.1413704582, 0.0180847537, 0.2852974684]
+      ],
+    "n": ["test_Chlorophyta__Streptophyta_0"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp66rs7axm/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Katablepharidophyta/combined_18S.eukarya.tax.Katablepharidophyta.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp66rs7axm/combined_18S.eukarya.tax.Katablepharidophyta.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Katablepharidophyta/combined_18S.eukarya.tax.Katablepharidophyta.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp66rs7axm/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

@@ -1,0 +1,102 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 27-Dec-2020 02:48:49 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Centroheliozoa.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Centroheliozoa --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1609066129
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Centroheliozoa.raxml.rba
+[00:00:00] Alignment comprises 6 taxa, 1 partitions and 396 patterns
+
+Partition 0: noname
+Model: GTR+FO+G4m
+Alignment sites / patterns: 1763 / 396
+Gaps: 8.93 %
+Invariant sites: 73.40 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 6 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 6 taxa
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 1 / 198 / 3168
+[00:00:00] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:00 -6061.457732] Initial branch length optimization
+[00:00:00 -5951.775233] Model parameter optimization (eps = 10.000000)
+[00:00:00 -5658.658748] AUTODETECT spr round 1 (radius: 5)
+[00:00:00 -5651.917085] SPR radius for FAST iterations: 5 (autodetect)
+[00:00:00 -5651.917085] Model parameter optimization (eps = 3.000000)
+[00:00:00 -5651.706888] FAST spr round 1 (radius: 5)
+[00:00:00 -5650.781760] FAST spr round 2 (radius: 5)
+[00:00:00 -5650.780571] Model parameter optimization (eps = 1.000000)
+[00:00:00 -5650.762277] SLOW spr round 1 (radius: 5)
+[00:00:00] [worker #6] ML tree search #7, logLikelihood: -5650.761899
+[00:00:00] [worker #13] ML tree search #14, logLikelihood: -5650.810177
+[00:00:00] [worker #16] ML tree search #17, logLikelihood: -5650.810219
+[00:00:00] [worker #10] ML tree search #11, logLikelihood: -5650.809713
+[00:00:00] [worker #9] ML tree search #10, logLikelihood: -5650.809731
+[00:00:00] [worker #5] ML tree search #6, logLikelihood: -5650.761899
+[00:00:00] [worker #11] ML tree search #12, logLikelihood: -5650.762457
+[00:00:00] [worker #8] ML tree search #9, logLikelihood: -5650.761915
+[00:00:00] [worker #3] ML tree search #4, logLikelihood: -5650.809842
+[00:00:00] [worker #12] ML tree search #13, logLikelihood: -5650.810069
+[00:00:00] [worker #7] ML tree search #8, logLikelihood: -5650.762200
+[00:00:00] [worker #4] ML tree search #5, logLikelihood: -5650.761805
+[00:00:00] [worker #14] ML tree search #15, logLikelihood: -5650.810108
+[00:00:00] [worker #2] ML tree search #3, logLikelihood: -5650.809799
+[00:00:00] [worker #1] ML tree search #2, logLikelihood: -5650.809705
+[00:00:00 -5650.762190] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] [worker #0] ML tree search #1, logLikelihood: -5650.761893
+
+[00:00:00] [worker #15] ML tree search #16, logLikelihood: -5650.810080
+[00:00:00] [worker #17] ML tree search #18, logLikelihood: -5650.810177
+
+Optimized model parameters:
+
+   Partition 0: noname
+   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.134196 (ML),  weights&rates: (0.250000,0.000018) (0.250000,0.006266) (0.250000,0.193818) (0.250000,3.799898) 
+   Base frequencies (ML): 0.251068 0.189179 0.268683 0.291070 
+   Substitution rates (ML): 0.416786 0.646267 0.574310 1.199954 2.392635 1.000000 
+
+
+Final LogLikelihood: -5650.761805
+
+AIC score: 11337.523610 / AICc score: 11337.915811 / BIC score: 11436.069509
+Free parameters (model + branch lengths): 18
+
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Centroheliozoa.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Centroheliozoa.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Centroheliozoa.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Centroheliozoa.raxml.log
+
+Analysis started: 27-Dec-2020 02:48:49 / finished: 27-Dec-2020 02:48:49
+
+Elapsed time: 0.195 seconds
+

@@ -1,0 +1,15 @@
+{
+  "tree": "((DQ222877.1.1801_U|Picozoa_XXXX_sp.:0.0109220000{0},(DQ222876.1.1799_U|Picozoa_XXXX_sp.:0.0109450000{1},(DQ060524.1.1778_U|Picozoa_XXXX_sp.:0.0501640000{2},(DQ222873.1.1798_U|Picozoa_XXXX_sp.:0.0000010000{3},AY343928.1.1812_U|Picozoa_XXXX_sp.:0.0000010000{4}):0.0454490000{5}):0.0416690000{6}):0.0000010000{7}):0.0007430000{8},DQ222878.1.1801_U|Picozoa_XXXX_sp.:0.0093740000{9},((AY426835.1.1803_U|Picozoa_XXXX_sp.:0.0151230000{10},(DQ222880.1.1800_U|Picozoa_XXXX_sp.:0.0050150000{11},(DQ060526.1.1789_U|Picozoa_XXXX_sp.:0.0022810000{12},DQ222875.1.1801_U|Picozoa_XXXX_sp.:0.0000010000{13}):0.0001510000{14}):0.0095960000{15}):0.0710780000{16},DQ060525.1.1781_U|Picozoa_XXXX_sp.:0.0064690000{17}):0.0141560000{18});",
+  "placements": 
+  [
+    {"p": [
+      [6, -5662.2271281246, 0.9556314818, 0.0120504488, 0.2643060406],
+      [16, -5665.2969703166, 0.0443685182, 0.0265166223, 0.2687500531]
+      ],
+    "n": ["test_Chlorophyta__Streptophyta_0"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp_ihocy7v/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Picozoa/combined_18S.eukarya.tax.Picozoa.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp_ihocy7v/combined_18S.eukarya.tax.Picozoa.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Picozoa/combined_18S.eukarya.tax.Picozoa.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp_ihocy7v/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

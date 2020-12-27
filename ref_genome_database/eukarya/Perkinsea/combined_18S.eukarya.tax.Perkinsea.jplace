@@ -1,0 +1,16 @@
+{
+  "tree": "((((EU502912.1.1724_U|Parvilucifera_sinerae:0.0445590000{0},EU502912.1.1780_U|Parvilucifera_sinerae:0.1777980000{1}):0.2337070000{2},FJ424512.1.1801_U|Parvilucifera_prorocentri:0.1256020000{3}):0.0458250000{4},((((DQ244035.1.1731_U|Parvilucifera-group_X_sp.:0.0022860000{5},DQ244021.1.1733_U|Parvilucifera-group_X_sp.:0.0045760000{6}):0.0007650000{7},DQ244037.1.1726_U|Parvilucifera-group_X_sp.:0.0000010000{8}):0.0000010000{9},DQ244020.1.1732_U|Parvilucifera-group_X_sp.:0.0038120000{10}):0.1552270000{11},DQ244034.1.1712_U|Parvilucifera-group_X_sp.:0.2319310000{12}):0.1150740000{13}):0.0124050000{14},(((X75762.1.1793_U|Perkinsus_marinus:0.0171130000{15},(((AF042707.1.1803_U|Perkinsus_chesapeaki:0.0047080000{16},AY305326.1543.3351_U|Perkinsus_chesapeaki:0.0000010000{17}):0.0006170000{18},(AF252288.1443.3250_U|Perkinsus_chesapeaki:0.0019730000{19},AF102171.1575.3382_U|Perkinsus_chesapeaki:0.0013740000{20}):0.0062030000{21}):0.0081530000{22},((AY487833.1.1772_U|Perkinsus_mediterraneus:0.0013350000{23},(AY487831.1.1786_U|Perkinsus_mediterraneus:0.0000010000{24},AY487832.1.1786_U|Perkinsus_mediterraneus:0.0013350000{25}):0.0006670000{26}):0.0000010000{27},((AY486141.1.1786_U|Perkinsus_mediterraneus:0.0013360000{28},AY486140.1.1786_U|Perkinsus_mediterraneus:0.0013350000{29}):0.0000010000{30},(AF140295.1171.2979_U|Perkinsus_olseni:0.0000010000{31},AF509333.1271.3078_U|Perkinsus_olseni:0.0000010000{32}):0.0000010000{33}):0.0000010000{34}):0.0000010000{35}):0.0055600000{36}):0.0005000000{37},((AF530535.1.1715_U|Perkinsus_marinus:0.0000010000{38},(AF126013.1.1805_U|Perkinsus_marinus:0.0013340000{39},AF042708.1.1806_U|Perkinsus_marinus:0.0013340000{40}):0.0000010000{41}):0.0000010000{42},AF497479.1251.3059_U|Perkinsus_marinus:0.0020030000{43}):0.0000010000{44}):0.1022990000{45},DQ244038.1.1775_U|Perkinsida_XXX_sp.:0.1190820000{46}):0.0649330000{47},(AY919809.1.1738_U|Perkinsida_XXX_sp.:0.0151710000{48},(AY919821.1.1744_U|Perkinsida_XXX_sp.:0.0048020000{49},AY919720.1.1738_U|Perkinsida_XXX_sp.:0.0000010000{50}):0.0059710000{51}):0.0696960000{52});",
+  "placements": 
+  [
+    {"p": [
+      [47, -9666.6938666814, 0.7635083852, 0.0246655616, 0.4571160391],
+      [46, -9667.9219899293, 0.2235870580, 0.1071517657, 0.4538574980],
+      [13, -9670.7742102973, 0.0129045568, 0.1150690000, 0.4721928403]
+      ],
+    "n": ["test_Chlorophyta__Streptophyta_0"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpxtskp8p2/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Perkinsea/combined_18S.eukarya.tax.Perkinsea.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpxtskp8p2/combined_18S.eukarya.tax.Perkinsea.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Perkinsea/combined_18S.eukarya.tax.Perkinsea.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpxtskp8p2/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

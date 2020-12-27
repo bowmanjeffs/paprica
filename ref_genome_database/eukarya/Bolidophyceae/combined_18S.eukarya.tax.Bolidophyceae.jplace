@@ -1,0 +1,14 @@
+{
+  "tree": "((AY919761.1.1729_U|Parmales_XX_sp.:0.0706480000{0},FN690654.1.1702_U|Parmales_env_2_X_sp.:0.0205960000{1}):0.0266940000{2},(DQ062504.1.1771_U|Parmales_env_1_X_sp.:0.1495650000{3},((AF123596.1.1783_U|Triparma_mediterranea:0.0391340000{4},AF123595.1.1804_U|Triparma_pacifica:0.0231850000{5}):0.0062700000{6},((AF167154.1.1785_U|Triparma_eleuthera:0.0013290000{7},AF167155.1.1787_U|Triparma_eleuthera:0.0006630000{8}):0.0000010000{9},AF167153.1.1799_U|Triparma_eleuthera:0.0006640000{10}):0.0183300000{11}):0.0204460000{12}):0.0180870000{13},AB275035.1.1709_U|Parmales_env_2_X_sp.:0.0164390000{14});",
+  "placements": 
+  [
+    {"p": [
+      [3, -5804.3623765191, 1.0000000000, 0.0323167660, 0.3767519729]
+      ],
+    "n": ["test_Chlorophyta__Streptophyta_0"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp7d5_4ka_/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Bolidophyceae/combined_18S.eukarya.tax.Bolidophyceae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp7d5_4ka_/combined_18S.eukarya.tax.Bolidophyceae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Bolidophyceae/combined_18S.eukarya.tax.Bolidophyceae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp7d5_4ka_/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

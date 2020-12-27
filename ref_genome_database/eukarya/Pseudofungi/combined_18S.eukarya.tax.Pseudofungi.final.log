@@ -1,0 +1,120 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 27-Dec-2020 02:46:26 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pseudofungi.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pseudofungi --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1609065986
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pseudofungi.raxml.rba
+[00:00:00] Alignment comprises 89 taxa, 1 partitions and 433 patterns
+
+Partition 0: noname
+Model: GTR+FO+G4m
+Alignment sites / patterns: 1862 / 433
+Gaps: 85.34 %
+Invariant sites: 7.36 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 89 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 89 taxa
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 1 / 217 / 3472
+[00:00:00] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:00 -19729.031119] Initial branch length optimization
+[00:00:00 -17019.494622] Model parameter optimization (eps = 10.000000)
+[00:00:00 -16544.446917] AUTODETECT spr round 1 (radius: 5)
+[00:00:01 -14584.066397] AUTODETECT spr round 2 (radius: 10)
+[00:00:01 -13532.004279] AUTODETECT spr round 3 (radius: 15)
+[00:00:02 -13429.206877] AUTODETECT spr round 4 (radius: 20)
+[00:00:03 -13429.117847] SPR radius for FAST iterations: 15 (autodetect)
+[00:00:03 -13429.117847] Model parameter optimization (eps = 3.000000)
+[00:00:03 -13413.114177] FAST spr round 1 (radius: 15)
+[00:00:04 -13257.012142] FAST spr round 2 (radius: 15)
+[00:00:05 -13242.845012] FAST spr round 3 (radius: 15)
+[00:00:05 -13238.017195] FAST spr round 4 (radius: 15)
+[00:00:06 -13238.016622] Model parameter optimization (eps = 1.000000)
+[00:00:06 -13233.672908] SLOW spr round 1 (radius: 5)
+[00:00:08 -13233.491269] SLOW spr round 2 (radius: 5)
+[00:00:10 -13233.490842] SLOW spr round 3 (radius: 10)
+[00:00:10] [worker #11] ML tree search #12, logLikelihood: -13234.692043
+[00:00:11 -13233.490829] SLOW spr round 4 (radius: 15)
+[00:00:12] [worker #6] ML tree search #7, logLikelihood: -13230.017237
+[00:00:12] [worker #10] ML tree search #11, logLikelihood: -13229.604901
+[00:00:13] [worker #7] ML tree search #8, logLikelihood: -13231.083128
+[00:00:13 -13233.271616] SLOW spr round 5 (radius: 5)
+[00:00:13] [worker #5] ML tree search #6, logLikelihood: -13230.183489
+[00:00:13] [worker #8] ML tree search #9, logLikelihood: -13227.921252
+[00:00:15] [worker #9] ML tree search #10, logLikelihood: -13230.260386
+[00:00:15 -13233.271107] SLOW spr round 6 (radius: 10)
+[00:00:16] [worker #16] ML tree search #17, logLikelihood: -13229.957517
+[00:00:16] [worker #12] ML tree search #13, logLikelihood: -13230.085639
+[00:00:17 -13233.271094] SLOW spr round 7 (radius: 15)
+[00:00:17] [worker #3] ML tree search #4, logLikelihood: -13230.657803
+[00:00:18] [worker #4] ML tree search #5, logLikelihood: -13235.142796
+[00:00:18 -13233.271093] SLOW spr round 8 (radius: 20)
+[00:00:18] [worker #15] ML tree search #16, logLikelihood: -13228.915748
+[00:00:18] [worker #17] ML tree search #18, logLikelihood: -13230.032528
+[00:00:18] [worker #1] ML tree search #2, logLikelihood: -13235.360999
+[00:00:19] [worker #14] ML tree search #15, logLikelihood: -13229.999433
+[00:00:19 -13233.271093] SLOW spr round 9 (radius: 25)
+[00:00:19] [worker #2] ML tree search #3, logLikelihood: -13229.887440
+[00:00:20 -13233.271093] Model parameter optimization (eps = 0.100000)
+
+[00:00:20] [worker #0] ML tree search #1, logLikelihood: -13230.536414
+
+[00:00:30] [worker #13] ML tree search #14, logLikelihood: -13229.994880
+
+Optimized model parameters:
+
+   Partition 0: noname
+   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.485816 (ML),  weights&rates: (0.250000,0.030790) (0.250000,0.242556) (0.250000,0.809667) (0.250000,2.916987) 
+   Base frequencies (ML): 0.259381 0.249019 0.208212 0.283388 
+   Substitution rates (ML): 0.717591 1.203216 0.712725 0.609220 1.213343 1.000000 
+
+
+Final LogLikelihood: -13227.921252
+
+AIC score: 26823.842504 / AICc score: 26864.438807 / BIC score: 27841.253292
+Free parameters (model + branch lengths): 184
+
+WARNING: Best ML tree contains 24 near-zero branches!
+
+Best ML tree with collapsed near-zero branches saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pseudofungi.raxml.bestTreeCollapsed
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pseudofungi.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pseudofungi.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pseudofungi.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Pseudofungi.raxml.log
+
+Analysis started: 27-Dec-2020 02:46:26 / finished: 27-Dec-2020 02:46:57
+
+Elapsed time: 30.909 seconds
+
+Consumed energy: 1.362 Wh
+

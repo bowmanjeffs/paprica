@@ -1,0 +1,14 @@
+{
+  "tree": "((((((AF109728.1.1788_U|Pleurochloris_meiringensis:0.0231730000{0},(AJ579343.1.1770_U|Botrydiopsis_alpina:0.0116590000{1},AJ579340.1.1732_U|Botrydiopsis_callosa:0.0074890000{2}):0.0047170000{3}):0.0048810000{4},AJ579341.1.1743_U|Botryochloris_sp.:0.0052470000{5}):0.0170760000{6},(AJ579338.1.1742_U|Chlorellidium_pyrenoidosum:0.0000010000{7},U41647.1.1801_U|Botrydiopsis_intercedens:0.0018440000{8}):0.0072630000{9}):0.0102830000{10},AJ579333.1.1762_U|Sphaerosorus_composita:0.0173970000{11}):0.0258520000{12},(AF109729.1.1779_U|Pseudopleurochloris_antarctica:0.0377780000{13},(AJ579339.1.1739_U|Botrydiopsis_constricta:0.0522070000{14},((AJ580950.1.1737_U|Chlorellidium_sp.:0.0039140000{15},AJ580949.1.1757_U|Chlorellidium_tetrabotrys:0.0027690000{16}):0.0184180000{17},(AJ579335.1.1738_U|Heterococcus_pleurococcoides:0.0034930000{18},(AJ579336.1.1779_U|Heterococcus_sp.:0.0009450000{19},(AF083399.1.1804_U|Heterococcus_caespitosus:0.0018810000{20},AJ579334.1.1739_U|Heterococcus_protonematoides:0.0000010000{21}):0.0018850000{22}):0.0092190000{23}):0.0214010000{24}):0.0218770000{25}):0.0358490000{26}):0.0230360000{27}):0.0111630000{28},(AJ579332.1.1729_U|Pseudobumilleriopsis_pyrenoidosa:0.0087230000{29},((AF083397.1.1830_U|Tribonema_intermixum:0.0296040000{30},(AM491614.1.1761_U|Xanthonema_sp.:0.0103380000{31},((AJ579331.1.1783_U|Bumilleriopsis_peterseniana:0.0788150000{32},((U41646.1.1831_U|Vaucheria_bursata:2.0754930000{33},AM490835.1.1764_U|Ophiocytium_majus:0.0086150000{34}):0.0246050000{35},AM490837.1.1760_U|Ophiocytium_capitatum:0.0944540000{36}):0.0162120000{37}):0.0080160000{38},U43277.1.1796_U|Heterothrix_debilis:0.0380980000{39}):0.0172490000{40}):0.0086210000{41}):0.0011800000{42},((AM490825.1.1776_U|Tribonema_viride:0.0000010000{43},AM491613.1.1790_U|Xanthonema_sp.:0.0000010000{44}):0.0712170000{45},U41648.1.1807_U|Botrydium_stoloniferum:0.0307960000{46}):0.0000010000{47}):0.0049590000{48}):0.0482770000{49},AF083400.1.1806_U|Mischococcus_sphaerocephalus:0.0263660000{50});",
+  "placements": 
+  [
+    {"p": [
+      [33, -8439.9315426143, 1.0000000000, 1.4882850661, 3.8531868359]
+      ],
+    "n": ["test_Chlorophyta__Streptophyta_0"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp71uklhxl/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Xanthophyceae/combined_18S.eukarya.tax.Xanthophyceae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp71uklhxl/combined_18S.eukarya.tax.Xanthophyceae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Xanthophyceae/combined_18S.eukarya.tax.Xanthophyceae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp71uklhxl/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}
