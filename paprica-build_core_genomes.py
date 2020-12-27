@@ -87,11 +87,11 @@ if 'h' in list(command_args.keys()):
 ## set some default values.  This is useful for testing.
         
 if len(sys.argv) == 1:
-    domain = 'eukarya'
+    domain = 'bacteria'
     ref_dir = 'ref_genome_database'
     pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
     cpus = 36
-    database_info = 'combined_18S.eukarya.tax.database_info.txt'
+    database_info = 'combined_16S.bacteria.tax.database_info.txt'
     
 else:        
     domain = command_args['domain']
@@ -419,7 +419,7 @@ for i, d in enumerate(assemblies):
                 g = 0
                 
                 for gbk in os.listdir(ref_dir_domain + 'refseq/' + d):
-                    if gbk.endswith('genomic.gbk'):
+                    if gbk.endswith('genomic.gbff'):
                         
                         ## NCBI PGAP packages genetic elements in a single
                         ## genbank file which ptools doesn't like.  Split the
@@ -428,8 +428,8 @@ for i, d in enumerate(assemblies):
                         for record in SeqIO.parse(ref_dir_domain + 'refseq/' + d + '/' + gbk, 'genbank'):
                             
                             g = g + 1
-                            basename = re.split('gbk', gbk)[0]
-                            with open(ref_dir_domain + 'refseq/' + d + '/' + basename + str(g) + '.gbk', 'w') as seq_out:
+                            basename = re.split('gbff', gbk)[0]
+                            with open(ref_dir_domain + 'refseq/' + d + '/' + basename + str(g) + '.gbff', 'w') as seq_out:
                                 SeqIO.write(record, seq_out, 'genbank')
                         
                             print('ID' + '\t' + d + '.' + str(g), file=genetic_elements)
@@ -441,7 +441,7 @@ for i, d in enumerate(assemblies):
                             else:
                                 print('CIRCULAR?' + '\t' + 'N', file=genetic_elements)
                                 
-                            print('ANNOT-FILE' + '\t' + basename + str(g) + '.gbk', file=genetic_elements)
+                            print('ANNOT-FILE' + '\t' + basename + str(g) + '.gbff', file=genetic_elements)
                             print('//', file=genetic_elements)
                         
             if g > 0:
@@ -466,7 +466,7 @@ for i, d in enumerate(assemblies):
             g = 0
             
             for gbk in os.listdir(ref_dir_domain + 'refseq/' + d):
-                if gbk.endswith('genomic.gbk'):
+                if gbk.endswith('genomic.gbff'):
                     
                     ## NCBI PGAP packages genetic elements in a single
                     ## genbank file which ptools doesn't like.  Split the
@@ -475,8 +475,8 @@ for i, d in enumerate(assemblies):
                     for record in SeqIO.parse(ref_dir_domain + 'refseq/' + d + '/' + gbk, 'genbank'):
                         
                         g = g + 1
-                        basename = re.split('gbk', gbk)[0]
-                        with open(ref_dir_domain + 'refseq/' + d + '/' + basename + str(g) + '.gbk', 'w') as seq_out:
+                        basename = re.split('gbff', gbk)[0]
+                        with open(ref_dir_domain + 'refseq/' + d + '/' + basename + str(g) + '.gbff', 'w') as seq_out:
                             SeqIO.write(record, seq_out, 'genbank')
                     
                         print('ID' + '\t' + d + '.' + str(g), file=genetic_elements)
@@ -488,7 +488,7 @@ for i, d in enumerate(assemblies):
                         else:
                             print('CIRCULAR?' + '\t' + 'N', file=genetic_elements)
                             
-                        print('ANNOT-FILE' + '\t' + basename + str(g) + '.gbk', file=genetic_elements)
+                        print('ANNOT-FILE' + '\t' + basename + str(g) + '.gbff', file=genetic_elements)
                         print('//', file=genetic_elements)
                     
         if g > 0:
@@ -793,6 +793,18 @@ internal_ec_probs.to_csv(ref_dir_domain + 'internal_ec_probs.csv.gz')
 internal_ec_n = pd.DataFrame(internal_ec_n, index = int_nodes, columns = internal_ec_n_columns)
 internal_ec_n.to_csv(ref_dir_domain + 'internal_ec_n.csv.gz')
 
-## Clean up memory maps
+## Clean up memory maps.
 
 os.system('rm *mmap')
+
+## Generate heatmaps.
+
+# import seaborn as sns
+
+# sns.clustermap(internal_probs,
+#                metric="correlation",
+#                method="single",
+#                cmap="Blues",standard_scale=1)
+
+
+
