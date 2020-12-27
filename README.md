@@ -1,6 +1,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/bowmanjeffs/paprica)
 ![GitHub top language](https://img.shields.io/github/languages/top/bowmanjeffs/paprica)
 ![GitHub stars](https://img.shields.io/github/stars/bowmanjeffs/paprica?style=social)
+![Metabolic pathways in bacterial genomes in current paprica database](https://github.com/bowmanjeffs/paprica/blob/master/bacteria_terminal_path_distribution.png)
 ## Notice - If you've been redirected here from genome_finder you're in the right place!  Please take a look at the [Wiki](https://github.com/bowmanjeffs/paprica/wiki) for documentation.  There are also several tutorials available:
 [Installing paprica on Mac OSX](http://www.polarmicrobes.org/installing-paprica-on-mac-osx/) (updated) 
 [Basic analysis with paprica](http://www.polarmicrobes.org/analysis-with-paprica/) (updated)
