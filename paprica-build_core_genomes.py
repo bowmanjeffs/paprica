@@ -374,10 +374,10 @@ pathway_definitions = pd.read_csv(ref_dir + 'pathways.col', comment = '#', sep =
 for i, d in enumerate(assemblies):
     
     ## If a previous build effort was unsuccessful rewrite the files needed by
-    ## pathologic, in case the data files have been updatated in the public
-    ## repository (Genbank or MMETSP) and this fixes the problem.  
+    ## pathologic, in case the data files have been updatated in the Genbank
+    ## and this fixes the problem.  
     
-    ## If an assembly was updated by NCBI the PGDB deleted by paprica-make_ref.py.
+    ## If an assembly was updated by NCBI the PGDB was deleted by paprica-make_ref.py.
     ## This will force recreation of data files here.
     
     report_file = False
