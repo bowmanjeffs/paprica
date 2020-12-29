@@ -425,7 +425,19 @@ for i, d in enumerate(assemblies):
                         ## genbank file which ptools doesn't like.  Split the
                         ## file.
                         
+                        #!!! This is no longer necessary, but leaving as is for now.
+                        
                         for record in SeqIO.parse(ref_dir_domain + 'refseq/' + d + '/' + gbk, 'genbank'):
+                            
+                            ## Sanitize the genbank file.  For some reason when gene=rna pathologic fails.
+                            ## The correct gene name is rnsA and this allows pathologic to complete.  Not
+                            ## clear why this is happening and if there are other gene names that might
+                            ## cause a similar problem.
+                            
+                            for feature in record.features:
+                                if 'gene' in feature.qualifiers.keys():
+                                    if feature.qualifiers['gene'] == ['rna']:
+                                        feature.qualifiers['gene'] = ['rnsA']
                             
                             g = g + 1
                             basename = re.split('gbff', gbk)[0]
@@ -472,7 +484,19 @@ for i, d in enumerate(assemblies):
                     ## genbank file which ptools doesn't like.  Split the
                     ## file.
                     
+                    #!!! This is no longer necessary, but leaving as is for now.
+                    
                     for record in SeqIO.parse(ref_dir_domain + 'refseq/' + d + '/' + gbk, 'genbank'):
+                        
+                        ## Sanitize the genbank file.  For some reason when gene=rna pathologic fails.
+                        ## The correct gene name is rnsA and this allows pathologic to complete.  Not
+                        ## clear why this is happening and if there are other gene names that might
+                        ## cause a similar problem.
+                        
+                        for feature in record.features:
+                            if 'gene' in feature.qualifiers.keys():
+                                if feature.qualifiers['gene'] == ['rna']:
+                                    feature.qualifiers['gene'] = ['rnsA']
                         
                         g = g + 1
                         basename = re.split('gbff', gbk)[0]
