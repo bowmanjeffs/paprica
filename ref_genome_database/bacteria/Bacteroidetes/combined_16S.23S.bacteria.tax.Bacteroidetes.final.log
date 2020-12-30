@@ -1,0 +1,121 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 29-Dec-2020 09:09:38 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Bacteroidetes.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Bacteroidetes --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1609261778
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Bacteroidetes.raxml.rba
+[00:00:00] Alignment comprises 588 taxa, 2 partitions and 3451 patterns
+
+Partition 0: 16S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 1717 / 1056
+Gaps: 11.29 %
+Invariant sites: 41.76 %
+
+Partition 1: 23S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 4914 / 2395
+Gaps: 42.25 %
+Invariant sites: 44.14 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 588 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 588 taxa
+[00:00:02] Data distribution: max. partitions/sites/weight per thread: 2 / 1726 / 27616
+[00:00:02] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:07 -1216047.319177] Initial branch length optimization
+[00:00:11 -1091325.585871] Model parameter optimization (eps = 10.000000)
+[00:02:27 -1030806.775988] AUTODETECT spr round 1 (radius: 5)
+[00:03:40 -758378.247247] AUTODETECT spr round 2 (radius: 10)
+[00:05:08 -537444.314414] AUTODETECT spr round 3 (radius: 15)
+[00:07:16 -444446.423701] AUTODETECT spr round 4 (radius: 20)
+[00:10:08 -438554.180280] AUTODETECT spr round 5 (radius: 25)
+[00:13:32 -438444.075272] SPR radius for FAST iterations: 25 (autodetect)
+[00:13:32 -438444.075272] Model parameter optimization (eps = 3.000000)
+[00:14:03 -436417.345190] FAST spr round 1 (radius: 25)
+[00:15:18 -398910.989592] FAST spr round 2 (radius: 25)
+[00:16:21 -397705.166758] FAST spr round 3 (radius: 25)
+[00:17:09 -397639.354863] FAST spr round 4 (radius: 25)
+[00:17:50 -397600.920629] FAST spr round 5 (radius: 25)
+[00:18:28 -397597.934173] FAST spr round 6 (radius: 25)
+[00:19:06 -397595.825241] FAST spr round 7 (radius: 25)
+[00:19:45 -397591.225330] FAST spr round 8 (radius: 25)
+[00:20:24 -397591.225227] Model parameter optimization (eps = 1.000000)
+[00:20:35 -397576.173006] SLOW spr round 1 (radius: 5)
+[00:22:13 -397535.221574] SLOW spr round 2 (radius: 5)
+[00:23:31 -397534.554846] SLOW spr round 3 (radius: 5)
+[00:24:45 -397533.983117] SLOW spr round 4 (radius: 5)
+[00:26:02 -397533.355179] SLOW spr round 5 (radius: 5)
+[00:27:18 -397533.271230] SLOW spr round 6 (radius: 10)
+[00:28:36 -397533.269820] SLOW spr round 7 (radius: 15)
+[00:32:03] [worker #9] ML tree search #10, logLikelihood: -397609.419687
+[00:32:05 -397533.269785] SLOW spr round 8 (radius: 20)
+[00:33:31] [worker #13] ML tree search #14, logLikelihood: -397523.922488
+[00:35:07] [worker #10] ML tree search #11, logLikelihood: -397547.184182
+[00:35:24] [worker #11] ML tree search #12, logLikelihood: -397549.167306
+[00:35:27] [worker #16] ML tree search #17, logLikelihood: -397524.928956
+[00:35:42] [worker #15] ML tree search #16, logLikelihood: -397532.406817
+[00:36:54] [worker #12] ML tree search #13, logLikelihood: -397542.564288
+[00:37:08 -397533.269785] SLOW spr round 9 (radius: 25)
+[00:38:40] [worker #14] ML tree search #15, logLikelihood: -397615.905307
+[00:43:02] [worker #17] ML tree search #18, logLikelihood: -397644.744922
+[00:43:21 -397533.269785] Model parameter optimization (eps = 0.100000)
+
+[00:43:26] [worker #0] ML tree search #1, logLikelihood: -397533.017586
+
+[00:44:30] [worker #2] ML tree search #3, logLikelihood: -397541.796076
+[00:44:42] [worker #4] ML tree search #5, logLikelihood: -397532.148867
+[00:45:15] [worker #6] ML tree search #7, logLikelihood: -397534.922700
+[00:46:01] [worker #8] ML tree search #9, logLikelihood: -397503.199234
+[00:48:34] [worker #5] ML tree search #6, logLikelihood: -397516.523951
+[00:48:58] [worker #1] ML tree search #2, logLikelihood: -397512.487191
+[00:49:26] [worker #3] ML tree search #4, logLikelihood: -397516.792902
+[00:49:27] [worker #7] ML tree search #8, logLikelihood: -397500.669783
+
+
+Final LogLikelihood: -397500.669783
+
+AIC score: 797385.339565 / AICc score: 797908.346553 / BIC score: 805490.356559
+Free parameters (model + branch lengths): 1192
+
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Bacteroidetes.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Bacteroidetes.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Bacteroidetes.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Bacteroidetes.raxml.log
+
+Analysis started: 29-Dec-2020 09:09:38 / finished: 29-Dec-2020 09:59:06
+
+Elapsed time: 2967.349 seconds
+
+Consumed energy: 155.866 Wh
+

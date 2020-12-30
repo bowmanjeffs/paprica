@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [147, -17027.9731471029, 1.0000000000, 0.1698516473, 1.0005786573]
+      [147, -17598.5299139432, 0.9999787433, 0.1169496329, 1.1440357162]
       ],
-    "n": ["test_Proteobacteria_6"]
+    "n": ["test_Proteobacteria_8"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp_jhuixvk/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Spirochaetes/combined_16S.23S.bacteria.tax.Spirochaetes.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp_jhuixvk/combined_16S.bacteria.tax.Spirochaetes.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Spirochaetes/combined_16S.23S.bacteria.tax.Spirochaetes.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp_jhuixvk/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmprirxbqsv/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Spirochaetes/combined_16S.23S.bacteria.tax.Spirochaetes.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmprirxbqsv/combined_16S.bacteria.tax.Spirochaetes.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Spirochaetes/combined_16S.23S.bacteria.tax.Spirochaetes.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmprirxbqsv/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

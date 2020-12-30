@@ -3,13 +3,12 @@
   "placements": 
   [
     {"p": [
-      [3, -8085.3676526445, 0.9791535538, 0.0752126594, 0.6031900624],
-      [7, -8089.2171576359, 0.0208464462, 0.0000500000, 0.6279675564]
+      [3, -8321.8781143517, 0.9958264062, 0.0709913123, 0.7575175357]
       ],
-    "n": ["test_Proteobacteria_6"]
+    "n": ["test_Proteobacteria_8"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpzxt3yg0b/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Aquificae/combined_16S.23S.bacteria.tax.Aquificae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpzxt3yg0b/combined_16S.bacteria.tax.Aquificae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Aquificae/combined_16S.23S.bacteria.tax.Aquificae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpzxt3yg0b/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpp7l_wgek/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Aquificae/combined_16S.23S.bacteria.tax.Aquificae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpp7l_wgek/combined_16S.bacteria.tax.Aquificae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Aquificae/combined_16S.23S.bacteria.tax.Aquificae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpp7l_wgek/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

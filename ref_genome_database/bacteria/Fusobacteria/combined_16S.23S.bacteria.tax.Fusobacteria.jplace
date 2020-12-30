@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [34, -9998.4034865349, 1.0000000000, 0.1703362419, 2.6761416814]
+      [34, -10542.1013324604, 1.0000000000, 0.1542067679, 2.7778342103]
       ],
-    "n": ["test_Proteobacteria_6"]
+    "n": ["test_Proteobacteria_8"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpg3ahnbnd/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Fusobacteria/combined_16S.23S.bacteria.tax.Fusobacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpg3ahnbnd/combined_16S.bacteria.tax.Fusobacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Fusobacteria/combined_16S.23S.bacteria.tax.Fusobacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpg3ahnbnd/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpy_tsdh16/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Fusobacteria/combined_16S.23S.bacteria.tax.Fusobacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpy_tsdh16/combined_16S.bacteria.tax.Fusobacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Fusobacteria/combined_16S.23S.bacteria.tax.Fusobacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpy_tsdh16/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

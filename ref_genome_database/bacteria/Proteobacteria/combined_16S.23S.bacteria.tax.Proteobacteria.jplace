@@ -3,12 +3,18 @@
   "placements": 
   [
     {"p": [
-      [4534, -416765.4177169590, 0.9999995333, 0.0000500000, 0.0001000000]
+      [4707, -418810.9011985437, 0.1931757653, 0.0000500000, 0.0001000000],
+      [4710, -418811.4240119465, 0.1145243052, 0.0000005000, 0.0001000000],
+      [4709, -418811.4357291365, 0.1131902332, 0.0005490000, 0.0001000000],
+      [4708, -418811.4421791410, 0.1124625051, 0.0005480000, 0.0001000000],
+      [4711, -418811.4608001907, 0.1103877126, 0.0000500000, 0.0001000000],
+      [4715, -418811.7744946963, 0.0806649634, 0.0000500000, 0.0001000000],
+      [4713, -418811.7762643078, 0.0805223440, 0.0000500000, 0.0001000000]
       ],
-    "n": ["test_Proteobacteria_6"]
+    "n": ["test_Proteobacteria_8"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpkwi9fiah/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Proteobacteria/combined_16S.23S.bacteria.tax.Proteobacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpkwi9fiah/combined_16S.bacteria.tax.Proteobacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Proteobacteria/combined_16S.23S.bacteria.tax.Proteobacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpkwi9fiah/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpug9wci0m/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Proteobacteria/combined_16S.23S.bacteria.tax.Proteobacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpug9wci0m/combined_16S.bacteria.tax.Proteobacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Proteobacteria/combined_16S.23S.bacteria.tax.Proteobacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpug9wci0m/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

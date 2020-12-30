@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [43, -7310.1169699949, 1.0000000000, 0.1436571283, 2.9626784390]
+      [43, -7572.2102359973, 1.0000000000, 0.1072568697, 3.1272268949]
       ],
-    "n": ["test_Proteobacteria_6"]
+    "n": ["test_Proteobacteria_8"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp0m_tztdc/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Chlamydiae/combined_16S.23S.bacteria.tax.Chlamydiae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp0m_tztdc/combined_16S.bacteria.tax.Chlamydiae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Chlamydiae/combined_16S.23S.bacteria.tax.Chlamydiae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp0m_tztdc/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpnaxmjy32/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Chlamydiae/combined_16S.23S.bacteria.tax.Chlamydiae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpnaxmjy32/combined_16S.bacteria.tax.Chlamydiae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Chlamydiae/combined_16S.23S.bacteria.tax.Chlamydiae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpnaxmjy32/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

@@ -3,12 +3,12 @@
   "placements": 
   [
     {"p": [
-      [0, -5230.9466307286, 1.0000000000, 0.0374245149, 3.1020640349]
+      [0, -5392.5328505979, 1.0000000000, 0.0160721293, 3.5920764616]
       ],
-    "n": ["test_Proteobacteria_6"]
+    "n": ["test_Proteobacteria_8"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpyy3dnk1t/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Thermodesulfobacteria/combined_16S.23S.bacteria.tax.Thermodesulfobacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpyy3dnk1t/combined_16S.bacteria.tax.Thermodesulfobacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Thermodesulfobacteria/combined_16S.23S.bacteria.tax.Thermodesulfobacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpyy3dnk1t/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpyxfx56wy/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Thermodesulfobacteria/combined_16S.23S.bacteria.tax.Thermodesulfobacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpyxfx56wy/combined_16S.bacteria.tax.Thermodesulfobacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Thermodesulfobacteria/combined_16S.23S.bacteria.tax.Thermodesulfobacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpyxfx56wy/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }
