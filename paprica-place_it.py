@@ -115,7 +115,7 @@ except KeyError:
 try:    
     domain = command_args['domain']  # The domain being used for analysis.
 except KeyError:
-    domain = 'eukarya'
+    domain = 'bacteria'
 try:
     ref = command_args['ref']  # The name of the reference package being used.
 except KeyError:
@@ -134,7 +134,7 @@ except KeyError:
 ## No default is currently provided for query.
     
 if len(sys.argv) == 1:
-    query = 'big_test_18S.' + domain
+    query = 'big_test_16S.' + domain
     #command_args['query'] = query
 
 ## Figure out an appropriate number of cores for building trees.  RAxML
@@ -559,6 +559,7 @@ def check_tree(alignment_16S, final_tree):
             good_16S.append(record)
             
     if len(good_16S) != len(tree_ids):
+        print('The length of the alignment does not match the tree!')
         stop_here()
                     
 #%% Define function to execute phylogenetic placement on a query fasta, or split query fasta
@@ -951,27 +952,26 @@ if 'query' not in list(command_args.keys()):
                 best_tree(prefix_combined + '.' + fasta, partition = True)
                 check_tree(prefix_16S + '.' + fasta + '.clean.align.sto', prefix_combined + '.' + fasta + '.final.bestTree')
                 
-            ## Clean up by moving the files that will be needed for paprica-run.sh
-            ## to a dedicated directory.
-                
-            shutil.rmtree(ref_dir_domain + fasta, ignore_errors = True)
-            os.makedirs(ref_dir_domain + fasta)
-            
-            for f in ['combined_16S.23S.bacteria.tax.' + fasta + '.final.bestModel',
-                      'combined_16S.23S.bacteria.tax.' + fasta + '.part',
-                      'combined_23S.bacteria.tax.' + fasta + '.clean.align.sto',
-                      'combined_16S.23S.bacteria.tax.' + fasta + '.final.bestTree',
-                      'combined_16S.bacteria.tax.' + fasta + '.clean.align.sto',
-                      'combined_16S.23S.bacteria.tax.' + fasta + '.final.log']:
-                
-                try:
-                    shutil.copy(ref_dir_domain + f, ref_dir_domain + fasta + '/' + f)
+                ## Clean up by moving the files that will be needed for paprica-run.sh
+                ## to a dedicated directory.
                     
-                ## If not enough sequences were present to build a tree, files will not
-                ## exist.
+                shutil.rmtree(ref_dir_domain + fasta, ignore_errors = True)
+                os.makedirs(ref_dir_domain + fasta)
+                
+                for f in ['combined_16S.23S.bacteria.tax.' + fasta + '.final.bestModel',
+                          'combined_16S.23S.bacteria.tax.' + fasta + '.part',
+                          'combined_16S.23S.bacteria.tax.' + fasta + '.final.bestTree',
+                          'combined_16S.bacteria.tax.' + fasta + '.clean.align.sto',
+                          'combined_16S.23S.bacteria.tax.' + fasta + '.final.log']:
                     
-                except FileNotFoundError:
-                    continue
+                    try:
+                        shutil.copy(ref_dir_domain + f, ref_dir_domain + fasta + '/' + f)
+                        
+                    ## If not enough sequences were present to build a tree, files will not
+                    ## exist.
+                        
+                    except FileNotFoundError:
+                        continue
                 
         n_aseqs = genome_data.shape[0]
         genome_data.to_csv(ref_dir_domain + 'genome_data.csv.gz')
@@ -1128,25 +1128,25 @@ if 'query' not in list(command_args.keys()):
                 run_raxml(prefix_16S + '.' + fasta, prefix_16S + '.' + fasta + '.raxml.rba') 
                 best_tree(prefix_16S + '.' + fasta, partition = False)
                 
-            ## Clean up by moving the files that will be needed for paprica-run.sh
-            ## to a dedicated directory.
-                
-            shutil.rmtree(ref_dir_domain + fasta, ignore_errors = True)
-            os.makedirs(ref_dir_domain + fasta)
-            
-            for f in ['combined_18S.eukarya.tax.' + fasta + '.final.bestModel',
-                      'combined_18S.eukarya.tax.' + fasta + '.clean.align.sto',
-                      'combined_18S.eukarya.tax.' + fasta + '.final.bestTree',
-                      'combined_18S.eukarya.tax.' + fasta + '.final.log']:
-                
-                try:
-                    shutil.copy(ref_dir_domain + f, ref_dir_domain + fasta + '/' + f)
+                ## Clean up by moving the files that will be needed for paprica-run.sh
+                ## to a dedicated directory.
                     
-                ## If not enough sequences were present to build a tree, files will not
-                ## exist.
+                shutil.rmtree(ref_dir_domain + fasta, ignore_errors = True)
+                os.makedirs(ref_dir_domain + fasta)
+                
+                for f in ['combined_18S.eukarya.tax.' + fasta + '.final.bestModel',
+                          'combined_18S.eukarya.tax.' + fasta + '.clean.align.sto',
+                          'combined_18S.eukarya.tax.' + fasta + '.final.bestTree',
+                          'combined_18S.eukarya.tax.' + fasta + '.final.log']:
                     
-                except FileNotFoundError:
-                    continue
+                    try:
+                        shutil.copy(ref_dir_domain + f, ref_dir_domain + fasta + '/' + f)
+                        
+                    ## If not enough sequences were present to build a tree, files will not
+                    ## exist.
+                        
+                    except FileNotFoundError:
+                        continue
                 
         ## edge_lineages.csv and genome_data.csv need to be compatible with
         ## paprica-build_core_genomes.py.  The classify_ref function is not used
@@ -1243,7 +1243,7 @@ if 'query' not in list(command_args.keys()):
             
 else:
     
-    ## If the query flag is give you are placing reads on the existing reference tree.
+    ## If the query flag is given you are placing reads on the existing reference tree.
     ## Two features have been deprecated as they are no longer particularly relevant:
     ## the -n subsampling option and -splits.  It's recommended that subsampling
     ## be performed on the final output files in R or whatever software you're
