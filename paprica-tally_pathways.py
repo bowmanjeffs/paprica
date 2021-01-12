@@ -332,9 +332,14 @@ if domain != 'eukarya':
         
     #     edge_data['taxon'] = ''
     
-    ## Calculate the confidence score for the sample.
-
-    sample_confidence = sum((edge_data['confidence'] * edge_data['nedge_corrected'])) / edge_data['nedge_corrected'].sum() 
+    ## Calculate the confidence score for the sample. If your input file contains
+    ## only a single read and it does not place to a subtree there will be no
+    ## confidence value.
+    
+    try:
+        sample_confidence = sum((edge_data['confidence'] * edge_data['nedge_corrected'])) / edge_data['nedge_corrected'].sum() 
+    except KeyError:
+        sample_confidence = np.nan
     
 ## Add lineage data for each edge
 
