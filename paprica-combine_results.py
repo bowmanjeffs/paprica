@@ -86,7 +86,11 @@ os.system('rm -f ' + prefix + '.' + domain + '.edge_tally.csv')
 os.system('rm -f ' + prefix + '.' + domain + '.edge_data.csv')
 os.system('rm -f ' + prefix + '.' + domain + '.path_tally.csv')
 os.system('rm -f ' + prefix + '.' + domain + '.ec_tally.csv')
-    
+os.system('rm -f ' + prefix + '.' + domain + '.seq_edge_map.csv')
+os.system('rm -f ' + prefix + '.' + domain + '.taxon_map.csv')
+os.system('rm -f ' + prefix + '.' + domain + '.unique_edge_abund.csv')
+os.system('rm -f ' + prefix + '.' + domain + '.unique_tally.csv')
+ 
 def stop_here():
     stop = []
     print('Manually stopped!')

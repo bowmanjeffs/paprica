@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 help_string = """
@@ -55,8 +55,8 @@ import numpy as np
 
 def stop_here():
     stop = []
-    print 'Manually stopped!'
-    print stop[1]
+    print('Manually stopped!')
+    print(stop[1])
     
 ## Define a function to download viral genomes.
     
@@ -76,7 +76,7 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
         
         for extension in ['_genomic.fna.gz', '_genomic.gbff.gz', '_protein.faa.gz']:
             wget0 = subprocess.Popen('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget \
-                                     --tries=10 -q -r -nd -T30 -e robots=off ' \
+                                     --tries=10 -N -q -r -nd -T30 -e robots=off ' \
                                      + strain_ftp + '/' + base_name + extension, \
                                      shell = True, executable = executable)
             wget0.communicate() 
@@ -84,10 +84,61 @@ def download_assembly(ref_dir_domain, executable, assembly_accession):
         gunzip = subprocess.Popen('gunzip ' + ref_dir_domain + 'refseq/' + assembly_accession + '/*', shell = True, executable = executable)
         gunzip.communicate()
         
-        print assembly_accession + ':' + strain_ftp
+        print(assembly_accession + ':' + strain_ftp)
         
     except KeyError:
-        print 'no', assembly_accession, 'path'
+        print('no', assembly_accession, 'path')
+        
+## Define a function to get the MMETS info for euk transcriptomes.
+        
+def get_eukaryotes():
+
+    ## Get eukaryote sample data from MMETSP.
+        
+    if 'sample-attr.tab' not in os.listdir(ref_dir_domain):
+        wget0 = subprocess.Popen('cd ' + ref_dir_domain + ';wget --tries=10 -T30 -q https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/sample-attr.tab', shell = True, executable = executable)
+        wget0.communicate()
+    
+    ## Parse this file into a dataframe.
+    
+    summary_complete = pd.DataFrame()
+    l = 0    
+    
+    with open(ref_dir_domain + 'sample-attr.tab', 'r') as sample_attr:
+        for line in sample_attr:
+            line = line.rstrip()
+            line = line.split('\t')
+            l = l + 1
+            if l != 1:
+                summary_complete.loc[line[0], 'sample_name'] = line[1]
+                summary_complete.loc[line[0], line[2]] = line[3]   
+                            
+    return(summary_complete)  
+        
+## Define a function to download MMETSP transcriptomes.
+        
+def download_euks(online_directory):
+    
+    os.makedirs(ref_dir_domain + 'refseq', exist_ok = True)
+    
+    try:
+        assembly_accession = euk_summary_complete.loc[online_directory, 'sample_name']
+        strain_ftp = 'https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/samples/' + online_directory
+        
+        strain_nt = assembly_accession + '.nt.fa'
+        strain_fa = assembly_accession + '.pep.fa'
+        
+        os.makedirs(ref_dir_domain + 'refseq/' + assembly_accession, exist_ok = True)
+        
+        for f in [strain_nt, strain_fa]:
+            subprocess.call('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -N -q -r -nd -T30 -e robots=off ' + strain_ftp + '/' + f, shell = True, executable = executable)
+        
+        subprocess.call('cd ' + ref_dir_domain + 'refseq/' + assembly_accession + ';wget --tries=10 -N -q -r -nd -T30 -e robots=off ' + strain_ftp + '/annot/swissprot.gff3', shell = True, executable = executable)
+        
+        print(assembly_accession + ':' + ref_dir_domain + 'refseq/' + assembly_accession)
+        
+    except KeyError:
+        print('no', online_directory, 'online directory') 
 
 #%% Read in command line arguments.
 
@@ -101,8 +152,8 @@ for i,arg in enumerate(sys.argv):
         except IndexError:
             command_args[arg] = ''
         
-if 'h' in command_args.keys():
-    print help_string
+if 'h' in list(command_args.keys()):
+    print(help_string)
     quit()
 
 try:
@@ -115,6 +166,54 @@ if ref_dir.endswith('/') == False:
 
 paprica_path = os.path.dirname(os.path.realpath("__file__")) + '/' # The location of the actual paprica scripts.  
 ref_dir = paprica_path + ref_dir
+
+#%% Download euk transcriptomes.
+
+ref_dir_domain = ref_dir + 'eukarya/'
+
+euk_summary_complete = get_eukaryotes()
+
+## Execute the download function.  You can't do this from inside the function
+## because parallel requires input variables to be global.
+ 
+Parallel(n_jobs = -1, verbose = 5)(delayed(download_euks)
+(online_directory) for online_directory in euk_summary_complete.index)
+    
+## Check to make sure that each downloaded directory has a .fa, .nt, and .gff3 file
+## extension.  Remove if it does not, and add to bad_eukarya.
+    
+bad_eukarya = []
+    
+for genome in euk_summary_complete.sample_name:
+    file_count = 0
+    
+    try:
+        for f in os.listdir(ref_dir_domain + 'refseq/' + genome):
+            if f.endswith('pep.fa'):
+                file_count = file_count + 1
+            if f.endswith('nt.fa'):
+                file_count = file_count + 1
+            elif f.endswith('swissprot.gff3'):
+                file_count = file_count + 1 
+    except OSError:
+        pass
+            
+    if file_count != 3:
+        try:
+            shutil.rmtree(ref_dir_domain + 'refseq/' + genome)
+        except OSError:
+            pass
+        bad_eukarya.append(genome)
+    
+## Remove incomplete downloads from summary_complete.
+    
+euk_summary_complete = euk_summary_complete[~euk_summary_complete.sample_name.isin(bad_eukarya)]
+
+## For Eukarya, dataframe is currently indexed by online directory number.
+## Downstream scripts need it to be indexed by acccession.  
+
+euk_summary_complete = euk_summary_complete.set_index('sample_name')
+euk_summary_complete.to_csv(ref_dir_domain + 'genome_data.final.csv') 
 
 #%% Download virus sequences, since they aren't used anywhere else.  Since this
 ## isn't a particularly large database, just overwrite existing.
@@ -130,9 +229,8 @@ os.mkdir(ref_dir + 'virus' + '/refseq')
 genome_data_virus = pd.read_table('ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/viral/assembly_summary.txt', header = 1, index_col = 0)
 genome_data_virus = genome_data_virus[genome_data_virus.assembly_level == 'Complete Genome']
 
-if __name__ == '__main__':  
-    Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
-    (ref_dir + 'virus/', executable, assembly_accession) for assembly_accession in genome_data_virus.index)
+Parallel(n_jobs = -1, verbose = 5)(delayed(download_assembly)
+(ref_dir + 'virus/', executable, assembly_accession) for assembly_accession in genome_data_virus.index)
 
 ## Check to make sure critical files downloaded.
 
@@ -162,7 +260,7 @@ for assembly_accession in genome_data_virus.index:
             ng_file_count = ng_file_count + 1
                     
     if ng_file_count != 3:
-        print assembly_accession, 'is missing a Genbank file'
+        print(assembly_accession, 'is missing a Genbank file')
         incomplete_genome.append(assembly_accession)
                        
 genome_data_virus = genome_data_virus.drop(incomplete_genome)
@@ -174,16 +272,15 @@ genome_data_virus.to_csv(ref_dir + 'virus/' + 'genome_data.final.csv')
 ## Read in genome_data so that you can iterate by genomes that are actually
 ## used by paprica.
 
-genome_data_bacteria = pd.read_csv(ref_dir + 'bacteria/genome_data.final.csv', index_col = 0, header = 0)
+genome_data_bacteria = pd.read_csv(ref_dir + 'bacteria/genome_data.final.csv.gz', index_col = 0, header = 0)
 genome_data_bacteria = genome_data_bacteria.dropna(subset = ['clade'])
 genome_data_bacteria['domain'] = 'bacteria'
 
-genome_data_archaea = pd.read_csv(ref_dir + 'archaea/genome_data.final.csv', index_col = 0, header = 0)
+genome_data_archaea = pd.read_csv(ref_dir + 'archaea/genome_data.final.csv.gz', index_col = 0, header = 0)
 genome_data_archaea = genome_data_archaea.dropna(subset = ['clade'])
 genome_data_archaea['domain'] = 'archaea'
 
 genome_data_eukarya = pd.read_csv(ref_dir + 'eukarya/genome_data.final.csv', index_col = 0, header = 0)
-genome_data_eukarya = genome_data_eukarya.dropna(subset = ['clade'])
 genome_data_eukarya['domain'] = 'eukarya'
 genome_data_eukarya.drop_duplicates(subset = ['taxon_id'], inplace = True)
 
@@ -225,11 +322,11 @@ def count_ec(output, i):
                 for record in SeqIO.parse(ref_dir + domain + '/refseq/' + d + '/' + f, 'genbank'):
                     for feature in record.features:
                         if feature.type == 'CDS':
-                            if 'EC_number' in feature.qualifiers.keys():                              
+                            if 'EC_number' in list(feature.qualifiers.keys()):                              
                                 eci = eci + 1
                 
                 output[i] = eci
-                print d, 'has', eci, 'features'
+                print(d, 'has', eci, 'features')
 
             ## For some assemblies an error is raised on a second(?) record identified
             ## in the Genbank file.  It isn't clear why this is happening, pass the error
@@ -254,6 +351,8 @@ os.remove('tmp.paprica.mmp')
                             
 prot_array = np.empty((eci,9), dtype = 'object')
 prot_array_index = np.empty(eci, dtype = 'object')
+
+stop_here()
 
 ## Iterate through all the files in refseq and find the gbk files again.  Store
 ## the information necessary to create a Genbank record of each feature in the
@@ -287,7 +386,7 @@ for d in genome_data.index:
                 for record in SeqIO.parse(ref_dir + domain + '/refseq/' + d + '/' + f, 'genbank'):
                     for feature in record.features:
                         if feature.type == 'CDS':
-                            if 'EC_number' in feature.qualifiers.keys():
+                            if 'EC_number' in list(feature.qualifiers.keys()):
                                 
                                 ## These qualifiers must be present.
                             
@@ -337,7 +436,7 @@ for d in genome_data.index:
                                 prot_array[i,8] = end
                                 
                                 i = i + 1
-                                print d, i, 'out of around', int(eci/2), protein_id, ec[0]
+                                print(d, i, 'out of around', int(eci/2), protein_id, ec[0])
                                 
             ## For some assemblies an error is raised on a second(?) record identified
             ## in the Genbank file.  It isn't clear why this is happening, pass the error
@@ -374,11 +473,8 @@ prot_df = pd.merge(prot_df, nuc_counts, left_on = 'sequence', right_index = True
 ## Now that you know which are duplicates, make nonredundant and print out to
 ## csv.  This is the basis of the paprica-mg database for metagenomic analysis.
 
-try:
-    os.mkdir(ref_dir + 'paprica-mgt.database')
-except OSError:
-    shutil.rmtree(ref_dir + 'paprica-mgt.database')
-    os.mkdir(ref_dir + 'paprica-mgt.database')
+shutil.rmtree(ref_dir + 'paprica-mgt.database', ignore_errors = True)
+os.mkdir(ref_dir + 'paprica-mgt.database')
 
 prot_nr_trans_df = prot_df.drop_duplicates(subset = ['translation'])
 prot_nr_trans_df.to_csv(ref_dir + 'paprica-mgt.database/paprica-mg.ec.csv')
@@ -397,12 +493,11 @@ with open(ref_dir + 'paprica-mgt.database/paprica-mg.fasta', 'w') as fasta_out:
     for row in prot_nr_trans_df.iterrows():
         protein_id = row[0]
         translation = row[1]['translation']
-        print 'making fasta file', protein_id
-        print >> fasta_out, '>' + protein_id
-        print >> fasta_out, translation
+        print('making fasta file', protein_id)
+        print('>' + protein_id, file=fasta_out)
+        print(translation, file=fasta_out)
 
-makedb = subprocess.Popen('diamond makedb --in ' + ref_dir + 'paprica-mgt.database/paprica-mg.fasta -d ' + ref_dir + 'paprica-mgt.database/paprica-mg', shell = True, executable = executable)
-makedb.communicate()  
+subprocess.call('diamond makedb --in ' + ref_dir + 'paprica-mgt.database/paprica-mg.fasta -d ' + ref_dir + 'paprica-mgt.database/paprica-mg', shell = True, executable = executable) 
 
 ## Make an unique fasta for the metatranscriptomic analysis database.
 
@@ -410,12 +505,11 @@ with open(ref_dir + 'paprica-mgt.database/paprica-mt.fasta', 'w') as fasta_out:
     for row in prot_unique_cds_df.iterrows():
         protein_id = row[0]
         sequence = row[1]['sequence']
-        print 'making fasta file', protein_id
-        print >> fasta_out, '>' + protein_id
-        print >> fasta_out, sequence
+        print('making fasta file', protein_id)
+        print('>' + protein_id, file=fasta_out)
+        print(sequence, file=fasta_out)
 
-makedb = subprocess.Popen('bwa index ' + ref_dir + 'paprica-mgt.database/paprica-mt.fasta', shell = True, executable = executable)
-makedb.communicate()  
+subprocess.call('bwa index ' + ref_dir + 'paprica-mgt.database/paprica-mt.fasta', shell = True, executable = executable)
                         
                         
         
