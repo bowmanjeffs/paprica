@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 help_string = """
@@ -48,8 +48,8 @@ import pandas as pd
 
 def stop_here():
     stop = []
-    print 'Manually stopped!'
-    print stop[1]
+    print('Manually stopped!')
+    print(stop[1])
 
 ## Identify directory locations.
     
@@ -72,24 +72,24 @@ for i,arg in enumerate(sys.argv):
         except IndexError:
             command_args[arg] = ''
         
-if 'h' in command_args.keys():
-    print help_string
+if 'h' in list(command_args.keys()):
+    print(help_string)
     quit()
 
 ## Provide input switches for testing.
 
-if 'i' not in command_args.keys():
+if 'i' not in list(command_args.keys()):
     query = ['test.fasta.gz']
 else:
     query = command_args['i']
     query = query.split()
     
-if 'o' not in command_args.keys():
+if 'o' not in list(command_args.keys()):
     name = 'test_mt'
 else:
     name = command_args['o']
     
-if 'ref_dir' not in command_args.keys():
+if 'ref_dir' not in list(command_args.keys()):
     ref_dir = 'ref_genome_database/paprica-mgt.database'
 else:
     ref_dir = command_args['ref_dir']
@@ -97,17 +97,17 @@ else:
         ref_dir = ref_dir + '/'
     ref_dir = ref_dir + 'paprica-mgt.database'
     
-if 'pathways' not in command_args.keys():
+if 'pathways' not in list(command_args.keys()):
     pathways = 'F'
 else:
     pathways = command_args['pathways']
     
-if 'pgdb_dir' not in command_args.keys():
+if 'pgdb_dir' not in list(command_args.keys()):
     pgdb_dir = '/volumes/hd2/ptools-local/user/'
 else:
     pgdb_dir = command_args['pgdb_dir']
     
-if 't' not in command_args.keys():
+if 't' not in list(command_args.keys()):
     threads = 72
 else:
     threads = command_args['t']
@@ -175,7 +175,7 @@ with gzip.open(cwd + name + '.sam.gz', 'rb') as sam:
                     except KeyError:
                         prot_counts[rname] = 1
     
-                print 'tallying hits for', name + ':', 'found', f, 'out of', i
+                print('tallying hits for', name + ':', 'found', f, 'out of', i)
 
 ## Add information from paprica-mt.ec.csv.
 
@@ -194,17 +194,17 @@ prot_unique_cds_df.loc[prot_unique_cds_df.cds_n_occurrences == 1, ('unique')] = 
 
 ## Write out the final csv file.
 
-print 'writing output csv:', cwd + name + '.tally_ec.csv...'
+print('writing output csv:', cwd + name + '.tally_ec.csv...')
 columns_out = ['genome', 'domain', 'tax_name', 'EC_number', 'product', 'length_cds', 'n_hits', 'unique']
 prot_unique_cds_df.to_csv(cwd + name + '.tally_ec.csv', columns = columns_out)
 
 ## Write out report file.
 
 with open(cwd + name + '.paprica-mt_report.txt', 'w') as report:
-    print >> report, 'file', query
-    print >> report, 'n_reads', i
-    print >> report, 'n_hits', f
-    print >> report, 'f_hits', float(f)/i
-    print >> report, 'n_genomes', len(prot_unique_cds_df.genome.value_counts())
+    print('file', query, file=report)
+    print('n_reads', i, file=report)
+    print('n_hits', f, file=report)
+    print('f_hits', float(f)/i, file=report)
+    print('n_genomes', len(prot_unique_cds_df.genome.value_counts()), file=report)
 
-print 'done'
+print('done')

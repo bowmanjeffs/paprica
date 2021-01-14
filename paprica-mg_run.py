@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 help_string = """
@@ -51,8 +51,8 @@ from Bio import SeqFeature
 
 def stop_here():
     stop = []
-    print 'Manually stopped!'
-    print stop[1]
+    print('Manually stopped!')
+    print(stop[1])
 
 ## Identify directory locations.
     
@@ -75,33 +75,33 @@ for i,arg in enumerate(sys.argv):
         except IndexError:
             command_args[arg] = ''
         
-if 'h' in command_args.keys():
-    print help_string
+if 'h' in list(command_args.keys()):
+    print(help_string)
     quit()
 
 ## Provide input switches for testing.
 
-if 'i' not in command_args.keys():
+if 'i' not in list(command_args.keys()):
     query = 'ERR318619_1.qc.fasta.gz'
 else:
     query = command_args['i']
     
-if 'o' not in command_args.keys():
+if 'o' not in list(command_args.keys()):
     name = 'test_mg'
 else:
     name = command_args['o']
     
-if 'ref_dir' not in command_args.keys():
+if 'ref_dir' not in list(command_args.keys()):
     ref_dir = 'ref_genome_database/paprica-mgt.database'
 else:
     ref_dir = command_args['ref_dir']
     
-if 'pathways' not in command_args.keys():
+if 'pathways' not in list(command_args.keys()):
     pathways = 'F'
 else:
     pathways = command_args['pathways']
     
-if 'pgdb_dir' not in command_args.keys():
+if 'pgdb_dir' not in list(command_args.keys()):
     pgdb_dir = '/volumes/hd2/ptools-local/user/'
 else:
     pgdb_dir = command_args['pgdb_dir']
@@ -120,7 +120,7 @@ if ref_dir_path.endswith('/') == False:
 ec_df = pd.read_csv(ref_dir_path + 'paprica-mg.ec.csv', index_col = 0)
 ngenomes = len(ec_df['genome'].unique())
     
-print 'executing DIAMOND blastx, this might take a while...'
+print('executing DIAMOND blastx, this might take a while...')
     
 ## If pathways aren't being predicted than we only want a single hit for each
 ## query.  This isn't exactly correct, as each hit could have multiple
@@ -165,9 +165,9 @@ if pathways == 'T':
     the connection with your server so that pathway-tools can send you
     graphical messages"""
     
-    print warning
+    print(warning)
     
-    print 'running DIAMOND round 2 for redundand output, this will take a little while...'
+    print('running DIAMOND round 2 for redundand output, this will take a little while...')
     
     diamond = subprocess.Popen('diamond blastx -k ' + str(ngenomes) + ' --min-score 35 -d ' + ref_dir_path + 'paprica-mg -q ' + cwd + query + ' -a ' + cwd + name + '.paprica-mg.daa', shell = True, executable = executable)
     diamond.communicate()
@@ -175,7 +175,7 @@ if pathways == 'T':
     diamond_view = subprocess.Popen('diamond view -a ' + cwd + name + '.paprica-mg.daa -o ' + cwd + name + '.paprica-mg.txt', shell = True, executable = executable)
     diamond_view.communicate()
     
-    print 'parsing redundant DIAMOND output, this will probably also take a while...'
+    print('parsing redundant DIAMOND output, this will probably also take a while...')
     
     ## The DIAMOND output can be huge, necessary to read in in chunks.
     
@@ -202,7 +202,7 @@ if pathways == 'T':
         else:        
             hit_tally = hit_tally.add(pd.DataFrame(chunk['sseqid'].value_counts()), fill_value = 0)
         
-        print ichunk, 'of', max_chunk
+        print(ichunk, 'of', max_chunk)
     
     hit_tally.columns = ['r_hits'] ## r hits reflects all significant hits to the database
     
@@ -222,7 +222,7 @@ if pathways == 'T':
     shutil.rmtree(pathos_output_dir, ignore_errors = True)
     os.makedirs(pathos_output_dir)
     
-    print 'generating files and directory structure for pathway-tools'
+    print('generating files and directory structure for pathway-tools')
     
     with open(pathos_output_dir + 'genetic-elements.dat', 'w') as all_genetic_elements, open(cwd + name + '.ec_numbers.txt', 'w') as ec_out:
         for genome in annotation_df['genome'].unique():
@@ -232,7 +232,7 @@ if pathways == 'T':
             
             for hit in temp.index:
                 
-                print hit
+                print(hit)
                 
                 qualifiers = {}
                 qualifiers['gene'] = hit
@@ -247,7 +247,7 @@ if pathways == 'T':
                 ## problems.
     
                 for number in ec_number:
-                    print >> ec_out, number
+                    print(number, file=ec_out)
                     
                 qualifiers['EC_number'] = ec_number
             
@@ -263,24 +263,24 @@ if pathways == 'T':
             new_record = SeqRecord(Seq('nnnn', alphabet = IUPAC.ambiguous_dna), id = genome, name = genome, features = features)
             SeqIO.write(new_record, open(pathos_output_dir + name + '.' + genome + '.gbk', 'w'), 'genbank')
             
-            print >> all_genetic_elements, 'ID' + '\t' + genome
-            print >> all_genetic_elements, 'NAME' + '\t' + genome
-            print >> all_genetic_elements, 'TYPE' + '\t' + ':CHRSM'
-            print >> all_genetic_elements, 'CIRCULAR?' + '\t' + 'Y'
-            print >> all_genetic_elements, 'ANNOT-FILE' + '\t' + name + '.' + genome + '.gbk'
-            print >> all_genetic_elements, '//' 
+            print('ID' + '\t' + genome, file=all_genetic_elements)
+            print('NAME' + '\t' + genome, file=all_genetic_elements)
+            print('TYPE' + '\t' + ':CHRSM', file=all_genetic_elements)
+            print('CIRCULAR?' + '\t' + 'Y', file=all_genetic_elements)
+            print('ANNOT-FILE' + '\t' + name + '.' + genome + '.gbk', file=all_genetic_elements)
+            print('//', file=all_genetic_elements) 
     
     ## Now create the organism-params.dat file. 
     
     with open(pathos_output_dir + 'organism-params.dat', 'w') as all_organism_params:
-        print >> all_organism_params, 'ID' + '\t' + name
-        print >> all_organism_params, 'Storage' + '\t' + 'File'
-        print >> all_organism_params, 'Name' + '\t' + name
-        print >> all_organism_params, 'Rank' + '\t' + 'Strain'
-        print >> all_organism_params, 'Domain' + '\t' + 'TAX-2'
-        print >> all_organism_params, 'Create?' + '\t' + 't'
+        print('ID' + '\t' + name, file=all_organism_params)
+        print('Storage' + '\t' + 'File', file=all_organism_params)
+        print('Name' + '\t' + name, file=all_organism_params)
+        print('Rank' + '\t' + 'Strain', file=all_organism_params)
+        print('Domain' + '\t' + 'TAX-2', file=all_organism_params)
+        print('Create?' + '\t' + 't', file=all_organism_params)
         
-    print 'executing pathway-tools, this will take several hours'
+    print('executing pathway-tools, this will take several hours')
     
     ## Attempt to remove the old PGDB if it exists, then run pathologic.
     
@@ -302,11 +302,11 @@ if pathways == 'T':
                                 if len(line) > 0:
                                     path = line[0]
         
-                                    print >> pathways_out, path
-                                    print name, path
+                                    print(path, file=pathways_out)
+                                    print(name, path)
 
     except IOError:
-        print 'no report found, check for', pgdb_dir + name + 'cyc/1.0/reports/pathways-report.txt'
+        print('no report found, check for', pgdb_dir + name + 'cyc/1.0/reports/pathways-report.txt')
 
 ## No need to include the translation column, which takes up excessive space.
         
