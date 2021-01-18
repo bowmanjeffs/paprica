@@ -56,7 +56,7 @@ def stop_here():
 cwd = os.getcwd() + '/' # The current working directory.
 
 if len(sys.argv) == 1:
-    paprica_path = '/volumes/hd1/paprica/' # The location of the paprica scripts during testing.
+    paprica_path = '/volumes/hd2/jeff/paprica/' # The location of the paprica scripts during testing.
 else:
     paprica_path = os.path.dirname(os.path.realpath(__file__)) + '/' # The location of the actual paprica scripts.
     
@@ -79,7 +79,7 @@ if 'h' in list(command_args.keys()):
 ## Provide input switches for testing.
 
 if 'i' not in list(command_args.keys()):
-    query = ['test.fasta.gz']
+    query = ['test_mt.fasta.gz']
 else:
     query = command_args['i']
     query = query.split()
@@ -124,7 +124,7 @@ if ref_dir_path.endswith('/') == False:
 if len(query) == 1:
     bwa_aln = subprocess.Popen('bwa mem ' \
     + '-t ' + str(threads) + ' ' \
-    + paprica_path + ref_dir + '/paprica-mt.fasta ' \
+    + paprica_path + ref_dir + '/paprica-mt.fasta.gz ' \
     + cwd + query[0] + ' > ' \
     + cwd + name + '.sam', shell = True, executable = executable)
     bwa_aln.communicate() 
@@ -134,7 +134,7 @@ if len(query) == 1:
 if len(query) > 1:   
     bwa_aln = subprocess.Popen('bwa mem ' \
     + '-t ' + str(threads) + ' ' \
-    + paprica_path + ref_dir + '/paprica-mt.fasta ' \
+    + paprica_path + ref_dir + '/paprica-mt.fasta.gz ' \
     + cwd + query[0] + \
     + ' ' + cwd + query[1] + ' > ' \
     + cwd + name + '.sam', shell = True, executable = executable)
@@ -147,7 +147,9 @@ gz.communicate()
     
 #%% Iterate across sam file, tallying the number of hits to each reference that appears in the results.
 
-## This section should be parallelized.  But how?
+## This section should be parallelized.  But not clear how to do parallel read
+## from file.  Best strategy for parallelization is probably course grained by
+## running on multiple input files at once.
 
 prot_counts = pd.Series()
 prot_counts.name = 'n_hits'
@@ -155,32 +157,36 @@ prot_counts.name = 'n_hits'
 i = 0
 f = 0
     
-with gzip.open(cwd + name + '.sam.gz', 'rb') as sam:
+with gzip.open(cwd + name + '.sam.gz', 'rt') as sam:
     for line in sam:
         
         if line.startswith('@') == False:
             i = i + 1
             
-            if len(re.findall('X0:', line)) > 0: # Ignore read if it has an alternate optimal alignment.
-                line = line.split('\t')
+            line = line.split('\t')
                 
-                ## For mapped reads, add to tally for the reference sequence.
+            ## For mapped reads, add to tally for the reference sequence.  These are selected based on
+            ## bitwise flag in the SAM file format and should only include the primary alignment:
+            ## 1: template having multiple segments in sequencing
+            ## 2: each segment properly aligned according to the aligner
+            ## 16: SEQ being reverse complemented
+            
+            if line[1] in ['0', '2', '16']:            
+                rname = line[2]
+                f = f + 1
                 
-                if line[1] in ['0', '2', '16']:            
-                    rname = line[2]
-                    f = f + 1
-                    
-                    try:
-                        prot_counts[rname] = prot_counts[rname] + 1
-                    except KeyError:
-                        prot_counts[rname] = 1
+                try:
+                    prot_counts[rname] = prot_counts[rname] + 1
+                except KeyError:
+                    prot_counts[rname] = 1
     
-                print('tallying hits for', name + ':', 'found', f, 'out of', i)
+            print('tallying hits for', name + ':', 'hits =', f, 'out of', i, 'flag =', line[1])
 
 ## Add information from paprica-mt.ec.csv.
 
-prot_unique_cds_df = pd.read_csv(paprica_path + ref_dir + '/paprica-mt.ec.csv', header = 0, index_col = 0)
-prot_unique_cds_df = pd.concat([prot_unique_cds_df, prot_counts], axis = 1, join_axes = [prot_unique_cds_df.index])
+prot_unique_cds_df = pd.read_csv(paprica_path + ref_dir + '/paprica-mt.ec.csv.gz', header = 0, index_col = 0)
+prot_counts = prot_counts.reindex(prot_unique_cds_df.index)
+prot_unique_cds_df = pd.concat([prot_unique_cds_df, prot_counts], axis = 1)
 prot_unique_cds_df.dropna(subset = ['n_hits'], inplace = True)
 prot_unique_cds_df['length_cds'] = prot_unique_cds_df.translation.str.len() # CDS length, would be nice if this was precomputed
 

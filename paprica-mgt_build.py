@@ -43,8 +43,13 @@ import shutil
 import subprocess
 import sys
 from joblib import Parallel, delayed
+import gzip
+import urllib
 
 from Bio import SeqIO
+from Bio.SeqRecord import SeqRecord
+from Bio.Seq import Seq
+from Bio import SeqFeature
 
 import pandas as pd
 import numpy as np
@@ -96,11 +101,10 @@ def get_eukaryotes():
     ## Get eukaryote sample data from MMETSP.
         
     if 'sample-attr.tab' not in os.listdir(ref_dir_domain):
-        wget0 = subprocess.Popen('cd ' + ref_dir_domain + ';wget --tries=10 -T30 -q https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/sample-attr.tab', shell = True, executable = executable)
-        wget0.communicate()
+        subprocess.call('cd ' + ref_dir_domain + ';wget --tries=10 -T30 -q https://de.cyverse.org/anon-files//iplant/home/shared/imicrobe/projects/104/sample-attr.tab', shell = True, executable = executable)
     
     ## Parse this file into a dataframe.
-    
+            
     summary_complete = pd.DataFrame()
     l = 0    
     
@@ -139,6 +143,72 @@ def download_euks(online_directory):
         
     except KeyError:
         print('no', online_directory, 'online directory') 
+        
+def create_euk_files(d):
+    
+    ## First create a df mapping protein id to SwissProt accession number.
+    
+    columns = ['prot_id', 'swissprot', 'description']
+    spt = pd.read_csv(ref_dir_domain + 'refseq/' + d + '/swissprot.gff3', index_col = 0, comment = '#', names = columns, usecols = [0,8,10], sep = ';|\t', engine = 'python')
+    spt['swissprot'] = spt['swissprot'].str.replace('Name=Swiss-Prot:', '')
+    spt['description'] = spt['description'].str.replace('Description=Swiss-Prot:', '')
+    
+    ## Create empty list to hold gene features pulled from cds.fa.
+    
+    features = []
+    
+    ## Artificial start, stops are needed.
+    
+    combined_length = 1
+    
+    print('generating genbank format files for', d + '...')
+    
+    ## Some directory names differ from the accession number.  Rename these
+    ## directories to match the accession number.
+    
+    for f in os.listdir(ref_dir_domain + 'refseq/' + d):
+        if f.endswith('.pep.fa'):
+            a = f.split('.pep.fa')[0]
+            
+    if a != d:
+        os.rename(ref_dir_domain + 'refseq/' + d, ref_dir_domain + 'refseq/' + a)
+        print('directory', d, 'is now', a)
+    
+    for record in SeqIO.parse(ref_dir_domain + 'refseq/' + a + '/' + a + '.pep.fa', 'fasta'):
+            
+        ## The swissprot annotations are indexed by MMETSP record locator, not
+        ## by the actual record.id.
+        
+        sprot_name = str(record.description).split('NCGR_PEP_ID=')[1]
+        sprot_name = sprot_name.split(' /')[0]
+        	
+        try:
+            temp_spt = spt.loc[sprot_name, 'swissprot']
+        except KeyError:
+            continue
+        		
+        temp_sprot = sprot_df[sprot_df.index.isin(list(temp_spt))]
+        	
+        ecs = list(set(temp_sprot.ec))
+        descriptions = list(set(temp_sprot.name))
+        	
+        ## Embed all information necessary to create the Genbank file as qualifiers, then
+        ## append to this list of records for that genome.
+        	
+        qualifiers = {'protein_id':sprot_name, 'locus_tag':str(record.id), 'EC_number':ecs, 'product':descriptions, 'translation':str(record.seq)}
+        new_feature = SeqFeature.SeqFeature(type = 'CDS', qualifiers = qualifiers)
+        new_feature.location = SeqFeature.FeatureLocation(combined_length, combined_length + len(str(record.seq)))
+        features.append(new_feature)
+        
+        combined_length = combined_length + len(str(record.seq))
+        
+    ## Write the records in Genbank format.  Even though you will ultimately
+    ## want to use the gbk extension, to match the (silly) Genbank convention
+    ## use gbff.
+        
+    new_record = SeqRecord(Seq('nnnn'), id = a, name = a, features = features)
+    new_record.annotations['molecule_type']	= 'DNA'
+    SeqIO.write(new_record, open(ref_dir_domain + 'refseq/' + a + '/' + a + '.gbff', 'w'), 'genbank')
 
 #%% Read in command line arguments.
 
@@ -214,6 +284,48 @@ euk_summary_complete = euk_summary_complete[~euk_summary_complete.sample_name.is
 
 euk_summary_complete = euk_summary_complete.set_index('sample_name')
 euk_summary_complete.to_csv(ref_dir_domain + 'genome_data.final.csv') 
+
+## Create gbff files for eukarya.  Start by downloading enzyme.dat.
+
+print('Downloading enzyme.dat from ftp.expasy.org...')
+
+enzyme = urllib.request.urlopen('ftp://ftp.expasy.org/databases/enzyme/enzyme.dat').read()
+enzyme_file = open(ref_dir_domain + 'enzyme.dat', 'wb')
+enzyme_file.write(enzyme)
+enzyme_file.close()
+
+with open('enzyme_table.dat', 'w') as enzyme_out, open(ref_dir_domain + 'enzyme.dat', 'r') as enzyme:
+    print('accession', 'ec', 'name', file = enzyme_out)
+    print('Parsing enzyme.dat to enzyme_table.dat...')
+    for line in enzyme:
+        if line.startswith('ID'):
+            ec = line.split()[1]
+            ec = ec.rstrip()
+            
+        if line.startswith('DE'):
+            name = line.split()[1]
+            name = name.rstrip()
+            
+        if line.startswith('DR'):
+            line = line.strip('DR')
+            line = line.strip()
+            line = line.rstrip()
+            line = line.rstrip(';')
+            line = line.split(';')
+            
+            for sprot in line:
+                sprot = sprot.split(',')[0]
+                sprot = sprot.strip()
+                sprot = sprot.rstrip()
+                
+                print(sprot, ec, name, file=enzyme_out)
+
+sprot_df = pd.read_csv('enzyme_table.dat', header = 0, index_col = 0, sep = ' ')
+
+## Create gbff files.
+
+Parallel(n_jobs = -1, verbose = 5)(delayed(create_euk_files)
+(d) for d in euk_summary_complete.index)
 
 #%% Download virus sequences, since they aren't used anywhere else.  Since this
 ## isn't a particularly large database, just overwrite existing.
@@ -352,8 +464,6 @@ os.remove('tmp.paprica.mmp')
 prot_array = np.empty((eci,9), dtype = 'object')
 prot_array_index = np.empty(eci, dtype = 'object')
 
-stop_here()
-
 ## Iterate through all the files in refseq and find the gbk files again.  Store
 ## the information necessary to create a Genbank record of each feature in the
 ## array.
@@ -477,7 +587,7 @@ shutil.rmtree(ref_dir + 'paprica-mgt.database', ignore_errors = True)
 os.mkdir(ref_dir + 'paprica-mgt.database')
 
 prot_nr_trans_df = prot_df.drop_duplicates(subset = ['translation'])
-prot_nr_trans_df.to_csv(ref_dir + 'paprica-mgt.database/paprica-mg.ec.csv')
+prot_nr_trans_df.to_csv(ref_dir + 'paprica-mgt.database/paprica-mg.ec.csv.gz', compression = 'gzip')
 
 ## For metatranscriptome analysis we want nonredundant sequences,
 ## not translations.  Only those that appear only once should be
@@ -485,11 +595,11 @@ prot_nr_trans_df.to_csv(ref_dir + 'paprica-mgt.database/paprica-mg.ec.csv')
 
 prot_unique_cds_df = prot_df.drop_duplicates(subset = ['sequence'])
 prot_unique_cds_df = prot_unique_cds_df[prot_unique_cds_df.sequence != 'no_nucleotide_sequence_found']
-prot_unique_cds_df.to_csv(ref_dir + 'paprica-mgt.database/paprica-mt.ec.csv')
+prot_unique_cds_df.to_csv(ref_dir + 'paprica-mgt.database/paprica-mt.ec.csv.gz', compression = 'gzip')
 
 ## Make a nonredundant fasta for the metagenomic analysis database.
 
-with open(ref_dir + 'paprica-mgt.database/paprica-mg.fasta', 'w') as fasta_out:
+with gzip.open(ref_dir + 'paprica-mgt.database/paprica-mg.fasta.gz', 'wt') as fasta_out:
     for row in prot_nr_trans_df.iterrows():
         protein_id = row[0]
         translation = row[1]['translation']
@@ -497,11 +607,11 @@ with open(ref_dir + 'paprica-mgt.database/paprica-mg.fasta', 'w') as fasta_out:
         print('>' + protein_id, file=fasta_out)
         print(translation, file=fasta_out)
 
-subprocess.call('diamond makedb --in ' + ref_dir + 'paprica-mgt.database/paprica-mg.fasta -d ' + ref_dir + 'paprica-mgt.database/paprica-mg', shell = True, executable = executable) 
+subprocess.call('diamond makedb --in ' + ref_dir + 'paprica-mgt.database/paprica-mg.fasta.gz -d ' + ref_dir + 'paprica-mgt.database/paprica-mg', shell = True, executable = executable) 
 
 ## Make an unique fasta for the metatranscriptomic analysis database.
 
-with open(ref_dir + 'paprica-mgt.database/paprica-mt.fasta', 'w') as fasta_out:
+with gzip.open(ref_dir + 'paprica-mgt.database/paprica-mt.fasta.gz', 'wt') as fasta_out:
     for row in prot_unique_cds_df.iterrows():
         protein_id = row[0]
         sequence = row[1]['sequence']
@@ -509,7 +619,7 @@ with open(ref_dir + 'paprica-mgt.database/paprica-mt.fasta', 'w') as fasta_out:
         print('>' + protein_id, file=fasta_out)
         print(sequence, file=fasta_out)
 
-subprocess.call('bwa index ' + ref_dir + 'paprica-mgt.database/paprica-mt.fasta', shell = True, executable = executable)
+subprocess.call('bwa index ' + ref_dir + 'paprica-mgt.database/paprica-mt.fasta.gz', shell = True, executable = executable)
                         
                         
         
