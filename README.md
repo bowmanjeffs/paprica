@@ -46,11 +46,19 @@ chmod a+x *sh
 ```
 ...where XX is the paprica version should get you going and execute a run on the provided file test.fasta for the domain Bacteria.
 
-## Citation
+## Citations
 
 Please cite paprica as:
 
-Bowman, Jeff S., and Hugh W. Ducklow. "Microbial Communities Can Be Described by Metabolic Structure: A General Framework and Application to a Seasonally Variable, Depth-Stratified Microbial Community from the Coastal West Antarctic Peninsula." PloS one 10.8 (2015): e0135868.
+Bowman, Jeff S., and Hugh W. Ducklow, 2015. [Microbial Communities Can Be Described by Metabolic Structure: A General Framework and Application to a Seasonally Variable, Depth-Stratified Microbial Community from the Coastal West Antarctic Peninsula](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0135868). PloS one, 10.8, e0135868.
+
+Paprica relies on a number of tools and databases developed by other groups.  If you cite paprica please be sure to also cite these publications:
+
+Barbera, P., Kozlov, A.M., Czech, L., Morel, B., Darriba, D., Flouri, T. and Stamatakis, A., 2019. [EPA-ng: Massively Parallel Evolutionary Placement of Genetic Sequences](https://academic.oup.com/sysbio/article/68/2/365/5079844?login=true). Systematic biology, 68(2), pp.365-369.
+
+Czech, L., Barbera, P. and Stamatakis, A., 2020. [Genesis and Gappa: processing, analyzing and visualizing phylogenetic (placement) data](https://academic.oup.com/bioinformatics/article/36/10/3263/5722201?login=true). Bioinformatics, 36(10), pp.3263-3265.
+
+Guillou, L., Bachar, D., Audic, S., Bass, D., Berney, C., Bittner, L., Boutte, C., Burgaud, G., De Vargas, C., Decelle, J. and Del Campo, J., 2012. [The Protist Ribosomal Reference database (PR2): a catalog of unicellular eukaryote Small Sub-Unit rRNA sequences with curated taxonomy ](https://academic.oup.com/nar/article/41/D1/D597/1064851?login=true). Nucleic acids research, 41(D1), pp.D597-D604.
 
 ## Overview
 

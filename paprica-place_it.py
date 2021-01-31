@@ -358,7 +358,7 @@ def classify_ref(ref_dir_domain):
     import numpy as np
     
     ncbi = NCBITaxa()
-    ncbi.update_taxonomy_database() 
+    #!!! ncbi.update_taxonomy_database() 
     summary_complete = pd.read_csv(ref_dir_domain + 'genome_data.csv.gz', header = 0, index_col = 0)
     
     #!!! This statement will be unnecessary after checking that summary-complete
@@ -392,6 +392,7 @@ def classify_ref(ref_dir_domain):
         except ValueError:
             ref_lineage.loc[strain, 'no rank'] = np.nan
             
+    ref_lineage = ref_lineage.fillna(np.nan)
     ref_lineage.to_csv(ref_dir_domain + 'edge_lineages.csv')
     
     return(ref_lineage, summary_complete)
@@ -872,15 +873,32 @@ if 'query' not in list(command_args.keys()):
                     j = 0
                     phylum_taxids = set(ref_lineages.index[ref_lineages.analysis_group == phylum])
                     phylum_seqids = genome_data.loc[genome_data['taxid'].isin(phylum_taxids)].tax_name
+                    phylum_lineages = ref_lineages.loc[ref_lineages['analysis_group'] == phylum]
                     
-                    ## Select at most 20 random sequences for each phyla.
+                    rep_seqs = []
+                    
+                    ## If less than 30 reference sequences in the phylum use
+                    ## all of them on the master tree.
+                    
+                    if len(phylum_seqids) < 30:
+                        rep_seqs = phylum_seqids
+                        
+                    ## If more than 30 reference sequences select one from each
+                    ## genus.  Right now reference sequences are not considered
+                    ## if they don't have a genus.
+                    
+                    else:
+                        for genus in phylum_lineages.genus.unique():
+                            if pd.notnull(genus):
+                                genus_taxid = phylum_lineages.loc[phylum_lineages['genus'] == genus].index[0]
+                                genus_rep = genome_data.loc[genome_data['taxid'] == genus_taxid].tax_name[0]
+                                rep_seqs.append(genus_rep)
+                                
+                    ## Convert phylum_seqids to set for faster searching.  Do
+                    ## not do this to rep_seqs because you need to be able to
+                    ## pull indices for specific values.
                     
                     phylum_seqids = set(phylum_seqids)
-                    
-                    try:
-                        rep_seqs = random.sample(phylum_seqids, 20)
-                    except ValueError:
-                        rep_seqs = random.sample(phylum_seqids, len(phylum_seqids))
                                     
                     ## Now iterate across combined_16S.bacteria.tax.fasta and create phylum level
                     ## fastas and fasta of representatives. It's inefficient to iterate 
@@ -943,7 +961,9 @@ if 'query' not in list(command_args.keys()):
                                    prefix_combined + '.' + fasta + '.part',
                                    prefix_combined + '.' + fasta + '.clean.align.trimmed.fasta')
         
-            if nseqs > 3:
+#!!!            if nseqs > 3:
+                
+            if fasta == 'phylum_reps':
      
             ## build trees
             
@@ -1001,9 +1021,11 @@ if 'query' not in list(command_args.keys()):
         ## would be re-written to follow the "analysis_group" ontology of
         ## bacteria.
         
+        ## If Dinophyceae and Syndiniales are analyzed seperately Lingulodinium 
+        ## ends up in Syndiniales, switching to Dinoflagellata
+        
         pr2_units = {'Chlorophyta__Streptophyta':'division',
-                     'Dinophyceae':'class',
-                     'Syndiniales':'class',
+                     'Dinoflagellata':'division',
                      'Oxyrrhea':'class',
                      'Noctilucophyceae':'class',
                      'Phaeophyceae':'class',
@@ -1067,13 +1089,29 @@ if 'query' not in list(command_args.keys()):
                 
                 pr2.loc[pr2[tax_level].isin(tc), 'subtree'] = tc_name
                 
-                ## Identify 10 representatives for this clade, or if < 10 members
+                ## Identify 20 representatives for this clade, or if < 20 members
                 ## in clade select all members.
                 
-                try:
-                    rep_seqs = temp.iloc[random.sample(range(0, temp.shape[0]), 20),:]
-                except ValueError:
-                    rep_seqs = temp  
+                #!!! A better approach here would be to select a member of
+                ## each genus or species.
+                
+                # try:
+                #     rep_seqs = temp.iloc[random.sample(range(0, temp.shape[0]), 20),:]
+                # except ValueError:
+                #     rep_seqs = temp
+                
+                if temp.shape[0] < 20:
+                    rep_seqs = temp
+                    
+                else:
+                    
+                    ## Select a representative from each genus in the clade.
+                    
+                    rep_seqs = pd.DataFrame()
+                        
+                    for genus in temp.genus.unique():
+                        temp_genus = temp.loc[temp.genus == genus]
+                        rep_seqs = pd.concat([rep_seqs, temp_genus.iloc[random.sample(range(0, temp_genus.shape[0]), 1),:]])
                     
                 ## If euk rep is pre-determined for this clade, identify
                 ## here and add to representatives if needed.
@@ -1120,7 +1158,7 @@ if 'query' not in list(command_args.keys()):
                 
             ## This option is for optimizing specific trees.
             
-            #if fasta == 'div_reps':
+            #if fasta in ['div_reps']:
      
             ## build trees
             
