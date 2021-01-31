@@ -60,6 +60,8 @@ Czech, L., Barbera, P. and Stamatakis, A., 2020. [Genesis and Gappa: processing,
 
 Guillou, L., Bachar, D., Audic, S., Bass, D., Berney, C., Bittner, L., Boutte, C., Burgaud, G., De Vargas, C., Decelle, J. and Del Campo, J., 2012. [The Protist Ribosomal Reference database (PR2): a catalog of unicellular eukaryote Small Sub-Unit rRNA sequences with curated taxonomy ](https://academic.oup.com/nar/article/41/D1/D597/1064851?login=true). *Nucleic acids research*, 41(D1), pp.D597-D604.
 
+Nawrocki, E.P. and Eddy, S.R., 2013. [Infernal 1.1: 100-fold faster RNA homology searches](https://academic.oup.com/bioinformatics/article/29/22/2933/316439?login=true). *Bioinformatics*, 29(22), pp.2933-2935.
+
 ## Overview
 
 Paprica conducts metabolic inference on (preferably, but not exclusively, NGS) 16S rRNA gene libraries.  Instead of using an OTU based approach however, it uses a phylogenetic placement approach.  This provides a more intuitive connection between its “hidden state prediction” and library analysis components, and allows resolution at the strain and species level for some spots on the prokaryotic phylogenetic tree.
