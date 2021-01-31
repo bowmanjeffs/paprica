@@ -35,3 +35,4 @@ paprica-place_it.py -ref_dir ref_genome_database -query $query.$domain -ref comb
 paprica-tally_pathways.py -ref_dir ref_genome_database -i $query.$domain.combined_$gene.$domain.tax.placements.csv -o $query.$domain -cutoff 0.5 -domain $domain &&
 
 echo "Thanks for using paprica!  Please be sure to read through the manual, and check out the tutorials at www.polarmicrobes.org"
+echo "If you publish results from paprica please cite the pipeline and its dependencies as specified in the README"
