@@ -60,7 +60,6 @@ import re
 import subprocess
 import sys
 import os
-from joblib import Parallel, delayed
 import multiprocessing
 import datetime
 import random
@@ -134,8 +133,8 @@ except KeyError:
 ## No default is currently provided for query.
     
 if len(sys.argv) == 1:
-    query = 'big_test_16S.' + domain
-    #command_args['query'] = query
+    query = 'test.' + domain
+    command_args['query'] = query
 
 ## Figure out an appropriate number of cores for building trees.  RAxML
 ## manual suggests using only physical cores.
@@ -358,7 +357,7 @@ def classify_ref(ref_dir_domain):
     import numpy as np
     
     ncbi = NCBITaxa()
-    #!!! ncbi.update_taxonomy_database() 
+    ncbi.update_taxonomy_database() 
     summary_complete = pd.read_csv(ref_dir_domain + 'genome_data.csv.gz', header = 0, index_col = 0)
     
     #!!! This statement will be unnecessary after checking that summary-complete
@@ -371,14 +370,11 @@ def classify_ref(ref_dir_domain):
     for strain in summary_complete['taxid']:
         
         #!!! In theory a try clause shouldn't be necessary here, as there really
-        ## isn't a reason this should fail.  At the moment ete3 is failing on
-        ## the most recent version of the NCBI taxonomy, so this is necessary.
+        ## isn't a reason this should fail.  Previously ete3 was failing on
+        ## the most recent version of the NCBI taxonomy, so this was necessary.
         ## Solved by inserting NA values for taxids with missing lineage, however,
         ## this will probably break the determination of consensus lineages
         ## in build_core_genomes.
-        
-        ## ete3 can be fixed by modifying line 805 of ncbiquery.py to
-        ## CREATE TABLE synonym (taxid INT,spname VARCHAR(50), PRIMARY KEY (spname, taxid));
         
         try:
             lineage = ncbi.get_lineage(strain)
@@ -740,7 +736,7 @@ def map_master_tree(jplace):
         temp_subtrees = set()
         
         for terminal in clade.get_terminals():
-            terminal_name = ''.join(terminal.name.split('_')[:-1])
+            terminal_name = '_'.join(terminal.name.split('_')[:-1])
             temp_subtrees.add(terminal_name)
         
         if len(temp_subtrees) == 1:
@@ -868,11 +864,12 @@ if 'query' not in list(command_args.keys()):
             i  = 0
             
             for phylum in ref_lineages.analysis_group.unique():
+                
                 if pd.notnull(phylum):
                     print(phylum)
                     j = 0
                     phylum_taxids = set(ref_lineages.index[ref_lineages.analysis_group == phylum])
-                    phylum_seqids = genome_data.loc[genome_data['taxid'].isin(phylum_taxids)].tax_name
+                    phylum_seqids = list(genome_data.loc[genome_data['taxid'].isin(phylum_taxids)].tax_name)
                     phylum_lineages = ref_lineages.loc[ref_lineages['analysis_group'] == phylum]
                     
                     rep_seqs = []
@@ -961,9 +958,9 @@ if 'query' not in list(command_args.keys()):
                                    prefix_combined + '.' + fasta + '.part',
                                    prefix_combined + '.' + fasta + '.clean.align.trimmed.fasta')
         
-#!!!            if nseqs > 3:
+            if nseqs > 3:
                 
-            if fasta == 'phylum_reps':
+#            if fasta == 'phylum_reps':
      
             ## build trees
             
@@ -1090,15 +1087,7 @@ if 'query' not in list(command_args.keys()):
                 pr2.loc[pr2[tax_level].isin(tc), 'subtree'] = tc_name
                 
                 ## Identify 20 representatives for this clade, or if < 20 members
-                ## in clade select all members.
-                
-                #!!! A better approach here would be to select a member of
-                ## each genus or species.
-                
-                # try:
-                #     rep_seqs = temp.iloc[random.sample(range(0, temp.shape[0]), 20),:]
-                # except ValueError:
-                #     rep_seqs = temp
+                ## in clade select a representative from each genus.
                 
                 if temp.shape[0] < 20:
                     rep_seqs = temp
@@ -1394,13 +1383,8 @@ else:
         master_map = map_master_tree(temp_dir + query + '.' + phylum_ref + '.jplace')
         
         ## Then create a fasta file of query reads for each subtree.
-        
-        subtrees = set()
-        
-        for ref_name in placements.ref_name.unique():
-            if pd.notnull(ref_name):
-                ref_name = '_'.join(str.split(ref_name, '_')[:-1])
-            subtrees.add(ref_name)
+                        
+        subtrees = set(master_map.get(edge) for edge in placements.edge_num.astype('str'))
         
         for subtree in subtrees:
             if pd.notnull(subtree):

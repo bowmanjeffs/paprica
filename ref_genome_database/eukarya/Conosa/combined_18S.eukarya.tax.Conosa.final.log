@@ -7,14 +7,14 @@ Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!
 
 System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
 
-RAxML-NG was called at 27-Dec-2020 02:12:06 as follows:
+RAxML-NG was called at 28-Jan-2021 05:53:35 as follows:
 
 raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Conosa.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Conosa --workers 18 --tree pars{9},rand{9} --threads 36
 
 Analysis options:
   run mode: ML tree search
   start tree(s): random (9) + parsimony (9)
-  random seed: 1609063926
+  random seed: 1611842015
   tip-inner: OFF
   pattern compression: ON
   per-rate scalers: OFF
@@ -46,68 +46,61 @@ Parallel reduction/worker buffer size: 1 KB  / 0 KB
 
 Starting ML tree search with 18 distinct starting trees
 
-[00:00:00 -124626.919105] Initial branch length optimization
-[00:00:00 -99969.556083] Model parameter optimization (eps = 10.000000)
-[00:00:07 -93420.043507] AUTODETECT spr round 1 (radius: 5)
-[00:00:08 -75422.238427] AUTODETECT spr round 2 (radius: 10)
-[00:00:11 -64930.983685] AUTODETECT spr round 3 (radius: 15)
-[00:00:15 -61676.970741] AUTODETECT spr round 4 (radius: 20)
-[00:00:17 -61676.932603] SPR radius for FAST iterations: 15 (autodetect)
-[00:00:17 -61676.932603] Model parameter optimization (eps = 3.000000)
-[00:00:18 -61414.953613] FAST spr round 1 (radius: 15)
-[00:00:21 -56600.699527] FAST spr round 2 (radius: 15)
-[00:00:24 -56512.268537] FAST spr round 3 (radius: 15)
-[00:00:25 -56497.699185] FAST spr round 4 (radius: 15)
-[00:00:27 -56484.975954] FAST spr round 5 (radius: 15)
-[00:00:29 -56482.332242] FAST spr round 6 (radius: 15)
-[00:00:31 -56481.492741] FAST spr round 7 (radius: 15)
-[00:00:32 -56480.805078] FAST spr round 8 (radius: 15)
-[00:00:34 -56480.620440] FAST spr round 9 (radius: 15)
-[00:00:36 -56480.424897] FAST spr round 10 (radius: 15)
-[00:00:37 -56480.421368] Model parameter optimization (eps = 1.000000)
-[00:00:38 -56461.167770] SLOW spr round 1 (radius: 5)
-[00:00:45 -56451.069265] SLOW spr round 2 (radius: 5)
-[00:00:50 -56450.318225] SLOW spr round 3 (radius: 5)
-[00:00:51] [worker #11] ML tree search #12, logLikelihood: -56447.008592
-[00:00:51] [worker #10] ML tree search #11, logLikelihood: -56467.556114
-[00:00:52] [worker #14] ML tree search #15, logLikelihood: -56449.487814
-[00:00:55] [worker #12] ML tree search #13, logLikelihood: -56470.166964
-[00:00:55 -56450.316345] SLOW spr round 4 (radius: 10)
-[00:01:01 -56449.745695] SLOW spr round 5 (radius: 5)
-[00:01:04] [worker #15] ML tree search #16, logLikelihood: -56462.164739
-[00:01:06] [worker #7] ML tree search #8, logLikelihood: -56461.821736
-[00:01:09 -56447.407446] SLOW spr round 6 (radius: 5)
-[00:01:12] [worker #1] ML tree search #2, logLikelihood: -56465.294767
-[00:01:12] [worker #3] ML tree search #4, logLikelihood: -56465.286904
-[00:01:13] [worker #9] ML tree search #10, logLikelihood: -56462.148806
-[00:01:15 -56447.406742] SLOW spr round 7 (radius: 10)
-[00:01:16] [worker #16] ML tree search #17, logLikelihood: -56462.150061
-[00:01:18] [worker #5] ML tree search #6, logLikelihood: -56462.145477
-[00:01:18] [worker #17] ML tree search #18, logLikelihood: -56469.684228
-[00:01:20] [worker #4] ML tree search #5, logLikelihood: -56461.815929
-[00:01:20 -56447.406677] SLOW spr round 8 (radius: 15)
-[00:01:22] [worker #13] ML tree search #14, logLikelihood: -56461.285238
-[00:01:26] [worker #8] ML tree search #9, logLikelihood: -56462.146183
-[00:01:27 -56447.406670] SLOW spr round 9 (radius: 20)
-[00:01:32 -56447.406669] SLOW spr round 10 (radius: 25)
-[00:01:36 -56447.406669] Model parameter optimization (eps = 0.100000)
+[00:00:00 -124653.588569] Initial branch length optimization
+[00:00:00 -99369.993715] Model parameter optimization (eps = 10.000000)
+[00:00:08 -92620.385638] AUTODETECT spr round 1 (radius: 5)
+[00:00:09 -76973.146201] AUTODETECT spr round 2 (radius: 10)
+[00:00:13 -61599.829654] AUTODETECT spr round 3 (radius: 15)
+[00:00:16 -61548.417815] AUTODETECT spr round 4 (radius: 20)
+[00:00:18 -61395.061603] AUTODETECT spr round 5 (radius: 25)
+[00:00:20 -61376.386727] SPR radius for FAST iterations: 25 (autodetect)
+[00:00:20 -61376.386727] Model parameter optimization (eps = 3.000000)
+[00:00:21 -61061.268766] FAST spr round 1 (radius: 25)
+[00:00:24 -56651.152488] FAST spr round 2 (radius: 25)
+[00:00:26 -56481.448028] FAST spr round 3 (radius: 25)
+[00:00:28 -56472.866293] FAST spr round 4 (radius: 25)
+[00:00:30 -56472.578714] FAST spr round 5 (radius: 25)
+[00:00:31 -56472.468193] FAST spr round 6 (radius: 25)
+[00:00:33 -56472.468161] Model parameter optimization (eps = 1.000000)
+[00:00:33 -56465.846604] SLOW spr round 1 (radius: 5)
+[00:00:38 -56462.896976] SLOW spr round 2 (radius: 5)
+[00:00:44] [worker #11] ML tree search #12, logLikelihood: -56452.575852
+[00:00:44 -56462.896877] SLOW spr round 3 (radius: 10)
+[00:00:48] [worker #16] ML tree search #17, logLikelihood: -56467.554733
+[00:00:50 -56462.896868] SLOW spr round 4 (radius: 15)
+[00:00:53] [worker #14] ML tree search #15, logLikelihood: -56471.350403
+[00:00:55] [worker #17] ML tree search #18, logLikelihood: -56467.554093
+[00:00:55] [worker #13] ML tree search #14, logLikelihood: -56449.476785
+[00:00:55] [worker #10] ML tree search #11, logLikelihood: -56467.554122
+[00:00:56 -56462.896867] SLOW spr round 5 (radius: 20)
+[00:00:57] [worker #9] ML tree search #10, logLikelihood: -56464.658369
+[00:00:58] [worker #12] ML tree search #13, logLikelihood: -56467.554773
+[00:01:02 -56462.896867] SLOW spr round 6 (radius: 25)
+[00:01:05] [worker #6] ML tree search #7, logLikelihood: -56461.943754
+[00:01:05 -56462.896867] Model parameter optimization (eps = 0.100000)
 
-[00:01:36] [worker #0] ML tree search #1, logLikelihood: -56447.294013
+[00:01:05] [worker #0] ML tree search #1, logLikelihood: -56462.839574
 
-[00:01:37] [worker #2] ML tree search #3, logLikelihood: -56461.530263
-[00:02:02] [worker #6] ML tree search #7, logLikelihood: -56447.294630
+[00:01:07] [worker #4] ML tree search #5, logLikelihood: -56473.116422
+[00:01:07] [worker #3] ML tree search #4, logLikelihood: -56462.833029
+[00:01:08] [worker #2] ML tree search #3, logLikelihood: -56470.603590
+[00:01:08] [worker #8] ML tree search #9, logLikelihood: -56468.547874
+[00:01:10] [worker #5] ML tree search #6, logLikelihood: -56465.289061
+[00:01:13] [worker #15] ML tree search #16, logLikelihood: -56464.134710
+[00:01:23] [worker #1] ML tree search #2, logLikelihood: -56461.291326
+[00:01:29] [worker #7] ML tree search #8, logLikelihood: -56462.775791
 
 Optimized model parameters:
 
    Partition 0: noname
-   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.346043 (ML),  weights&rates: (0.250000,0.009761) (0.250000,0.140476) (0.250000,0.665614) (0.250000,3.184150) 
-   Base frequencies (ML): 0.217990 0.218228 0.284290 0.279492 
-   Substitution rates (ML): 1.284906 2.504785 1.774312 0.919547 3.324536 1.000000 
+   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.349564 (ML),  weights&rates: (0.250000,0.010160) (0.250000,0.143216) (0.250000,0.670384) (0.250000,3.176240) 
+   Base frequencies (ML): 0.217605 0.218449 0.284018 0.279927 
+   Substitution rates (ML): 1.304296 2.508442 1.772372 0.916495 3.305011 1.000000 
 
 
-Final LogLikelihood: -56447.008592
+Final LogLikelihood: -56449.476785
 
-AIC score: 113318.017184 / AICc score: 113363.038121 / BIC score: 114527.437312
+AIC score: 113322.953569 / AICc score: 113367.974506 / BIC score: 114532.373697
 Free parameters (model + branch lengths): 212
 
 WARNING: Best ML tree contains 2 near-zero branches!
@@ -119,9 +112,9 @@ Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/
 
 Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Conosa.raxml.log
 
-Analysis started: 27-Dec-2020 02:12:06 / finished: 27-Dec-2020 02:14:09
+Analysis started: 28-Jan-2021 05:53:35 / finished: 28-Jan-2021 05:55:05
 
-Elapsed time: 122.868 seconds
+Elapsed time: 89.934 seconds
 
-Consumed energy: 5.950 Wh
+Consumed energy: 4.421 Wh
 

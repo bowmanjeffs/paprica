@@ -1,14 +1,14 @@
 {
-  "tree": "((AF438324.1.1768_U|Pinguiococcus_pyrenoidosus:0.0000010000{0},U40929.1.1768_U|Pinguiochrysidaceae_X_sp.:0.0005750000{1}):0.0769060000{2},((AF438322.1.1771_U|Polypodochrysis_teissieri:0.0000010000{3},AB183614.1.1768_U|Polypodochrysis_teissieri:0.0000010000{4}):0.0000010000{5},AB058925.1.1804_U|Polypodochrysis_teissieri:0.0000010000{6}):0.0717610000{7},AF438325.1.1776_U|Glossomastix_chrysoplasta:0.0264220000{8});",
+  "tree": "((AB058925.1.1804_U|Polypodochrysis_teissieri:0.0000010000{0},AB183614.1.1768_U|Polypodochrysis_teissieri:0.0000010000{1}):0.0000010000{2},AF438322.1.1771_U|Polypodochrysis_teissieri:0.0000010000{3},(AF438325.1.1776_U|Glossomastix_chrysoplasta:0.0264190000{4},(AF438324.1.1768_U|Pinguiococcus_pyrenoidosus:0.0000010000{5},U40929.1.1768_U|Pinguiochrysidaceae_X_sp.:0.0005750000{6}):0.0769090000{7}):0.0717690000{8});",
   "placements": 
   [
     {"p": [
-      [7, -4672.4913361592, 1.0000000000, 0.0185396099, 0.3768109500]
+      [8, -4479.7996564116, 1.0000000000, 0.0192226594, 0.3400028353]
       ],
     "n": ["test_Chlorophyta__Streptophyta_0"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp0yzzxgm1/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Pinguiophyceae/combined_18S.eukarya.tax.Pinguiophyceae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp0yzzxgm1/combined_18S.eukarya.tax.Pinguiophyceae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Pinguiophyceae/combined_18S.eukarya.tax.Pinguiophyceae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp0yzzxgm1/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpn_dtldvc/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Pinguiophyceae/combined_18S.eukarya.tax.Pinguiophyceae.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpn_dtldvc/combined_18S.eukarya.tax.Pinguiophyceae.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Pinguiophyceae/combined_18S.eukarya.tax.Pinguiophyceae.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpn_dtldvc/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

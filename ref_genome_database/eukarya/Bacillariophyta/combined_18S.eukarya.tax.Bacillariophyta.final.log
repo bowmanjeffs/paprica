@@ -7,14 +7,14 @@ Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!
 
 System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
 
-RAxML-NG was called at 27-Dec-2020 00:45:30 as follows:
+RAxML-NG was called at 28-Jan-2021 04:33:10 as follows:
 
 raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Bacillariophyta.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Bacillariophyta --workers 18 --tree pars{9},rand{9} --threads 36
 
 Analysis options:
   run mode: ML tree search
   start tree(s): random (9) + parsimony (9)
-  random seed: 1609058730
+  random seed: 1611837190
   tip-inner: OFF
   pattern compression: ON
   per-rate scalers: OFF
@@ -46,69 +46,65 @@ Parallel reduction/worker buffer size: 1 KB  / 0 KB
 
 Starting ML tree search with 18 distinct starting trees
 
-[00:00:00 -95485.849902] Initial branch length optimization
-[00:00:00 -85473.791259] Model parameter optimization (eps = 10.000000)
-[00:00:06 -79743.259851] AUTODETECT spr round 1 (radius: 5)
-[00:00:09 -66090.363684] AUTODETECT spr round 2 (radius: 10)
-[00:00:15 -54153.917265] AUTODETECT spr round 3 (radius: 15)
-[00:00:22 -51493.335510] AUTODETECT spr round 4 (radius: 20)
-[00:00:30 -51160.452525] AUTODETECT spr round 5 (radius: 25)
-[00:00:37 -51160.450321] SPR radius for FAST iterations: 20 (autodetect)
-[00:00:37 -51160.450321] Model parameter optimization (eps = 3.000000)
-[00:00:38 -51097.197946] FAST spr round 1 (radius: 20)
-[00:00:43 -47528.043914] FAST spr round 2 (radius: 20)
-[00:00:48 -47444.876366] FAST spr round 3 (radius: 20)
-[00:00:51 -47429.859274] FAST spr round 4 (radius: 20)
-[00:00:54 -47429.145292] FAST spr round 5 (radius: 20)
-[00:00:57 -47429.066173] Model parameter optimization (eps = 1.000000)
-[00:00:57 -47426.277537] SLOW spr round 1 (radius: 5)
-[00:01:08 -47417.428564] SLOW spr round 2 (radius: 5)
-[00:01:19 -47401.996498] SLOW spr round 3 (radius: 5)
-[00:01:28 -47394.775015] SLOW spr round 4 (radius: 5)
-[00:01:36 -47394.147525] SLOW spr round 5 (radius: 5)
-[00:01:44] [worker #13] ML tree search #14, logLikelihood: -47441.164495
-[00:01:44 -47394.147112] SLOW spr round 6 (radius: 10)
-[00:01:47] [worker #12] ML tree search #13, logLikelihood: -47394.479094
-[00:01:51] [worker #9] ML tree search #10, logLikelihood: -47383.679725
-[00:01:52 -47389.472640] SLOW spr round 7 (radius: 5)
-[00:01:59] [worker #11] ML tree search #12, logLikelihood: -47408.172290
-[00:02:03 -47389.312785] SLOW spr round 8 (radius: 5)
-[00:02:04] [worker #1] ML tree search #2, logLikelihood: -47400.001729
-[00:02:12 -47389.312783] SLOW spr round 9 (radius: 10)
-[00:02:13] [worker #7] ML tree search #8, logLikelihood: -47398.424223
-[00:02:19 -47389.312783] SLOW spr round 10 (radius: 15)
-[00:02:21] [worker #4] ML tree search #5, logLikelihood: -47435.630019
-[00:02:25] [worker #10] ML tree search #11, logLikelihood: -47474.372957
-[00:02:28] [worker #6] ML tree search #7, logLikelihood: -47425.572189
-[00:02:30] [worker #14] ML tree search #15, logLikelihood: -47383.698544
-[00:02:33 -47389.312783] SLOW spr round 11 (radius: 20)
-[00:02:39] [worker #16] ML tree search #17, logLikelihood: -47413.544032
-[00:02:45] [worker #5] ML tree search #6, logLikelihood: -47402.760805
-[00:02:48] [worker #8] ML tree search #9, logLikelihood: -47409.159173
-[00:02:49 -47389.312783] SLOW spr round 12 (radius: 25)
-[00:03:00 -47389.312783] Model parameter optimization (eps = 0.100000)
+[00:00:00 -94976.920045] Initial branch length optimization
+[00:00:00 -84998.790861] Model parameter optimization (eps = 10.000000)
+[00:00:06 -79374.915293] AUTODETECT spr round 1 (radius: 5)
+[00:00:09 -65969.745345] AUTODETECT spr round 2 (radius: 10)
+[00:00:14 -53181.205157] AUTODETECT spr round 3 (radius: 15)
+[00:00:20 -50342.841397] AUTODETECT spr round 4 (radius: 20)
+[00:00:27 -50338.641616] AUTODETECT spr round 5 (radius: 25)
+[00:00:34 -50338.637525] SPR radius for FAST iterations: 20 (autodetect)
+[00:00:34 -50338.637525] Model parameter optimization (eps = 3.000000)
+[00:00:36 -50281.762762] FAST spr round 1 (radius: 20)
+[00:00:42 -47805.586081] FAST spr round 2 (radius: 20)
+[00:00:47 -47430.036560] FAST spr round 3 (radius: 20)
+[00:00:50 -47423.618569] FAST spr round 4 (radius: 20)
+[00:00:53 -47422.544814] FAST spr round 5 (radius: 20)
+[00:00:56 -47422.431464] FAST spr round 6 (radius: 20)
+[00:00:59 -47422.400689] Model parameter optimization (eps = 1.000000)
+[00:01:00 -47420.931962] SLOW spr round 1 (radius: 5)
+[00:01:10 -47411.367220] SLOW spr round 2 (radius: 5)
+[00:01:19 -47403.037072] SLOW spr round 3 (radius: 5)
+[00:01:27 -47403.037045] SLOW spr round 4 (radius: 10)
+[00:01:34 -47403.037045] SLOW spr round 5 (radius: 15)
+[00:01:48 -47403.037045] SLOW spr round 6 (radius: 20)
+[00:01:49] [worker #1] ML tree search #2, logLikelihood: -47402.935119
+[00:01:54] [worker #14] ML tree search #15, logLikelihood: -47434.685645
+[00:01:55] [worker #17] ML tree search #18, logLikelihood: -47396.818923
+[00:02:02 -47403.037045] SLOW spr round 7 (radius: 25)
+[00:02:03] [worker #11] ML tree search #12, logLikelihood: -47455.868137
+[00:02:03] [worker #3] ML tree search #4, logLikelihood: -47399.677767
+[00:02:03] [worker #6] ML tree search #7, logLikelihood: -47402.587579
+[00:02:15 -47403.037045] Model parameter optimization (eps = 0.100000)
 
-[00:03:01] [worker #0] ML tree search #1, logLikelihood: -47389.005545
+[00:02:16] [worker #0] ML tree search #1, logLikelihood: -47402.977330
 
-[00:03:10] [worker #17] ML tree search #18, logLikelihood: -47390.043900
-[00:03:20] [worker #15] ML tree search #16, logLikelihood: -47385.033228
-[00:03:32] [worker #3] ML tree search #4, logLikelihood: -47435.224632
-[00:03:53] [worker #2] ML tree search #3, logLikelihood: -47397.744493
+[00:02:18] [worker #16] ML tree search #17, logLikelihood: -47467.482039
+[00:02:18] [worker #2] ML tree search #3, logLikelihood: -47378.411239
+[00:02:20] [worker #9] ML tree search #10, logLikelihood: -47384.604241
+[00:02:21] [worker #7] ML tree search #8, logLikelihood: -47396.095032
+[00:02:23] [worker #4] ML tree search #5, logLikelihood: -47382.240932
+[00:02:24] [worker #15] ML tree search #16, logLikelihood: -47391.092098
+[00:02:31] [worker #13] ML tree search #14, logLikelihood: -47403.495728
+[00:03:00] [worker #8] ML tree search #9, logLikelihood: -47438.774145
+[00:03:06] [worker #12] ML tree search #13, logLikelihood: -47379.449566
+[00:03:10] [worker #5] ML tree search #6, logLikelihood: -47402.643437
+[00:03:16] [worker #10] ML tree search #11, logLikelihood: -47392.585046
 
 Optimized model parameters:
 
    Partition 0: noname
-   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.347762 (ML),  weights&rates: (0.250000,0.009955) (0.250000,0.141814) (0.250000,0.667952) (0.250000,3.180279) 
-   Base frequencies (ML): 0.233615 0.186001 0.255538 0.324846 
-   Substitution rates (ML): 0.856702 1.870191 0.970366 0.921909 2.672342 1.000000 
+   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.346314 (ML),  weights&rates: (0.250000,0.009791) (0.250000,0.140687) (0.250000,0.665983) (0.250000,3.183539) 
+   Base frequencies (ML): 0.232597 0.186843 0.255069 0.325491 
+   Substitution rates (ML): 0.855834 1.877816 0.970795 0.911700 2.638146 1.000000 
 
 
-Final LogLikelihood: -47383.679725
+Final LogLikelihood: -47378.411239
 
-AIC score: 95615.359449 / AICc score: 95831.685980 / BIC score: 98009.008074
+AIC score: 95604.822477 / AICc score: 95821.149008 / BIC score: 97998.471102
 Free parameters (model + branch lengths): 424
 
-WARNING: Best ML tree contains 8 near-zero branches!
+WARNING: Best ML tree contains 7 near-zero branches!
 
 Best ML tree with collapsed near-zero branches saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Bacillariophyta.raxml.bestTreeCollapsed
 Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Bacillariophyta.raxml.bestTree
@@ -117,9 +113,9 @@ Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/
 
 Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/combined_18S.eukarya.tax.Bacillariophyta.raxml.log
 
-Analysis started: 27-Dec-2020 00:45:30 / finished: 27-Dec-2020 00:49:23
+Analysis started: 28-Jan-2021 04:33:10 / finished: 28-Jan-2021 04:36:27
 
-Elapsed time: 233.679 seconds
+Elapsed time: 196.293 seconds
 
-Consumed energy: 11.400 Wh
+Consumed energy: 9.727 Wh
 

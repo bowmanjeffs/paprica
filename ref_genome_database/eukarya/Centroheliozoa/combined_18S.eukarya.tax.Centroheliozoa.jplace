@@ -1,14 +1,14 @@
 {
-  "tree": "((AY749517.1.1757_U|Pterocystida_XX_sp.:0.1244750000{0},(AY821943.1.1709_U|Centroheliozoa_XXXX_sp.:0.2500170000{1},AY268043.1.1758_U|Pterocystis_sp.:0.0649920000{2}):0.0662360000{3}):0.0201980000{4},AY749545.1.1709_U|Pterocystida_XX_sp.:0.2122020000{5},(AY749486.1.1796_U|Pterocystida_XX_sp.:0.2934970000{6},DQ103826.1.1838_U|Centroheliozoa_XXXX_sp.:0.1089760000{7}):0.0340970000{8});",
+  "tree": "((((AY821943.1.1709_U|Centroheliozoa_XXXX_sp.:0.2499510000{0},AY268043.1.1758_U|Pterocystis_sp.:0.0649870000{1}):0.0661990000{2},AY749517.1.1757_U|Pterocystida_XX_sp.:0.1244480000{3}):0.0201870000{4},AY749545.1.1709_U|Pterocystida_XX_sp.:0.2121710000{5}):0.0340890000{6},AY749486.1.1796_U|Pterocystida_XX_sp.:0.2933900000{7},DQ103826.1.1838_U|Centroheliozoa_XXXX_sp.:0.1089550000{8});",
   "placements": 
   [
     {"p": [
-      [1, -6159.6803898095, 0.9994383040, 0.1222459145, 2.6667166914]
+      [0, -5958.6965852918, 0.9997550799, 0.1224144194, 1.8155272354]
       ],
     "n": ["test_Chlorophyta__Streptophyta_0"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpx5wj3_d5/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Centroheliozoa/combined_18S.eukarya.tax.Centroheliozoa.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpx5wj3_d5/combined_18S.eukarya.tax.Centroheliozoa.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Centroheliozoa/combined_18S.eukarya.tax.Centroheliozoa.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmpx5wj3_d5/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp7kynuf4h/combined_18S.eukarya.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Centroheliozoa/combined_18S.eukarya.tax.Centroheliozoa.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp7kynuf4h/combined_18S.eukarya.tax.Centroheliozoa.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/Centroheliozoa/combined_18S.eukarya.tax.Centroheliozoa.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/eukarya/tmp7kynuf4h/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }
