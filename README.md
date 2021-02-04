@@ -60,6 +60,8 @@ Czech, L., Barbera, P. and Stamatakis, A., 2020. [Genesis and Gappa: processing,
 
 Guillou, L., Bachar, D., Audic, S., Bass, D., Berney, C., Bittner, L., Boutte, C., Burgaud, G., De Vargas, C., Decelle, J. and Del Campo, J., 2012. [The Protist Ribosomal Reference database (PR2): a catalog of unicellular eukaryote Small Sub-Unit rRNA sequences with curated taxonomy](https://academic.oup.com/nar/article/41/D1/D597/1064851?login=true). *Nucleic acids research*, 41(D1), pp.D597-D604.
 
+Haft, D.H., DiCuccio, M., Badretdin, A., Brover, V., Chetvernin, V., O’Neill, K., Li, W., Chitsaz, F., Derbyshire, M.K., Gonzales, N.R. and Gwadz, M., 2018. [RefSeq: an update on prokaryotic genome annotation and curation](https://academic.oup.com/nar/article/46/D1/D851/4588110?login=true). *Nucleic acids research*, 46(D1), pp.D851-D860.
+
 Karp, P.D., Midford, P.E., Billington, R., Kothari, A., Krummenacker, M., Latendresse, M., Ong, W.K., Subhraveti, P., Caspi, R., Fulcher, C. and Keseler, I.M., 2021. [Pathway Tools version 23.0 update: software for pathway/genome informatics and systems biology](https://academic.oup.com/bib/article/22/1/109/5669859?login=true). *Briefings in bioinformatics*, 22(1), pp.109-126.
 
 Nawrocki, E.P. and Eddy, S.R., 2013. [Infernal 1.1: 100-fold faster RNA homology searches](https://academic.oup.com/bioinformatics/article/29/22/2933/316439?login=true). *Bioinformatics*, 29(22), pp.2933-2935.
