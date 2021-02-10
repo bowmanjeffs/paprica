@@ -602,7 +602,7 @@ def gappa(jplace, cwd):
     subprocess.call('gappa examine edpl \
                     --allow-file-overwriting \
                     --out-dir ' + cwd + ' \
-                    --file-prefix ' + basename + '.edpl_ \
+                    --file-prefix ' + basename + '. \
                     --jplace-path ' + cwd + jplace, shell = True, executable = executable)
                     
     subprocess.call('gappa examine heat-tree \
@@ -1363,8 +1363,16 @@ else:
         temp_dir + ref + '.' + phylum_ref + '.clean.align.newlength.fasta',
         placements)
                     
-    gappa(query + '.' + phylum_ref + '.jplace', temp_dir)  
-    edpl = pd.read_csv(temp_dir + query + '.' + phylum_ref + '.edpl_list.csv', index_col = 1)
+    gappa(query + '.' + phylum_ref + '.jplace', temp_dir)
+    
+    #!!! Try clause used to allow backwards compatibility with old version of gappa.
+    ## Remove after adequate time has passed.
+    
+    try:
+        edpl = pd.read_csv(temp_dir + query + '.' + phylum_ref + '.edpl_list.csv', index_col = 1)
+    except FileNotFoundError:
+        edpl = pd.read_csv(temp_dir + query + '.' + phylum_ref + '.list.csv', index_col = 1)
+    
     placements = pd.concat([placements, edpl['EDPL']], axis = 1, sort = False)
     
     ## Add the count data.  This should also add all unique reads that didn't
@@ -1458,8 +1466,16 @@ else:
                         temp_dir + ref + '.' + subtree + '.clean.align.newlength.fasta',
                         subtree_csv)
                     
-                    gappa(query + '.' + subtree + '.jplace', temp_dir)  
-                    edpl = pd.read_csv(temp_dir + query + '.' + subtree + '.edpl_list.csv', index_col = 1)
+                    gappa(query + '.' + subtree + '.jplace', temp_dir)
+                    
+                    #!!! Try clause used to allow backwards compatibility with old version of gappa.
+                    ## Remove after adequate time has passed.
+                    
+                    try:
+                        edpl = pd.read_csv(temp_dir + query + '.' + subtree + '.edpl_list.csv', index_col = 1)
+                    except FileNotFoundError:
+                        edpl = pd.read_csv(temp_dir + query + '.' + subtree + '.list.csv', index_col = 1)
+                        
                     subtree_csv = pd.concat([subtree_csv, edpl['EDPL']], axis = 1, sort = False)
                     subtree_csv['subtree'] = subtree
                     
