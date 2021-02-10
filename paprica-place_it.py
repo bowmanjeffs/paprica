@@ -602,7 +602,7 @@ def gappa(jplace, cwd):
     subprocess.call('gappa examine edpl \
                     --allow-file-overwriting \
                     --out-dir ' + cwd + ' \
-                    --file-prefix ' + basename + '. \
+                    --file-prefix ' + basename + '.edpl_ \
                     --jplace-path ' + cwd + jplace, shell = True, executable = executable)
                     
     subprocess.call('gappa examine heat-tree \
