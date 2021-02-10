@@ -602,14 +602,14 @@ def gappa(jplace, cwd):
     subprocess.call('gappa examine edpl \
                     --allow-file-overwriting \
                     --out-dir ' + cwd + ' \
-                    --file-prefix ' + basename + '.edpl \
+                    --file-prefix ' + basename + '. \
                     --jplace-path ' + cwd + jplace, shell = True, executable = executable)
                     
     subprocess.call('gappa examine heat-tree \
                     --allow-file-overwriting \
                     --out-dir ' + cwd + ' \
                     --write-phyloxml-tree \
-                    --tree-file-prefix ' + basename + ' \
+                    --file-prefix ' + basename + ' \
                     --jplace-path ' + cwd + jplace, shell = True, executable = executable)
 
 #%% Define function to convert json to csv.
@@ -1364,7 +1364,7 @@ else:
         placements)
                     
     gappa(query + '.' + phylum_ref + '.jplace', temp_dir)  
-    edpl = pd.read_csv(temp_dir + query + '.' + phylum_ref + '.edpllist.csv', index_col = 1)
+    edpl = pd.read_csv(temp_dir + query + '.' + phylum_ref + '.edpl_list.csv', index_col = 1)
     placements = pd.concat([placements, edpl['EDPL']], axis = 1, sort = False)
     
     ## Add the count data.  This should also add all unique reads that didn't
@@ -1459,7 +1459,7 @@ else:
                         subtree_csv)
                     
                     gappa(query + '.' + subtree + '.jplace', temp_dir)  
-                    edpl = pd.read_csv(temp_dir + query + '.' + subtree + '.edpllist.csv', index_col = 1)
+                    edpl = pd.read_csv(temp_dir + query + '.' + subtree + '.edpl_list.csv', index_col = 1)
                     subtree_csv = pd.concat([subtree_csv, edpl['EDPL']], axis = 1, sort = False)
                     subtree_csv['subtree'] = subtree
                     
