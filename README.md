@@ -11,11 +11,11 @@
 
 ## Announcements
 
-### Please be sure to update to the most recent version of gappa, as paprica assumes the naming conventions of the most recent version.
+### * Please be sure to update to the most recent version of gappa, as paprica assumes the naming conventions of the most recent version.
 
-### We just completed a major update to paprica that provided a number of improvements.  The documentation and tutorials will lag the code development, but the basic commands and structure of the output are similar.  I encourage you to try the latest code by cloning the repository, and to create an issue if you encounter any problems.
+### * We just completed a major update to paprica that provided a number of improvements.  The documentation and tutorials will lag the code development, but the basic commands and structure of the output are similar.  I encourage you to try the latest code by cloning the repository, and to create an issue if you encounter any problems.
 
-### Alternatively you can go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
+### * Alternatively you can go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
 
 ## To run paprica you will need:
 * [epa-ng](https://github.com/Pbdas/epa-ng)
