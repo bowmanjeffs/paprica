@@ -177,7 +177,7 @@ def make_unique(query):
         
     for record in SeqIO.parse(query + '.fasta', 'fasta'):
         name = str(record.id)
-        seq = str(record.seq)
+        seq = str(record.seq).upper()
         
         if seq in list(seq_count.keys()):
             seq_count[seq] = seq_count[seq] + 1
