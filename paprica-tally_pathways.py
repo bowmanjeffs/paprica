@@ -349,7 +349,18 @@ edge_data = pd.concat([edge_data, lineages], axis = 1, join = 'inner')
 
 print('Normalizing abundance for unique sequences...')
 
-unique_csv = unique_csv[['seq', 'abundance', 'global_edge_num']]
+## Try clause is necessary for cases where there are only internal placements,
+## in which case there will be no map_ratio or map_id in the placements.csv
+## file.
+
+try:
+    unique_csv = unique_csv[['seq', 'abundance', 'global_edge_num', 'map_ratio', 'map_id', 'EDPL']]
+except KeyError:
+    unique_csv = unique_csv[['seq', 'abundance', 'global_edge_num', 'EDPL']]
+    unique_csv['map_ratio'] = np.nan
+    unique_csv['map_id'] = np.nan
+    unique_csv = unique_csv[['seq', 'abundance', 'global_edge_num', 'map_ratio', 'map_id', 'EDPL']]
+
 unique_csv.loc[unique_csv.index, 'name'] = unique_csv.index
 unique_csv.index = unique_csv.seq
 

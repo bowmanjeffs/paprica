@@ -47,7 +47,7 @@ if 'h' in list(command_args.keys()):
 try:
     domain = command_args['domain']
 except KeyError:
-    domain = 'archaea'
+    domain = 'bacteria'
     
 try:
     prefix = command_args['o']
@@ -98,6 +98,7 @@ def stop_here():
 
 edge_tally = pd.DataFrame()
 edge_data = pd.DataFrame()
+unique_data = pd.DataFrame()
 ec_tally = pd.DataFrame()
 path_tally = pd.DataFrame()
 
@@ -203,6 +204,9 @@ for f in os.listdir(cwd):
         temp_unique['seq'] = temp_unique['identifier'].str.split('|', expand = True).iloc[:,0]
         temp_unique.set_index('seq', inplace = True)
         
+        temp_unique_data = temp_unique[['map_ratio', 'map_id', 'EDPL']]
+        unique_data = pd.concat([unique_data, temp_unique_data])
+        
         for seq in temp_unique.index:
                 
             try:
@@ -212,12 +216,19 @@ for f in os.listdir(cwd):
                         
         unique_tally = pd.concat([unique_tally, temp_unique.abundance_corrected], axis = 1, sort = True)
         unique_tally.rename(columns = {'abundance_corrected':name}, inplace = True)
+        
+## aggregate unique_data by index
+        
+unique_data = unique_data.groupby(unique_data.index).mean()
+
+#!!! this would be an appropriate place to add taxonomy data to unique_data
     
 pd.DataFrame.to_csv(unique_tally.transpose(), prefix + '.' + domain + '.unique_tally.csv')
 pd.DataFrame.to_csv(unique_edge_abund, prefix + '.' + domain + '.unique_edge_abund.csv')
+pd.DataFrame.to_csv(unique_data, prefix + '.' + domain + '.unique_data.csv')
 
 ## Write out a file mapping unique sequences to edges.  This is useful for identifying those sequences that
-## placed to different edges in different samples.  
+## placed to different edges in different samples. 
 
 seq_edge_map = pd.DataFrame()
 
