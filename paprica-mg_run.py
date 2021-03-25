@@ -44,7 +44,6 @@ import pandas as pd
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
-from Bio.Alphabet import IUPAC
 from Bio import SeqFeature
 
 ## Define a stop function for diagnostic use only.
@@ -117,7 +116,7 @@ if ref_dir_path.endswith('/') == False:
 ## that the index values in the resulting DF aren't unique, which works great.
 ## Note use of --top 0, this means only top tying hits are reported.
     
-ec_df = pd.read_csv(ref_dir_path + 'paprica-mg.ec.csv', index_col = 0)
+ec_df = pd.read_csv(ref_dir_path + 'paprica-mg.ec.csv.gz', index_col = 0)
 ngenomes = len(ec_df['genome'].unique())
     
 print('executing DIAMOND blastx, this might take a while...')
@@ -260,7 +259,7 @@ if pathways == 'T':
                 new_feature.location = location
                 features.append(new_feature)
             
-            new_record = SeqRecord(Seq('nnnn', alphabet = IUPAC.ambiguous_dna), id = genome, name = genome, features = features)
+            new_record = SeqRecord(Seq('nnnn'), id = genome, name = genome, features = features)
             SeqIO.write(new_record, open(pathos_output_dir + name + '.' + genome + '.gbk', 'w'), 'genbank')
             
             print('ID' + '\t' + genome, file=all_genetic_elements)
