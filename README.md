@@ -52,7 +52,7 @@ chmod a+x *sh
 
 ## Citations
 
-**Please cite paprica as**:
+**Please cite paprica as:**
 
 Bowman, Jeff S., and Hugh W. Ducklow, 2015. [Microbial Communities Can Be Described by Metabolic Structure: A General Framework and Application to a Seasonally Variable, Depth-Stratified Microbial Community from the Coastal West Antarctic Peninsula](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0135868). *PloS one*, 10.8, e0135868.
 
@@ -70,13 +70,13 @@ Karp, P.D., Midford, P.E., Billington, R., Kothari, A., Krummenacker, M., Latend
 
 Nawrocki, E.P. and Eddy, S.R., 2013. [Infernal 1.1: 100-fold faster RNA homology searches](https://academic.oup.com/bioinformatics/article/29/22/2933/316439?login=true). *Bioinformatics*, 29(22), pp.2933-2935.
 
-**If you use the paprica-mt module please also cite:
+**If you use the paprica-mt module please also cite:**
 
 Bowman, J.S., Van Mooy, B.A., Lowenstein, D.P., Fredricks, H.F., Hansel, C.M., Gast, R., Collins, J.R., Couto, N. and Ducklow, H.W., 2021. [Whole Community Metatranscriptomes and Lipidomes Reveal Diverse Responses Among Antarctic Phytoplankton to Changing Ice Conditions](https://www.frontiersin.org/articles/10.3389/fmars.2021.593566/full). *Frontiers in Marine Science*, 8, p.119.
 
 Li, H. and Durbin, R., 2009. [Fast and accurate short read alignment with Burrows–Wheeler transform](https://academic.oup.com/bioinformatics/article/25/14/1754/225615?login=true). *Bioinformatics*, 25(14), pp.1754-1760.
 
-**If you use the paprica-mg module please also cite:
+**If you use the paprica-mg module please also cite:**
 
 Buchfink, B., Xie, C. and Huson, D.H., 2015. [Fast and sensitive protein alignment using DIAMOND](https://www.nature.com/articles/nmeth.3176). *Nature methods*, 12(1), pp.59-60.
 

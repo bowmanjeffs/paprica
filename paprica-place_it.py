@@ -70,6 +70,7 @@ from io import StringIO
 import tempfile
 import shutil
 import numpy as np
+from termcolor import colored
 
 executable = '/bin/bash' # shell for executing commands
 random.seed(1)
@@ -101,7 +102,7 @@ for i,arg in enumerate(sys.argv):
             command_args[arg] = ''
         
 if 'h' in list(command_args.keys()):
-    print(help_string)
+    print(colored('help_string', 'green'))
     quit()
 
 ## Parse command line for mandatory variables, providing defaults if they are
@@ -171,7 +172,7 @@ cm23S = paprica_path + 'models/' + domain + '_lsu.cm'
 
 def stop_here():
     stop = []
-    print('Manually stopped!')
+    print(colored('Manually stopped!', 'red'))
     print(stop[1])
     
 #%% Define function to clean record names.  Note that bad_character is also used
@@ -330,7 +331,7 @@ def split_query_ref(query_alignment, ref_alignment, combined, temp_dir, part_fil
                 record.seq = Seq.Seq(temp_seq)
                 SeqIO.write(record, ref_out, 'fasta')
             else:
-                print('Error, record.id not in query or ref!')
+                print(colored('Error, record.id not in query or ref!', 'red'))
                 break    
     
 #%% Define function to execute a single raxml-ng run
@@ -556,7 +557,7 @@ def check_tree(alignment_16S, final_tree):
             good_16S.append(record)
             
     if len(good_16S) != len(tree_ids):
-        print('The length of the alignment does not match the tree!')
+        print(colored('The length of the alignment does not match the tree!', 'red'))
         stop_here()
                     
 #%% Define function to execute phylogenetic placement on a query fasta, or split query fasta
@@ -803,8 +804,8 @@ if 'query' not in list(command_args.keys()):
         nseqs23S = trim_alignment(prefix_23S + '.' + fasta)
         
         if nseqs16S != nseqs23S:
-            print('You have different numbers of 16S and 23S rRNA genes!  Check \
-                  your input files!')
+            print(colored('You have different numbers of 16S and 23S rRNA genes!  Check \
+                  your input files!', 'red'))
                   
             quit()
         
@@ -866,7 +867,7 @@ if 'query' not in list(command_args.keys()):
             for phylum in ref_lineages.analysis_group.unique():
                 
                 if pd.notnull(phylum):
-                    print(phylum)
+                    print(colored(phylum, 'green'))
                     j = 0
                     phylum_taxids = set(ref_lineages.index[ref_lineages.analysis_group == phylum])
                     phylum_seqids = list(genome_data.loc[genome_data['taxid'].isin(phylum_taxids)].tax_name)
@@ -946,8 +947,8 @@ if 'query' not in list(command_args.keys()):
             nseqs23S = trim_alignment(prefix_23S + '.' + fasta)
             
             if nseqs16S != nseqs23S:
-                print('You have different numbers of 16S and 23S rRNA genes!  Check \
-                      your input files!')
+                print(colored('You have different numbers of 16S and 23S rRNA genes!  Check \
+                      your input files!', 'red'))
                       
                 quit()
         
