@@ -20,6 +20,7 @@ pip3 install biopython
 pip3 install joblib
 pip3 install pandas
 pip3 install seqmagick
+pip3 install termcolor
 
 ## Install RAxML
 #git clone https://github.com/stamatak/standard-RAxML.git
