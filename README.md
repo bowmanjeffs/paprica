@@ -24,7 +24,7 @@
 * [seqmagick](https://fhcrc.github.io/seqmagick/)
 * python 3.6 or higher, with packages specified [here](https://github.com/bowmanjeffs/paprica/wiki/1.-Requirements-and-Installation)
 
-Paprica can be run on OSX (see tutorial linked above), or preferably, on Linux or Windows using the Windows Subsystem for Linux (see [the linux_install.sh](https://github.com/bowmanjeffs/paprica/blob/master/linux_install.sh) script as a guide).
+Paprica can be run on OSX (see tutorial linked above), or preferably, on Linux or Windows using the Windows Subsystem for Linux (see the [linux_install.sh](https://github.com/bowmanjeffs/paprica/blob/master/linux_install.sh) script as a guide).
 
 ## paprica
 PAthway PRediction by phylogenetIC plAcement
