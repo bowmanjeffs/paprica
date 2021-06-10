@@ -2,8 +2,9 @@ FROM python:3.9
 
 LABEL maintainer="Jeff Bowman"
 
-RUN apt-get update \
-    && apt-get install -qy --no-install-recommends \
+# Install packages
+RUN apt-get update && \
+    apt-get install -qy --no-install-recommends \
     make \
     git \
     cmake \
@@ -18,29 +19,31 @@ RUN apt-get update \
     git \
     zip
 
-## Install python dependencies, including external python tools
+# Install python dependencies, including external python tools
 RUN pip3 install numpy biopython joblib pandas seqmagick termcolor
     
 RUN cd /
 
-## Install RAxML-ng
-RUN wget https://github.com/amkozlov/raxml-ng/releases/download/0.9.0/raxml-ng_v0.9.0_linux_x86_64.zip && unzip raxml-ng_v0.9.0_linux_x86_64.zip && rm raxml-ng_v0.9.0_linux_x86_64.zip
+# Install RAxML-ng
+RUN wget --no-verbose https://github.com/amkozlov/raxml-ng/releases/download/0.9.0/raxml-ng_v0.9.0_linux_x86_64.zip && \
+    unzip raxml-ng_v0.9.0_linux_x86_64.zip && \
+    rm raxml-ng_v0.9.0_linux_x86_64.zip
 
-## Install infernal
-RUN wget http://eddylab.org/infernal/infernal-1.1.2-linux-intel-gcc.tar.gz && tar -xzvf infernal-1.1.2-linux-intel-gcc.tar.gz && mv infernal-1.1.2-linux-intel-gcc infernal
+# Install infernal
+RUN wget --no-verbose http://eddylab.org/infernal/infernal-1.1.2-linux-intel-gcc.tar.gz && \
+    tar -xzvf infernal-1.1.2-linux-intel-gcc.tar.gz && \
+    mv infernal-1.1.2-linux-intel-gcc infernal && \
+    rm infernal-1.1.2-linux-intel-gcc.tar.gz
 
-## Install gappa
-RUN git clone --recursive https://github.com/lczech/gappa.git && make -C /gappa
-RUN cd ~
+# Install gappa
+RUN git clone --recursive https://github.com/lczech/gappa.git && \
+    make -C /gappa
 
-## Install epa-ng
-## Double check that you have all dependencies as described here: https://github.com/Pbdas/epa-ng#installation.
-## If the compiler yells at you about not having zlib, you will need to have zlib1g-dev installed, not just zlib1g!
+# Install epa-ng
+RUN git clone https://github.com/Pbdas/epa-ng.git && \ 
+    make -C /epa-ng
 
-RUN git clone https://github.com/Pbdas/epa-ng.git && cd epa-ng && make
-RUN cd ~
-
-## Modify PATH
+# Modify PATH
 ENV PATH="/pplacer:${PATH}"
 ENV PATH="/.local/bin:${PATH}"
 ENV PATH="/infernal/binaries:${PATH}"
@@ -50,6 +53,8 @@ ENV PATH="/paprica:${PATH}"
 ENV PATH="/epa-ng/bin:${PATH}"
 ENV PATH="/gappa/bin:${PATH}"
 
-## Download paprica - redundant cause that's probably how you got this script
+# Install paprica
 RUN git clone https://github.com/bowmanjeffs/paprica.git && cd paprica && chmod a+x *py && chmod a+x *sh
+
+# Run bash on container startup
 CMD "/bin/bash"
