@@ -14,11 +14,7 @@
 
 ### You can now download a [Docker image](https://hub.docker.com/repository/docker/jsbowman/paprica/tags?page=1&ordering=last_updated) for paprica.
 
-### Please be sure to update to the most recent version of gappa, as paprica assumes the naming conventions of the most recent version.
-
-### We just completed a major update to paprica that provided a number of improvements.  The documentation and tutorials will lag the code development, but the basic commands and structure of the output are similar.  I encourage you to try the latest code by cloning the repository, and to create an issue if you encounter any problems.
-
-### Alternatively you can go to [releases](https://github.com/bowmanjeffs/paprica/releases) to find the last stable release for download.
+### If you're not using the Docker image please be sure to update to the most recent version of gappa, as paprica assumes the naming conventions of the most recent version.
 
 ## To run paprica you will need:
 * [epa-ng](https://github.com/Pbdas/epa-ng)
@@ -34,7 +30,7 @@ If you use Docker or Singularity you can download a Docker image with `docker pu
 ## paprica
 PAthway PRediction by phylogenetIC plAcement
 
-A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out the [Wiki](https://github.com/bowmanjeffs/paprica/wiki) and tutorials (listed above) to get started.  Once you've installed the depenencies the commands:
+A pipeline to conduct a metabolic inference from 16S rRNA gene sequence libraries.  Check out the [Wiki](https://github.com/bowmanjeffs/paprica/wiki) and tutorials (listed above) to get started.  Once you've installed the depenencies the following commands will get you started:
 
 ```
 git clone https://github.com/bowmanjeffs/paprica.git
@@ -43,17 +39,13 @@ chmod a+x *py
 chmod a+x *sh
 ./paprica-run.sh test bacteria
 ```
-or
+Alternatively, if you're using the Docker image you can skip installing the dependencies and just do:
 ```
-wget https://github.com/bowmanjeffs/paprica/archive/paprica_v0.XX.tar.gz
-tar -xzvf paprica_v0.XX.tar.gz
-mv paprica-paprica_v0.XX paprica
-cd paprica
-chmod a+x *py
-chmod a+x *sh
+docker pull jsbowman/paprica:latest
+docker run -it jsbowman/paprica
+cd /paprica
 ./paprica-run.sh test bacteria
 ```
-...where XX is the paprica version should get you going and execute a run on the provided file test.fasta for the domain Bacteria.
 
 ## Citations
 
