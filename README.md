@@ -1,7 +1,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/bowmanjeffs/paprica)
 ![GitHub top language](https://img.shields.io/github/languages/top/bowmanjeffs/paprica)
 ![GitHub stars](https://img.shields.io/github/stars/bowmanjeffs/paprica?style=social)
-![docker build](https://img.shields.io/docker/cloud/automated/jsbowman/paprica)
+![docker build](https://img.shields.io/docker/cloud/build/jsbowman/paprica)
 <img src="https://github.com/bowmanjeffs/paprica/blob/master/bacteria_terminal_path_distribution.png" alt="Metabolic pathways in bacterial genomes in current paprica database" width="400" align='right'>
 ## Notice - If you've been redirected here from genome_finder you're in the right place!  Please take a look at the [Wiki](https://github.com/bowmanjeffs/paprica/wiki) for documentation.  There are also several tutorials available:
 [Installing paprica on Mac OSX](http://www.polarmicrobes.org/installing-paprica-on-mac-osx/) (updated) 
@@ -11,6 +11,8 @@
 [Building the paprica database](http://www.polarmicrobes.org/building-the-paprica-database/) (not yet updated)
 
 ## Announcements
+
+### You can now download a [Docker image](https://hub.docker.com/repository/docker/jsbowman/paprica/tags?page=1&ordering=last_updated) for paprica.
 
 ### Please be sure to update to the most recent version of gappa, as paprica assumes the naming conventions of the most recent version.
 
@@ -26,6 +28,8 @@
 * python 3.6 or higher, with packages specified [here](https://github.com/bowmanjeffs/paprica/wiki/1.-Requirements-and-Installation)
 
 Paprica can be run on OSX (see tutorial linked above), or preferably, on Linux or Windows using the Windows Subsystem for Linux (see the [linux_install.sh](https://github.com/bowmanjeffs/paprica/blob/master/linux_install.sh) script as a guide).
+
+If you use Docker or Singularity you can download a Docker image with `docker pull jsbowman/paprica:latest`
 
 ## paprica
 PAthway PRediction by phylogenetIC plAcement
