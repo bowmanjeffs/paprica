@@ -171,7 +171,7 @@ with gzip.open(cwd + name + '.sam.gz', 'rt') as sam:
             ## 2: each segment properly aligned according to the aligner
             ## 16: SEQ being reverse complemented
             
-            if line[1] in ['0', '2', '16']:            
+            if line[1] not in ['4']:            
                 rname = line[2]
                 f = f + 1
                 

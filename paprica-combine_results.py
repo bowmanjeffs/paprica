@@ -232,6 +232,8 @@ pd.DataFrame.to_csv(unique_data, prefix + '.' + domain + '.unique_data.csv')
 
 seq_edge_map = pd.DataFrame()
 
+print('Building out the *seq_edge_map.csv file, this takes a (potentially long) minute!')
+
 for i,r in unique_edge_abund.iterrows():
     seq_edge_map.loc[r.name, 'global_edge_num'] =  r.idxmax(skipna = True)
     seq_edge_map.loc[r.name, 'proportion_placed'] = r.max() / r.sum()
