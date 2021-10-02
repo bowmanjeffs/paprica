@@ -1,3 +1,7 @@
+## Don't forget to set your working directory.
+
+setwd('your/working/directory')
+
 ## Define the prefix of your input files.  This is whatever you set the -o flag
 ## to when you ran paprica-combine_results.py.
 
@@ -34,7 +38,7 @@ read.data <- function(prefix, domain){
         return(data)
 }
 
-####  ####
+#### read data files and prepare for analysis ####
 
 tally.bac <- read.edge(prefix, 'bacteria')
 tally.arc <- read.edge(prefix, 'archaea')
@@ -71,17 +75,22 @@ tally$Row.names <- NULL
 unique[is.na(unique)] <- 0
 tally[is.na(tally)] <- 0
 
-## eliminate libraries below size threshold
+## Eliminate libraries below size threshold.  You should
+## pick something that works for your sample set.  In practice
+## we try to avoid libraries with fewer than 5000 reads.
 
 tally.select <- tally[rowSums(tally) > 5000,]
 unique.select <- unique[rowSums(unique) > 5000,]
 
-## drop a specific library or libraries
+## OPTIONAL. Drop a specific library or libraries, such as a library
+## that you know is bad or have some reason for not wanting to analyze further.
 
 unique.select <- unique.select[grep('SRR14129902.16S.exp.', row.names(unique.select), invert = T),]
 tally.select <- tally.select[grep('SRR14129902.16S.exp.', row.names(tally.select), invert = T),]
 
-## eliminate ASVs below a certain abundance threshold
+## Eliminate ASVs below a certain abundance threshold.  In general you should
+## at least get rid of everything of abundance = 1, which greatly reduces the
+## size of your data frame.  Typically we set the threshold at 10.
 
 unique.select <- unique.select[,colSums(unique.select) > 10]
 
