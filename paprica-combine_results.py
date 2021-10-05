@@ -10,8 +10,10 @@ This script aggregates information from multiple '.edge_data.csv' files
 produces by running paprica on multiple samples.  It produces a matrix of edges
 by sample, and a matrix of mean edge parameters, by sample.
 
+CALL AS:
+
 For simple execution (works in most user cases) run as:
-    ./combine_edge_results.py -domain [domain] -o [prefix for output] -d [analysis directory]
+    ./combine_edge_results.py -domain [domain] -o [prefix for output]
     
 If your file names don't follow the default suffix pattern of (e.g.)
 [domain].edge_data.csv, you will need to specify the suffix pattern like this:
@@ -19,6 +21,15 @@ If your file names don't follow the default suffix pattern of (e.g.)
 
 It will automatically loop through all files in the directory with the specified suffixes.
 
+OPTIONS:
+    -domain: The domain (bacteria, archaea, eukarya) you are analyzing for.
+    -o: Prefix for the output files.
+    -rare_lim: Optional, an integer specifying the that ASVs of abundance
+    equal to or below the value should not be included in the analysis.  This
+    is very helpful for limiting the size of the output and is recommended
+    unless you are particularly interested in very rare ASVs.  Default is 1.
+    Set to 0 to include all.
+    
 """
 
 import os
@@ -26,6 +37,7 @@ import pandas as pd
 import re
 import math
 import sys
+from termcolor import colored
 
 ## Read in command line arguments.
 
@@ -63,6 +75,11 @@ try:
     edge_suffix = command_args['edge_in']
 except KeyError:
     edge_suffix = domain + '.edge_data.csv'
+    
+if 'rare_lim' in command_args.keys():
+    rare_lim = command_args['rare_lim']
+else:
+    rare_lim = 1
     
 if domain != 'eukarya':
     
@@ -192,13 +209,20 @@ if domain != 'eukarya':
     pd.DataFrame.to_csv(path_tally.transpose(), prefix + '.' + domain + '.path_tally.csv') 
     pd.DataFrame.to_csv(ec_tally.transpose(), prefix + '.' + domain + '.ec_tally.csv')
     
-## Make combined unique file
+## Make combined unique file. While iterating across each analysis file add
+## abundance of each ASV to matrix of ASVs and owning edges. This is necessary
+## because some ASVs with poor phylogenetic signal will place to different
+## edges in separate analyses and we want to track this.  As implemented this
+## is currently VERY slow.
+    
+print('Tallying ASVs, this can take a (potentially long) minute!')
 
 unique_tally = pd.DataFrame()
 unique_edge_abund = pd.DataFrame() # index = seqs, cols = edges
 
 for f in os.listdir(cwd):
     if f.endswith(unique_suffix):
+        print(colored('Tallying ASVs for ' + f, 'green'))
         name = re.sub(unique_suffix, '', f)
         temp_unique = pd.read_csv(cwd + f, index_col = None)
         temp_unique['seq'] = temp_unique['identifier'].str.split('|', expand = True).iloc[:,0]
@@ -221,6 +245,10 @@ for f in os.listdir(cwd):
         
 unique_data = unique_data.groupby(unique_data.index).mean()
 
+## Eliminate ASVs below the specified abundance.
+
+unique_tally = unique_tally.loc[unique_tally.sum(axis = 1) > rare_lim,:]
+
 #!!! this would be an appropriate place to add taxonomy data to unique_data
     
 pd.DataFrame.to_csv(unique_tally.transpose(), prefix + '.' + domain + '.unique_tally.csv')
@@ -232,7 +260,7 @@ pd.DataFrame.to_csv(unique_data, prefix + '.' + domain + '.unique_data.csv')
 
 seq_edge_map = pd.DataFrame()
 
-print('Building out the *seq_edge_map.csv file, this takes a (potentially long) minute!')
+print(colored('Building out the *seq_edge_map.csv file', 'green'))
 
 for i,r in unique_edge_abund.iterrows():
     seq_edge_map.loc[r.name, 'global_edge_num'] =  r.idxmax(skipna = True)
