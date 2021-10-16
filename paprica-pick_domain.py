@@ -129,7 +129,7 @@ def write_fasta(fasta_out, fasta_in, domain_set, domain):
                     SeqIO.write(record, fasta_out, 'fasta')
                     
     print(domain, 'total:unique', str(n) + ':' + str(len(domain_set)))
-                
+
 #%% Define a function to split an input fasta file.
                 
 def split_fasta(file_in, nsplits):
@@ -167,16 +167,34 @@ def split_fasta(file_in, nsplits):
 def run_cmscan(split_in):   
     os.system('cmscan --toponly --cpu 1 --tblout ' + split_in + '.txt ' + paprica_path + 'models/all_domains.cm ' + split_in + '.fasta > /dev/null')
     
-#%% Define a function to create a unique fasta file from the input.
+#%% Define a function to create a unique fasta file from the input. This
+## function also insures that all of the output sequence names are unique by
+## following the Infernal example of appending "n_".  This prevents Infernal
+## doing it later and preventing paprica from splitting alignments.
             
 def make_unique(query):
     
+    ## Check for duplicate names.
+    
+    dup_names = False
+    old_names = []
+    
+    for record in SeqIO.parse(query + '.fasta', 'fasta'):
+        old_names.append(str(record.id))
+    
+    if len(old_names) != len(set(old_names)):
+        dup_names = True
+
     seq_count = {}
     seq_names = {}
     name_seq = {}
+    i = 0
         
     for record in SeqIO.parse(query + '.fasta', 'fasta'):
+        i += 1
         name = str(record.id)
+        if dup_names == True:
+            name = str(i) + '|' + name
         seq = str(record.seq).upper()
         
         if seq in list(seq_count.keys()):
