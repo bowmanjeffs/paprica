@@ -122,14 +122,19 @@ lab.row.arc <- get.names('archaea', map.arc, taxa.arc)
 lab.row.euk <- get.names('eukarya', map.euk, taxa.euk)
 lab.row <- cbind(lab.row.bac, lab.row.arc)
 
-## make a heatmap of ASV abundance
+#### make a heatmap of ASV abundance ####
 
-## OPTIONAL: Restrict to a specific taxonomy if desired. This doesn't select
-## from the full taxonomy, but rather from the row names. So for example if
-## you have many ASVs associated with the genus Polyedra you could do the
-## following:
+## OPTIONAL: Select a specific taxonomy 
 
-#selected <- grep('polyedra', unique.lab.Row)
+get.taxa <- function(map, target_taxa, rank){
+    
+    target.edges <- row.names(taxa)[which(taxa[,rank] == target_taxa)]
+    target.asvs <- row.names(map)[which(map$global_edge_num %in% target.edges)]
+    selected <- which(colnames(unique.select) %in% target.asvs)
+    return(selected)
+}
+
+selected <- get.taxa(map.bac, 'Cyanobacteria', 'phylum')
 
 ## Alternatively restrict to top 50:
 
@@ -141,10 +146,10 @@ heatmap(t(data.matrix(unique.select.log10[,selected])),
         #Colv = NA,
         scale = NULL,
         col = heat.col,
-        labRow = lab.row,
+        labRow = lab.row[selected],
         margins = c(10, 10))
 
-## NMDS plot
+#### NMDS plot ####
 
 library(vegan)
 library(oce)
