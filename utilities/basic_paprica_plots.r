@@ -127,7 +127,6 @@ lab.row <- cbind(lab.row.bac, lab.row.arc)
 ## OPTIONAL: Select a specific taxonomy 
 
 get.taxa <- function(map, target_taxa, rank){
-    
     target.edges <- row.names(taxa)[which(taxa[,rank] == target_taxa)]
     target.asvs <- row.names(map)[which(map$global_edge_num %in% target.edges)]
     selected <- which(colnames(unique.select) %in% target.asvs)
