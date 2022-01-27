@@ -160,10 +160,6 @@ unique.mds <- metaMDS(unique.select.log10, k = 3)
 
 mds.samples <- unique.mds$points
 
-pdf('seasats_mds.pdf',
-    width = 6,
-    height = 6)
-
 plot(mds.samples[,1], mds.samples[,2],
      ylab = 'Dim 2',
      xlab = 'Dim 1')
