@@ -141,12 +141,15 @@ selected <- order(colSums(unique.select.log10), decreasing = T)[1:50]
 
 heat.col <- colorRampPalette(c('white', 'lightgoldenrod1', 'darkgreen'))(100)
 
-heatmap(t(data.matrix(unique.select.log10[,selected])),
-        #Colv = NA,
-        scale = NULL,
-        col = heat.col,
-        labRow = lab.row[selected],
-        margins = c(10, 10))
+library(gplots)
+
+heatmap.2(t(data.matrix(unique.select.select10[,selected])),
+          trace = 'none',
+          #Colv = NA,
+          scale = NULL,
+          col = heat.col,
+          labRow = lab.row[selected],
+          margins = c(10, 10))
 
 #### NMDS plot ####
 
@@ -165,11 +168,18 @@ plot(mds.samples[,1], mds.samples[,2],
      ylab = 'Dim 2',
      xlab = 'Dim 1')
 
+### which taxa drive variation in MDS plot? ###
 
-## which taxa drive variation in MDS plot?
+scaling.factor <- 0.5 # data dependent
 
 mds.species <- unique.mds$species
 
-target.asv <- row.names(mds.species)[order(abs(mds.species), decreasing = T)[1:10]]
+## Select top 50 contributors to first dimension.
+
+target.asv <- row.names(mds.species)[order(abs(mds.species[,'MDS1']), decreasing = T)[1:50]]
 target.clade <- map.bac[target.asv, 'global_edge_num']
-taxa.bac[target.clade, 'taxon']
+target.taxa <- taxa.bac[target.clade, 'taxon']
+
+points((mds.species[target.asv,'MDS1'] * scaling.factor),
+       (mds.species[target.asv,'MDS2'] * scaling.factor),
+       pch = '+')
