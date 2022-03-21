@@ -15,8 +15,8 @@ by Metabolic Structure: A General Framework and Application to a Seasonally
 Variable, Depth-Stratified Microbial Community from the Coastal West Antarctic
 Peninsula." PloS one 10.8 (2015): e0135868.
 
-If your analysis makes specific use of pplacer, Infernal, pathway-tools, or
-any other software please make sure that you also cite the relevant publications.
+Please all cite core dependencies as indicated here:
+    https://github.com/bowmanjeffs/paprica#citations.
 
 REQUIRES:
     Files:
@@ -40,7 +40,7 @@ REQUIRES:
         time
         
 RUN AS:
-    python paprica-make_ref.py [options]
+    paprica-make_ref.py [options]
     
 OPTIONS:
     -cpus: The number of cpus for RAxML to use.

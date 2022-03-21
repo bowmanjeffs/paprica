@@ -15,8 +15,8 @@ by Metabolic Structure: A General Framework and Application to a Seasonally
 Variable, Depth-Stratified Microbial Community from the Coastal West Antarctic
 Peninsula." PloS one 10.8 (2015): e0135868.
 
-If your analysis makes specific use of pplacer, Infernal, or pathway-tools
-please make sure that you also cite the relevant publications.
+Please all cite core dependencies as indicated here:
+    https://github.com/bowmanjeffs/paprica#citations.
 
 REQUIRES:
     Programs:
@@ -29,7 +29,7 @@ REQUIRES:
         Joblib
         
 RUN AS:
-    python paprica-build_core_genomes.py -tree [tree.phyloxml] -domain [bacteria|archaea|eukarya]
+    paprica-build_core_genomes.py -tree [tree.phyloxml] -domain [bacteria|archaea|eukarya]
     
 OPTIONS:
     -domain: The domain being analyzed (either bacteria, archaea, or eukarya)
@@ -91,7 +91,7 @@ if len(sys.argv) == 1:
     ref_dir = 'ref_genome_database'
     pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
     cpus = 36
-    database_info = 'combined_16S.bacteria.tax.database_info.txt'
+    database_info = 'combined_16S.' + domain + '.tax.database_info.txt'
     
 else:        
     domain = command_args['domain']
@@ -296,6 +296,12 @@ genome_data['tip_name'] = np.nan
 genome_data['npaths_actual'] = np.nan
 genome_data['branch_length'] = np.nan
 
+## Add the gRodon growth rate predictions
+
+gRodon = pd.read_csv(ref_dir_domain + 'gRodon_growth_estimates.csv', index_col = 0)
+gRodon = gRodon.reindex(genome_data.index)
+genome_data['gRodon.d'] = gRodon['d']
+
 ## Iterate across jplace files here.  These come from available_trees.
 
 assemblies = []
@@ -367,7 +373,7 @@ new_pgdbs = []
 ## pgdbs/tier1/metacyc/24.0/data/pathways.col.  Included in the paprica
 ## database for convenience.
 
-pathway_definitions = pd.read_csv(ref_dir + 'pathways.col', comment = '#', sep = '\t', index_col = 0)
+pathway_definitions = pd.read_csv(ref_dir + 'pathways.col', comment = '#', sep = '\t', index_col = 0, low_memory = False)
 
 #!!! This loop does take a long time and would be easy to parallelize
 
@@ -534,6 +540,8 @@ Parallel(n_jobs = cpus, verbose = 5)(delayed(make_pgdb)
     
 #%% For each PGDB add the pathways to a new data_frame.
 
+#!!! here is where you can loop across assemblies and complete pathways.col
+
 terminal_paths = pd.DataFrame(index = assemblies)
 
 for i,d in enumerate(assemblies):
@@ -696,7 +704,7 @@ n_clades = len(int_nodes)
 ## node.
 
 internal_probs_columns = list(terminal_paths.columns)
-internal_data_columns = ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'clade_size', 'npaths_terminal', 'nec_terminal', 'branch_length']
+internal_data_columns = ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'clade_size', 'npaths_terminal', 'nec_terminal', 'branch_length', 'gRodon.d']
 internal_ec_probs_columns = terminal_ec.columns
 internal_ec_n_columns = terminal_ec.columns
 
@@ -766,6 +774,7 @@ def get_internals(clade_number,
     internal_data[edge_i, internal_data_columns.index('clade_size')] = ntip
     internal_data[edge_i, internal_data_columns.index('npaths_terminal')] = clade_data['npaths_actual'].dropna().mean()
     internal_data[edge_i, internal_data_columns.index('nec_terminal')] = clade_data['nec_actual'].dropna().mean()
+    internal_data[edge_i, internal_data_columns.index('gRodon.d')] = clade_data['gRodon.d'].dropna().mean()
         
 #%% Execute the get_internals function in parallel, this massively speeds up
 ## the database build.

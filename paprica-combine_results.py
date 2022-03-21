@@ -172,7 +172,7 @@ for f in os.listdir(cwd):
                     continue
         
         if domain != 'eukarya':        
-            for param in ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'confidence']:
+            for param in ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'confidence', 'gRodon.d']:
                 edge_data.loc[name, param + '.mean'], edge_data.loc[name, param + '.sd'] = fill_edge_data(param, name, temp_edge)
                 
         elif domain == 'eukarya':            

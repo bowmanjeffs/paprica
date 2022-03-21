@@ -233,6 +233,8 @@ if domain != 'eukarya':
             edge_data.loc[edge, 'branch_length'] = internal_data.loc[edge, 'branch_length']
             edge_data.loc[edge, 'taxon'] = lineages.loc[edge, 'consensus']
             
+            edge_data.loc[edge, 'gRodon.d'] = internal_data.loc[edge, 'gRodon.d']
+            
             edge_data.loc[edge, 'n16S'] = internal_data.loc[edge, 'n16S']
             edge_data.loc[edge, 'GC'] = internal_data.loc[edge, 'GC']
             edge_data.loc[edge, 'phi'] = internal_data.loc[edge, 'phi']
@@ -291,6 +293,7 @@ if domain != 'eukarya':
                 edge_data.loc[edge, 'n16S'] = genome_data.loc[genome_data['clade'] == edge, 'n16S'][0]
                 edge_data.loc[edge, 'confidence'] = genome_data.loc[genome_data['clade'] == edge, 'phi'][0] # Phi for terminal nodes
                 edge_data.loc[edge, 'nedge_corrected'] = float(edge_data.loc[edge, 'nedge']) / float(genome_data.loc[genome_data['clade'] == edge, 'n16S'])
+                edge_data.loc[edge, 'gRodon.d'] = genome_data.loc[genome_data['clade'] == edge, 'gRodon.d'][0]
 
             except KeyError:
                 continue

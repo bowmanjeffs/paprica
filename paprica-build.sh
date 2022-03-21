@@ -8,8 +8,8 @@
 #### box it takes roughly 8 hours to get all the genomes downloaded and the database built.
 #### The PGDBs take up about 100 Gb of space.
 
-pgdb_dir=~/ptools-local/pgdbs/user/
-#pgdb_dir=/volumes/hd2/ptools-local/pgdbs/user/
+#pgdb_dir=~/ptools-local/pgdbs/user/
+pgdb_dir=/volumes/hd2/ptools-local/pgdbs/user/
 domain=$1
 ref_dir=ref_genome_database
 
@@ -23,13 +23,20 @@ fi
 
 ## 1. download genomes, combine elements, extract 16S
 
-#paprica-make_ref.py -ref_dir $ref_dir -download T -domain $domain -cpus 8 - pgbd_dir $pgdb_dir &&
+paprica-make_ref.py -ref_dir $ref_dir -download T -domain $domain -cpus 8 - pgbd_dir $pgdb_dir &&
 
 ## 2. make a reference package from 16S or 18S
 
 paprica-place_it.py -ref_dir $ref_dir -ref combined_$gene.$domain.tax -domain $domain &&
 
-## 3. build the reference database.
+## 3. make growth predictions with gRodon
+
+paprica-extract_cds.py -ref_dir $ref_dir -domain $domain
+
+Rscript --vanilla paprica-run_gRodon.r $ref_dir $domain
+
+## 4. build the reference database.  NOTE: you may need to create or update the pathways.col file using the make_pathways.col script
+## in the utilities directory.
 
 paprica-build_core_genomes.py -ref_dir $ref_dir -pgdb_dir $pgdb_dir -domain $domain -cpus 36 -database_info combined_$gene.$domain.tax.database_info.txt &&
 
