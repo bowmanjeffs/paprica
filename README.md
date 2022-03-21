@@ -67,6 +67,10 @@ Karp, P.D., Midford, P.E., Billington, R., Kothari, A., Krummenacker, M., Latend
 
 Nawrocki, E.P. and Eddy, S.R., 2013. [Infernal 1.1: 100-fold faster RNA homology searches](https://academic.oup.com/bioinformatics/article/29/22/2933/316439?login=true). *Bioinformatics*, 29(22), pp.2933-2935.
 
+**If you use the gRodon.d estimate of doubling time please also cite:**
+
+Weissman, J.L., Hou, S. and Fuhrman, J.A., 2021. [Estimating maximal microbial growth rates from cultures, metagenomes, and single cells via codon usage patterns](https://www.pnas.org/doi/10.1073/pnas.2016810118). Proceedings of the National Academy of Sciences, 118(12).
+
 **If you use the paprica-mt module please also cite:**
 
 Bowman, J.S., Van Mooy, B.A., Lowenstein, D.P., Fredricks, H.F., Hansel, C.M., Gast, R., Collins, J.R., Couto, N. and Ducklow, H.W., 2021. [Whole Community Metatranscriptomes and Lipidomes Reveal Diverse Responses Among Antarctic Phytoplankton to Changing Ice Conditions](https://www.frontiersin.org/articles/10.3389/fmars.2021.593566/full). *Frontiers in Marine Science*, 8, p.119.
