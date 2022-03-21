@@ -69,7 +69,7 @@ Nawrocki, E.P. and Eddy, S.R., 2013. [Infernal 1.1: 100-fold faster RNA homology
 
 **If you use the gRodon.d estimate of doubling time please also cite:**
 
-Weissman, J.L., Hou, S. and Fuhrman, J.A., 2021. [Estimating maximal microbial growth rates from cultures, metagenomes, and single cells via codon usage patterns](https://www.pnas.org/doi/10.1073/pnas.2016810118). Proceedings of the National Academy of Sciences, 118(12).
+Weissman, J.L., Hou, S. and Fuhrman, J.A., 2021. [Estimating maximal microbial growth rates from cultures, metagenomes, and single cells via codon usage patterns](https://www.pnas.org/doi/10.1073/pnas.2016810118). *Proceedings of the National Academy of Sciences*, 118(12).
 
 **If you use the paprica-mt module please also cite:**
 
