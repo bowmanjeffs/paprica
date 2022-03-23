@@ -151,7 +151,7 @@ if 'h' in list(command_args.keys()):
 try:        
     domain = command_args['domain']
 except KeyError:
-    domain = 'archaea'
+    domain = 'bacteria'
 try:
     cpus = str(command_args['cpus'])
 except KeyError:
@@ -551,9 +551,9 @@ if download in ['T', 'test']:
         
         if download == 'T':
             if domain == 'bacteria':
-                summary_complete = summary_complete.drop(bad_bacteria)
+                summary_complete = summary_complete.drop(bad_bacteria, errors = 'ignore')
             elif domain == 'archaea':
-                summary_complete = summary_complete.drop(bad_archaea)
+                summary_complete = summary_complete.drop(bad_archaea, errors = 'ignore')
             
         ## Determine which genomes are new.  This doesn't control which genomes are downloaded, but
         ## it does control which compositional vectors need to be created, and which genomes need
