@@ -1,0 +1,134 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 25-Mar-2022 03:14:19 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Firmicutes_Tenericutes.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Firmicutes_Tenericutes --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1648203259
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Firmicutes_Tenericutes.raxml.rba
+[00:00:00] Alignment comprises 2471 taxa, 2 partitions and 4795 patterns
+
+Partition 0: 16S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 1536 / 1065
+Gaps: 19.99 %
+Invariant sites: 35.09 %
+
+Partition 1: 23S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 5602 / 3730
+Gaps: 47.99 %
+Invariant sites: 31.76 %
+
+
+
+NOTE: Per-rate scalers were automatically enabled to prevent numerical issues on taxa-rich alignments.
+NOTE: You can use --force switch to skip this check and fall back to per-site scalers.
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 2471 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 2471 taxa
+[00:00:55] Data distribution: max. partitions/sites/weight per thread: 2 / 2398 / 38368
+[00:00:55] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:01:01 -4391775.180373] Initial branch length optimization
+[00:01:45 -3783621.593870] Model parameter optimization (eps = 10.000000)
+[00:15:22 -3527440.484063] AUTODETECT spr round 1 (radius: 5)
+[00:34:55 -2605423.659985] AUTODETECT spr round 2 (radius: 10)
+[00:54:11 -1879255.035739] AUTODETECT spr round 3 (radius: 15)
+[01:15:54 -1457156.591196] AUTODETECT spr round 4 (radius: 20)
+[01:40:48 -1199016.042920] AUTODETECT spr round 5 (radius: 25)
+[02:09:46 -1089363.281668] SPR radius for FAST iterations: 25 (autodetect)
+[02:09:46 -1089363.281668] Model parameter optimization (eps = 3.000000)
+[02:13:35 -1083792.967289] FAST spr round 1 (radius: 25)
+[02:37:23 -865551.321241] FAST spr round 2 (radius: 25)
+[02:52:54 -783816.699906] FAST spr round 3 (radius: 25)
+[03:05:04 -770706.117091] FAST spr round 4 (radius: 25)
+[03:15:38 -768995.203539] FAST spr round 5 (radius: 25)
+[03:25:44 -768943.741648] FAST spr round 6 (radius: 25)
+[03:35:26 -768922.571549] FAST spr round 7 (radius: 25)
+[03:44:18 -768922.571431] Model parameter optimization (eps = 1.000000)
+[03:45:22 -768878.295870] SLOW spr round 1 (radius: 5)
+[03:57:24 -768659.354663] SLOW spr round 2 (radius: 5)
+[04:09:21 -768595.614917] SLOW spr round 3 (radius: 5)
+[04:21:23 -768591.916972] SLOW spr round 4 (radius: 5)
+[04:32:43 -768591.916869] SLOW spr round 5 (radius: 10)
+[04:46:37 -768586.660406] SLOW spr round 6 (radius: 5)
+[05:03:14 -768585.330867] SLOW spr round 7 (radius: 5)
+[05:16:53 -768585.329710] SLOW spr round 8 (radius: 10)
+[05:30:38 -768585.329703] SLOW spr round 9 (radius: 15)
+[05:53:42 -768585.329703] SLOW spr round 10 (radius: 20)
+[06:40:05 -768585.329703] SLOW spr round 11 (radius: 25)
+[07:36:38] [worker #14] ML tree search #15, logLikelihood: -768692.403961
+[07:37:02] [worker #11] ML tree search #12, logLikelihood: -768593.044620
+[07:42:46] [worker #9] ML tree search #10, logLikelihood: -768540.680663
+[07:47:15 -768584.994224] SLOW spr round 12 (radius: 5)
+[08:04:55 -768584.994222] SLOW spr round 13 (radius: 10)
+[08:10:18] [worker #5] ML tree search #6, logLikelihood: -768488.513162
+[08:13:15] [worker #17] ML tree search #18, logLikelihood: -768638.339047
+[08:20:20 -768584.994222] SLOW spr round 14 (radius: 15)
+[08:28:52] [worker #3] ML tree search #4, logLikelihood: -768692.974521
+[08:34:34] [worker #10] ML tree search #11, logLikelihood: -768647.600156
+[08:41:55 -768584.994222] SLOW spr round 15 (radius: 20)
+[08:57:27] [worker #2] ML tree search #3, logLikelihood: -768585.127892
+[09:10:44] [worker #1] ML tree search #2, logLikelihood: -769294.780385
+[09:27:32 -768584.986158] SLOW spr round 16 (radius: 25)
+[10:11:20] [worker #4] ML tree search #5, logLikelihood: -768534.796937
+[10:17:35] [worker #8] ML tree search #9, logLikelihood: -768575.122843
+[10:32:57 -768584.986158] Model parameter optimization (eps = 0.100000)
+
+[10:34:19] [worker #0] ML tree search #1, logLikelihood: -768583.169883
+
+[11:57:53] [worker #12] ML tree search #13, logLikelihood: -768661.516054
+[12:22:08] [worker #6] ML tree search #7, logLikelihood: -768567.586628
+[12:24:13] [worker #7] ML tree search #8, logLikelihood: -768644.776799
+[13:24:48] [worker #16] ML tree search #17, logLikelihood: -768515.470899
+[15:26:21] [worker #13] ML tree search #14, logLikelihood: -768640.015361
+[15:52:06] [worker #15] ML tree search #16, logLikelihood: -768540.026004
+
+
+Final LogLikelihood: -768488.513162
+
+AIC score: 1546893.026324 / AICc score: 1569460.003836 / BIC score: 1580970.291952
+Free parameters (model + branch lengths): 4958
+
+WARNING: Best ML tree contains 310 near-zero branches!
+
+Best ML tree with collapsed near-zero branches saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Firmicutes_Tenericutes.raxml.bestTreeCollapsed
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Firmicutes_Tenericutes.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Firmicutes_Tenericutes.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Firmicutes_Tenericutes.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Firmicutes_Tenericutes.raxml.log
+
+Analysis started: 25-Mar-2022 03:14:19 / finished: 25-Mar-2022 19:06:25
+
+Elapsed time: 57126.603 seconds
+
+Consumed energy: 18672204265231.277 Wh (= 93361021326 km in an electric car, or 466805106631 km with an e-scooter!)
+

@@ -858,6 +858,9 @@ if 'query' not in list(command_args.keys()):
         ref_lineages['analysis_group'] = ref_lineages.phylum
         ref_lineages.loc[ref_lineages.phylum == 'Firmicutes', 'analysis_group'] = 'Firmicutes_Tenericutes'
         ref_lineages.loc[ref_lineages.phylum == 'Tenericutes', 'analysis_group'] = 'Firmicutes_Tenericutes'
+
+        #!!! Proteobacteria needs to be broked up.  Should be able to do this by defining
+        ## a new analysis group for each class within the Proteobacteria.
         
         fastas = {'phylum_reps':0}
                 

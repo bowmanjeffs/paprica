@@ -1,0 +1,115 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 25-Mar-2022 03:10:59 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Deinococcus-Thermus.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Deinococcus-Thermus --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1648203059
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Deinococcus-Thermus.raxml.rba
+[00:00:00] Alignment comprises 41 taxa, 2 partitions and 1682 patterns
+
+Partition 0: 16S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 1565 / 549
+Gaps: 3.60 %
+Invariant sites: 62.81 %
+
+Partition 1: 23S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 3034 / 1133
+Gaps: 4.75 %
+Invariant sites: 57.42 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 41 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 41 taxa
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 2 / 841 / 13456
+[00:00:00] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:00 -79504.064210] Initial branch length optimization
+[00:00:00 -68772.450427] Model parameter optimization (eps = 10.000000)
+[00:00:02 -62467.751379] AUTODETECT spr round 1 (radius: 5)
+[00:00:02 -44136.903185] AUTODETECT spr round 2 (radius: 10)
+[00:00:03 -42301.481913] AUTODETECT spr round 3 (radius: 15)
+[00:00:03 -42301.476778] SPR radius for FAST iterations: 10 (autodetect)
+[00:00:03 -42301.476778] Model parameter optimization (eps = 3.000000)
+[00:00:03 -41987.474179] FAST spr round 1 (radius: 10)
+[00:00:05 -41330.087369] FAST spr round 2 (radius: 10)
+[00:00:06 -41291.848756] FAST spr round 3 (radius: 10)
+[00:00:06 -41268.403763] FAST spr round 4 (radius: 10)
+[00:00:07 -41264.485393] FAST spr round 5 (radius: 10)
+[00:00:08 -41262.634953] FAST spr round 6 (radius: 10)
+[00:00:08 -41262.367374] FAST spr round 7 (radius: 10)
+[00:00:09] [worker #12] ML tree search #13, logLikelihood: -41262.428361
+[00:00:09 -41262.200205] FAST spr round 8 (radius: 10)
+[00:00:10 -41262.200100] Model parameter optimization (eps = 1.000000)
+[00:00:10 -41259.451306] SLOW spr round 1 (radius: 5)
+[00:00:12 -41259.450994] SLOW spr round 2 (radius: 10)
+[00:00:12] [worker #15] ML tree search #16, logLikelihood: -41259.411718
+[00:00:13] [worker #13] ML tree search #14, logLikelihood: -41262.495000
+[00:00:13] [worker #11] ML tree search #12, logLikelihood: -41259.411616
+[00:00:13 -41259.450990] SLOW spr round 3 (radius: 15)
+[00:00:15 -41259.450990] SLOW spr round 4 (radius: 20)
+[00:00:15] [worker #17] ML tree search #18, logLikelihood: -41259.410234
+[00:00:15] [worker #14] ML tree search #15, logLikelihood: -41259.410370
+[00:00:16 -41259.450990] SLOW spr round 5 (radius: 25)
+[00:00:16] [worker #10] ML tree search #11, logLikelihood: -41259.411554
+[00:00:16 -41259.450990] Model parameter optimization (eps = 0.100000)
+
+[00:00:16] [worker #0] ML tree search #1, logLikelihood: -41259.415634
+
+[00:00:16] [worker #3] ML tree search #4, logLikelihood: -41259.412222
+[00:00:17] [worker #5] ML tree search #6, logLikelihood: -41259.412553
+[00:00:17] [worker #9] ML tree search #10, logLikelihood: -41259.408987
+[00:00:18] [worker #4] ML tree search #5, logLikelihood: -41259.414257
+[00:00:19] [worker #16] ML tree search #17, logLikelihood: -41259.411053
+[00:00:19] [worker #6] ML tree search #7, logLikelihood: -41262.493038
+[00:00:20] [worker #8] ML tree search #9, logLikelihood: -41259.413367
+[00:00:21] [worker #1] ML tree search #2, logLikelihood: -41259.411993
+[00:00:22] [worker #7] ML tree search #8, logLikelihood: -41259.412666
+[00:00:24] [worker #2] ML tree search #3, logLikelihood: -41259.413040
+
+
+Final LogLikelihood: -41259.408987
+
+AIC score: 82714.817973 / AICc score: 82719.129973 / BIC score: 83345.310202
+Free parameters (model + branch lengths): 98
+
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Deinococcus-Thermus.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Deinococcus-Thermus.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Deinococcus-Thermus.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Deinococcus-Thermus.raxml.log
+
+Analysis started: 25-Mar-2022 03:10:59 / finished: 25-Mar-2022 03:11:23
+
+Elapsed time: 24.278 seconds
+
+Consumed energy: 20496382834.916 Wh (= 102481914 km in an electric car, or 512409571 km with an e-scooter!)
+

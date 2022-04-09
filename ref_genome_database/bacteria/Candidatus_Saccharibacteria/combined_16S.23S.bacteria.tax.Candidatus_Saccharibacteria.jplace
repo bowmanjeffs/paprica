@@ -1,0 +1,14 @@
+{
+  "tree": "((GCF_021222645.1|Candidatus_Nanosynbacter_sp._HMT352_strain_KC1:0.0069830000{0},GCF_000392435.1|Candidatus_Saccharimonas_aalborgensis:0.1380930000{1}):0.0060680000{2},(GCF_000803625.1|Candidatus_Nanosynbacter_lyticus_strain_TM7x:0.0089100000{3},GCF_005697565.1|Candidatus_Nanosynbacter_featherlites_strain_BB001:0.0007430000{4}):0.0052260000{5},GCF_018866205.1|Candidatus_Minimicrobia_vallesae:0.1439060000{6});",
+  "placements": 
+  [
+    {"p": [
+      [6, -4385.2864514276, 1.0000000000, 0.0000500000, 0.4574769988]
+      ],
+    "n": ["test_Proteobacteria_0"]
+    }
+  ],
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp67kncg2z/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Candidatus_Saccharibacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp67kncg2z/combined_16S.bacteria.tax.Candidatus_Saccharibacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Candidatus_Saccharibacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp67kncg2z/ "},
+  "version": 3,
+  "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
+}

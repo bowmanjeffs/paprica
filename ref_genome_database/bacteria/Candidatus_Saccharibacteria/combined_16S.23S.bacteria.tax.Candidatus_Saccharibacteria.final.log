@@ -1,0 +1,100 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 25-Mar-2022 03:04:58 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1648202698
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.raxml.rba
+[00:00:00] Alignment comprises 5 taxa, 2 partitions and 270 patterns
+
+Partition 0: 16S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 1544 / 105
+Gaps: 3.45 %
+Invariant sites: 82.32 %
+
+Partition 1: 23S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 3693 / 165
+Gaps: 14.09 %
+Invariant sites: 80.75 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 5 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 5 taxa
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 2 / 135 / 2160
+[00:00:00] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:00 -13779.183314] Initial branch length optimization
+[00:00:00 -12283.478276] Model parameter optimization (eps = 10.000000)
+[00:00:00 -12131.048880] AUTODETECT spr round 1 (radius: 5)
+[00:00:00 -12124.673079] SPR radius for FAST iterations: 5 (autodetect)
+[00:00:00 -12124.673079] Model parameter optimization (eps = 3.000000)
+[00:00:00 -12124.423328] FAST spr round 1 (radius: 5)
+[00:00:00 -12124.422645] Model parameter optimization (eps = 1.000000)
+[00:00:00 -12124.411946] SLOW spr round 1 (radius: 5)
+[00:00:00] [worker #6] ML tree search #7, logLikelihood: -12124.411505
+[00:00:00] [worker #3] ML tree search #4, logLikelihood: -12124.411452
+[00:00:00] [worker #14] ML tree search #15, logLikelihood: -12124.411609
+[00:00:00] [worker #11] ML tree search #12, logLikelihood: -12124.411592
+[00:00:00] [worker #7] ML tree search #8, logLikelihood: -12124.411488
+[00:00:00] [worker #5] ML tree search #6, logLikelihood: -12124.411488
+[00:00:00] [worker #13] ML tree search #14, logLikelihood: -12124.411573
+[00:00:00] [worker #8] ML tree search #9, logLikelihood: -12124.411585
+[00:00:00] [worker #16] ML tree search #17, logLikelihood: -12124.411573
+[00:00:00] [worker #4] ML tree search #5, logLikelihood: -12124.411800
+[00:00:00] [worker #1] ML tree search #2, logLikelihood: -12124.411585
+[00:00:00] [worker #15] ML tree search #16, logLikelihood: -12124.411599
+[00:00:00] [worker #10] ML tree search #11, logLikelihood: -12124.411609
+[00:00:00] [worker #12] ML tree search #13, logLikelihood: -12124.411593
+[00:00:00] [worker #17] ML tree search #18, logLikelihood: -12124.411565
+[00:00:00 -12124.411925] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] [worker #0] ML tree search #1, logLikelihood: -12124.411516
+
+[00:00:00] [worker #9] ML tree search #10, logLikelihood: -12124.411585
+[00:00:00] [worker #2] ML tree search #3, logLikelihood: -12124.411498
+
+
+Final LogLikelihood: -12124.411452
+
+AIC score: 24300.822903 / AICc score: 24301.092385 / BIC score: 24471.474010
+Free parameters (model + branch lengths): 26
+
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Candidatus_Saccharibacteria.raxml.log
+
+Analysis started: 25-Mar-2022 03:04:58 / finished: 25-Mar-2022 03:04:59
+
+Elapsed time: 0.213 seconds
+

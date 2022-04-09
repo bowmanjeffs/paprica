@@ -1,0 +1,103 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 25-Mar-2022 01:49:05 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Aquificae.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Aquificae --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1648198145
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Aquificae.raxml.rba
+[00:00:00] Alignment comprises 12 taxa, 2 partitions and 1360 patterns
+
+Partition 0: 16S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 1633 / 490
+Gaps: 4.30 %
+Invariant sites: 63.14 %
+
+Partition 1: 23S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 4620 / 870
+Gaps: 31.81 %
+Invariant sites: 72.53 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 12 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 12 taxa
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 2 / 680 / 10880
+[00:00:00] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:00 -32319.988378] Initial branch length optimization
+[00:00:00 -29908.746946] Model parameter optimization (eps = 10.000000)
+[00:00:00 -28353.839238] AUTODETECT spr round 1 (radius: 5)
+[00:00:00 -24831.478237] AUTODETECT spr round 2 (radius: 10)
+[00:00:00 -24831.477117] SPR radius for FAST iterations: 5 (autodetect)
+[00:00:00 -24831.477117] Model parameter optimization (eps = 3.000000)
+[00:00:00 -24712.478872] FAST spr round 1 (radius: 5)
+[00:00:01 -24702.085613] FAST spr round 2 (radius: 5)
+[00:00:01] [worker #13] ML tree search #14, logLikelihood: -24702.013108
+[00:00:01 -24702.085506] Model parameter optimization (eps = 1.000000)
+[00:00:01] [worker #12] ML tree search #13, logLikelihood: -24702.013108
+[00:00:01 -24702.016281] SLOW spr round 1 (radius: 5)
+[00:00:01] [worker #16] ML tree search #17, logLikelihood: -24702.013124
+[00:00:01] [worker #15] ML tree search #16, logLikelihood: -24702.013145
+[00:00:01] [worker #11] ML tree search #12, logLikelihood: -24702.013107
+[00:00:01] [worker #10] ML tree search #11, logLikelihood: -24702.013075
+[00:00:01] [worker #9] ML tree search #10, logLikelihood: -24702.013106
+[00:00:01] [worker #14] ML tree search #15, logLikelihood: -24702.013060
+[00:00:01] [worker #17] ML tree search #18, logLikelihood: -24702.013388
+[00:00:01] [worker #4] ML tree search #5, logLikelihood: -24702.013474
+[00:00:02] [worker #1] ML tree search #2, logLikelihood: -24702.037251
+[00:00:02] [worker #6] ML tree search #7, logLikelihood: -24702.013058
+[00:00:02] [worker #2] ML tree search #3, logLikelihood: -24702.013206
+[00:00:02 -24702.016176] SLOW spr round 2 (radius: 10)
+[00:00:02] [worker #8] ML tree search #9, logLikelihood: -24702.013796
+[00:00:02 -24702.016068] Model parameter optimization (eps = 0.100000)
+
+[00:00:02] [worker #0] ML tree search #1, logLikelihood: -24702.013189
+
+[00:00:02] [worker #5] ML tree search #6, logLikelihood: -24702.013639
+[00:00:02] [worker #7] ML tree search #8, logLikelihood: -24702.038610
+[00:00:03] [worker #3] ML tree search #4, logLikelihood: -24702.038230
+
+
+Final LogLikelihood: -24702.013058
+
+AIC score: 49484.026116 / AICc score: 49484.554126 / BIC score: 49753.658781
+Free parameters (model + branch lengths): 40
+
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Aquificae.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Aquificae.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Aquificae.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Aquificae.raxml.log
+
+Analysis started: 25-Mar-2022 01:49:05 / finished: 25-Mar-2022 01:49:09
+
+Elapsed time: 3.083 seconds
+

@@ -90,7 +90,9 @@ except FileNotFoundError:
     
 ## extract CDS
     
-#!!! This should be functionalized and implemented in parallel
+#!!! This should be functionalized and implemented in parallel.  You should
+## also loop across genome_data.csv and not /refseq as that contains very many
+## genomes that aren't used.
 
 with open(domain + '_extract_cds_error_file.txt', 'w') as error_file:
     for d in os.listdir(ref_dir_domain + 'refseq'):

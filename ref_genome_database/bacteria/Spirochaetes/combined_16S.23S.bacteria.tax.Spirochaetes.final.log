@@ -1,0 +1,113 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz, 36 cores, 251 GB RAM
+
+RAxML-NG was called at 03-Apr-2022 00:59:17 as follows:
+
+raxml-ng --redo --search --msa /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Spirochaetes.raxml.rba --prefix /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Spirochaetes --workers 18 --tree pars{9},rand{9} --threads 36
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): random (9) + parsimony (9)
+  random seed: 1648972757
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (18 workers), PTHREADS (36 threads), thread pinning: OFF
+
+WARNING: Running in REDO mode: existing checkpoints are ignored, and all result files will be overwritten!
+
+[00:00:00] Loading binary alignment from file: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Spirochaetes.raxml.rba
+[00:00:00] Alignment comprises 94 taxa, 2 partitions and 2570 patterns
+
+Partition 0: 16S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 1605 / 771
+Gaps: 4.61 %
+Invariant sites: 49.84 %
+
+Partition 1: 23S
+Model: GTR+FO+G4m+B
+Alignment sites / patterns: 3900 / 1799
+Gaps: 23.90 %
+Invariant sites: 45.18 %
+
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 9 random starting tree(s) with 94 taxa
+[00:00:00] Generating 9 parsimony starting tree(s) with 94 taxa
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 2 / 1285 / 20560
+[00:00:00] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 18 distinct starting trees
+
+[00:00:00 -217564.346527] Initial branch length optimization
+[00:00:01 -183600.181749] Model parameter optimization (eps = 10.000000)
+[00:00:17 -166250.810704] AUTODETECT spr round 1 (radius: 5)
+[00:00:19 -105282.113460] AUTODETECT spr round 2 (radius: 10)
+[00:00:23 -75208.054603] AUTODETECT spr round 3 (radius: 15)
+[00:00:27 -74551.150624] AUTODETECT spr round 4 (radius: 20)
+[00:00:30 -74551.120877] SPR radius for FAST iterations: 15 (autodetect)
+[00:00:30 -74551.120877] Model parameter optimization (eps = 3.000000)
+[00:00:32 -73418.472155] FAST spr round 1 (radius: 15)
+[00:00:37 -69183.657756] FAST spr round 2 (radius: 15)
+[00:00:40 -68976.526985] FAST spr round 3 (radius: 15)
+[00:00:42 -68972.276023] FAST spr round 4 (radius: 15)
+[00:00:44 -68946.363192] FAST spr round 5 (radius: 15)
+[00:00:45] [worker #11] ML tree search #12, logLikelihood: -68940.210298
+[00:00:46 -68946.362179] Model parameter optimization (eps = 1.000000)
+[00:00:46 -68940.304773] SLOW spr round 1 (radius: 5)
+[00:00:47] [worker #15] ML tree search #16, logLikelihood: -68939.726234
+[00:00:49] [worker #16] ML tree search #17, logLikelihood: -68939.623795
+[00:00:49] [worker #9] ML tree search #10, logLikelihood: -68940.220538
+[00:00:50] [worker #10] ML tree search #11, logLikelihood: -68940.204378
+[00:00:51] [worker #13] ML tree search #14, logLikelihood: -68939.623595
+[00:00:51] [worker #14] ML tree search #15, logLikelihood: -68940.186463
+[00:00:53 -68940.299318] SLOW spr round 2 (radius: 10)
+[00:00:54] [worker #17] ML tree search #18, logLikelihood: -68964.899846
+[00:00:58] [worker #12] ML tree search #13, logLikelihood: -68940.220951
+[00:00:59 -68940.299233] SLOW spr round 3 (radius: 15)
+[00:01:07 -68940.299225] SLOW spr round 4 (radius: 20)
+[00:01:09] [worker #7] ML tree search #8, logLikelihood: -68940.233309
+[00:01:10] [worker #3] ML tree search #4, logLikelihood: -68940.318497
+[00:01:10] [worker #5] ML tree search #6, logLikelihood: -68940.234288
+[00:01:11] [worker #2] ML tree search #3, logLikelihood: -68940.687818
+[00:01:12] [worker #4] ML tree search #5, logLikelihood: -68939.640265
+[00:01:13 -68940.299224] SLOW spr round 5 (radius: 25)
+[00:01:14 -68940.299224] Model parameter optimization (eps = 0.100000)
+[00:01:14] [worker #6] ML tree search #7, logLikelihood: -68964.311762
+
+[00:01:14] [worker #0] ML tree search #1, logLikelihood: -68940.226525
+
+[00:01:15] [worker #1] ML tree search #2, logLikelihood: -68964.897103
+[00:01:24] [worker #8] ML tree search #9, logLikelihood: -68939.636713
+
+
+Final LogLikelihood: -68939.623595
+
+AIC score: 138287.247189 / AICc score: 138303.028321 / BIC score: 139636.383247
+Free parameters (model + branch lengths): 204
+
+Best ML tree saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Spirochaetes.raxml.bestTree
+All ML trees saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Spirochaetes.raxml.mlTrees
+Optimized model saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Spirochaetes.raxml.bestModel
+
+Execution log saved to: /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/combined_16S.23S.bacteria.tax.Spirochaetes.raxml.log
+
+Analysis started: 03-Apr-2022 00:59:17 / finished: 03-Apr-2022 01:00:41
+
+Elapsed time: 84.464 seconds
+
+Consumed energy: 61489146159.926 Wh (= 307445731 km in an electric car, or 1537228654 km with an e-scooter!)
+

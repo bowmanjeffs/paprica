@@ -1,15 +1,17 @@
 {
-  "tree": "((GCF_000010985.1|Deferribacter_desulfuricans_SSM1_strain_SSM1:0.0915730000{0},(GCF_000025725.1|Denitrovibrio_acetiphilus_DSM_12809_strain_DSM_12809:0.1294120000{1},GCF_004087915.1|Geovibrio_thiophilus_strain_DSM_11263:0.1296930000{2}):0.0796790000{3}):0.0222940000{4},GCF_000183405.1|Calditerrivibrio_nitroreducens_DSM_19672_strain_DSM_19672:0.1379560000{5},GCF_000218625.1|Flexistipes_sinusarabici_DSM_4947_strain_DSM_4947:0.1387120000{6});",
+  "tree": "((GCF_000218625.1|Flexistipes_sinusarabici_DSM_4947_strain_DSM_4947:0.1391650000{0},GCF_000183405.1|Calditerrivibrio_nitroreducens_DSM_19672_strain_DSM_19672:0.1383760000{1}):0.0222580000{2},GCF_000010985.1|Deferribacter_desulfuricans_SSM1_strain_SSM1:0.0916710000{3},(GCF_004087915.1|Geovibrio_thiophilus_strain_DSM_11263:0.1299090000{4},GCF_000025725.1|Denitrovibrio_acetiphilus_DSM_12809_strain_DSM_12809:0.1295690000{5}):0.0797320000{6});",
   "placements": 
   [
     {"p": [
-      [1, -5668.7631848929, 0.5001587970, 0.1294070000, 2.2510375518],
-      [3, -5668.7638200811, 0.4998412030, 0.0000500000, 2.2503643207]
+      [5, -5729.2119578104, 0.4748526314, 0.1295640000, 2.0795995107],
+      [6, -5729.5396437484, 0.3421737224, 0.0326172511, 2.0850994568],
+      [1, -5730.7560984445, 0.1013787874, 0.1383710000, 2.1112568986],
+      [4, -5730.9731960608, 0.0815948589, 0.0446993798, 2.1103160726]
       ],
-    "n": ["test_Proteobacteria_8"]
+    "n": ["test_Proteobacteria_0"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmppgu65ia2/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Deferribacteres/combined_16S.23S.bacteria.tax.Deferribacteres.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmppgu65ia2/combined_16S.bacteria.tax.Deferribacteres.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Deferribacteres/combined_16S.23S.bacteria.tax.Deferribacteres.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmppgu65ia2/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp4pgnek0j/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Deferribacteres/combined_16S.23S.bacteria.tax.Deferribacteres.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp4pgnek0j/combined_16S.bacteria.tax.Deferribacteres.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Deferribacteres/combined_16S.23S.bacteria.tax.Deferribacteres.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmp4pgnek0j/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

@@ -1,14 +1,14 @@
 {
-  "tree": "((GCF_011207455.1|Thermosulfuriphilus_ammonigenes_strain_ST65:0.1097210000{0},GCF_000217795.1|Thermodesulfatator_indicus_DSM_15286_strain_DSM_15286:0.0932680000{1}):0.0354640000{2},GCF_012317585.1|Thermosulfurimonas_marina_strain_SU872:0.0431940000{3},((GCF_001548275.1|Caldimicrobium_thiodismutans_strain_TF1:0.0550130000{4},(GCF_008630935.1|Thermodesulfobacterium_sp._TA1_strain_TA1:0.0213060000{5},GCF_000734015.1|Thermodesulfobacterium_commune_DSM_2178_strain_DSM_2178:0.0083400000{6}):0.0234890000{7}):0.0072180000{8},GCF_000215975.1|Thermodesulfobacterium_geofontis_OPF15_strain_OPF15:0.0178670000{9}):0.0596700000{10});",
+  "tree": "((GCF_011207455.1|Thermosulfuriphilus_ammonigenes_strain_ST65:0.1097320000{0},GCF_000217795.1|Thermodesulfatator_indicus_DSM_15286_strain_DSM_15286:0.0932760000{1}):0.0354620000{2},(GCF_000215975.1|Thermodesulfobacterium_geofontis_OPF15_strain_OPF15:0.0178670000{3},((GCF_008630935.1|Thermodesulfobacterium_sp._TA1_strain_TA1:0.0213080000{4},GCF_000734015.1|Thermodesulfobacterium_commune_DSM_2178_strain_DSM_2178:0.0083410000{5}):0.0234920000{6},GCF_001548275.1|Caldimicrobium_thiodismutans_strain_TF1:0.0550200000{7}):0.0072170000{8}):0.0596800000{9},GCF_012317585.1|Thermosulfurimonas_marina_strain_SU872:0.0431970000{10});",
   "placements": 
   [
     {"p": [
-      [0, -5392.5328505979, 1.0000000000, 0.0160721293, 3.5920764616]
+      [0, -5664.8563793473, 1.0000000000, 0.0000500000, 2.8829252103]
       ],
-    "n": ["test_Proteobacteria_8"]
+    "n": ["test_Proteobacteria_0"]
     }
   ],
-  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpyxfx56wy/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Thermodesulfobacteria/combined_16S.23S.bacteria.tax.Thermodesulfobacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpyxfx56wy/combined_16S.bacteria.tax.Thermodesulfobacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Thermodesulfobacteria/combined_16S.23S.bacteria.tax.Thermodesulfobacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmpyxfx56wy/ "},
+  "metadata": {"invocation": "epa-ng --redo -q /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmprj1vf5xg/combined_16S.bacteria.tax.single.clean.align.newlength.fasta --model /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Thermodesulfobacteria/combined_16S.23S.bacteria.tax.Thermodesulfobacteria.final.bestModel -s /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmprj1vf5xg/combined_16S.bacteria.tax.Thermodesulfobacteria.clean.align.newlength.fasta -t /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/Thermodesulfobacteria/combined_16S.23S.bacteria.tax.Thermodesulfobacteria.final.bestTree -w /volumes/hd2/jeff/paprica/ref_genome_database/bacteria/tmprj1vf5xg/ "},
   "version": 3,
   "fields": ["edge_num", "likelihood", "like_weight_ratio", "distal_length", "pendant_length"]
 }

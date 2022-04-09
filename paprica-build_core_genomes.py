@@ -440,10 +440,15 @@ for i, d in enumerate(assemblies):
                             ## clear why this is happening and if there are other gene names that might
                             ## cause a similar problem.
                             
+                            ## Genes causing a similar problem should appear in annotation-parse-log-[genome]_genomic.1_[date].txt.
+                            ## You should then search a successful file to find correct synonym.
+                            
                             for feature in record.features:
                                 if 'gene' in feature.qualifiers.keys():
                                     if feature.qualifiers['gene'] == ['rna']:
                                         feature.qualifiers['gene'] = ['rnsA']
+                                    #elif feature.qualifiers['gene'] == ['rplJ']:
+                                    #    feature.qualifiers['gene'] = ['rplL']
                             
                             g = g + 1
                             basename = re.split('gbff', gbk)[0]
