@@ -98,12 +98,27 @@ tally.select <- tally.select[grep('SRR14129902.16S.exp.', row.names(tally.select
 
 unique.select <- unique.select[,colSums(unique.select) > 10]
 
+## Subsample to the size of your smallest library.  The alternative is to move
+## to relative abundance, but that gets weird if you want to apply a log
+## normalization later on.
+
+unique.select.ra <- unique.select/rowSums(unique.select) # relative abundance
+unique.select.sub <- unique.select
+sub.size <- floor(min(rowSums(unique.select)))
+
+for(row in 1:length(row.names(unique.select.ra))){
+    temp <- table(sample(colnames(unique.select), size = sub.size, replace = T, prob = unique.select.ra[row,]))
+    temp <- as.data.frame(temp)
+    row.names(temp) <- temp$Var1
+    temp$Var1 <- NULL
+    unique.select.sub[row,row.names(temp)] <- temp[row.names(temp), 'Freq']
+}
+
 ## Normalize. We find that a typical log10 normalization often works fine
 ## for community structure data, but of course this is data and analysis
 ## dependent.
 
-unique.select.norm <- unique.select/rowSums(unique.select)
-unique.select.log10 <- log10(unique.select)
+unique.select.log10 <- log10(unique.select.sub)
 unique.select.log10[unique.select.log10 < 0] <- 0
 unique.select.log10 <- unique.select.log10/rowSums(unique.select.log10)
 
@@ -143,7 +158,7 @@ heat.col <- colorRampPalette(c('white', 'lightgoldenrod1', 'darkgreen'))(100)
 
 library(gplots)
 
-heatmap.2(t(data.matrix(unique.select.select10[,selected])),
+heatmap.2(t(data.matrix(unique.select.log10[,selected])),
           trace = 'none',
           #Colv = NA,
           scale = NULL,
