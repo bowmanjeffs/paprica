@@ -87,7 +87,7 @@ if 'h' in list(command_args.keys()):
 ## set some default values.  This is useful for testing.
         
 if len(sys.argv) == 1:
-    domain = 'bacteria'
+    domain = 'archaea'
     ref_dir = 'ref_genome_database'
     pgdb_dir = '/volumes/hd2/ptools-local/pgdbs/user/'
     cpus = 36
@@ -296,11 +296,16 @@ genome_data['tip_name'] = np.nan
 genome_data['npaths_actual'] = np.nan
 genome_data['branch_length'] = np.nan
 
-## Add the gRodon growth rate predictions
+## Add the gRodon growth rate predictions. The "d" parameter is the rough
+## estimate of doubling time, the other parameters enable more refined estimates
+## based on temperature.
 
 gRodon = pd.read_csv(ref_dir_domain + 'gRodon_growth_estimates.csv', index_col = 0)
 gRodon = gRodon.reindex(genome_data.index)
 genome_data['gRodon.d'] = gRodon['d']
+genome_data['gRodon.CUBHE'] = gRodon['CUBHE']
+genome_data['gRodon.ConsistencyHE'] = gRodon['ConsistencyHE']
+genome_data['gRodon.CPB'] = gRodon['CPB']
 
 ## Iterate across jplace files here.  These come from available_trees.
 
@@ -709,7 +714,7 @@ n_clades = len(int_nodes)
 ## node.
 
 internal_probs_columns = list(terminal_paths.columns)
-internal_data_columns = ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'clade_size', 'npaths_terminal', 'nec_terminal', 'branch_length', 'gRodon.d']
+internal_data_columns = ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'clade_size', 'npaths_terminal', 'nec_terminal', 'branch_length', 'gRodon.d', 'gRodon.CUBHE', 'gRodon.ConsistencyHE', 'gRodon.CPB']
 internal_ec_probs_columns = terminal_ec.columns
 internal_ec_n_columns = terminal_ec.columns
 
@@ -779,7 +784,11 @@ def get_internals(clade_number,
     internal_data[edge_i, internal_data_columns.index('clade_size')] = ntip
     internal_data[edge_i, internal_data_columns.index('npaths_terminal')] = clade_data['npaths_actual'].dropna().mean()
     internal_data[edge_i, internal_data_columns.index('nec_terminal')] = clade_data['nec_actual'].dropna().mean()
+    
     internal_data[edge_i, internal_data_columns.index('gRodon.d')] = clade_data['gRodon.d'].dropna().mean()
+    internal_data[edge_i, internal_data_columns.index('gRodon.ConsistencyHE')] = clade_data['gRodon.ConsistencyHE'].dropna().mean()
+    internal_data[edge_i, internal_data_columns.index('gRodon.CUBHE')] = clade_data['gRodon.CUBHE'].dropna().mean()
+    internal_data[edge_i, internal_data_columns.index('gRodon.CPB')] = clade_data['gRodon.CPB'].dropna().mean()
         
 #%% Execute the get_internals function in parallel, this massively speeds up
 ## the database build.
