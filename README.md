@@ -1,7 +1,6 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/bowmanjeffs/paprica)
 ![GitHub top language](https://img.shields.io/github/languages/top/bowmanjeffs/paprica)
 ![GitHub stars](https://img.shields.io/github/stars/bowmanjeffs/paprica?style=social)
-![docker build](https://img.shields.io/docker/cloud/build/jsbowman/paprica)
 [![Docker Build](https://github.com/bowmanjeffs/paprica/actions/workflows/docker.yml/badge.svg)](https://github.com/bowmanjeffs/paprica/actions/workflows/docker.yml)
 <img src="https://github.com/bowmanjeffs/paprica/blob/master/bacteria_terminal_path_distribution.png" alt="Metabolic pathways in bacterial genomes in current paprica database" width="400" align='right'>
 ## Notice - If you've been redirected here from genome_finder you're in the right place!  Please take a look at the [Wiki](https://github.com/bowmanjeffs/paprica/wiki) for documentation.  There are also several tutorials available:
@@ -13,7 +12,13 @@
 
 ## Announcements
 
-### 4 July 2022 - There is an issue with the CI workflow between GitHub and Docker. We are working to resolve, in the meantime if you are using the Docker container please execute the following commands inside the container to update to the most recent database and features:
+### 4 July 2022 - CI workflow issue has been resolved, to pull the Docker container please use:
+
+```
+docker pull jsbowman/paprica:master
+```
+
+4 July 2022 - There is an issue with the CI workflow between GitHub and Docker. We are working to resolve, in the meantime if you are using the Docker container please execute the following commands inside the container to update to the most recent database and features:
 
 ```
 rm -rf paprica
@@ -55,7 +60,7 @@ chmod a+x *sh
 Alternatively, if you're using the Docker image you can skip installing the dependencies and just do:
 ```
 docker pull jsbowman/paprica:master
-docker run -it jsbowman/paprica
+docker run -it jsbowman/paprica:master
 cd /paprica
 ./paprica-run.sh test bacteria
 ```
