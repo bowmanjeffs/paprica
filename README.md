@@ -12,7 +12,17 @@
 
 ## Announcements
 
-### 9 April 2022 - The bacteria and archaea databases have been updated and now contain 11,305 and 346 genomes respectively. We have not yet fully validated the taxonomic assignments returned by the new bacterial trees, so please do due diligence with your own data and report any misassignments.
+### 4 July 2022 - There is an issue with the CI workflow between GitHub and Docker. We are working to resolve, in the meantime if you are using the Docker container please execute the following commands inside the container to update to the most recent database and features:
+
+```
+rm -rf paprica
+git clone https://github.com/bowmanjeffs/paprica.git
+cd paprica
+chmod a+x *py
+chmod a+x *sh
+```
+
+9 April 2022 - The bacteria and archaea databases have been updated and now contain 11,305 and 346 genomes respectively. We have not yet fully validated the taxonomic assignments returned by the new bacterial trees, so please do due diligence with your own data and report any misassignments.
 
 1 July 2021 - You can now download a [Docker image](https://hub.docker.com/repository/docker/jsbowman/paprica/tags?page=1&ordering=last_updated) for paprica.
 
