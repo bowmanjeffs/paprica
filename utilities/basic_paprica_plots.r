@@ -121,6 +121,18 @@ data.arc.select <- data.arc[row.names(unique.select),]
 
 unique.select <- unique.select[,colSums(unique.select) > 10]
 
+## Drop any problematic taxa, for example, that you think are mitochondria or chloroplasts.
+
+drop.asvs.by.taxa <- function(map, taxa, target_taxa, rank){
+  keep.edges <- row.names(taxa)[which(taxa[,rank] != target_taxa)]
+  keep.asvs <- row.names(map)[which(map$global_edge_num %in% keep.edges)]
+  selected <- unique.select[,which(colnames(unique.select) %in% keep.asvs)]
+  return(selected)    
+}
+
+unique.select <- drop.asvs.by.taxa(map.bac, taxa.bac, 'Candidatus Nasuia deltocephalinicola', 'taxon')
+unique.select <- drop.asvs.by.taxa(map.bac, taxa.bac, 'Candidatus Carsonella ruddii', 'taxon')
+
 ## Subsample to the size of your smallest library.  The alternative is to move
 ## to relative abundance, but that gets weird if you want to apply a log
 ## normalization later on.
@@ -164,14 +176,14 @@ lab.row <- cbind(lab.row.bac, lab.row.arc)
 
 ## OPTIONAL: Select a specific taxonomy 
 
-get.taxa <- function(map, target_taxa, rank){
-    target.edges <- row.names(taxa)[which(taxa[,rank] == target_taxa)]
-    target.asvs <- row.names(map)[which(map$global_edge_num %in% target.edges)]
-    selected <- which(colnames(unique.select) %in% target.asvs)
-    return(selected)
+get.asvindex.by.taxa <- function(map, taxa, target_taxa, rank){
+  target.edges <- row.names(taxa)[which(taxa[,rank] == target_taxa)]
+  target.asvs <- row.names(map)[which(map$global_edge_num %in% target.edges)]
+  selected <- which(colnames(unique.select) %in% target.asvs)
+  return(selected)
 }
 
-selected <- get.taxa(map.euk, 'Dunaliella', 'genus')
+selected <- get.asvindex.by.taxa(map.bac, taxa.bac, 'Cyanobacteria', 'phylum')
 
 ## Alternatively restrict to top 50:
 
