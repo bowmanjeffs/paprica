@@ -62,6 +62,23 @@ map.bac <- read.map(prefix, 'bacteria')
 map.arc <- read.map(prefix, 'archaea')
 map.euk <- read.map(prefix, 'eukarya') 
 
+## Save these objects as R data files. This makes loading them in the future
+## virtually instantaneous.
+
+save(list = c('unique.bac',
+          'unique.arc',
+          'data.bac',
+          'data.arc',
+          'taxa.bac',
+          'taxa.arc',
+          'map.bac',
+          'map.arc'), file = paste0(prefix, '.Rdata'))
+
+## Now, when you return to this script you can just skip to here after defining
+## the prefix character string.
+
+load(paste0(prefix, '.Rdata'))
+
 ## Join the bacteria and archaea datasets. This presumes you're using a cross-domain
 ## primer and it therefor makes sense to analyze these data together.
 
@@ -91,6 +108,12 @@ unique.select <- unique[rowSums(unique) > 5000,]
 
 unique.select <- unique.select[grep('SRR14129902.16S.exp.', row.names(unique.select), invert = T),]
 tally.select <- tally.select[grep('SRR14129902.16S.exp.', row.names(tally.select), invert = T),]
+
+## If you dropped any libraries, you probably want this reflected in your
+## sample data file as well.
+
+data.bac.select <- data.bac[row.names(unique.select),]
+data.arc.select <- data.arc[row.names(unique.select),]
 
 ## Eliminate ASVs below a certain abundance threshold. In general you should
 ## at least get rid of everything of abundance = 1, which greatly reduces the
@@ -148,7 +171,7 @@ get.taxa <- function(map, target_taxa, rank){
     return(selected)
 }
 
-selected <- get.taxa(map.bac, 'Cyanobacteria', 'phylum')
+selected <- get.taxa(map.euk, 'Dunaliella', 'genus')
 
 ## Alternatively restrict to top 50:
 
@@ -175,9 +198,15 @@ unique.mds <- metaMDS(unique.select.log10, k = 3)
 
 mds.samples <- unique.mds$points
 
+## Color points according to potential community growth rate.
+
+point.cols <- terrain.colors(length(mds.samples[,1]))[as.numeric(cut(data.bac.select$gRodon.d.mean,breaks = length(mds.samples[,1])))]
+
 plot(mds.samples[,1], mds.samples[,2],
      ylab = 'Dim 2',
-     xlab = 'Dim 1')
+     xlab = 'Dim 1',
+     pch = 19,
+     col = point.cols)
 
 ### which taxa drive variation in MDS plot? ###
 
@@ -191,6 +220,6 @@ target.asv <- row.names(mds.species)[order(abs(mds.species[,'MDS1']), decreasing
 target.clade <- map.bac[target.asv, 'global_edge_num']
 target.taxa <- taxa.bac[target.clade, 'taxon']
 
-points((mds.species[target.asv,'MDS1'] * scaling.factor),
-       (mds.species[target.asv,'MDS2'] * scaling.factor),
-       pch = '+')
+arrows(0,0,
+      (mds.species[target.asv,'MDS1'] * scaling.factor),
+       (mds.species[target.asv,'MDS2'] * scaling.factor))
