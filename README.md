@@ -2,6 +2,7 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/bowmanjeffs/paprica)
 ![GitHub stars](https://img.shields.io/github/stars/bowmanjeffs/paprica?style=social)
 ![docker build](https://img.shields.io/docker/cloud/build/jsbowman/paprica)
+[![Docker Build](https://github.com/bowmanjeffs/paprica/actions/workflows/docker.yml/badge.svg)](https://github.com/bowmanjeffs/paprica/actions/workflows/docker.yml)
 <img src="https://github.com/bowmanjeffs/paprica/blob/master/bacteria_terminal_path_distribution.png" alt="Metabolic pathways in bacterial genomes in current paprica database" width="400" align='right'>
 ## Notice - If you've been redirected here from genome_finder you're in the right place!  Please take a look at the [Wiki](https://github.com/bowmanjeffs/paprica/wiki) for documentation.  There are also several tutorials available:
 [Installing paprica on Mac OSX](http://www.polarmicrobes.org/installing-paprica-on-mac-osx/) (updated) 
@@ -53,7 +54,7 @@ chmod a+x *sh
 ```
 Alternatively, if you're using the Docker image you can skip installing the dependencies and just do:
 ```
-docker pull jsbowman/paprica:latest
+docker pull jsbowman/paprica:master
 docker run -it jsbowman/paprica
 cd /paprica
 ./paprica-run.sh test bacteria
