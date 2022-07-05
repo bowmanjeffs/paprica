@@ -43,7 +43,7 @@ If you're not using the Docker image please be sure to update to the most recent
 
 Paprica can be run on OSX (see tutorial linked above), or preferably, on Linux or Windows using the Windows Subsystem for Linux (see the [linux_install.sh](https://github.com/bowmanjeffs/paprica/blob/master/linux_install.sh) script as a guide).
 
-If you use Docker or Singularity you can download a Docker image with `docker pull jsbowman/paprica:latest`
+If you use Docker or Singularity you can download a Docker image with `docker pull jsbowman/paprica:master`
 
 ## paprica
 PAthway PRediction by phylogenetIC plAcement
