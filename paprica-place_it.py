@@ -60,7 +60,6 @@ import re
 import subprocess
 import sys
 import os
-import multiprocessing
 import datetime
 import random
 import pandas as pd
@@ -74,10 +73,6 @@ from termcolor import colored
 
 executable = '/bin/bash' # shell for executing commands
 random.seed(1)
-
-## Assume the system is using hyperthreading.
-
-hyperthreading = True
 
 ## Determine path to paprica scripts.
 
@@ -136,28 +131,6 @@ except KeyError:
 if len(sys.argv) == 1:
     query = 'test.' + domain
     command_args['query'] = query
-
-## Figure out an appropriate number of cores for building trees.  RAxML
-## manual suggests using only physical cores.
-
-system_cpus = multiprocessing.cpu_count()
-
-if hyperthreading == True:
-    physical_cpus = system_cpus/2
-    
-if physical_cpus <= 24:
-    raxml_cpus = 1
-else:
-    raxml_cpus = int(physical_cpus / 24)
-    
-#!!! override for testing
-raxml_cpus = 3
-    
-## Regardless of the number of cores available, should never use more than
-## 6 per tree.
-
-if raxml_cpus > 6:
-    raxml_cpus = 6
     
 ## Make sure that ref_dir ends with /.
     
@@ -345,9 +318,7 @@ def run_raxml(prefix, msa):
                 --search \
                 --msa ' + msa + ' \
                 --prefix ' + prefix + ' \
-                --workers 18 \
-                --tree pars{9},rand{9} \
-                --threads 36', shell = True, executable = '/bin/bash')
+                --tree pars{9},rand{9}', shell = True, executable = '/bin/bash')
     
 #%% Replacement for make_tax, based on ete3.  Build a table of lineages for each
     ## reference.
