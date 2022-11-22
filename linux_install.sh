@@ -5,22 +5,24 @@
 #### OSX.  Refer to the tutorial at:                                        ####
 #### http://www.polarmicrobes.org/installing-paprica-on-mac-osx/.  It is    ####
 #### recommended that you run "sudo apt-get update" before executing this   ####
-#### script.  This script should be executed as root (e.g. with "sudo").    #### 
+#### script.  This script should not be executed as root.  If you want to   #### 
+#### install some dependencies as root, execute those commands as           ####
+#### appropriate outside of this script.                                    ####
 
 cd ~
 
-## Install some packages
-sudo apt-get install build-essential
-sudo apt-get install git
-sudo apt-get install zip
+## Install some packages.  You may need to install these with "sudo".
+apt-get install build-essential &&
+apt-get install git &&
+apt-get install zip &&
 
 ## Install python dependencies, including external python tools
-pip3 install numpy
-pip3 install biopython
-pip3 install joblib
-pip3 install pandas
-pip3 install seqmagick
-pip3 install termcolor
+pip3 --user install numpy
+pip3 --user install biopython
+pip3 --user install joblib
+pip3 --user install pandas
+pip3 --user install seqmagick
+pip3 --user install termcolor
 
 ## Install RAxML
 #git clone https://github.com/stamatak/standard-RAxML.git
