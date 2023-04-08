@@ -59,7 +59,7 @@ if 'h' in list(command_args.keys()):
 try:
     domain = command_args['domain']
 except KeyError:
-    domain = 'bacteria'
+    domain = 'archaea'
     
 try:
     prefix = command_args['o']
@@ -220,6 +220,8 @@ print('Tallying ASVs, this can take a (potentially long) minute!')
 unique_tally = pd.DataFrame()
 unique_edge_abund = pd.DataFrame() # index = seqs, cols = edges
 
+unique_tallies = []
+
 for f in os.listdir(cwd):
     if f.endswith(unique_suffix):
         print(colored('Tallying ASVs for ' + f, 'green'))
@@ -238,8 +240,11 @@ for f in os.listdir(cwd):
             except KeyError:
                 unique_edge_abund.loc[seq,  temp_unique.loc[seq, 'global_edge_num']] = temp_unique.loc[seq, 'abundance_corrected']
                         
-        unique_tally = pd.concat([unique_tally, temp_unique.abundance_corrected], axis = 1, sort = True)
-        unique_tally.rename(columns = {'abundance_corrected':name}, inplace = True)
+        temp_tally = temp_unique.abundance_corrected
+        temp_tally.name = name
+        unique_tallies.append(temp_tally)
+        
+unique_tally = pd.concat(unique_tallies, axis = 1)
         
 ## aggregate unique_data by index
         

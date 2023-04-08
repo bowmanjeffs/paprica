@@ -66,13 +66,15 @@ map.euk <- read.map(prefix, 'eukarya')
 ## virtually instantaneous.
 
 save(list = c('unique.bac',
-          'unique.arc',
-          'data.bac',
-          'data.arc',
-          'taxa.bac',
-          'taxa.arc',
-          'map.bac',
-          'map.arc'), file = paste0(prefix, '.Rdata'))
+              'unique.arc',
+              'data.bac',
+              'data.arc',
+              'taxa.bac',
+              'taxa.arc',
+              'map.bac',
+              'map.arc',
+              'tally.bac',
+              'tally.arc'), file = paste0(prefix, '.Rdata'))
 
 ## Now, when you return to this script you can just skip to here after defining
 ## the prefix character string.
