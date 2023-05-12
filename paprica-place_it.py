@@ -975,6 +975,8 @@ if 'query' not in list(command_args.keys()):
         ## in some fields. These need to be purged before the merged file
         ## can be used here.
         
+        #!!! No particular reason to exclude the Opisthokonta
+        
         pr2 = pd.read_csv(ref_dir_domain + 'pr2_version_4.12.0_merged_nocarriage.tsv', sep = '\t', index_col = 0)
         pr2 = pr2[pr2.supergroup != 'Opisthokonta']
         pr2 = pr2[pr2.sequence_length > 1700]

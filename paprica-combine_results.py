@@ -222,7 +222,7 @@ unique_edge_abund = pd.DataFrame() # index = seqs, cols = edges
 
 unique_tallies = []
 
-for f in os.listdir(cwd):
+for f in os.listdir(cwd).sort():
     if f.endswith(unique_suffix):
         print(colored('Tallying ASVs for ' + f, 'green'))
         name = re.sub(unique_suffix, '', f)
