@@ -123,6 +123,13 @@ def fill_edge_data(param, name, df_in):
     temp = []
     for index in df_in.index:
         
+        ## This sets up the implementation of a not very elegant weighted
+        ## means calculation.  Parameters are expanded according to abundance
+        ## given by nedge_corrected or nedge prior to calculation mean and 
+        ## standard deviation.  This works, but would be cleaner to use
+        ## np.average instead.  However, current solution handles standard
+        ## deviation well.
+        
         ## Exception is necessary for old version of build_core_genomes which
         ## did not provide a n16S value for draft genomes.
         
@@ -170,7 +177,7 @@ for f in os.listdir(cwd):
                     taxon_map.loc[edge, rank] = temp_rank
                 except KeyError:
                     continue
-        
+                        
         if domain != 'eukarya':        
             for param in ['n16S', 'nge', 'ncds', 'genome_size', 'GC', 'phi', 'confidence', 'gRodon.d']:
                 edge_data.loc[name, param + '.mean'], edge_data.loc[name, param + '.sd'] = fill_edge_data(param, name, temp_edge)
