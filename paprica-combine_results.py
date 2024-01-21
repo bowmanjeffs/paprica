@@ -38,6 +38,9 @@ import re
 import math
 import sys
 from termcolor import colored
+import warnings
+
+#warnings.filterwarnings('ignore', category=pd.errors.PerformanceWarning)
 
 ## Read in command line arguments.
 
@@ -219,18 +222,26 @@ if domain != 'eukarya':
 ## Make combined unique file. While iterating across each analysis file add
 ## abundance of each ASV to matrix of ASVs and owning edges. This is necessary
 ## because some ASVs with poor phylogenetic signal will place to different
-## edges in separate analyses and we want to track this.  As implemented this
-## is currently VERY slow.
+## edges in separate analyses and we want to track this.
+
+print('Generating a list of ASVs and edges')
+
+all_asvs = []
+all_edges = []
+
+for f in sorted(os.listdir(cwd)):
+    if f.endswith(unique_suffix):
+        temp_unique = pd.read_csv(cwd + f, index_col = None)
+        temp_asvs = list(temp_unique['identifier'].str.split('|', expand = True).iloc[:,0])
+        temp_edges = list(temp_unique.global_edge_num)
+        all_asvs = list(set(all_asvs + temp_asvs))
+        all_edges = list(set(all_edges + temp_edges))
     
 print('Tallying ASVs, this can take a (potentially long) minute!')
 
-unique_tally = pd.DataFrame()
-unique_edge_abund = pd.DataFrame() # index = seqs, cols = edges
+unique_edge_abund = pd.DataFrame(0, index = all_asvs, columns = all_edges)
 
 unique_tallies = []
-
-file_list = os.listdir(cwd)
-file_list.sort()
 
 for f in sorted(os.listdir(cwd)):
     if f.endswith(unique_suffix):
@@ -244,11 +255,9 @@ for f in sorted(os.listdir(cwd)):
         unique_data = pd.concat([unique_data, temp_unique_data])
         
         for seq in temp_unique.index:
-                
-            try:
-                unique_edge_abund.loc[seq,  temp_unique.loc[seq, 'global_edge_num']] += temp_unique.loc[seq, 'abundance_corrected']
-            except KeyError:
-                unique_edge_abund.loc[seq,  temp_unique.loc[seq, 'global_edge_num']] = temp_unique.loc[seq, 'abundance_corrected']
+            unique_edge_abund.loc[seq,  temp_unique.loc[seq, 'global_edge_num']] += temp_unique.loc[seq, 'abundance_corrected']
+        
+        ## Collect corrected abundance data for each ASV.
                         
         temp_tally = temp_unique.abundance_corrected
         temp_tally.name = name
