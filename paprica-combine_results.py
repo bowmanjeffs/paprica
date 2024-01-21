@@ -59,7 +59,7 @@ if 'h' in list(command_args.keys()):
 try:
     domain = command_args['domain']
 except KeyError:
-    domain = 'archaea'
+    domain = 'bacteria'
     
 try:
     prefix = command_args['o']
@@ -229,7 +229,18 @@ unique_edge_abund = pd.DataFrame() # index = seqs, cols = edges
 
 unique_tallies = []
 
+<<<<<<< Updated upstream
 for f in sorted(os.listdir(cwd)):
+=======
+<<<<<<< HEAD
+file_list = os.listdir(cwd)
+file_list.sort()
+
+for f in file_list:
+=======
+for f in sorted(os.listdir(cwd)):
+>>>>>>> d0ae252013225d1417798db27dc7dca6140861a4
+>>>>>>> Stashed changes
     if f.endswith(unique_suffix):
         print(colored('Tallying ASVs for ' + f, 'green'))
         name = re.sub(unique_suffix, '', f)
