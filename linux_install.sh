@@ -72,5 +72,4 @@ cd paprica
 chmod a+x *py
 chmod a+x *sh
 
-#temp
 
