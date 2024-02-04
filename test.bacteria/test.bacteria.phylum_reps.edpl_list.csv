@@ -1,0 +1,4 @@
+Sample,Pquery,Multiplicity,EDPL
+test.bacteria.phylum_reps,Firmicutes_2,1,0.01007
+test.bacteria.phylum_reps,SRR953432.50,1,0.00719066
+test.bacteria.phylum_reps,Firmicutes_1,1,0

@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.10
 
 LABEL maintainer="Jeff Bowman"
 
@@ -20,7 +20,7 @@ RUN apt-get update && \
     zip
 
 # Install python dependencies, including external python tools
-RUN pip3 install numpy biopython joblib pandas seqmagick termcolor
+RUN pip3 install numpy==1.26.3 biopython==1.83 joblib==1.3.2 pandas==2.2.0 seqmagick==0.8.6 termcolor==2.4.0
     
 RUN cd /
 

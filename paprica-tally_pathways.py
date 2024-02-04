@@ -51,6 +51,9 @@ import numpy as np
 
 import sys
 import os
+import warnings
+
+warnings.simplefilter('ignore')
 
 try:
     paprica_path = os.path.dirname(os.path.realpath(__file__)) + '/' # The location of the actual paprica scripts.

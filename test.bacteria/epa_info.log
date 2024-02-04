@@ -1,0 +1,20 @@
+INFO Selected: Output dir: /mnt/c/Users/jeff/Documents/bowman_lab/genome_finder/paprica/test.bacteria/
+INFO Selected: Query file: /mnt/c/Users/jeff/Documents/bowman_lab/genome_finder/paprica/test.bacteria/test.bacteria.clean.unique.align.newlength.fasta
+INFO Selected: Tree file: /mnt/c/Users/jeff/Documents/bowman_lab/genome_finder/paprica/ref_genome_database/bacteria/Firmicutes_Tenericutes/combined_16S.23S.bacteria.tax.Firmicutes_Tenericutes.final.bestTree
+INFO Selected: Reference MSA: /mnt/c/Users/jeff/Documents/bowman_lab/genome_finder/paprica/test.bacteria/combined_16S.bacteria.tax.Firmicutes_Tenericutes.clean.align.newlength.fasta
+INFO Selected: Automatic switching of use of per rate scalers
+INFO Selected: Preserving the root of the input tree
+INFO Selected: Specified model file: /mnt/c/Users/jeff/Documents/bowman_lab/genome_finder/paprica/ref_genome_database/bacteria/Firmicutes_Tenericutes/combined_16S.23S.bacteria.tax.Firmicutes_Tenericutes.final.bestModel
+INFO     ______ ____   ___           _   __ ______
+        / ____// __ \ /   |         / | / // ____/
+       / __/  / /_/ // /| | ______ /  |/ // / __  
+      / /___ / ____// ___ |/_____// /|  // /_/ /  
+     /_____//_/    /_/  |_|      /_/ |_/ \____/ (v0.3.8)
+INFO Using model parameters:
+INFO    Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.407367 (user),  weights&rates: (0.25,0.0177914) (0.25,0.187238) (0.25,0.739131) (0.25,3.05584) 
+        Base frequencies (user): 0.271276 0.193464 0.264041 0.271219 
+        Substitution rates (user): 1.14942 3.31241 1.33426 0.984507 4.54598 1
+INFO Output file: /mnt/c/Users/jeff/Documents/bowman_lab/genome_finder/paprica/test.bacteria/epa_result.jplace
+INFO 2 Sequences done!
+INFO Time spent placing: 1s
+INFO Elapsed Time: 2s

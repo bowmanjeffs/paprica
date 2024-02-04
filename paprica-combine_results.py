@@ -40,7 +40,7 @@ import sys
 from termcolor import colored
 import warnings
 
-#warnings.filterwarnings('ignore', category=pd.errors.PerformanceWarning)
+warnings.simplefilter('ignore')
 
 ## Read in command line arguments.
 
@@ -239,7 +239,7 @@ for f in sorted(os.listdir(cwd)):
     
 print('Tallying ASVs, this can take a (potentially long) minute!')
 
-unique_edge_abund = pd.DataFrame(0, index = all_asvs, columns = all_edges)
+unique_edge_abund = pd.DataFrame(0, index = all_asvs, columns = all_edges, dtype = 'float')
 
 unique_tallies = []
 

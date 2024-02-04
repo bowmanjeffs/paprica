@@ -56,6 +56,9 @@ import os
 import re
 from joblib import Parallel, delayed
 import multiprocessing
+import warnings
+
+warnings.simplefilter('ignore')
 
 command_args = {}
 
@@ -247,7 +250,7 @@ cmscan = pd.DataFrame(columns = colnames)
 
 for split in split_list:
     try:
-        cmscan_temp = pd.read_csv(split + '.txt', comment = '#', names = colnames, header = None, skiprows = [0,1], delim_whitespace = True, index_col = 2)
+        cmscan_temp = pd.read_csv(split + '.txt', comment = '#', names = colnames, header = None, skiprows = [0,1], sep = '\s+', index_col = 2)
         cmscan = pd.concat([cmscan, cmscan_temp], sort = False)
     except IOError:
         continue
@@ -256,8 +259,8 @@ for split in split_list:
         
 os.system('rm -f ' + cwd + prefix + '.unique.temp*')
         
-## Iterate across all lines, selecting for each read the domain with the lowest 
-## E-value.  This is considered to the be true domain of the genome originating the read.
+## Iterate across all lines, selecting for each read the domain with the highest 
+## bit score.  This is considered to the be true domain of the genome originating the read.
     
 bacteria_set = []
 archaea_set = []
@@ -279,12 +282,20 @@ with open(cwd + prefix + '.bacterial16S.reads.txt', 'w') as bacteria_out, open(c
             e_min = temp
             domain = temp['target.name']  
             
+        ## Capture bit score.  Note that e_min can be a df or a series and
+        ## cases must be handled differently.
+        
+        try:
+            temp_e_min = float(e_min['score'].iloc[0])
+        except AttributeError:
+            temp_e_min = float(e_min['score'])
+                               
         ## If the bit score exceeds the specified minimum, add to appropriate
         ## domain list.  The try clause is necessary because very rarely a 
         ## read wil fail and NAs will be present in all columns of scan
             
         try:
-            if float(e_min['score']) > min_score:
+            if temp_e_min > min_score:
                 if 'bacteria' in str(domain):
                     print(index, file=bacteria_out)
                     bacteria_set.append(index)

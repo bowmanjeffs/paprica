@@ -1,0 +1,3 @@
+,edge_num,likelihood,like_weight_ratio,distal_length,pendant_length,subtree,global_edge_num,ref_name,EDPL
+Firmicutes_2,570,-33697.9870361369,0.4328891949,0.026015,0.1053605157,Firmicutes_Tenericutes,Firmicutes_Tenericutes_570,,0.0271709
+Firmicutes_1,2148,-33654.8772769445,0.0256345621,5e-07,0.0001,Firmicutes_Tenericutes,Firmicutes_Tenericutes_2148,,0.000129812

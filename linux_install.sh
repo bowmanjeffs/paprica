@@ -12,17 +12,15 @@
 cd ~
 
 ## Install some packages.  You may need to install these with "sudo".
-apt-get install build-essential &&
-apt-get install git &&
-apt-get install zip &&
+apt-get install build-essential autotools-dev libtool flex bison cmake automake autoconf git zip &&
 
 ## Install python dependencies, including external python tools
-pip3 --user install numpy
-pip3 --user install biopython
-pip3 --user install joblib
-pip3 --user install pandas
-pip3 --user install seqmagick
-pip3 --user install termcolor
+pip3 install --user numpy
+pip3 install --user biopython
+pip3 install --user joblib
+pip3 install --user pandas
+pip3 install --user seqmagick
+pip3 install --user termcolor
 
 ## Install RAxML
 #git clone https://github.com/stamatak/standard-RAxML.git
@@ -49,7 +47,6 @@ cd ~
 ## Double check that you have all dependencies as described here: https://github.com/Pbdas/epa-ng#installation.
 ## If the compiler yells at you about not having zlib, you will need to have zlib1g-dev installed, not just zlib1g!
 
-sudo apt-get install autotools-dev libtool flex bison cmake automake autoconf
 git clone https://github.com/Pbdas/epa-ng.git
 cd epa-ng;make
 cd ~
