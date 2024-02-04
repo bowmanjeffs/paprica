@@ -1,2 +1,0 @@
-,edge_num,likelihood,like_weight_ratio,distal_length,pendant_length,subtree,global_edge_num,ref_name,map_ratio,map_id,seq,origin,EDPL
-SRR953432.50,2672,-22443.4523749824,0.0752260236,5e-07,0.0592430455,Actinobacteria,Actinobacteria_2672,GCF_002288045.1|Candidatus_Planktophila_dulcis,0.96,81.0,ACCTTACCAAGGCTTGACATATACAGGAATATGGCAGAGATGTCATAGCCGCAAGGTCTGTATACAGGTGATGCATGGCCGTCG,/mnt/c/Users/jeff/Documents/bowman_lab/genome_finder/paprica/test.bacteria/test.bacteria.clean.unique.align.newlength.fasta,0.0124364
