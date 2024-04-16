@@ -2,23 +2,29 @@
 
 setwd('your/working/directory')
 
+library(data.table)
+
 ## Define the prefix of your input files.  This is whatever you set the -o flag
 ## to when you ran paprica-combine_results.py.
 
-prefix <- '20230502_yukon'
+prefix <- '20240412_orca_basin'
 
 #### Define some functions to read in the paprica output ####
 
 read.edge <- function(prefix, domain){
-    tally <- read.csv(paste0(prefix, '.', domain, '.edge_tally.csv'), header = T, row.names = 1) 
+    tally <- fread(paste0(prefix, '.', domain, '.edge_tally.csv'), header = T, sep = ',', data.table = F)
+    row.names(tally) <- tally$V1
+    tally$V1 <- NULL
     tally <- tally[order(row.names(tally)),]
     tally[is.na(tally)] <- 0
     return(tally)
 }
 
 read.unique <- function(prefix, domain){
-    unique <- read.csv(paste0(prefix, '.', domain, '.unique_tally.csv'), header = T, row.names = 1)
-    unique <- unique[order(row.names(unique)),]
+    unique <- fread(paste0(prefix, '.', domain, '.unique_tally.csv'), header = T, sep = ',', data.table = F)
+    row.names(unique) <- unique$V1
+    unique$V1 <- NULL
+    unique <- unique[sort(row.names(unique)),]
     unique[is.na(unique)] <- 0
     return(unique)
 }
@@ -44,9 +50,6 @@ tally.bac <- read.edge(prefix, 'bacteria')
 tally.arc <- read.edge(prefix, 'archaea')
 tally.euk <- read.edge(prefix, 'eukarya')
 
-## NOTE: it can take a very long time to load the unique datasets,
-## particularly if richness is very high.  
-
 unique.bac <- read.unique(prefix, 'bacteria')
 unique.arc <- read.unique(prefix, 'archaea')
 unique.euk <- read.unique(prefix, 'eukarya')
@@ -56,11 +59,11 @@ data.arc <- read.data(prefix, 'archaea')
 
 taxa.bac <- read.taxa(prefix, 'bacteria')
 taxa.arc <- read.taxa(prefix, 'archaea')
-taxa.euk <- read.taxa(prefix, 'eukarya') 
+taxa.euk <- read.taxa(prefix, 'eukarya')
 
 map.bac <- read.map(prefix, 'bacteria')
 map.arc <- read.map(prefix, 'archaea')
-map.euk <- read.map(prefix, 'eukarya') 
+map.euk <- read.map(prefix, 'eukarya')
 
 ## Save these objects as R data files. This makes loading them in the future
 ## virtually instantaneous.
@@ -102,8 +105,8 @@ tally[is.na(tally)] <- 0
 ## pick something that works for your sample set.  In practice
 ## we try to avoid libraries with fewer than 5000 reads.
 
-tally.select <- tally[rowSums(tally) > 5000,]
-unique.select <- unique[rowSums(unique) > 5000,]
+tally.select <- tally[rowSums(tally) > 3000,]
+unique.select <- unique[rowSums(unique) > 3000,]
 
 ## OPTIONAL. Drop a specific library or libraries, such as a library
 ## that you know is bad or have some reason for not wanting to analyze further.
@@ -117,11 +120,6 @@ tally.select <- tally.select[grep('SRR14129902.16S.exp.', row.names(tally.select
 data.bac.select <- data.bac[row.names(unique.select),]
 data.arc.select <- data.arc[row.names(unique.select),]
 
-## If not...
-
-data.bac.select <- data.bac
-data.arc.select <- data.arc
-
 ## Eliminate ASVs below a certain abundance threshold. In general you should
 ## at least get rid of everything of abundance = 1, which greatly reduces the
 ## size of your data frame. Typically we set the threshold at 10.
@@ -134,7 +132,7 @@ drop.asvs.by.taxa <- function(map, taxa, target_taxa, rank){
   keep.edges <- row.names(taxa)[which(taxa[,rank] != target_taxa)]
   keep.asvs <- row.names(map)[which(map$global_edge_num %in% keep.edges)]
   selected <- unique.select[,which(colnames(unique.select) %in% keep.asvs)]
-  return(selected)    
+  return(selected)
 }
 
 unique.select <- drop.asvs.by.taxa(map.bac, taxa.bac, 'Candidatus Nasuia deltocephalinicola', 'taxon')
@@ -170,7 +168,7 @@ get.names <- function(domain, map, taxa){
     unique.lab.Row <- map[colnames(unique.select), 'global_edge_num']
     unique.lab.Row <- taxa[unique.lab.Row, 'taxon']
     unique.lab.Row[unique.lab.Row == ""] <- domain
-    unique.lab.Row[is.na(unique.lab.Row)] <- domain 
+    unique.lab.Row[is.na(unique.lab.Row)] <- domain
     return(unique.lab.Row)
 }
 
@@ -181,7 +179,7 @@ lab.row <- cbind(lab.row.bac, lab.row.arc)
 
 #### make a heatmap of ASV abundance ####
 
-## OPTIONAL: Select a specific taxonomy 
+## OPTIONAL: Select a specific taxonomy
 
 get.asvindex.by.taxa <- function(map, taxa, target_taxa, rank){
   target.edges <- row.names(taxa)[which(taxa[,rank] == target_taxa)]
