@@ -154,7 +154,7 @@ def stop_here():
     
 def clean_name(query):
     
-    bad_character = re.compile('[\[\]\\=-@!%,;\(\):\'\"\s]')
+    bad_character = re.compile(r'[\[\]\\=-@!%,;\(\):\'\"\s]')
     
     basename = query.split('.')[0:-1]
     basename = '.'.join(basename)

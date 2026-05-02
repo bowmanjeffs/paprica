@@ -7,7 +7,7 @@ library(data.table)
 ## Define the prefix of your input files.  This is whatever you set the -o flag
 ## to when you ran paprica-combine_results.py.
 
-prefix <- '20240412_orca_basin'
+prefix <- 'sccoos_20240611'
 
 #### Define some functions to read in the paprica output ####
 
@@ -65,6 +65,9 @@ map.bac <- read.map(prefix, 'bacteria')
 map.arc <- read.map(prefix, 'archaea')
 map.euk <- read.map(prefix, 'eukarya')
 
+taxa <- rbind(taxa.arc, taxa.bac)
+map <- rbind(map.arc, map.bac)
+
 ## Save these objects as R data files. This makes loading them in the future
 ## virtually instantaneous.
 
@@ -105,8 +108,8 @@ tally[is.na(tally)] <- 0
 ## pick something that works for your sample set.  In practice
 ## we try to avoid libraries with fewer than 5000 reads.
 
-tally.select <- tally[rowSums(tally) > 3000,]
-unique.select <- unique[rowSums(unique) > 3000,]
+tally.select <- tally[rowSums(tally) > 5000,]
+unique.select <- unique[rowSums(unique) > 5000,]
 
 ## OPTIONAL. Drop a specific library or libraries, such as a library
 ## that you know is bad or have some reason for not wanting to analyze further.
@@ -154,6 +157,10 @@ for(row in 1:length(row.names(unique.select.ra))){
     unique.select.sub[row,row.names(temp)] <- temp[row.names(temp), 'Freq']
 }
 
+unique.select.sub <- rrarefy(unique.select, 5000)
+
+!!!temp <- decostand(unique.select, method = 'rclr')
+
 ## Normalize. We find that a typical log10 normalization often works fine
 ## for community structure data, but of course this is data and analysis
 ## dependent.
@@ -164,18 +171,19 @@ unique.select.log10 <- unique.select.log10/rowSums(unique.select.log10)
 
 ## get taxonomy for ASVs
 
-get.names <- function(domain, map, taxa){
-    unique.lab.Row <- map[colnames(unique.select), 'global_edge_num']
-    unique.lab.Row <- taxa[unique.lab.Row, 'taxon']
-    unique.lab.Row[unique.lab.Row == ""] <- domain
-    unique.lab.Row[is.na(unique.lab.Row)] <- domain
+get.names <- function(map, taxa){
+    unique.lab.Row <- as.data.frame(map[colnames(unique.select), 'global_edge_num'])
+    row.names(unique.lab.Row) <- colnames(unique.select)
+    colnames(unique.lab.Row) <- c('global_edge_num')
+    unique.lab.Row$taxon <- taxa[unique.lab.Row$global_edge_num, 'taxon']
     return(unique.lab.Row)
 }
 
-lab.row.bac <- get.names('bacteria', map.bac, taxa.bac)
-lab.row.arc <- get.names('archaea', map.arc, taxa.arc)
-lab.row.euk <- get.names('eukarya', map.euk, taxa.euk)
-lab.row <- cbind(lab.row.bac, lab.row.arc)
+lab.row <- get.names(map, taxa)
+lab.row$taxon[grep('phylum_reps', lab.row$global_edge_num)] <- 'Bacteria'
+
+lab.row.euk <- get.names(map.euk, taxa.euk)
+lab.row.euk$taxon[grep('phylum_reps', lab.row.euk$global_edge_num)] <- 'Eukarya'
 
 #### make a heatmap of ASV abundance ####
 
@@ -203,7 +211,7 @@ heatmap.2(t(data.matrix(unique.select.log10[,selected])),
           #Colv = NA,
           scale = NULL,
           col = heat.col,
-          labRow = lab.row[selected],
+          labRow = lab.row[row.names(unique.select.log10)[selected], 'taxon'],
           margins = c(10, 10))
 
 #### NMDS plot ####

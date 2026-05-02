@@ -209,7 +209,7 @@ edge_data['EDPL'] = edge_edpl
 ## This makes sure that there is an nedge_corrected entry for eukarya.
 ## Will be overwritten for bacteria and archaea.
 
-edge_data['nedge_corrected'] = edge_data['nedge']
+edge_data['nedge_corrected'] = edge_data['nedge'].astype(float)
 
 if domain == 'eukarya':
     edge_data['taxon'] = lineages.reindex(edge_data.index).consensus
