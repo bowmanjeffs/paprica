@@ -250,7 +250,7 @@ cmscan = pd.DataFrame(columns = colnames)
 
 for split in split_list:
     try:
-        cmscan_temp = pd.read_csv(split + '.txt', comment = '#', names = colnames, header = None, skiprows = [0,1], sep = '\s+', index_col = 2)
+        cmscan_temp = pd.read_csv(split + '.txt', comment = '#', names = colnames, header = None, skiprows = [0,1], sep = None, engine = 'python', index_col = 2)
         cmscan = pd.concat([cmscan, cmscan_temp], sort = False)
     except IOError:
         continue
