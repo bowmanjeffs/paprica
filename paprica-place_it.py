@@ -500,7 +500,7 @@ def best_tree(prefix, partition):
             ## Assumes desired partition is in line 1
             
             for line in best_model:
-                line = re.sub('\+BU\{\d*\.\d*\}', '', line)
+                line = re.sub(r'\+BU\{\d*\.\d*\}', '', line)
                 break
             print(line, file = model_out)
             
